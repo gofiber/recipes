@@ -25,4 +25,4 @@ go run hello_world.go
 
 ## Have a question?
 
-Please, create [new issue](https://github.com/gofiber/recipes/issues) with title `🤔 B01: <YOUR TITLE>` (Basic 01) to get a quick answer by Fiber community.
+Please, create [new issue](https://github.com/gofiber/recipes/issues) with title `🤔 B01: <YOUR TITLE>` (chapter `Basic`, recipe no. `01`, question title `<YOUR TITLE>`) to get a quick answer by Fiber community.
