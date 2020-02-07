@@ -35,7 +35,7 @@ For some recipes, also, need:
 
 ## Have a delicious recipe? Show us! 😋
 
-If you have found an amazing recipe for using **Fiber** — share it with others! We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to cookbook (both on [website](https://fiber.wiki) and current repository). 
+If you have found an amazing recipe for **Fiber** — share it with others! We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://fiber.wiki) and this repository). 
 
 📌 Please, follow _The Generally Accepted Rules_ of [Fiber](https://github.com/gofiber/fiber) community:
 
