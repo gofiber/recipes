@@ -9,14 +9,17 @@ package main
 
 import "github.com/gofiber/fiber"
 
+// Handler function
+func helloHandler(c *fiber.Ctx) {
+	c.Write("Hello, World!")
+}
+
 func main() {
 	// Create new Fiber instance
 	app := fiber.New()
 
 	// Create new GET route on path "/hello"
-	app.Get("/hello", func(c *fiber.Ctx) {
-		c.Send("Hello, World!")
-	})
+	app.Get("/hello", helloHandler)
 
 	// Start server on http://localhost:8080
 	app.Listen(8080)
