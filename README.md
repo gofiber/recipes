@@ -4,9 +4,7 @@
 
 Here you can find the most **delicious** and **useful** recipes for cooking our web framework.
 
-## 🍏‍🌽🌶 Table of contents
-
-### 🍏 Basic
+## 🍏‍🌶🌽 Table of contents
 
 * [hello-world](/hello_world)
 Description
