@@ -2,16 +2,13 @@
 // 📌 Please open an issue if you got suggestions or found a bug!
 // 🖥 https://github.com/gofiber/fiber
 
-// 👤 Authors: Fiber Community (https://fiber.wiki)
-// 📚 Docs: https://github.com/gofiber/recipes/blob/master/basic/01_hello_world/README.md
-
 package main
 
 import "github.com/gofiber/fiber"
 
 // Handler function
-func helloHandler(c *fiber.Ctx) {
-	c.Write("Hello, World!")
+func hello(c *fiber.Ctx) {
+	c.Send("Hello, World!")
 }
 
 func main() {
@@ -19,8 +16,8 @@ func main() {
 	app := fiber.New()
 
 	// Create new GET route on path "/hello"
-	app.Get("/hello", helloHandler)
+	app.Get("/hello", hello)
 
-	// Start server on http://localhost:8080
-	app.Listen(8080)
+	// Start server on http://localhost:3000
+	app.Listen(3000)
 }
