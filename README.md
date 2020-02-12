@@ -6,7 +6,7 @@ Here you can find the most **delicious** and **useful** recipes for cooking our 
 
 ## 🍏‍🌶🌽 Table of contents
 
-* [hello-world](/hello_world)
+* [hello-world](/hello-world)
 Description
 * [404-handler](/404-handler)
 Description
