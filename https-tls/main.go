@@ -11,10 +11,11 @@ func main() {
 	app := fiber.New()
 
 	// Create new GET route on path "/hello"
-	app.Get("/hello", func(c *fiber.Ctx) {
-		c.Send(c.Protocol()) // https
+	app.Get("/protocol", func(c *fiber.Ctx) {
+		c.Send(c.Protocol())
+		// => https
 	})
 
 	// Start server with https/ssl enabled on http://localhost:443
-	app.Listen(443, "./ssl.cert", "./ssl.key")
+	app.Listen(443, "./certs/ssl.cert", "./certs/ssl.key")
 }

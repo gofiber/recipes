@@ -4,9 +4,7 @@
 
 package main
 
-import (
-	"github.com/gofiber/fiber"
-)
+import "github.com/gofiber/fiber"
 
 func main() {
 	// Create new Fiber instance
@@ -23,6 +21,6 @@ func main() {
 	// Listen on port 3000
 	app.Listen(3000)
 
-	// Run the following command to see all processes sharing port 3000
+	// Run the following command to see all processes sharing port 3000:
 	// sudo lsof -i -P -n | grep LISTEN
 }

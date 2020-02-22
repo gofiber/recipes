@@ -25,6 +25,6 @@ func main() {
 		}
 	})
 
-	// Start server with https/ssl enabled on http://localhost:443
+	// Start server on http://localhost:3000
 	app.Listen(3000)
 }

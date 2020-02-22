@@ -12,8 +12,8 @@ func main() {
 
 	// Serve files from "files" directory
 	app.Static("/", "./files")
-	// http://localhost:3000/hello.txt
-	// http://localhost:3000/gopher.gif
+	// => http://localhost:3000/hello.txt
+	// => http://localhost:3000/gopher.gif
 
 	// Start server on http://localhost:3000
 	app.Listen(3000)

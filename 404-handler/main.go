@@ -16,12 +16,14 @@ func main() {
 	// Create new Fiber instance
 	app := fiber.New()
 
+	// Create new GET routes
 	app.Get("/demo", handler())
 	app.Get("/list", handler())
 
 	// Last middleware to match anything
 	app.Use(func(c *fiber.Ctx) {
-		c.SendStatus(404) // => 404 "Not Found"
+		c.SendStatus(404)
+		// => 404 "Not Found"
 	})
 
 	// Start server on http://localhost:3000
