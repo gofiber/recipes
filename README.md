@@ -6,22 +6,13 @@ Here you can find the most **delicious** and **useful** recipes for cooking our 
 
 ## 🍏‍🌶🌽 Table of contents
 
-* [hello-world](/hello-world)
-Description
-* [404-handler](/404-handler)
-Description
-* [file-server](/file-server)
-Description
-* [https-tls](/http-tls)
-Description
-* [upload-file](/upload-file)
-Description
-* [prefork](/prefork)
-Description
-* [multiple-ports](/multiple-ports)
-Description
-* [multipartform](/multipartform)
-Description
+* [Hello, World!](/hello-world)
+* [Custom 404 Not Found](/404-handler)
+* [Serve Static Files](/file-server)
+* [Enable HTTPS/TLS](/http-tls)
+* [Upload Multiple Files](/upload-file)
+* [Enable Preforking](/prefork)
+* [Listen on Multiple Ports](/multiple-ports)
 
 ## Have a delicious recipe? Share it! 👩‍🍳
 
