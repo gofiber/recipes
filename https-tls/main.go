@@ -16,6 +16,12 @@ func main() {
 		// => https
 	})
 
+	cer, err := tls.LoadX509KeyPair("certs/ssl.cert", "certs/ssl.key")
+	if err != nil {
+    	log.Fatal(err)
+	}
+
+	config := &tls.Config{Certificates: []tls.Certificate{cer}}
 	// Start server with https/ssl enabled on http://localhost:443
-	app.Listen(443, "./certs/ssl.cert", "./certs/ssl.key")
+	app.Listen(443, config)
 }
