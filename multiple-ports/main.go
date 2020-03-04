@@ -22,9 +22,6 @@ func main() {
 		app.Listen(8080)
 	}()
 
-	// Shortcut for listening on port 8081
-	go app.Listen(8081)
-
 	// Listen on port 3000
 	app.Listen(3000)
 }
