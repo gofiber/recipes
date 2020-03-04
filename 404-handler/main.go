@@ -22,8 +22,7 @@ func main() {
 
 	// Last middleware to match anything
 	app.Use(func(c *fiber.Ctx) {
-		c.SendStatus(404)
-		// => 404 "Not Found"
+		c.SendStatus(404) // => 404 "Not Found"
 	})
 
 	// Start server on http://localhost:3000
