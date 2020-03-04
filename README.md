@@ -17,21 +17,6 @@ Here you can find the most **delicious** and **useful** recipes for cooking our 
 - `multiple-ports` [Listen on Multiple Ports](/multiple-ports)
 - ...
 
-## 🌶 How to cook?
-
-Just git clone repository and go to folder:
-
-```bash
-git clone https://github.com/gofiber/recipes.git
-cd recipes
-```
-
-Choose recipe and `make` it:
-
-```bash
-make <recipe name>
-```
-
 ## 👩‍🍳 Have a delicious recipe? Share it!
 
 If you have found an amazing recipe for **Fiber** — share it with others! We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://fiber.wiki) and this repository).
