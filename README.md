@@ -9,6 +9,7 @@ Here you can find the most **delicious** and **useful** recipes for cooking our 
 - `hello-world` [Hello, World!](/hello-world)
 - `404-handler` [Custom 404 Not Found](/404-handler)
 - `file-server` [Serve Static Files](/file-server)
+- `recover` [Recover from panic](/recover)
 - `https-tls` [Enable HTTPS/TLS](/https-tls)
 - `upload-file-single` [Upload Single File](/upload-file/single)
 - `upload-file-multiple` [Upload Multiple Files](/upload-file/multiple)
