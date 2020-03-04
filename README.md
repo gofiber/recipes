@@ -15,7 +15,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - `upload-file-multiple` [Upload Multiple Files](/upload-file/multiple)
 - `prefork` [Enable Preforking](/prefork)
 - `multiple-ports` [Listen on Multiple Ports](/multiple-ports)
-- ...
 
 ## 👩‍🍳 Have a delicious recipe? Share it!
 
