@@ -4,7 +4,10 @@
 
 package main
 
-import "github.com/gofiber/fiber"
+import (
+    "crypto/tls"
+    "github.com/gofiber/fiber"
+)
 
 func main() {
 	// Create new Fiber instance
