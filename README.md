@@ -2,7 +2,7 @@
 
 **Welcome to the official Fiber cookbook**!
 
-Here you can find the most **delicious** and **useful** recipes for cooking our web framework.
+Here you can find the most **delicious** recipes to cook delicious meals using our web framework.
 
 ## 🌽 Table of contents
 
