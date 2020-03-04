@@ -12,8 +12,7 @@ func main() {
 
 	// Create new GET route on path "/hello"
 	app.Get("/protocol", func(c *fiber.Ctx) {
-		c.Send(c.Protocol())
-		// => https
+		c.Send(c.Protocol()) // => https
 	})
 
 	cer, err := tls.LoadX509KeyPair("certs/ssl.cert", "certs/ssl.key")
