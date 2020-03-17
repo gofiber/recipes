@@ -6,16 +6,19 @@ package main
 
 import (
     "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+    "github.com/gofiber/recover"
 )
 
 func main() {
   app := fiber.New()
 
-  app.Use(middleware.Recover(func(c *fiber.Ctx, err error) {
-    log.Println(err)  // "Something went wrong!"
-    c.SendStatus(500) // Internal Server Error
-  })))
+	app.Use(recover.New(recover.Config{
+		// Config is optional
+		Handler: func(c *fiber.Ctx, err error) {
+			c.SendString(err.Error())
+			c.SendStatus(500)
+		},
+	}))
   
   app.Get("/", func(c *fiber.Ctx) {
     panic("Something went wrong!")
