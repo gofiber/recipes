@@ -6,16 +6,17 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 ## 🌽 Table of contents
 
-- `hello-world` [Hello, World!](/hello-world)
-- `404-handler` [Custom 404 Not Found](/404-handler)
-- `file-server` [Serve Static Files](/file-server)
-- `recover` [Recover from panic](/recover)
-- `https-tls` [Enable HTTPS/TLS](/https-tls)
-- `upload-file-single` [Upload Single File](/upload-file/single)
-- `upload-file-multiple` [Upload Multiple Files](/upload-file/multiple)
-- `prefork` [Enable Preforking](/prefork)
-- `multiple-ports` [Listen on Multiple Ports](/multiple-ports)
-- `WebSockets` [WebSockets](/websocket)
+- [Hello, World!](/hello-world)
+- [Custom 404 Not Found](/404-handler)
+- [Serve Static Files](/file-server)
+- [Recover from panic](/recover)
+- [Enable HTTPS/TLS](/https-tls)
+- [Auto Certificates from Let's Encrypt)(/autocert)
+- [Upload Single File](/upload-file/single)
+- [Upload Multiple Files](/upload-file/multiple)
+- [Enable Preforking](/prefork)
+- [Listen on Multiple Ports](/multiple-ports)
+- [WebSockets](/websocket)
 
 ## 👩‍🍳 Have a delicious recipe?
 
