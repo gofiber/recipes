@@ -11,7 +11,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Serve Static Files](/file-server)
 - [Recover from panic](/recover)
 - [Enable HTTPS/TLS](/https-tls)
-- [Auto Certificates from Let's Encrypt)(/autocert)
+- [Certificates from Let's Encrypt](/autocert)
 - [Upload Single File](/upload-file/single)
 - [Upload Multiple Files](/upload-file/multiple)
 - [Enable Preforking](/prefork)
