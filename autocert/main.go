@@ -15,7 +15,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Hi TLS")
+		c.Send("This is a secure server 👮")
 	})
 	
 	// Let’s Encrypt has rate limits: https://letsencrypt.org/docs/rate-limits/
