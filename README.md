@@ -11,6 +11,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Serve Static Files](/file-server)
 - [Recover from panic](/recover)
 - [Enable HTTPS/TLS](/https-tls)
+- [Amazon Web Services (AWS) Elastic Beanstalk](/aws-eb)
 - [Certificates from Let's Encrypt](/autocert)
 - [Upload Single File](/upload-file/single)
 - [Upload Multiple Files](/upload-file/multiple)
@@ -21,5 +22,5 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 ## 👩‍🍳 Have a delicious recipe?
 
-If you have found an amazing recipe for **Fiber** — share it with others!  
+If you have found an amazing recipe for **Fiber** — share it with others!
 We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://fiber.wiki) and this repository).
