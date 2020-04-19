@@ -20,6 +20,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [WebSockets](/websocket)
 - [PostgreSQL](/postgresql)
 - [Unit Test Example](/unit-test)
+- [Single Page Application Example](/spa)
 
 ## 👩‍🍳 Have a delicious recipe?
 
