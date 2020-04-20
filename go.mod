@@ -12,5 +12,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/stretchr/testify v1.3.0
 	github.com/valyala/fasthttp v1.10.0 // indirect
-	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
+	go.mongodb.org/mongo-driver v1.3.2 // indirect
+	golang.org/x/crypto v0.0.0-20190530122614-20be4c3c3ed5
 )
