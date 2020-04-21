@@ -11,6 +11,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Serve Static Files](/file-server)
 - [Recover from panic](/recover)
 - [Enable HTTPS/TLS](/https-tls)
+- [Enable HTTPS/TLS using PKCS12 store](/https-pkcs12-tls)
 - [Amazon Web Services (AWS) Elastic Beanstalk](/aws-eb)
 - [Certificates from Let's Encrypt](/autocert)
 - [Upload Single File](/upload-file/single)
