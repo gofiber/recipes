@@ -73,7 +73,7 @@ func main() {
 	app.Get("/employee", func(c *fiber.Ctx) {
 		// get all records as a cursor
 		query := bson.D{{}}
-		cursor, err := mg.Db.Collection("employees").Find(context.TODO(), query)
+		cursor, err := mg.Db.Collection("employees").Find(c.Fasthttp, query)
 		if err != nil {
 			c.Status(500).Send(err)
 			return
@@ -82,7 +82,7 @@ func main() {
 		var employees []Employee = make([]Employee, 0)
 
 		// iterate the cursor and decode each item into an Employee
-		if err := cursor.All(context.TODO(), &employees); err != nil {
+		if err := cursor.All(c.Fasthttp, &employees); err != nil {
 			c.Status(500).Send(err)
 			return
 		}
@@ -111,7 +111,7 @@ func main() {
 		employee.ID = ""
 
 		// insert the record
-		insertionResult, err := collection.InsertOne(context.TODO(), employee)
+		insertionResult, err := collection.InsertOne(c.Fasthttp, employee)
 		if err != nil {
 			c.Status(500).Send(err)
 			return
@@ -119,7 +119,7 @@ func main() {
 
 		// get the just inserted record in order to return it as response
 		filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
-		createdRecord := collection.FindOne(context.TODO(), filter)
+		createdRecord := collection.FindOne(c.Fasthttp, filter)
 
 		// decode the Mongo record into Employee
 		createdEmployee := &Employee{}
@@ -162,7 +162,7 @@ func main() {
 				},
 			},
 		}
-		err = mg.Db.Collection("employees").FindOneAndUpdate(context.TODO(), query, update).Err()
+		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Fasthttp, query, update).Err()
 
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
@@ -197,7 +197,7 @@ func main() {
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
-		result, err := mg.Db.Collection("employees").DeleteOne(context.TODO(), &query)
+		result, err := mg.Db.Collection("employees").DeleteOne(c.Fasthttp, &query)
 
 		if err != nil {
 			c.Status(500).Send()
