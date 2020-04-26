@@ -33,11 +33,9 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 	}
 
 	url := fmt.Sprintf("%s://%s%s", "http", "0.0.0.0", r.RequestURI)
-	fmt.Printf("%s - %s", url, r.RequestURI)
 	if len(rootURL) > 0 {
 		url = strings.Replace(url, rootURL[0], "", -1)
 	}
-	fmt.Printf("%s", url)
 
 	proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
 	proxyReq.Header = r.Header
