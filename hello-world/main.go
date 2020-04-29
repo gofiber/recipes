@@ -11,7 +11,7 @@ func main() {
 	app := fiber.New()
 
 	// Create new GET route on path "/hello"
-	app.Get("/hello", func(c *fiber.Ctx) {
+	app.Get("/", func(c *fiber.Ctx) {
 		c.Send("Hello, World!")
 	})
 
