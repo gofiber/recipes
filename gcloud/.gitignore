@@ -1,0 +1,4 @@
+tmp/
+functions/
+.env
+.vscode
