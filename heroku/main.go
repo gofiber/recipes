@@ -2,6 +2,11 @@
 // 📌 API Documentation: https://fiber.wiki
 // 📝 Github Repository: https://github.com/gofiber/fiber
 
+// Install and configure heroku: https://devcenter.heroku.com/articles/getting-started-with-go#set-up
+// You need to read the PORT env from heroku and you need to define the Procfile
+
+// Deploy the app: https://devcenter.heroku.com/articles/getting-started-with-go#deploy-the-app
+
 package main
 
 import (
