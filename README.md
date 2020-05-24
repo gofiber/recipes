@@ -8,6 +8,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 - [Hello, World!](/hello-world)
 - [Custom 404 Not Found](/404-handler)
+- [Live Reloading (Air)](/air)
 - [Serve Static Files](/file-server)
 - [Recover from panic](/recover)
 - [Enable HTTPS/TLS](/https-tls)
