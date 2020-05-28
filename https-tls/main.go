@@ -5,8 +5,10 @@
 package main
 
 import (
-    "crypto/tls"
-    "github.com/gofiber/fiber"
+	"crypto/tls"
+	"log"
+
+	"github.com/gofiber/fiber"
 )
 
 func main() {
@@ -20,7 +22,7 @@ func main() {
 
 	cer, err := tls.LoadX509KeyPair("certs/ssl.cert", "certs/ssl.key")
 	if err != nil {
-    	log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	config := &tls.Config{Certificates: []tls.Certificate{cer}}
