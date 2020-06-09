@@ -28,5 +28,5 @@ func main() {
 
 // Handler
 func hello(c *fiber.Ctx) {
-	c.Send("I made a ☕ for you!")
+	c.Send("I made ☕ for you!")
 }
