@@ -4,23 +4,30 @@
 
 package main
 
-import "github.com/gofiber/fiber"
+import (
+	"log"
+
+	"github.com/gofiber/fiber"
+)
 
 func main() {
-	// Create new Fiber instance
+	// Fiber instance
 	app := fiber.New()
 
-	// Enable prefork
+	// Enable prefork 🚀
 	app.Settings.Prefork = true
 
-	// Create new GET route on path "/hello"
-	app.Get("/hello", func(c *fiber.Ctx) {
-		c.Send("Hello, World!")
-	})
+	// Routes
+	app.Get("/", hello)
 
-	// Listen on port 3000
-	app.Listen(3000)
+	// Start server
+	log.Fatal(app.Listen(3000))
 
 	// Run the following command to see all processes sharing port 3000:
 	// sudo lsof -i -P -n | grep LISTEN
+}
+
+// Handler
+func hello(c *fiber.Ctx) {
+	c.Send("Hello, World!")
 }

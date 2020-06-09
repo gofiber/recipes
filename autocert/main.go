@@ -1,23 +1,26 @@
-// 🚀 Fiber is an Express inspired web framework written in Go with 💖
-// 📌 API Documentation: https://fiber.wiki
-// 📝 Github Repository: https://github.com/gofiber/fiber
-// ❤️ Special thanks to @mthli for creating this example
+// ⚡️ Fiber is an Express inspired web framework written in Go with ☕️
+// 🤖 Github Repository: https://github.com/gofiber/fiber
+// 📌 API Documentation: https://docs.gofiber.io
+
 package main
 
 import (
 	"crypto/tls"
+	"log"
 
 	"github.com/gofiber/fiber"
 	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
+	// Fiber instance
 	app := fiber.New()
 
+	// Routes
 	app.Get("/", func(c *fiber.Ctx) {
 		c.Send("This is a secure server 👮")
 	})
-	
+
 	// Let’s Encrypt has rate limits: https://letsencrypt.org/docs/rate-limits/
 	// It's recommended to use it's staging environment to test the code:
 	// https://letsencrypt.org/docs/staging-environment/
@@ -30,7 +33,7 @@ func main() {
 		// Folder to store the certificates
 		Cache: autocert.DirCache("./certs"),
 	}
-	
+
 	// TLS Config
 	tls := &tls.Config{
 		// Get Certificate from Let's Encrypt
@@ -44,6 +47,6 @@ func main() {
 		},
 	}
 
-	// Listen on a secure port
-	app.Listen(443, tls)
+	// Start server
+	log.Fatal(app.Listen(443, tls))
 }
