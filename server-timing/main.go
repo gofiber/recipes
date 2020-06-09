@@ -1,6 +1,6 @@
-// 🚀 Fiber is an Express inspired web framework written in Go with 💖
-// 📌 API Documentation: https://fiber.wiki
-// 📝 Github Repository: https://github.com/gofiber/fiber
+// ⚡️ Fiber is an Express inspired web framework written in Go with ☕️
+// 🤖 Github Repository: https://github.com/gofiber/fiber
+// 📌 API Documentation: https://docs.gofiber.io
 
 package main
 
@@ -13,15 +13,19 @@ import (
 )
 
 func main() {
+	// Fiber instance
 	app := fiber.New()
 
+	// Custom Timer middleware
 	app.Use(Timer())
 
+	// Routes
 	app.Get("/", func(c *fiber.Ctx) {
-		time.Sleep(2 * time.Second)
+		time.Sleep(2 * time.Second) // Sleep 2 seconds
 		c.Send("That took a while 😞")
 	})
 
+	// Start server
 	log.Fatal(app.Listen(3000))
 }
 
@@ -35,10 +39,6 @@ func Timer() func(*fiber.Ctx) {
 		// stop timer
 		stop := time.Now()
 		// Do something with response
-		// follows server-timing spec
-		// https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Server-Timing
-		c.Append("Server-Timing",
-			fmt.Sprintf("app;dur=%v", stop.Sub(start).String()),
-		)
+		c.Append("Server-Timing", fmt.Sprintf("app;dur=%v", stop.Sub(start).String()))
 	}
 }

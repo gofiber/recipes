@@ -1,19 +1,21 @@
-// 🚀 Fiber is an Express inspired web framework written in Go with 💖
-// 📌 API Documentation: https://fiber.wiki
-// 📝 Github Repository: https://github.com/gofiber/fiber
+// ⚡️ Fiber is an Express inspired web framework written in Go with ☕️
+// 🤖 Github Repository: https://github.com/gofiber/fiber
+// 📌 API Documentation: https://docs.gofiber.io
 
 package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gofiber/fiber"
 )
 
 func main() {
-	// Create new Fiber instance
+	// Fiber instance
 	app := fiber.New()
 
+	// Routes
 	app.Post("/", func(c *fiber.Ctx) {
 		// Get first file from form field "document":
 		file, err := c.FormFile("document")
@@ -25,6 +27,6 @@ func main() {
 		}
 	})
 
-	// Start server on http://localhost:3000
-	app.Listen(3000)
+	// Start server
+	log.Fatal(app.Listen(3000))
 }
