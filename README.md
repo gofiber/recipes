@@ -26,6 +26,8 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Server Timing](/server-timing)
 - [Single Page Application Example](/spa)
 - [Heroku App](/heroku)
+- [GORM](/gorm)
+- [JWT](/jwt)
 
 ## 👩‍🍳 Have a delicious recipe?
 
