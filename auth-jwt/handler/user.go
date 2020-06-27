@@ -114,10 +114,7 @@ func UpdateUser(c *fiber.Ctx) {
 
 	db.First(&user, id)
 	user.Names = uui.Names
-	if err := db.Save(&user); err != nil {
-		c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't update user", "data": err})
-		return
-	}
+	db.Save(&user)
 
 	c.JSON(fiber.Map{"status": "success", "message": "User successfully updated", "data": user})
 }
