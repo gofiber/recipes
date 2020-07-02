@@ -9,6 +9,9 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// DB gorm connector
+var DB *gorm.DB
+
 // ConnectDB connect to db
 func ConnectDB() {
 	var err error
