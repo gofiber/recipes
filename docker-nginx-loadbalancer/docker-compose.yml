@@ -1,0 +1,36 @@
+version: '3.3'
+
+#services describe the containers that will start
+services:
+  # api is the container name for our Go API
+  api:
+    # It will look for a Dockerfile in the project root and build it
+    build: "."
+    # Exposes the port 5000 from a container and binds it to a random port
+    ports:
+      - "5000"
+    # If the container goes down, it will restart
+    restart: "always"
+    # Connects the API to a common api.network bridge
+    networks:
+      - "api.network"
+    # Starts up 5 replicas of the same image
+    deploy:
+      replicas: 5
+  # nginx container
+  nginx:
+    # specifies the latest nginx image
+    image: nginx:latest
+    # Connects the conf file of the container to the conf file in our folder
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    # It will start up the nginx only when all api containers have started
+    depends_on:
+      - api
+    # Connects the port 80 of the nginx container to localhost:80 or localhost
+    ports:
+      - "8080:8080"
+    networks:
+      - "api.network"
+networks:
+  api.network:
