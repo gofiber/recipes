@@ -4,7 +4,7 @@ go 1.11
 
 require (
 	github.com/gofiber/fiber v1.13.3
-	github.com/gofiber/recover v0.1.0
+	github.com/gofiber/recover v0.1.2
 	github.com/gofiber/websocket v0.5.1
 	github.com/klauspost/compress v1.10.8 // indirect
 	github.com/lib/pq v1.7.0
