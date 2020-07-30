@@ -1,13 +1,28 @@
 package main
 
 import (
+	"log"
+	"os"
+	"path/filepath"
+
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/template/django"
 )
 
 func main() {
+
+	path, err := os.Executable()
+	if err != nil {
+		log.Println(err)
+	}
+	path, err = filepath.EvalSymlinks(path)
+	if err != nil {
+		log.Println(err)
+	}
+	cwd := filepath.Dir(path)
+
 	// Create a new engine
-	engine := django.New("./views", ".html")
+	engine := django.New(cwd+"/views", ".html")
 
 	// Or from an embedded system
 	// See github.com/gofiber/embed for examples
