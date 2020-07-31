@@ -28,7 +28,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Heroku App](/heroku)
 - [GORM](/gorm)
 - [JWT](/jwt)
-- [User Auth whit JWT](/auth-jwt)
+- [User Auth with JWT](/auth-jwt)
 
 ## 👩‍🍳 Have a delicious recipe?
 
