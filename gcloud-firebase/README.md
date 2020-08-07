@@ -17,7 +17,7 @@ Just follow the steps and fill the `GCP_PROJECT` variable with your Google Cloud
 
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/gofiber/recipes&cloudshell_working_dir=gcloud-firebase)
 
-After deploying the server on Cloud Run, you can get it's url on GCP Console ([link](https://console.cloud.google.com/run)) and select the service `gcloud-fiber-firebase` that we just deployed. Them copy the URL will look like `https://{project-id}-{some-random-hash-string}.a.run.app`.
+After deploying the server on Cloud Run, you can get it's url on GCP Console ([link](https://console.cloud.google.com/run)) and select the service `gcloud-fiber-firebase` that we just deployed. Then copy the URL. It will look like `https://{project-id}-{some-random-hash-string}.a.run.app`.
 
 Or you can do it manually with those steps:
 
