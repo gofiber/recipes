@@ -21,6 +21,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Enable Preforking](/prefork)
 - [Listen on Multiple Ports](/multiple-ports)
 - [WebSockets](/websocket)
+- [WebSocket Chat Example](/websocket-chat)
 - [PostgreSQL](/postgresql)
 - [MongoDB](/mongodb)
 - [Unit Test Example](/unit-test)
