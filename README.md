@@ -14,6 +14,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Enable HTTPS/TLS](/https-tls)
 - [Enable HTTPS/TLS using PKCS12 store](/https-pkcs12-tls)
 - [Amazon Web Services (AWS) Elastic Beanstalk](/aws-eb)
+- [Docker Nginx Loadbalancer](/docker-nginx-loadbalancer)
 - [Certificates from Let's Encrypt](/autocert)
 - [Upload Single File](/upload-file/single)
 - [Upload Multiple Files](/upload-file/multiple)
@@ -28,7 +29,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Heroku App](/heroku)
 - [GORM](/gorm)
 - [JWT](/jwt)
-- [User Auth whit JWT](/auth-jwt)
+- [User Auth with JWT](/auth-jwt)
 
 ## 👩‍🍳 Have a delicious recipe?
 

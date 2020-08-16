@@ -8,7 +8,7 @@ require (
 	github.com/klauspost/compress v1.10.8 // indirect
 	github.com/lib/pq v1.8.0
 	github.com/stretchr/testify v1.6.1
-	go.mongodb.org/mongo-driver v1.3.5
+	go.mongodb.org/mongo-driver v1.4.0
 	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9
 	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
 )
