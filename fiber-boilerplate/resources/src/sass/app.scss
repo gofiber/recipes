@@ -1,0 +1,97 @@
+body {
+  font-family: sans-serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.overlay {
+  position: relative;
+}
+
+/* 1024 -1 so it doesnt show when it hits 1024px */
+@media only screen and (max-width: 1023px) {
+  .overlay:after {
+    content: " ";
+    z-index: 29;
+    display: block;
+    height: 100%;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    position: fixed;
+  }
+}
+
+// datatable
+table.datatable {
+  thead {
+    tr {
+      background-color: #edf2f7;
+      border-width: 1px 1px;
+
+      th {
+        font-weight: 500;
+        border-width: 1px 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-right: 1rem;
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  tbody {
+    tr:hover,
+    tr:focus {
+      background-color: #f7fafc;
+    }
+
+    tr {
+      td {
+        font-weight: 400;
+        border-width: 1px;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-right: 1rem;
+        padding-left: 1rem;
+      }
+    }
+  }
+}
+
+.profile-action:hover .profile-action-dropdown {
+  display: inline-block;
+}
+
+aside ul li:hover .menu-item-text {
+  display: inline-block;
+  position: absolute;
+  margin-left: 7rem;
+  width: 10rem;
+  padding: 22px;
+  background-color: rgba(247, 250, 252, var(--bg-opacity));
+}
+
+aside .logout:hover .menu-item-text {
+  display: inline-block;
+  padding: 22px;
+  position: absolute;
+  margin-left: 7rem;
+  width: 10rem;
+}
+
+.date:after {
+  content: "";
+  position: absolute;
+  border-top: 1px solid #e2e8f0;
+  top: 12px;
+  width: 150px;
+}
+
+.date:after {
+  margin-left: 15px;
+}

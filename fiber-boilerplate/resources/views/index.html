@@ -1,0 +1,39 @@
+<h1>{{.Title}}</h1>
+{{if .user}}
+Hello, {{.user.FirstName}}  - ID: {{.user.ID}}!
+{{end}}
+<div class=" float-right flex-row">
+    <div class="bg-white rounded-lg w-full p-4 shadow">
+        <span class="text-gray-900 relative inline-block date uppercase font-medium tracking-widest">ADD FUND <small>(Min. of $5)</small>
+            <a class="text-blue-500 text-right" href="/account/payment/history">History</a></span>
+        <div class="flex">
+            <input name="amount" id="amount" required type="text"
+                   class="rounded px-4 w-full mt-3 py-2 bg-gray-200  border border-gray-400 mb-6 text-gray-700 placeholder-gray-700 focus:bg-white focus:outline-none"
+                   placeholder="Amount to Add">
+        </div>
+        <div class="flex flex-col mb-2">
+            <div id="paypalCheckoutContainer"></div>
+        </div>
+
+        <div class="flex flex-col text-center">
+            <div id="amount-err" class="text-red-400"></div>
+        </div>
+    </div>
+    <div class="bg-white rounded-lg w-full p-4 shadow mt-3">
+        <span class="text-gray-900 relative inline-block date uppercase font-medium tracking-widest">Last Payment</span>
+        <div class="flex-col">
+            <span class="block w-full"><span class="text-5xl"><span id="last-payment-amount"></span></span> <span
+                    class="text-gray-500 align-middle"><span id="last-payment-date"></span></span></span>
+            <p class="w-full"><span id="last-payment-id"></span></p>
+
+        </div>
+    </div>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AQrpW4l8JJtQlDF0wDkV5weIcbOK2PHBmOR1yvKAatqUTeX2rJZgG8ge3_8XNck77XRVJ3-FVslKk-Md&commit=false&merchant-id=MH6KX5U24UW7C"></script>
+<script>
+    let paypal_env = "sandbox"
+</script>
+<script src="/assets/js/manifest.js"></script>
+<script src="/assets/js/vendor.js"></script>
+<script src="/assets/js/payment.js"></script>
+{{template "partials/footer" .}}

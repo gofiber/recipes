@@ -1,0 +1,48 @@
+<div class="p-10">
+    <div class="bg-cover h-full">
+        <div class="content px-8 py-2">
+
+            <div class="body mt-20 mx-8">
+                <div class="md:flex items-center justify-between">
+                    <div class="w-full md:w-1/2 mr-auto">
+
+                    </div>
+                    <div class="w-full md:max-w-md mt-6">
+                        <div class="card bg-white shadow-md rounded-lg px-4 py-4 mb-6 ">
+                            <form action="/do/login" method="POST">
+                                <div class="flex items-center justify-center">
+                                    <h2 class="text-2xl font-bold tracking-wide">
+                                        Welcome!!!
+                                    </h2>
+                                </div>
+                                <h2 class="text-xl text-center font-semibold text-gray-800 mb-2">
+                                    Sign In
+                                </h2>
+                                <div class="flex items-center justify-center">
+                                    {{if .error}}
+                                    <p class="text-red-300">{{.message}}</p>
+                                    {{end}}
+                                </div>
+                                <input name="email" required type="text"
+                                       class="rounded px-4 w-full py-1 bg-gray-200  border border-gray-400 mb-6 text-gray-700 placeholder-gray-700 focus:bg-white focus:outline-none"
+                                       placeholder="Email Address">
+                                <input name="password" required type="password"
+                                       class="rounded px-4 w-full py-1 bg-gray-200  border border-gray-400 mb-4 text-gray-700 placeholder-gray-700 focus:bg-white focus:outline-none"
+                                       placeholder="Password">
+                                <div class="flex items-center justify-between">
+                                    <a href="/request-password-reset" class="text-black">Forget Password?</a>
+                                    <button class="bg-black text-gray-200  px-2 py-1 rounded" type="submit">Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="flex flex-col bg-white">
+    {{template "partials/landing-footer" .}}
+</div>

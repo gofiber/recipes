@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/assets/css/vendor.css">
+<link rel="stylesheet" href="/assets/css/app.css">
+<style>
+    .profile-action:hover .profile-action-dropdown {
+        display: inline-block;
+    }
+
+    aside ul li:hover .menu-item-text {
+        display: inline-block;
+        position: absolute;
+        margin-left: 7rem;
+        width: 10rem;
+        padding: 22px;
+        background-color: rgba(247, 250, 252, var(--bg-opacity));
+    }
+
+    aside .logout:hover .menu-item-text {
+        display: inline-block;
+        padding: 22px;
+        position: absolute;
+        margin-left: 7rem;
+        width: 10rem;
+    }
+
+    .date:after {
+        content: "";
+        position: absolute;
+        border-top: 1px solid #e2e8f0;
+        top: 12px;
+        width: 150px;
+    }
+
+    .date:after {
+        margin-left: 15px;
+    }
+</style>
+<head>
+    <title>Main</title>
+</head>
+
+<body class="bg-gray-200">
+<div class="h-screen w-screen flex bg-gray-200">
+    <div class="flex-1 flex flex-col">
+        {{template "partials/landing-header" .}}
+        {{embed}}
+    </div>
+</div>
+</body>
+
+</html>

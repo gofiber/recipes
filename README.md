@@ -30,6 +30,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GORM](/gorm)
 - [JWT](/jwt)
 - [User Auth with JWT](/auth-jwt)
+- [Fiber Starter Boilerplate](/fiber-boilerplate)
 
 ## 👩‍🍳 Have a delicious recipe?
 

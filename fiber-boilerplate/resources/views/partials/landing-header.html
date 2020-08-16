@@ -1,0 +1,58 @@
+<nav class="p-6 flex justify-between bg-white h-16 border-b-2">
+    <!-- top bar -->
+
+    <ul class="flex items-center lg:hidden">
+        <!-- top bar left -->
+        <li class="h-6 w-6">
+            <img
+                    class="h-full w-full mx-auto"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
+                    alt="svelte logo"/>
+        </li>
+    </ul>
+
+    <ul class="flex items-center">
+        <!-- top bar center -->
+        <li>
+            <h1 class="pl-10 lg:pl-0 text-gray-700">
+                <a href="/">Boilerplate</a>
+            </h1>
+        </li>
+    </ul>
+
+    <ul class="flex items-center">
+        {{if .auth}}
+        <li class="h-8 w-8 profile-action">
+            <button class="block h-8 w-8 rounded-full overflow-hidden border-1 border-gray-600 focus:outline-none focus:border-white">
+                <img class="h-full w-full object-cover"
+                     src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80"
+                     alt="Your avatar">
+            </button>
+            <!-- dropdown menu -->
+            <div class="profile-action-dropdown absolute bg-gray-100 border border-t-0 shadow-xl text-gray-700 rounded-b-lg w-48 bottom-10 right-0 mr-6 hidden">
+                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Account</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Settings</a>
+                {{if .auth}}
+                <a href="/do/logout" class="block px-4 py-2 hover:bg-gray-200"
+                   onclick="event.preventDefault(); document.getElementById('logout-form-profile').submit();">
+                    Logout
+                </a>
+                <form id="logout-form-profile" action="/do/logout" method="POST" style="display: none;"></form>
+                {{end}}
+            </div>
+            <!-- dropdown menu end -->
+        </li>
+        {{else}}
+        <li class="mr-2">
+            <a href="/login">Login</a>
+            <!-- dropdown menu end -->
+        </li>
+        <li>
+            <a href="/register">Register</a>
+            <!-- dropdown menu end -->
+        </li>
+        {{end}}
+
+    </ul>
+
+</nav>

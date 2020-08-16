@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Demo - PayPal JS</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+</head>
+<body>
+
+<div id="container">
+    <app></app>
+</div>
+<script type="text/babel">
+
+    const PayPalButton = paypal.Buttons.driver("vue", window.Vue);
+
+    Vue.component("app", {
+        template: `
+        <paypal-buttons [props]="{
+            createOrder: createOrder,
+            onApprove: onApprove
+        }"></paypal-buttons>
+      `,
+        components: {
+            "paypal-buttons": PayPalButton,
+        },
+
+        computed: {
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [
+                        {
+                            amount: {
+                                value: "0.01",
+                            },
+                        },
+                    ],
+                });
+            },
+            onAuthorize: function (data, actions) {
+                return actions.order.capture();
+            },
+        },
+    });
+
+    var vm = new Vue({
+        el: "#container",
+    });
+
+</script>
+</body>
+</html>
+
+
+</body>
