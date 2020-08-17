@@ -37,6 +37,8 @@ github.com/gobuffalo/packr/v2 v2.2.0/go.mod h1:CaAwI0GPIAv+5wKLtv8Afwl+Cm78K/I/V
 github.com/gobuffalo/syncx v0.0.0-20190224160051-33c29581e754/go.mod h1:HhnNqWY95UYwwW3uSASeV7vtgYkT2t16hJgV3AEPUpw=
 github.com/gofiber/fiber v1.13.3 h1:14kBTW1+n5mNIJZqibsbIdb+yQdC5argcbe9vE7Nz+o=
 github.com/gofiber/fiber v1.13.3/go.mod h1:KxRvVkqzfZOO6A7mBu+j7ncX2AcT6Sm6F7oeGR3Kgmw=
+github.com/gofiber/fiber v1.14.2 h1:JRm2REz1TVNt9ZXErTKhVV4y3u4QSmsQ2UU6LB6I6Ic=
+github.com/gofiber/fiber v1.14.2/go.mod h1:KxRvVkqzfZOO6A7mBu+j7ncX2AcT6Sm6F7oeGR3Kgmw=
 github.com/gofiber/utils v0.0.9 h1:Bu4grjEB4zof1TtpmPCG6MeX5nGv8SaQfzaUgjkf3H8=
 github.com/gofiber/utils v0.0.9/go.mod h1:9J5aHFUIjq0XfknT4+hdSMG6/jzfaAgCu4HEbWDeBlo=
 github.com/gofiber/websocket v0.5.1 h1:G+LnA98eof5cgN6C1iA5WpOOmjW6rjQiCO7xctTIruc=
