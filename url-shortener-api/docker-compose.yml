@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  api:
+    build: api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    build: db
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data:/data
