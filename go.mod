@@ -3,7 +3,7 @@ module github.com/gofiber/recipes
 go 1.11
 
 require (
-	github.com/gofiber/fiber v1.13.3
+	github.com/gofiber/fiber v1.14.4
 	github.com/gofiber/websocket v0.5.1
 	github.com/klauspost/compress v1.10.8 // indirect
 	github.com/lib/pq v1.8.0
