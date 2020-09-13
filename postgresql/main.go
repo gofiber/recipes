@@ -98,7 +98,7 @@ func main() {
 			return
 		}
 		// Insert Employee into database
-		res, err := db.Query("INSERT INTO employees (name, salry, age)VALUES ($1, $2, $3)", u.Name, u.Salary, u.Age)
+		res, err := db.Query("INSERT INTO employees (name, salary, age)VALUES ($1, $2, $3)", u.Name, u.Salary, u.Age)
 		if err != nil {
 			c.Status(500).Send(err)
 			return

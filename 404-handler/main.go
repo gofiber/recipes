@@ -28,5 +28,9 @@ func main() {
 
 // Handler
 func hello(c *fiber.Ctx) {
+<<<<<<< HEAD
 	c.Send("I made a ☕ for you!")
+=======
+	c.Send("I made ☕ for you!")
+>>>>>>> upstream/master
 }

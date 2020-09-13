@@ -1,0 +1,9 @@
+{
+  "db": {
+    "user":"test",
+    "password":"pass",
+    "server":"test.mongodb.net",
+    "cluster":"test"
+  },
+  "env": "dev"
+}
