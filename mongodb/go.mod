@@ -1,8 +1,8 @@
-module fiber-gorm
+module main
 
 go 1.15
 
 require (
 	github.com/gofiber/fiber/v2 v2.0.0
-	github.com/jinzhu/gorm v1.9.12
+	go.mongodb.org/mongo-driver v1.4.1
 )

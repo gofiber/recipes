@@ -4,9 +4,10 @@ import (
 	"fiber-gorm/book"
 	"fiber-gorm/database"
 	"fmt"
+	"log"
 
-	"github.com/gofiber/cors"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -32,10 +33,11 @@ func initDatabase() {
 func main() {
 	app := fiber.New()
 	app.Use(cors.New())
+
 	initDatabase()
+	defer database.DBConn.Close()
 
 	setupRoutes(app)
-	app.Listen(3000)
 
-	defer database.DBConn.Close()
+	log.Fatal(app.Listen(":3000"))
 }

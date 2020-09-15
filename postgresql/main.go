@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
 )
 
@@ -60,7 +60,7 @@ func main() {
 	app := fiber.New()
 
 	// Get all records from postgreSQL
-	app.Get("/employee", func(c *fiber.Ctx) {
+	app.Get("/employee", func(c *fiber.Ctx) error {
 		// Insert Employee into database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
@@ -89,7 +89,7 @@ func main() {
 	})
 
 	// Add record into postgreSQL
-	app.Post("/employee", func(c *fiber.Ctx) {
+	app.Post("/employee", func(c *fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 		// Parse body into struct
@@ -113,7 +113,7 @@ func main() {
 	})
 
 	// Update record into postgreSQL
-	app.Put("/employee", func(c *fiber.Ctx) {
+	app.Put("/employee", func(c *fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 		// Parse body into struct
@@ -137,7 +137,7 @@ func main() {
 	})
 
 	// Delete record from postgreSQL
-	app.Delete("/employee", func(c *fiber.Ctx) {
+	app.Delete("/employee", func(c *fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 		// Parse body into struct
@@ -160,5 +160,5 @@ func main() {
 		}
 	})
 
-	app.Listen(3000)
+	log.Fatal(app.Listen(":3000"))
 }

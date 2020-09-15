@@ -5,16 +5,17 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io/ioutil"
+	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/pkcs12"
 )
 
 func initFiberApp() *fiber.App {
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("This page is being served over TLS using a PKCS12 store type!")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("This page is being served over TLS using a PKCS12 store type!")
 	})
 
 	return app
@@ -53,6 +54,11 @@ func main() {
 		config := &tls.Config{Certificates: []tls.Certificate{*tlsCert}}
 
 		app := initFiberApp()
-		app.Listen(3333, config)
+		ln, err := tls.Listen("tcp", ":443", config)
+		if err != nil {
+			panic(err)
+		}
+
+		log.Fatal(app.Listener(ln))
 	}
 }

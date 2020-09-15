@@ -8,7 +8,7 @@ import (
 	"crypto/tls"
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/acme/autocert"
 )
 
@@ -17,8 +17,8 @@ func main() {
 	app := fiber.New()
 
 	// Routes
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("This is a secure server 👮")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("This is a secure server 👮")
 	})
 
 	// Let’s Encrypt has rate limits: https://letsencrypt.org/docs/rate-limits/
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// TLS Config
-	tls := &tls.Config{
+	cfg := &tls.Config{
 		// Get Certificate from Let's Encrypt
 		GetCertificate: m.GetCertificate,
 		// By default NextProtos contains the "h2"
@@ -46,7 +46,11 @@ func main() {
 			"http/1.1", "acme-tls/1",
 		},
 	}
+	ln, err := tls.Listen("tcp", ":443", cfg)
+	if err != nil {
+		panic(err)
+	}
 
 	// Start server
-	log.Fatal(app.Listen(443, tls))
+	log.Fatal(app.Listener(ln))
 }

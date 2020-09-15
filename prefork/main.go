@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 	app.Get("/", hello)
 
 	// Start server
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 
 	// Run the following command to see all processes sharing port 3000:
 	// sudo lsof -i -P -n | grep LISTEN
@@ -29,5 +29,5 @@ func main() {
 
 // Handler
 func hello(c *fiber.Ctx) {
-	c.Send("Hello, World!")
+	return c.SendString("Hello, World!")
 }

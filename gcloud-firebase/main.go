@@ -8,7 +8,7 @@ import (
 	"os"
 
 	firebase "firebase.google.com/go"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
 
@@ -54,59 +54,53 @@ func init() {
 
 	app = fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Health check ✅")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Health check ✅")
 	})
 
 	group := app.Group("api")
 
-	group.Get("/hello", func(c *fiber.Ctx) {
-		c.Send("Hello World 🚀")
+	group.Get("/hello", func(c *fiber.Ctx) error {
+		return c.SendString("Hello World 🚀")
 	})
 
-	group.Get("/ola", func(c *fiber.Ctx) {
-		c.Send("Olá Mundo 🚀")
+	group.Get("/ola", func(c *fiber.Ctx) error {
+		return c.SendString("Olá Mundo 🚀")
 	})
 
-	group.Get("/heroes", func(c *fiber.Ctx) {
+	group.Get("/heroes", func(c *fiber.Ctx) error {
 		ctx := context.Background()
 		var heroes map[string]Hero
-		err := heroesRef.Get(ctx, &heroes)
-		if err != nil {
-			c.JSON(map[string]interface{}{
+		if err := heroesRef.Get(ctx, &heroes); err != nil {
+			return c.JSON(map[string]interface{}{
 				"message": err.Error(),
 			})
-			return
 		}
-
-		c.JSON(map[string]map[string]Hero{
+		return c.JSON(map[string]map[string]Hero{
 			"heroes": heroes,
 		})
 	})
 
-	group.Get("/heroes/:id", func(c *fiber.Ctx) {
+	group.Get("/heroes/:id", func(c *fiber.Ctx) error {
 		id := c.Params("id")
 		var hero Hero
-		err := heroesRef.Child(id).Get(ctx, &hero)
-		if err != nil {
-			c.JSON(map[string]interface{}{
+		if err := heroesRef.Child(id).Get(ctx, &hero); err != nil {
+			return c.JSON(map[string]interface{}{
 				"message": err.Error(),
 			})
-			return
 		}
 		if hero.ID == "" {
-			c.Status(404).JSON(map[string]interface{}{
+			return c.Status(fiber.StatusNotFound).JSON(map[string]interface{}{
 				"message": "Not Found",
 			})
-			return
 		}
-		c.JSON(hero)
+		return c.JSON(hero)
 	})
 }
 
 // Start start Fiber app with normal interface
-func Start(address interface{}) error {
-	return app.Listen(address)
+func Start(addr string) error {
+	return app.Listen(addr)
 }
 
 // HeroesAPI Exported http.HandlerFunc to be deployed to as a Cloud Function

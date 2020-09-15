@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/amalshaji/stoyle/database"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // ResolveURL ...

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -43,7 +43,7 @@ func getUserByUsername(u string) (*model.User, error) {
 }
 
 // Login get user and password
-func Login(c *fiber.Ctx) {
+func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`
 		Password string `json:"password"`
@@ -58,27 +58,23 @@ func Login(c *fiber.Ctx) {
 	var ud UserData
 
 	if err := c.BodyParser(&input); err != nil {
-		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "data": err})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "data": err})
 	}
 	identity := input.Identity
 	pass := input.Password
 
 	email, err := getUserByEmail(identity)
 	if err != nil {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
 	}
 
 	user, err := getUserByUsername(identity)
 	if err != nil {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
 	}
 
 	if email == nil && user == nil {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
 	}
 
 	if email == nil {
@@ -98,8 +94,7 @@ func Login(c *fiber.Ctx) {
 	}
 
 	if !CheckPasswordHash(pass, ud.Password) {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -111,9 +106,8 @@ func Login(c *fiber.Ctx) {
 
 	t, err := token.SignedString([]byte(config.Config("SECRET")))
 	if err != nil {
-		c.SendStatus(fiber.StatusInternalServerError)
-		return
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
+	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
 }

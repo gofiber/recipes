@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/django"
 )
 
@@ -29,23 +29,23 @@ func main() {
 	// engine := html.NewFileSystem(http.Dir("./views", ".django"))
 
 	// Pass the engine to the Views
-	app := fiber.New(&fiber.Settings{
+	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
 
-	app.Get("/", func(c *fiber.Ctx) {
+	app.Get("/", func(c *fiber.Ctx) error {
 		// Render with and extends
-		c.Render("index", fiber.Map{
+		return c.Render("index", fiber.Map{
 			"Title": "Hello, World!",
 		})
 	})
 
-	app.Get("/embed", func(c *fiber.Ctx) {
+	app.Get("/embed", func(c *fiber.Ctx) error {
 		// Render index within layouts/main
-		c.Render("embed", fiber.Map{
+		return c.Render("embed", fiber.Map{
 			"Title": "Hello, World!",
 		}, "layouts/main2")
 	})
 
-	app.Listen(3000)
+	log.Fatal(app.Listen(":3000"))
 }

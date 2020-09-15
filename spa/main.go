@@ -5,7 +5,7 @@
 package main
 
 import (
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"log"
 )
 
@@ -21,5 +21,5 @@ func main() {
 	})
 
 	// Start server on http://localhost:3000
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 }

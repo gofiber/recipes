@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	app := fiber.New()
 
 	// Routes
-	app.Post("/", func(c *fiber.Ctx) {
+	app.Post("/", func(c *fiber.Ctx) error {
 		// Get first file from form field "document":
 		file, err := c.FormFile("document")
 
@@ -28,5 +28,5 @@ func main() {
 	})
 
 	// Start server
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 }
