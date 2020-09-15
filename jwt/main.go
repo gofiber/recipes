@@ -5,7 +5,7 @@ import (
 	"api-fiber-gorm/router"
 
 	"github.com/gofiber/cors"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
@@ -16,7 +16,7 @@ func main() {
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
-	app.Listen(3000)
+	log.Fatal(app.Listen(":3000"))
 
 	defer database.DB.Close()
 }

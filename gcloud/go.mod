@@ -1,8 +1,8 @@
 module github.com/gofiber/gcloud
 
-go 1.14
+go 1.15
 
 require (
-	github.com/gofiber/fiber v1.9.2
-	github.com/valyala/fasthttp v1.12.0
+	github.com/gofiber/fiber/v2 v2.0.0
+	github.com/valyala/fasthttp v1.16.0
 )

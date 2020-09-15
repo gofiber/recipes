@@ -11,8 +11,8 @@ import (
 	"strconv"
 
 	"github.com/amalshaji/fiber-grpc/proto"
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/middleware"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"google.golang.org/grpc"
 )
 
@@ -26,60 +26,56 @@ func main() {
 	// g := gin.Default()
 	app := fiber.New()
 
-	app.Use(middleware.Logger())
+	app.Use(logger.New())
 
-	app.Get("/add/:a/:b", func(c *fiber.Ctx) {
+	app.Get("/add/:a/:b", func(c *fiber.Ctx) error {
 		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
 		if err != nil {
-			_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument A",
 			})
 		}
 		b, err := strconv.ParseUint(c.Params("b"), 10, 64)
 		if err != nil {
-			_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument B",
 			})
-			return
 		}
 		req := &proto.Request{A: int64(a), B: int64(b)}
 		if res, err := client.Add(context.Background(), req); err == nil {
-			_ = c.Status(fiber.StatusOK).JSON(fiber.Map{
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})
-		} else {
-			_ = c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-			return
 		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+
 	})
 
-	app.Get("/mult/:a/:b", func(c *fiber.Ctx) {
+	app.Get("/mult/:a/:b", func(c *fiber.Ctx) error {
 		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
 		if err != nil {
-			_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument A",
 			})
 		}
 		b, err := strconv.ParseUint(c.Params("b"), 10, 64)
 		if err != nil {
-			_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument B",
 			})
-			return
 		}
 		req := &proto.Request{A: int64(a), B: int64(b)}
 		if res, err := client.Multiply(context.Background(), req); err == nil {
-			_ = c.Status(fiber.StatusOK).JSON(fiber.Map{
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})
-		} else {
-			_ = c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-			return
 		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+
 	})
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 }

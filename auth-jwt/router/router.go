@@ -4,8 +4,8 @@ import (
 	"api-fiber-gorm/handler"
 	"api-fiber-gorm/middleware"
 
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/logger"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 // SetupRoutes setup router api

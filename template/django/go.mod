@@ -1,6 +1,6 @@
 module django-template
 
-go 1.14
+go 1.15
 
 require (
 	github.com/gofiber/fiber v1.13.3

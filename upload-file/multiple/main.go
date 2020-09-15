@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	// Fiber instance
 	app := fiber.New()
 
-	app.Post("/", func(c *fiber.Ctx) {
+	app.Post("/", func(c *fiber.Ctx) error {
 		// Parse the multipart form:
 		if form, err := c.MultipartForm(); err == nil {
 			// => *multipart.Form
@@ -40,5 +40,5 @@ func main() {
 	})
 
 	// Start server
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 }

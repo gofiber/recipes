@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 var app *fiber.App
@@ -12,24 +12,24 @@ var app *fiber.App
 func init() {
 	app = fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Health check ✅")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Health check ✅")
 	})
 
 	group := app.Group("api")
 
-	group.Get("/hello", func(c *fiber.Ctx) {
-		c.Send("Hello World 🚀")
+	group.Get("/hello", func(c *fiber.Ctx) error {
+		return c.SendString("Hello World 🚀")
 	})
 
-	group.Get("/ola", func(c *fiber.Ctx) {
-		c.Send("Olá Mundo 🚀")
+	group.Get("/ola", func(c *fiber.Ctx) error {
+		return c.SendString("Olá Mundo 🚀")
 	})
 }
 
 // Start start Fiber app with normal interface
-func Start(address interface{}) error {
-	return app.Listen(address)
+func Start(addr string) error {
+	return app.Listen(addr)
 }
 
 // MyCloudFunction Exported http.HandlerFunc to be deployed to as a Cloud Function

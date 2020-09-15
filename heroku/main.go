@@ -13,28 +13,26 @@ import (
 	"log"
 	"os"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-
 	// Create new Fiber instance
 	app := fiber.New()
 
 	// Create new GET route
-	app.Get("/", func(ctx *fiber.Ctx) {
-		ctx.Send("Hello Heroku")
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("Hello Heroku")
 	})
 
 	// Get the PORT from heroku env
 	port := os.Getenv("PORT")
 
 	// Verify if heroku provided the port or not
-	if port == "" {
+	if os.Getenv("PORT") == "" {
 		port = "3000"
-		log.Print("$PORT == 3000")
 	}
 
 	// Start server on http://${heroku-url}:${port}
-	app.Listen(port)
+	log.Fatal(app.Listen(":" + port))
 }

@@ -3,8 +3,8 @@ package middleware
 import (
 	"api-fiber-gorm/config"
 
-	"github.com/gofiber/fiber"
-	jwtware "github.com/gofiber/jwt"
+	"github.com/gofiber/fiber/v2"
+	jwtware "github.com/gofiber/jwt/v2"
 )
 
 // Protected protect routes

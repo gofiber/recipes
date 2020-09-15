@@ -13,7 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // MongoInstance contains the Mongo client and database objects
@@ -70,85 +70,73 @@ func main() {
 
 	// Get all employee records from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/find/
-	app.Get("/employee", func(c *fiber.Ctx) {
+	app.Get("/employee", func(c *fiber.Ctx) error {
 		// get all records as a cursor
 		query := bson.D{{}}
-		cursor, err := mg.Db.Collection("employees").Find(c.Fasthttp, query)
+		cursor, err := mg.Db.Collection("employees").Find(c.Context(), query)
 		if err != nil {
-			c.Status(500).Send(err)
-			return
+			return c.Status(500).SendString(err.Error())
 		}
 
 		var employees []Employee = make([]Employee, 0)
 
 		// iterate the cursor and decode each item into an Employee
-		if err := cursor.All(c.Fasthttp, &employees); err != nil {
-			c.Status(500).Send(err)
-			return
-		}
+		if err := cursor.All(c.Context(), &employees); err != nil {
+			return c.Status(500).SendString(err.Error())
 
-		// return employees list in JSON format
-		if err := c.JSON(employees); err != nil {
-			c.Status(500).Send(err)
-			return
 		}
+		// return employees list in JSON format
+		return c.JSON(employees)
 	})
 
 	// Insert a new employee into MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/insert/
-	app.Post("/employee", func(c *fiber.Ctx) {
+	app.Post("/employee", func(c *fiber.Ctx) error {
 		collection := mg.Db.Collection("employees")
 
 		// New Employee struct
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.BodyParser(employee); err != nil {
-			c.Status(400).Send(err)
-			return
+			return c.Status(400).SendString(err.Error())
 		}
 
 		// force MongoDB to always set its own generated ObjectIDs
 		employee.ID = ""
 
 		// insert the record
-		insertionResult, err := collection.InsertOne(c.Fasthttp, employee)
+		insertionResult, err := collection.InsertOne(c.Context(), employee)
 		if err != nil {
-			c.Status(500).Send(err)
-			return
+			return c.Status(500).SendString(err.Error())
 		}
 
 		// get the just inserted record in order to return it as response
 		filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
-		createdRecord := collection.FindOne(c.Fasthttp, filter)
+		createdRecord := collection.FindOne(c.Context(), filter)
 
 		// decode the Mongo record into Employee
 		createdEmployee := &Employee{}
 		createdRecord.Decode(createdEmployee)
 
 		// return the created Employee in JSON format
-		if err := c.Status(201).JSON(createdEmployee); err != nil {
-			c.Status(500).Send(err)
-			return
-		}
+		return c.Status(201).JSON(createdEmployee)
 	})
 
 	// Update an employee record in MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/findAndModify/
-	app.Put("/employee/:id", func(c *fiber.Ctx) {
+	app.Put("/employee/:id", func(c *fiber.Ctx) error {
 		idParam := c.Params("id")
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
 
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			c.Status(400).Send()
-			return
+			return c.Status(400).SendString(err.Error())
 		}
 
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.BodyParser(employee); err != nil {
-			c.Status(400).Send(err)
-			return
+			return c.Status(400).SendString(err.Error())
 		}
 
 		// Find the employee and update its data
@@ -184,7 +172,7 @@ func main() {
 
 	// Delete an employee from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/delete/
-	app.Delete("/employee/:id", func(c *fiber.Ctx) {
+	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
 		employeeID, err := primitive.ObjectIDFromHex(
 			c.Params("id"),
 		)
@@ -214,5 +202,5 @@ func main() {
 		c.Status(204).Send()
 	})
 
-	app.Listen(3000)
+	log.Fatal(app.Listen(":3000"))
 }

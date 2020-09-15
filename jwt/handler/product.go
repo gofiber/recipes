@@ -4,7 +4,7 @@ import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // GetAllProducts query all products
@@ -12,7 +12,7 @@ func GetAllProducts(c *fiber.Ctx) {
 	db := database.DB
 	var products []model.Product
 	db.Find(&products)
-	c.JSON(fiber.Map{"status": "success", "message": "All products", "data": products})
+	return c.JSON(fiber.Map{"status": "success", "message": "All products", "data": products})
 }
 
 // GetProduct query product
@@ -25,7 +25,7 @@ func GetProduct(c *fiber.Ctx) {
 		c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
 		return
 	}
-	c.JSON(fiber.Map{"status": "success", "message": "Product found", "data": product})
+	return c.JSON(fiber.Map{"status": "success", "message": "Product found", "data": product})
 }
 
 // CreateProduct new product
@@ -37,7 +37,7 @@ func CreateProduct(c *fiber.Ctx) {
 		return
 	}
 	db.Create(&product)
-	c.JSON(fiber.Map{"status": "success", "message": "Created product", "data": product})
+	return c.JSON(fiber.Map{"status": "success", "message": "Created product", "data": product})
 }
 
 // DeleteProduct delete product
@@ -52,6 +52,6 @@ func DeleteProduct(c *fiber.Ctx) {
 		return
 	}
 	db.Delete(&product)
-	c.JSON(fiber.Map{"status": "success", "message": "Product successfully deleted", "data": nil})
+	return c.JSON(fiber.Map{"status": "success", "message": "Product successfully deleted", "data": nil})
 
 }

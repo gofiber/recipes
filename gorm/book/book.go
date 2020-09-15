@@ -3,7 +3,7 @@ package book
 import (
 	"fiber-gorm/database"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -15,30 +15,29 @@ type Book struct {
 	Rating int    `json:"rating"`
 }
 
-func GetBooks(c *fiber.Ctx) {
+func GetBooks(c *fiber.Ctx) error {
 	db := database.DBConn
 	var books []Book
 	db.Find(&books)
-	c.JSON(books)
+	return c.JSON(books)
 }
 
-func GetBook(c *fiber.Ctx) {
+func GetBook(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DBConn
 	var book Book
 	db.Find(&book, id)
-	c.JSON(book)
+	return c.JSON(book)
 }
 
 func NewBook(c *fiber.Ctx) {
 	db := database.DBConn
 	book := new(Book)
 	if err := c.BodyParser(book); err != nil {
-		c.Status(503).Send(err)
-		return
+		return c.Status(503).SendString(err)
 	}
 	db.Create(&book)
-	c.JSON(book)
+	return c.JSON(book)
 }
 
 func DeleteBook(c *fiber.Ctx) {
@@ -48,9 +47,8 @@ func DeleteBook(c *fiber.Ctx) {
 	var book Book
 	db.First(&book, id)
 	if book.Title == "" {
-		c.Status(500).Send("No Book Found with ID")
-		return
+		return c.Status(500).SendString("No Book Found with ID")
 	}
 	db.Delete(&book)
-	c.Send("Book Successfully deleted")
+	return c.SendString("Book Successfully deleted")
 }

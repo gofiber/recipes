@@ -10,7 +10,7 @@ import (
 	"os"
 
 	"github.com/amalshaji/stoyle/routes"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/middleware"
 	"github.com/joho/godotenv"
 )

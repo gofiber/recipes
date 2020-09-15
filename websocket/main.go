@@ -6,7 +6,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket"
 	"log"
 )
@@ -15,7 +15,7 @@ func main() {
 	app := fiber.New()
 
 	// Optional middleware
-	app.Use("/ws", func(c *fiber.Ctx) {
+	app.Use("/ws", func(c *fiber.Ctx) error {
 		if c.Get("host") == "localhost:3000" {
 			c.Locals("Host", "Localhost:3000")
 			c.Next()
@@ -43,5 +43,5 @@ func main() {
 	}))
 
 	// ws://localhost:3000/ws
-	app.Listen(3000)
+	log.Fatal(app.Listen(":3000"))
 }

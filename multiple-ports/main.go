@@ -6,7 +6,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -22,10 +22,10 @@ func main() {
 	}()
 
 	// Listen on port 3000
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(":3000"))
 }
 
 // Handler
 func hello(c *fiber.Ctx) {
-	c.Send("Hello, World!")
+	return c.SendString("Hello, World!")
 }

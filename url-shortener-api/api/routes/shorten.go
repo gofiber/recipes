@@ -9,7 +9,7 @@ import (
 	"github.com/amalshaji/stoyle/helpers"
 	"github.com/asaskevich/govalidator"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
