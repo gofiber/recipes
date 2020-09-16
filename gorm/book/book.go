@@ -30,7 +30,7 @@ func GetBook(c *fiber.Ctx) error {
 	return c.JSON(book)
 }
 
-func NewBook(c *fiber.Ctx) {
+func NewBook(c *fiber.Ctx) error {
 	db := database.DBConn
 	book := new(Book)
 	if err := c.BodyParser(book); err != nil {
@@ -40,7 +40,7 @@ func NewBook(c *fiber.Ctx) {
 	return c.JSON(book)
 }
 
-func DeleteBook(c *fiber.Ctx) {
+func DeleteBook(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DBConn
 

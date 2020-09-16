@@ -8,7 +8,7 @@ import (
 )
 
 // GetAllProducts query all products
-func GetAllProducts(c *fiber.Ctx) {
+func GetAllProducts(c *fiber.Ctx) error {
 	db := database.DB
 	var products []model.Product
 	db.Find(&products)
@@ -16,7 +16,7 @@ func GetAllProducts(c *fiber.Ctx) {
 }
 
 // GetProduct query product
-func GetProduct(c *fiber.Ctx) {
+func GetProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DB
 	var product model.Product
@@ -29,7 +29,7 @@ func GetProduct(c *fiber.Ctx) {
 }
 
 // CreateProduct new product
-func CreateProduct(c *fiber.Ctx) {
+func CreateProduct(c *fiber.Ctx) error {
 	db := database.DB
 	product := new(model.Product)
 	if err := c.BodyParser(product); err != nil {
@@ -41,7 +41,7 @@ func CreateProduct(c *fiber.Ctx) {
 }
 
 // DeleteProduct delete product
-func DeleteProduct(c *fiber.Ctx) {
+func DeleteProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DB
 

@@ -17,26 +17,30 @@ func main() {
 
 	app.Post("/", func(c *fiber.Ctx) error {
 		// Parse the multipart form:
-		if form, err := c.MultipartForm(); err == nil {
-			// => *multipart.Form
+		form, err := c.MultipartForm()
+		if err != nil {
+			return err
+		}
+		// => *multipart.Form
 
-			// Get all files from "documents" key:
-			files := form.File["documents"]
-			// => []*multipart.FileHeader
+		// Get all files from "documents" key:
+		files := form.File["documents"]
+		// => []*multipart.FileHeader
 
-			// Loop through files:
-			for _, file := range files {
-				fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
-				// => "tutorial.pdf" 360641 "application/pdf"
+		// Loop through files:
+		for _, file := range files {
+			fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+			// => "tutorial.pdf" 360641 "application/pdf"
 
-				// Save the files to disk:
-				err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
-				// Check for errors
-				if err != nil {
-					c.Status(500).Send("Something went wrong 😭")
-				}
+			// Save the files to disk:
+			err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+
+			// Check for errors
+			if err != nil {
+				return err
 			}
 		}
+		return nil
 	})
 
 	// Start server

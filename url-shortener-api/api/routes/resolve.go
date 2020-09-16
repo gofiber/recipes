@@ -7,7 +7,7 @@ import (
 )
 
 // ResolveURL ...
-func ResolveURL(c *fiber.Ctx) {
+func ResolveURL(c *fiber.Ctx) error {
 	// get the short from the url
 	url := c.Params("url")
 	// query the db to find the original URL, if a match is found
@@ -18,20 +18,18 @@ func ResolveURL(c *fiber.Ctx) {
 
 	value, err := r.Get(database.Ctx, url).Result()
 	if err == redis.Nil {
-		_ = c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"error": "short not found on database",
 		})
-		return
 	} else if err != nil {
-		_ = c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "cannot connect to DB",
 		})
-		return
 	}
 	// increment the counter
 	rInr := database.CreateClient(1)
 	defer rInr.Close()
 	_ = rInr.Incr(database.Ctx, "counter")
 	// redirect to original URL
-	c.Redirect(value, 301)
+	return c.Redirect(value, 301)
 }

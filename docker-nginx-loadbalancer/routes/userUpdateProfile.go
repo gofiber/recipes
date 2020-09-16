@@ -11,7 +11,7 @@ import (
 )
 
 /*UpdateProfile : Edit a user profile*/
-func UpdateProfile(c *fiber.Ctx) {
+func UpdateProfile(c *fiber.Ctx) error {
 	var user models.User
 	var isUpdated bool
 

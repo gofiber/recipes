@@ -12,7 +12,7 @@ import (
 )
 
 /*Login : user try to login in the app*/
-func Login(c *fiber.Ctx) {
+func Login(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
 	var user models.User

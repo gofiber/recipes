@@ -5,17 +5,25 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	// Fiber instance
-	app := fiber.New()
+	// Print current process
+	if fiber.IsChild() {
+		fmt.Printf("[%d] Child", os.Getppid())
+	} else {
+		fmt.Printf("[%d] Master", os.Getppid())
+	}
 
-	// Enable prefork 🚀
-	app.Settings.Prefork = true
+	// Fiber instance
+	app := fiber.New(fiber.Config{
+		Prefork: true,
+	})
 
 	// Routes
 	app.Get("/", hello)
@@ -28,6 +36,6 @@ func main() {
 }
 
 // Handler
-func hello(c *fiber.Ctx) {
+func hello(c *fiber.Ctx) error {
 	return c.SendString("Hello, World!")
 }
