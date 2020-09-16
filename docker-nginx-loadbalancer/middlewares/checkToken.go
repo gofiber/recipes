@@ -9,7 +9,7 @@ import (
 )
 
 /*CheckToken : Check the validate of the jwt*/
-func CheckToken(c *fiber.Ctx) {
+func CheckToken(c *fiber.Ctx) error {
 	_, _, _, err := utilities.ProcessToken(c.Get("Authorization"))
 	if err != nil {
 		c.Send("Error in the jwt !" + err.Error())

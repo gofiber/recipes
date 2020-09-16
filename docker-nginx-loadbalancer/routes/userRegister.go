@@ -10,7 +10,7 @@ import (
 )
 
 /*Register : Save a user in the database*/
-func Register(c *fiber.Ctx) {
+func Register(c *fiber.Ctx) error {
 
 	var user models.User
 	if err := c.BodyParser(&user); err !=nil{

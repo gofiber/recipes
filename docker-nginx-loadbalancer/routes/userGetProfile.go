@@ -8,7 +8,7 @@ import (
 )
 
 /*GetProfile : Get the user profile*/
-func GetProfile(c *fiber.Ctx) {
+func GetProfile(c *fiber.Ctx) error {
 	ID := c.Query("id")
 
 	if len(ID) < 1 {

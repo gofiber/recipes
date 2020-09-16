@@ -6,9 +6,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/websocket"
 	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/websocket/v2"
 )
 
 func main() {
@@ -18,10 +19,9 @@ func main() {
 	app.Use("/ws", func(c *fiber.Ctx) error {
 		if c.Get("host") == "localhost:3000" {
 			c.Locals("Host", "Localhost:3000")
-			c.Next()
-			return
+			return c.Next()
 		}
-		c.Status(403).Send("Request origin not allowed")
+		return c.Status(403).Send("Request origin not allowed")
 	})
 
 	// Upgraded websocket request

@@ -18,7 +18,7 @@ func main() {
 
 	// Listen on port 8080
 	go func() {
-		log.Fatal(app.Listen(8080))
+		log.Fatal(app.Listen(":8080"))
 	}()
 
 	// Listen on port 3000
@@ -26,6 +26,6 @@ func main() {
 }
 
 // Handler
-func hello(c *fiber.Ctx) {
+func hello(c *fiber.Ctx) error {
 	return c.SendString("Hello, World!")
 }

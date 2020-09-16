@@ -11,7 +11,7 @@ import (
 
 	"github.com/amalshaji/stoyle/routes"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/middleware"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	app := fiber.New()
 
 	//app.Use(csrf.New())
-	app.Use(middleware.Logger())
+	app.Use(logger.New())
 
 	setupRoutes(app)
 

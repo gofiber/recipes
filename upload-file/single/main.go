@@ -19,12 +19,11 @@ func main() {
 	app.Post("/", func(c *fiber.Ctx) error {
 		// Get first file from form field "document":
 		file, err := c.FormFile("document")
-
-		// Check for errors:
-		if err == nil {
-			// Save file to root directory:
-			c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+		if err != nil {
+			return err
 		}
+		// Save file to root directory:
+		return c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
 	})
 
 	// Start server

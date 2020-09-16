@@ -8,7 +8,7 @@ import (
 )
 
 // Login get user and password
-func Login(c *fiber.Ctx) {
+func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`
 		Password string `json:"password"`

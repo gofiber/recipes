@@ -28,15 +28,13 @@ type response struct {
 }
 
 // ShortenURL ...
-func ShortenURL(c *fiber.Ctx) {
+func ShortenURL(c *fiber.Ctx) error {
 	// check for the incoming request body
 	body := new(request)
-	err := c.BodyParser(&body)
-	if err != nil {
-		_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "cannot parse JSON",
 		})
-		return
 	}
 
 	// implement rate limiting
@@ -54,27 +52,25 @@ func ShortenURL(c *fiber.Ctx) {
 		valInt, _ := strconv.Atoi(val)
 		if valInt <= 0 {
 			limit, _ := r2.TTL(database.Ctx, c.IP()).Result()
-			_ = c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
+			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
 				"error":            "Rate limit exceeded",
 				"rate_limit_reset": limit / time.Nanosecond / time.Minute,
 			})
-			return
 		}
 	}
 
 	// check if the input is an actual URL
 	if !govalidator.IsURL(body.URL) {
-		_ = c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Invalid URL",
 		})
-		return
 	}
 
 	// check for the domain error
 	// users may abuse the shortener by shorting the domain `localhost:3000` itself
 	// leading to a inifite loop, so don't accept the domain for shortening
 	if !helpers.RemoveDomainError(body.URL) {
-		_ = c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
+		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
 			"error": "haha... nice try",
 		})
 	}
@@ -101,20 +97,18 @@ func ShortenURL(c *fiber.Ctx) {
 	val, _ = r.Get(database.Ctx, id).Result()
 	// check if the user provided short is already in use
 	if val != "" {
-		_ = c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"error": "URL short already in use",
 		})
-		return
 	}
 	if body.Expiry == 0 {
 		body.Expiry = 24 // default expiry of 24 hours
 	}
 	err = r.Set(database.Ctx, id, body.URL, body.Expiry*3600*time.Second).Err()
 	if err != nil {
-		_ = c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Unable to connect to server",
 		})
-		return
 	}
 	// respond with the url, short, expiry in hours, calls remaining and time to reset
 	resp := response{
@@ -131,5 +125,5 @@ func ShortenURL(c *fiber.Ctx) {
 	resp.XRateLimitReset = ttl / time.Nanosecond / time.Minute
 
 	resp.CustomShort = os.Getenv("DOMAIN") + "/" + id
-	_ = c.Status(fiber.StatusOK).JSON(resp)
+	return c.Status(fiber.StatusOK).JSON(resp)
 }

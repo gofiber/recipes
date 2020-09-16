@@ -6,7 +6,7 @@ import (
 )
 
 /*RequestLogger : Check the request*/
-func RequestLogger(c *fiber.Ctx) {
+func RequestLogger(c *fiber.Ctx) error {
 	method := string(c.Fasthttp.Request.Header.Method())
 	url:= string(c.Fasthttp.Request.Header.RequestURI())
 	log.Println("[ "+method+" ]"+" => "+url)

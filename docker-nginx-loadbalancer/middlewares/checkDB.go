@@ -8,7 +8,7 @@ import (
 )
 
 /*CheckDB : Check the DB connection before to execute a handle func*/
-func CheckDB(c *fiber.Ctx) {
+func CheckDB(c *fiber.Ctx) error {
 	if !database.ConnectionOK() {
 		c.Send("Conexión perdida con la base de datos")
 		c.SendStatus(http.StatusInternalServerError)
