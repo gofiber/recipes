@@ -1,4 +1,4 @@
-# 🍳 Recipes for [Fiber](https://github.com/gofiber/fiber)
+# 🍳 Examples for [Fiber](https://github.com/gofiber/fiber)
 
 **Welcome to the official Fiber cookbook**!
 
