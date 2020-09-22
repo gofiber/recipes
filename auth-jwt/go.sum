@@ -19,9 +19,13 @@ github.com/gofiber/fiber v1.11.1/go.mod h1:yFeAjCJH91bgsVXSRuJ8phno0O6/PcGHvjndF
 github.com/gofiber/fiber v1.14.6 h1:QRUPvPmr8ijQuGo1MgupHBn8E+wW0IKqiOvIZPtV70o=
 github.com/gofiber/fiber/v2 v2.0.0-20200914103805-f3434e503771 h1:pSPTsrs68vZ4ZrwoAoYn+/k/Xnb/Xpkpe+WmbNcFUZY=
 github.com/gofiber/fiber/v2 v2.0.0-20200914103805-f3434e503771/go.mod h1:GeIpT8VILgZt3Tn6gATjwb39Ff8OdM0qnZ2grAA0Vts=
+github.com/gofiber/fiber/v2 v2.0.0 h1:YF2BcEO7aJtIR84QjfMzxwEVsbOmh2xFzPlNvX53hTs=
+github.com/gofiber/fiber/v2 v2.0.0/go.mod h1:GeIpT8VILgZt3Tn6gATjwb39Ff8OdM0qnZ2grAA0Vts=
 github.com/gofiber/jwt v0.1.0 h1:9SC0NsC1Lqo00uwhy7AN+Icj1GsGQ4Du3TDEEXJDplE=
 github.com/gofiber/jwt v0.1.0/go.mod h1:fMdgQzBKLC6HlJeyaGmqs0Tb+4vIl7w43SRxm9cE718=
 github.com/gofiber/jwt v0.2.0 h1:D8uf+84DLFcnlaZsX89sXQ14hHbH4tyT0fN5hmaulEc=
+github.com/gofiber/jwt/v2 v2.0.0 h1:1rA29dpQcD/3TT7RUgc+K//xLZKsh28mxxgnt9jmAes=
+github.com/gofiber/jwt/v2 v2.0.0/go.mod h1:648k2lr5LTGXYj4p+71iXxNkHr/V5eMeDzL7hjA2ExM=
 github.com/gofiber/logger v0.2.2 h1:/7GrBzfLrQAbHtIEsYN4mbfNG2FHYyb1Hy4fjYWleYs=
 github.com/gofiber/logger v0.2.2/go.mod h1:iq98HXXKo928IALQcGpSYG4iRgtIMNAY/LloG0fX/c8=
 github.com/gofiber/utils v0.0.3/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
