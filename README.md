@@ -32,6 +32,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [JWT](/jwt)
 - [User Auth with JWT](/auth-jwt)
 - [URL shortener API](/url-shortener-api)
+- [Kubernetes](/k8s)
 
 ## 👩‍🍳 Have a delicious recipe?
 

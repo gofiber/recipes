@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-fiber-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: my-fiber-app
+  template:
+    metadata:
+      labels:
+        app: my-fiber-app
+    spec:
+      containers:
+      - name: my-fiber-app
+        image: gcr.io/google-containers/busybox # replace with your container registry url
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-fiber-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-fiber-app
+  ports:
+  - port: 3000
+    targetPort: 3000
