@@ -23,33 +23,36 @@ type ipLookup struct {
 	} `maxminddb:"location"`
 }
 
-var geoIpDb *maxminddb.Reader
+var geoIPDb *maxminddb.Reader
 
 func init() {
-	// Load MaxMind DB file
+	// Load MaxMind DB
 	var err error
-	geoIpDb, err = maxminddb.Open("GeoLite2-City.mmdb")
+	geoIPDb, err = maxminddb.Open("GeoLite2-City.mmdb")
 	if err != nil {
 		fmt.Println("Unable to load 'GeoLite2-City.mmdb'.")
 		panic(err)
 	}
 }
 
-func GeoIp(c *fiber.Ctx) error {
+// GeoIP: handler for IP address lookups
+func GeoIP(c *fiber.Ctx) error {
 
 	ipAddr := c.Params("ip", c.IP())
 
+	// Check IP address format
 	ip := net.ParseIP(ipAddr)
-
 	if ip == nil {
 		return c.Status(400).JSON(map[string]string{"status": "error", "message": "Invalid IP address"})
 	}
 
+	// Perform lookup
 	record := new(ipLookup)
-	err := geoIpDb.Lookup(ip, &record)
+	err := geoIPDb.Lookup(ip, &record)
 	if err != nil {
 		return err
 	}
 
+	// Send response
 	return c.JSON(record)
 }
