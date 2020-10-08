@@ -33,7 +33,7 @@ func GEO() fiber.Handler {
 
 		// Check statuscode
 		if res.StatusCode() != fiber.StatusOK {
-			return fiber.ErrRequestTimeout
+			return errors.New("invalid statuscode")
 		}
 
 		// Set correct content-type
