@@ -34,6 +34,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [URL shortener API](/url-shortener-api)
 - [Kubernetes](/k8s)
 - [Cloud Run](/cloud-run)
+- [GEOIP](/geoip)
 
 ## 👩‍🍳 Have a delicious recipe?
 
