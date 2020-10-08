@@ -19,6 +19,8 @@ steps:
         --image=asia.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA \
         --region=$_REGION --platform managed --allow-unauthenticated \
         --port=3000
+options:
+  substitutionOption: ALLOW_LOOSE
 
 substitutions:
   _SERVICE_NAME: cloud-run-exampple
