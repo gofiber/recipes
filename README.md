@@ -15,6 +15,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Enable HTTPS/TLS](/https-tls)
 - [Enable Preforking](/prefork)
 - [GORM](/gorm)
+- [GraphQL](/graphql)
 - [GeoIP](/geoip)
 - [GeoIP (with MaxMind databases)](/geoip-maxmind)
 - [Hello, World!](/hello-world)
