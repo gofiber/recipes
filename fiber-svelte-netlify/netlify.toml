@@ -1,0 +1,13 @@
+[build]
+  command = "./build.sh"
+  functions = "functions"
+  publish = "public"
+
+[build.environment]
+  GO_IMPORT_PATH = "github.com/amalshaji/fiber-netlify"
+  GO111MODULE = "on"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/gateway/:splat"
+  status = 200
