@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dinopuguh/gofiber-recipes/swagger/database"
-	"github.com/dinopuguh/gofiber-recipes/swagger/models"
+	"swagger/database"
+	"swagger/models"
 	"github.com/gofiber/fiber/v2"
 )
 

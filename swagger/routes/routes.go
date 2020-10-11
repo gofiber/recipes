@@ -2,7 +2,7 @@ package routes
 
 import (
 	swagger "github.com/arsmn/fiber-swagger/v2"
-	"github.com/dinopuguh/gofiber-recipes/swagger/handlers"
+	"swagger/handlers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"

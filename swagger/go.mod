@@ -1,4 +1,4 @@
-module github.com/dinopuguh/gofiber-recipes/swagger
+module swagger
 
 go 1.14
 

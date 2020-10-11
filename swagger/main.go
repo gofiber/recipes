@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 
-	"github.com/dinopuguh/gofiber-recipes/swagger/database"
-	_ "github.com/dinopuguh/gofiber-recipes/swagger/docs"
-	"github.com/dinopuguh/gofiber-recipes/swagger/models"
-	"github.com/dinopuguh/gofiber-recipes/swagger/routes"
+	"swagger/database"
+	_ "swagger/docs"
+	"swagger/models"
+	"swagger/routes"
 )
 
 // @title Book App
