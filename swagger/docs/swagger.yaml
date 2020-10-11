@@ -1,0 +1,155 @@
+basePath: /api
+definitions:
+  handlers.ResponseHTTP:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  models.Book:
+    properties:
+      author:
+        example: Dino
+        type: string
+      publisher:
+        example: Creative Company
+        type: string
+      title:
+        example: Book A
+        type: string
+    type: object
+info:
+  contact:
+    email: dinopuguh@gmail.com
+    name: Dino Puguh
+  description: This is an API for Book Application
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Book App
+  version: "1.0"
+paths:
+  /v1/books:
+    get:
+      consumes:
+      - application/json
+      description: Get all books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.ResponseHTTP'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Book'
+                  type: array
+              type: object
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+      summary: Get all books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Register book
+      parameters:
+      - description: Register book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.ResponseHTTP'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Book'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+      summary: Register a new book
+      tags:
+      - books
+  /v1/books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove book by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+      summary: Remove book by ID
+      tags:
+      - books
+    get:
+      consumes:
+      - application/json
+      description: Get book by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.ResponseHTTP'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Book'
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+      summary: Get book by ID
+      tags:
+      - books
+swagger: "2.0"
