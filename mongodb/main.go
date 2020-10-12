@@ -130,7 +130,7 @@ func main() {
 
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.SendStatus(400)
 		}
 
 		employee := new(Employee)
@@ -150,24 +150,19 @@ func main() {
 				},
 			},
 		}
-		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Fasthttp, query, update).Err()
+		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), query, update).Err()
 
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
-				c.Status(404).Send()
-				return
+				return c.SendStatus(404)
 			}
-			c.Status(500).Send()
-			return
+			return c.SendStatus(500)
 		}
 
 		// return the updated employee
 		employee.ID = idParam
-		if err := c.Status(200).JSON(employee); err != nil {
-			c.Status(500).Send(err)
-			return
-		}
+		return c.Status(200).JSON(employee)
 	})
 
 	// Delete an employee from MongoDB
@@ -179,27 +174,24 @@ func main() {
 
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			c.Status(400).Send()
-			return
+			return c.SendStatus(400)
 		}
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
-		result, err := mg.Db.Collection("employees").DeleteOne(c.Fasthttp, &query)
+		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
 
 		if err != nil {
-			c.Status(500).Send()
-			return
+			return c.SendStatus(500)
 		}
 
 		// the employee might not exist
 		if result.DeletedCount < 1 {
-			c.Status(404).Send()
-			return
+			return c.SendStatus(404)
 		}
 
 		// the record was deleted
-		c.Status(204).Send()
+		return c.SendStatus(204)
 	})
 
 	log.Fatal(app.Listen(":3000"))
