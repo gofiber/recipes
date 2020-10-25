@@ -22,5 +22,4 @@ This shows how to implement a graceful shutdown with Fiber and the `os/signal` p
 
 This example relies on the use of channels, a data type in Go that allows you to send and receive data to/from specific places in an application (read more about them [here](https://tour.golang.org/concurrency/2)).
 
-A channel is created, and registered with `signal.Notify` so that when the program receives an interrupt (for example, when `CTRL+C` is pressed), a notification is sent to the channel. This can be received by a waiting goroutine that calls `app.Shutdown` to close all active connections and return from `app.Listen`. After this point, cleanup functions can be run and the program eventually quits.
-
+A channel is created, and registered with `signal.Notify` so that when the program receives an interrupt (for example, when `CTRL+C` is pressed), a notification is sent to the channel. Once this is received, `app.Shutdown` is called to close all active connections and return from `app.Listen`. After this point, cleanup functions can be run and the program eventually quits.
