@@ -5,9 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"time"
 
-	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,12 +13,10 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		fmt.Println("processing...")
-		time.Sleep(5 * time.Second)
 		return c.SendString("Hello world!")
 	})
 
-	// server listening
+	// Listen from a different goroutine
 	go func() {
 		if err := app.Listen(":3000"); err != nil {
 			log.Panic(err)
@@ -30,10 +26,14 @@ func main() {
 	c := make(chan os.Signal, 1)   // Create channel to signify a signal being sent
 	signal.Notify(c, os.Interrupt) // When an interrupt is sent, notify the channel
 
-	// when an interrupt is received
-	// waiting until done then shutdown
-	_ = <-c
+	_ = <-c // This blocks the main thread until an interrupt is received
 	fmt.Println("Gracefully shutting down...")
 	_ = app.Shutdown()
+
+	fmt.Println("Running cleanup tasks...")
+
+	// Your cleanup tasks go here
+	// db.Close()
+	// redisConn.Close()
 
 }
