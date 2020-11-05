@@ -1,8 +1,9 @@
 package routes
 
 import (
-	swagger "github.com/arsmn/fiber-swagger/v2"
 	"swagger/handlers"
+
+	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -17,8 +18,8 @@ func New() *fiber.App {
 		TimeFormat: "02-Jan-2006",
 		TimeZone:   "Asia/Jakarta",
 	}))
-	app.Use("/docs", swagger.Handler)
 
+	app.Get("/docs/*", swagger.Handler)
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c *fiber.Ctx) error {
 		c.JSON(fiber.Map{

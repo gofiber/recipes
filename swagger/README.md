@@ -27,9 +27,9 @@ This example use [fiber-swagger](https://github.com/arsmn/fiber-swagger) and [sw
 5. Add swagger handler to routes as a middleware (example: `routes/routes.go`):
 
    ```go
-   app.Use("/docs", swagger.Handler) // default
+   app.Get("/docs/*", swagger.Handler) // default
    
-   app.Use("/swagger", swagger.New(swagger.Config{ // custom
+   app.Get("/docs/*", swagger.New(swagger.Config{ // custom
    	URL: "http://example.com/doc.json",
        DeepLinking: false,
    }))
