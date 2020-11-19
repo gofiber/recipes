@@ -1,4 +1,4 @@
-FROM golang
+FROM golang as build-go
 WORKDIR /cloud-run-example
 COPY go.mod .
 COPY go.sum .
