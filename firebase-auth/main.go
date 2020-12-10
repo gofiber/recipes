@@ -31,7 +31,7 @@ func main() {
 	file, fileExi := os.LookupEnv("GOOGLE_APPLICATION_CREDENTIALS")
 
 	if !fileExi {
-		log.Println("fireauth config not found")
+		log.Fatalf("Please provide valid firebbase auth credential json!")
 	}
 	// 2) create firebase app
 	opt := option.WithCredentialsFile(file)
