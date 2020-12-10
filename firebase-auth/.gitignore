@@ -1,0 +1,4 @@
+.env
+fireauth-firebase-adminsdk.json
+tmp
+.DS_Store
