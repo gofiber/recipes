@@ -6,6 +6,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -33,6 +34,7 @@ func main() {
 	if !fileExi {
 		log.Fatalf("Please provide valid firebbase auth credential json!")
 	}
+
 	// 2) create firebase app
 	opt := option.WithCredentialsFile(file)
 	fireApp, _ := firebase.NewApp(context.Background(), nil, opt)
@@ -43,7 +45,7 @@ func main() {
 		FirebaseApp: fireApp,
 		// Ignore urls array
 		// Optional
-		IgnoreUrls: []string{"GET::/salut", "POST::/testauth "},
+		IgnoreUrls: []string{"GET::/salut", "POST::/testauth", "GET::/user/:id"},
 	}))
 
 	// Routes
@@ -51,6 +53,7 @@ func main() {
 	app.Get("/salut", salut)
 	app.Post("/ciao", ciao)
 	app.Post("/ciao", createCiao)
+	app.Get("/user/:id", ayubowan)
 
 	// Start server
 	log.Fatal(app.Listen(":3001"))
@@ -70,4 +73,25 @@ func ciao(c *fiber.Ctx) error {
 
 func createCiao(c *fiber.Ctx) error {
 	return c.SendString("Hello, World 👋!")
+}
+
+func ayubowan(c *fiber.Ctx) error {
+	url := c.Method() + "::" + c.Path()
+
+	fmt.Println(url)
+	fmt.Println(c.Path())
+
+	fmt.Println(c.OriginalURL())
+	r := c.Route()
+	fmt.Println(r.Method, r.Path)
+	url = r.Method + "::" + r.Path
+
+	// Experimental :: IF url contain any parms or querry
+	// if c.Path() != c.OriginalURL() {
+	// 	r := c.Route()
+	// 	fmt.Println(r.Method, r.Path, r.Params, r.Handlers)
+	// 	url = r.Method + "::" + r.Path
+	// }
+
+	return c.SendString("Ayubowan👋! " + url)
 }

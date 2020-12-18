@@ -139,6 +139,10 @@ github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
 github.com/sacsand/gofiber-firebaseauth v0.0.0-20201210125003-e2e82bbcb652 h1:Jfv1QYf7nOk1Sc2+YF6MtNuEhlNIU/jwY/soMlFGlwU=
 github.com/sacsand/gofiber-firebaseauth v0.0.0-20201210125003-e2e82bbcb652/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
+github.com/sacsand/gofiber-firebaseauth v1.1.0-alpha h1:g+LQpac4s35xzYlmArSmQLVDkBBebHpn7kKYYFqJqGc=
+github.com/sacsand/gofiber-firebaseauth v1.1.0-alpha/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
+github.com/sacsand/gofiber-firebaseauth v1.1.1-alpha h1:PXcx5eafd1z1mwYjp6mLEOtmyzpEaS5bm1DnD84q8zc=
+github.com/sacsand/gofiber-firebaseauth v1.1.1-alpha/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
