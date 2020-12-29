@@ -143,6 +143,10 @@ github.com/sacsand/gofiber-firebaseauth v1.1.0-alpha h1:g+LQpac4s35xzYlmArSmQLVD
 github.com/sacsand/gofiber-firebaseauth v1.1.0-alpha/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
 github.com/sacsand/gofiber-firebaseauth v1.1.1-alpha h1:PXcx5eafd1z1mwYjp6mLEOtmyzpEaS5bm1DnD84q8zc=
 github.com/sacsand/gofiber-firebaseauth v1.1.1-alpha/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
+github.com/sacsand/gofiber-firebaseauth v1.3.0-beta h1:JBwJhnqzvMBP015nDNdrx+c1ytD+av7/U5jcmYHv5Mw=
+github.com/sacsand/gofiber-firebaseauth v1.3.0-beta/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
+github.com/sacsand/gofiber-firebaseauth v1.3.1-beta2 h1:7zt3w9jw1JCyV0EN+zVOk/mX3PHCeNQC99guU+ssa9g=
+github.com/sacsand/gofiber-firebaseauth v1.3.1-beta2/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
