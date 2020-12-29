@@ -6,6 +6,6 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/gofiber/fiber/v2 v2.1.4
 	github.com/joho/godotenv v1.3.0
-	github.com/sacsand/gofiber-firebaseauth v1.1.1-alpha
+	github.com/sacsand/gofiber-firebaseauth v1.3.1-beta2
 	google.golang.org/api v0.35.0
 )
