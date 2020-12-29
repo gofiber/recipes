@@ -3,3 +3,5 @@ fireauth-firebase-adminsdk.json
 tmp
 .DS_Store
 main
+*.json
+firebase-service-account.json
