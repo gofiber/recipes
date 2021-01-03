@@ -147,6 +147,8 @@ github.com/sacsand/gofiber-firebaseauth v1.3.0-beta h1:JBwJhnqzvMBP015nDNdrx+c1y
 github.com/sacsand/gofiber-firebaseauth v1.3.0-beta/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
 github.com/sacsand/gofiber-firebaseauth v1.3.1-beta2 h1:7zt3w9jw1JCyV0EN+zVOk/mX3PHCeNQC99guU+ssa9g=
 github.com/sacsand/gofiber-firebaseauth v1.3.1-beta2/go.mod h1:q6PZe5HZZlIqL0ziwidznTImamfwZJI13OaHpqipMqM=
+github.com/sacsand/gofiber-firebaseauth v1.3.2 h1:dpJ9tt54NbTeYwtbj7jaTnBPPRtLHkxsRSAwt+IIlWU=
+github.com/sacsand/gofiber-firebaseauth v1.3.2/go.mod h1:sjo6/EyxIkHO8Q802G4ASeQIw/4FnOrVUUGjg2IRrl8=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
