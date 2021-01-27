@@ -6,12 +6,16 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
+const IdleTimeout = 5 * time.Second
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		IdleTimeout: IdleTimeout,
+	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello world!")
@@ -38,3 +42,5 @@ func main() {
 	// redisConn.Close()
 
 }
+curl -v -keepalive-time 60 http://127.0.0.1:3000
+curl http://127.0.0.1:3000  -H "Connection: keep-alive"  -H "Keep-Alive: timeout=60, max=100"
