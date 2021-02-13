@@ -30,8 +30,9 @@ func runHub() {
 				if err := connection.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
 					log.Println("write error:", err)
 
-					unregister <- connection
-					connection.WriteMessage(websocket.CloseMessage, []byte{})
+					//unregister <- connection
+					//connection.WriteMessage(websocket.CloseMessage, []byte{})
+					delete(clients, connection)
 					connection.Close()
 				}
 			}
