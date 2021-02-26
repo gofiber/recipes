@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
-
+	"syscall"
 	"github.com/gofiber/fiber/v2"
 )
 
