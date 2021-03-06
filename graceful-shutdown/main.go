@@ -10,11 +10,11 @@ import (
 	"time"
 )
 
-const IdleTimeout = 5 * time.Second
+const idleTimeout = 5 * time.Second
 
 func main() {
 	app := fiber.New(fiber.Config{
-		IdleTimeout: IdleTimeout,
+		IdleTimeout: idleTimeout,
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
