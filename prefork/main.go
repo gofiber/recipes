@@ -15,7 +15,7 @@ import (
 func main() {
 	// Print current process
 	if fiber.IsChild() {
-		fmt.Printf("[%d] Child", os.Getppid())
+		fmt.Printf("[%d] Child\n", os.Getppid())
 	} else {
 		fmt.Printf("[%d] Master", os.Getppid())
 	}
