@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/lightstep/otel-launcher-go/launcher"
 	fiberOtel "github.com/psmarcin/fiber-opentelemetry/pkg/fiber-otel"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func main() {
@@ -19,17 +20,29 @@ func main() {
 	// app setup
 	app := fiber.New()
 
-	// middleware use
-	app.Use(fiberOtel.New(fiberOtel.Config{
-		SpanName:     "http/request",
+	// create new open-telemetry middleware using default config
+	_ = fiberOtel.New()
+
+	// create new middleware using custom config
+	otelMiddleware := fiberOtel.New(fiberOtel.Config{
+		// name for root span in trace on request
+		SpanName: "http/request",
+		// array of span options for root span
+		TracerStartAttributes: []trace.SpanOption{
+			trace.WithSpanKind(trace.SpanKindConsumer),
+		},
+		// key name for context store in fiber.Ctx
 		LocalKeyName: "custom-local-key-to-store-otel-context",
-	}))
+	})
+
+	// use open-telemetry middleware with custom config
+	app.Use(otelMiddleware)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World 👋!")
 	})
 
-	// example how to get otel context form *fiber.Ctx
+	// example how to get open-telemetry context form *fiber.Ctx
 	app.Get("/nested/route", func(c *fiber.Ctx) error {
 		// retrieve otel context from *fiber.Ctx
 		ctx := fiberOtel.FromCtx(c)
