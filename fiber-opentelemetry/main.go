@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// configuration
-	// collector setup is out of the scope of this example so we don't focuse on it, just go to lightstep.com
+	// collector setup is out of the scope of this example so we don't focus on it, just go to lightstep.com
 	// and get credential
 	otel := launcher.ConfigureOpentelemetry(
 		launcher.WithServiceName("example-trace"),
