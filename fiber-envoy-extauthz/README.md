@@ -6,8 +6,7 @@ One way of extending the popular [Envoy](https://www.envoyproxy.io) proxy is by 
 This example illustrates using `fiber` and `gofiber/keyauth` as an authorization service for a front
 proxy (the configuration could also be used for an L2 / Sidecar proxy).
 
-It also uses `fiber` as a
-sample upstream service, with the following endpoints.
+It also uses `fiber` as a sample upstream service, with the following endpoints.
 
 ### Endpoints
 
