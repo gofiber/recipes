@@ -30,7 +30,6 @@ static_resources:
                   - name: envoy.filters.http.ext_authz
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
-                      transport_api_version: V3
                       http_service:
                         server_uri:
                           uri: fiber_authz:1337
@@ -60,7 +59,7 @@ static_resources:
 
     - name: fiber_authz
       connect_timeout: 0.01s
-      type: LOGICAL_DNS
+      type: STRICT_DNS
       lb_policy: ROUND_ROBIN
       load_assignment:
         cluster_name: fiber_authz
