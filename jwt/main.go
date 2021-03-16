@@ -3,9 +3,10 @@ package main
 import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/router"
+	"log"
 
-	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
