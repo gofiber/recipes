@@ -22,6 +22,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Hello, World!](/hello-world)
 - [Heroku App](/heroku)
 - [JWT](/jwt)
+- [i18n](/i18n)
 - [Kubernetes](/k8s)
 - [Listen on Multiple Ports](/multiple-ports)
 - [Live Reloading (Air)](/air)
