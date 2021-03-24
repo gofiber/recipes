@@ -37,7 +37,7 @@ func main() {
 
 	// Render template.
 	app.Get("/", func(c *fiber.Ctx) error {
-		lang := c.Query("lang")            // parse language from path
+		lang := c.Query("lang")            // parse language from query
 		accept := c.Get("Accept-Language") // or, parse language from header
 
 		// Create a new localizer.
