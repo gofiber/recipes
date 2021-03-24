@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- meta http-equiv="Access-Control-Allow-Origin" content="*" -->
+	<title>Hello</title>
+</head>
+
+<body>
+	<img id="useravatar" src="" /><br/>
+	<p><a href="/protected">Test OAUTH protection</a></p>
+</body>
+<script>
+	// We could get the token from the "access_token" query
+	// param, available in the browsers "location" global
+	// const query = window.location.search.substring(1)
+	// const token = query.split('access_token=')[1]
+
+	// Call the user info API using the fetch browser library
+	fetch('https://api.github.com/user', {
+			headers: {
+				// Include the token in the Authorization header
+				Authorization: 'token {{.tokenValue}}',
+				Allow: "http://localhost:8080/",
+				// Mode: 'no-cors', // attempt to save the day - 
+				//                  // currently all browsers refuse CORS; 
+				//                  // the server can control the behavior with a specific header 
+				//                  //'Access-Control-Allow-Origin': '*',
+			}
+		})
+		// Parse the response as JSON
+		.then(res => res.json())
+		.then(res => {
+			// Once we get the response (which has many fields)
+			// Documented here: https://developer.github.com/v3/users/#get-the-authenticated-user
+			// Write "Welcome <user name>" to the documents body
+			// Load also user's avatar image
+			const nameNode = document.createTextNode(`Welcome, ${res.name}`)
+			document.body.appendChild(nameNode)
+			document.getElementById("useravatar").setAttribute("src", res.avatar_url)
+		})
+</script>
+</html>
