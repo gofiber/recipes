@@ -5,7 +5,7 @@ This is a quick example of how to use [nicksnyder/go-i18n](https://github.com/ni
 ## Demo
 
 - Run Fiber application;
-- Open `http://127.0.0.1:5000/?unread=1` and see:
+- Open `http://127.0.0.1:3000/?unread=1` and see:
 
 ```bash
 Hello Bob
@@ -14,7 +14,7 @@ Hello Bob
     Bob has 1 unread email.
 ```
 
-- Next, go to `http://127.0.0.1:5000/?unread=4` and see pluralization of your message:
+- Next, go to `http://127.0.0.1:3000/?unread=4` and see pluralization of your message:
 
 ```bash
 Hello Bob
