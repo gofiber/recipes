@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
+// SetupRoutes prepares required routes
 func SetupRoutes(app *fiber.App) {
 
 	app.Use(cors.New(cors.Config{
@@ -32,7 +33,7 @@ func SetupRoutes(app *fiber.App) {
 	})
 
 	// return pages from their templates
-	app.Get("/:template", handlers.HtmlPages)
+	app.Get("/:template", handlers.HTMLPages)
 
 	// perform logout - in fact only the local session is destroyed
 	app.Get("/logout", middleware.OAUTHDisconnect)

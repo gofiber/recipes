@@ -8,6 +8,7 @@ import (
 // {"error":"bad_verification_code","error_description":"The code passed is incorrect or expired.","error_uri":"https://docs.github.com/apps/managing-oauth-apps/troubleshooting-oauth-app-access-token-request-errors/#bad-verification-code"}
 // {"access_token":"some value","token_type":"bearer","scope":""}
 
+// OAuthAccessResponse JSON structure received from GitHub APIs
 type OAuthAccessResponse struct {
 	AccessToken      string `json:"access_token"`
 	TokenType        string `json:"token_type"`
@@ -26,4 +27,5 @@ var ClientID string
 // ClientSecret ...
 var ClientSecret string
 
+// MySessionStore app wide session store
 var MySessionStore *session.Store

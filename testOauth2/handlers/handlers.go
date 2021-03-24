@@ -6,8 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// HtmlPages will render and return "public" pages
-func HtmlPages(c *fiber.Ctx) error {
+// HTMLPages will render and return "public" pages
+func HTMLPages(c *fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering HtmlPages; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting HtmlPages")
 
