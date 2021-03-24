@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+
+  fiber_app:
+    build:
+      context: ./app
+    networks:
+      - envoymesh
+
+  fiber_authz:
+    build:
+      context: ./authz
+    networks:
+      - envoymesh
+
+  front-envoy:
+    image: envoyproxy/envoy-alpine:v1.17-latest
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    networks:
+      - envoymesh
+    ports:
+      - "8000:8000"
+
+networks:
+  envoymesh: {}
