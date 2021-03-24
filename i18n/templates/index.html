@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{.Title}}</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{.Title}}</h1>
+    <ul>
+      {{range .Paragraphs}}
+      <li>{{.}}</li>
+      {{end}}
+    </ul>
+  </body>
+</html>
