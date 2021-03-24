@@ -44,7 +44,7 @@ func main() {
 		localizer := i18n.NewLocalizer(bundle, lang, accept)
 
 		// Set default user name (for example).
-		name := c.FormValue("name")
+		name := c.Query("name")
 		if name == "" {
 			name = "Bob"
 		}
