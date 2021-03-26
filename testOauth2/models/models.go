@@ -18,13 +18,13 @@ type OAuthAccessResponse struct {
 	ErrorURI         string `json:"error_uri"`
 }
 
-// SYSLOG ...
+// SYSLOG logger to be used for system traces
 var SYSLOG *logger.Logger
 
-// ClientID ...
+// ClientID client ID to be passed to the GitHub API
 var ClientID string
 
-// ClientSecret ...
+// ClientSecret client secret to be used for authentication with GitHub API
 var ClientSecret string
 
 // MySessionStore app wide session store
