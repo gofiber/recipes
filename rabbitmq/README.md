@@ -27,3 +27,7 @@ make run
 2021/03/27 16:32:35 [*] - Run Fiber API server and go to http://127.0.0.1:3000/send?msg=<YOUR TEXT HERE>
 2021/03/27 16:33:24 Received message: Hello!
 ```
+
+## How it works?
+
+![Screenshot](https://user-images.githubusercontent.com/11155743/112727736-f8ca2200-8f34-11eb-8d40-12d9f381bd05.png)
