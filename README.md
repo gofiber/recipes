@@ -27,6 +27,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Live Reloading (Air)](/air)
 - [MongoDB](/mongodb)
 - [Netlify Functions](fiber-svelte-netlify)
+- [RabbitMQ](rabbitmq)
 - [PostgreSQL](/postgresql)
 - [Recover from panic](/recover)
 - [RSS feed](/rss-feed)
