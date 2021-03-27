@@ -1,4 +1,4 @@
-.PHONY: run docker.rabbitmq
+.PHONY: run docker.rabbitmq docker.worker docker.stop
 
 run:
 	go run main.go
