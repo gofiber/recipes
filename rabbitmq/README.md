@@ -28,6 +28,10 @@ make run
 2021/03/27 16:33:24 Received message: Hello!
 ```
 
+6. Also, you can see useful RabbitMQ dashboard at [localhost:15672](http://localhost:15672):
+
+![Screenshot](https://user-images.githubusercontent.com/11155743/112728092-8fe3a980-8f36-11eb-9d79-be8eab26358b.png)
+
 ## How it works?
 
 ![Screenshot](https://user-images.githubusercontent.com/11155743/112727736-f8ca2200-8f34-11eb-8d40-12d9f381bd05.png)
