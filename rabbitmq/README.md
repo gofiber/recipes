@@ -1,25 +1,31 @@
 # Fiber and RabbitMQ example
 
-1. Run Docker container with RabbitMQ:
+1. Create Docker network:
+
+```bash
+make docker.network
+```
+
+2. Run Docker container with RabbitMQ:
 
 ```bash
 make docker.rabbitmq
 ```
 
-2. Wait 2-3 minutes for the RabbitMQ container to be ready to use.
-3. Run Docker container with worker:
+3. Wait 2-3 minutes for the RabbitMQ container to be ready to use.
+4. Run Docker container with worker:
 
 ```bash
 make docker.worker
 ```
 
-4. Start Fiber API server (_on another console_):
+5. Start Fiber API server (_on another console_):
 
 ```bash
 make run
 ```
 
-5. Go to [127.0.0.1:3000/send?msg=Hello!](http://127.0.0.1:3000/send?msg=Hello!) and see received message on worker's console, like this:
+6. Go to [127.0.0.1:3000/send?msg=Hello!](http://127.0.0.1:3000/send?msg=Hello!) and see received message on worker's console, like this:
 
 ```console
 2021/03/27 16:32:35 Successfully connected to RabbitMQ instance
@@ -28,7 +34,7 @@ make run
 2021/03/27 16:33:24 Received message: Hello!
 ```
 
-6. Also, you can see useful RabbitMQ dashboard at [localhost:15672](http://localhost:15672):
+7. Also, you can see useful RabbitMQ dashboard at [localhost:15672](http://localhost:15672):
 
 ![Screenshot](https://user-images.githubusercontent.com/11155743/112728092-8fe3a980-8f36-11eb-9d79-be8eab26358b.png)
 
