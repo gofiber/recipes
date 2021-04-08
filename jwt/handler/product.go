@@ -22,8 +22,7 @@ func GetProduct(c *fiber.Ctx) error {
 	var product model.Product
 	db.Find(&product, id)
 	if product.Title == "" {
-		c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
-		return
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Product found", "data": product})
 }
@@ -33,8 +32,7 @@ func CreateProduct(c *fiber.Ctx) error {
 	db := database.DB
 	product := new(model.Product)
 	if err := c.BodyParser(product); err != nil {
-		c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create product", "data": err})
-		return
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create product", "data": err})
 	}
 	db.Create(&product)
 	return c.JSON(fiber.Map{"status": "success", "message": "Created product", "data": product})
@@ -48,10 +46,8 @@ func DeleteProduct(c *fiber.Ctx) error {
 	var product model.Product
 	db.First(&product, id)
 	if product.Title == "" {
-		c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
-		return
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
 	}
 	db.Delete(&product)
 	return c.JSON(fiber.Map{"status": "success", "message": "Product successfully deleted", "data": nil})
-
 }

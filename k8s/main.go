@@ -1,9 +1,9 @@
 package main
 
 import (
-"log"
+	"log"
 
-"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {

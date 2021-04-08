@@ -1,0 +1,43 @@
+{
+  "rabbit_version": "3.8.14",
+  "users": [
+    {
+      "name": "user",
+      "password_hash": "dGyBJ4lTcbb52/dxaJHk+M03ruvCItoyRUIlu/v6gng2E19y",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator",
+      "limits": {}
+    }
+  ],
+  "vhosts": [{ "name": "/" }],
+  "permissions": [
+    {
+      "user": "user",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    { "name": "cluster_name", "value": "rabbit@dev-rabbit" },
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-L3YUacYjjlS3nedRsKP9Ig"
+    }
+  ],
+  "policies": [],
+  "queues": [
+    {
+      "name": "TestQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-queue-type": "classic" }
+    }
+  ],
+  "exchanges": [],
+  "bindings": []
+}

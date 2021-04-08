@@ -1,7 +1,7 @@
 # JWT+Mongo+Docker+Nginx 🚀
 <img align="right" width="274" height="237" src="https://raw.githubusercontent.com/solrac97gr/solrac97gr/master/carlos.png">
 
-## Freatures
+## Features
 
 - **JWT** : Custom middleware for JWT auth
 - **Mongo** : Connection with mongodb and configuration file with the possibility of changing the environment

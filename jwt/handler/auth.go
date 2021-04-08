@@ -15,14 +15,12 @@ func Login(c *fiber.Ctx) error {
 	}
 	var input LoginInput
 	if err := c.BodyParser(&input); err != nil {
-		c.SendStatus(fiber.StatusUnauthorized)
-		return
+		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 	identity := input.Identity
 	pass := input.Password
 	if identity != "ender" || pass != "ender" {
-		c.SendStatus(fiber.StatusUnauthorized)
-		return
+		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -34,8 +32,7 @@ func Login(c *fiber.Ctx) error {
 
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		c.SendStatus(fiber.StatusInternalServerError)
-		return
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})

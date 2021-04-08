@@ -5,12 +5,17 @@ import (
 	"log"
 	"os"
 	"os/signal"
-
+	"syscall"
 	"github.com/gofiber/fiber/v2"
+	"time"
 )
 
+const idleTimeout = 5 * time.Second
+
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		IdleTimeout: idleTimeout,
+	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello world!")
@@ -35,5 +40,5 @@ func main() {
 	// Your cleanup tasks go here
 	// db.Close()
 	// redisConn.Close()
-
+	fmt.Println("Fiber was successful shutdown.")
 }
