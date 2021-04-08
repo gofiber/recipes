@@ -62,7 +62,7 @@ func main() {
 
 	// Get all records from MySQL
 	app.Get("/employee", func(c *fiber.Ctx) error {
-		// Insert Employee into database
+		// Get Employee list from database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
@@ -116,7 +116,7 @@ func main() {
 			return c.Status(400).SendString(err.Error())
 		}
 
-		// Insert Employee into database
+		// Update Employee record in database
 		res, err := db.Query("UPDATE employees SET name=?,salary=?,age=? WHERE id=?", u.Name, u.Salary, u.Age, u.ID)
 		if err != nil {
 			return err
@@ -139,7 +139,7 @@ func main() {
 			return c.Status(400).SendString(err.Error())
 		}
 
-		// Insert Employee into database
+		// Delete Employee from database
 		res, err := db.Query("DELETE FROM employees WHERE id = ?", u.ID)
 		if err != nil {
 			return err
