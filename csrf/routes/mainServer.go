@@ -13,10 +13,14 @@ import (
 )
 
 //region struct definitions
+
+// User contains the login user information
 type User struct {
 	Username string `json:"username" xml:"username" form:"username"`
 	Password string `json:"password" xml:"password" form:"password"`
 }
+
+// TransferItem contains the information of the transfer item
 type TransferItem struct {
 	To     string `json:"to" xml:"to" form:"to"`
 	Amount int    `json:"amount" xml:"amount" form:"amount"`
@@ -48,6 +52,7 @@ var csrfProtection = csrf.New(csrf.Config{
 	ContextKey:     "token",
 })
 
+// RegisterRoutes registers the routes and middlewares necessary for the server
 func RegisterRoutes(app *fiber.App) {
 	// Super simple login system.
 	// This is not how real login systems should work.
