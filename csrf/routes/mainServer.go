@@ -112,7 +112,7 @@ func RegisterRoutes(app *fiber.App) {
 			return c.Status(fiber.StatusBadRequest).SendString("Password is required.")
 		}
 
-		if !FindUser(validLogins, user) {
+		if !findUser(validLogins, user) {
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid username or password.")
 		}
 
@@ -204,7 +204,7 @@ func requireLogin(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func FindUser(list []User, compareUser *User) bool {
+func findUser(list []User, compareUser *User) bool {
 	for _, item := range list {
 		if item.Username == compareUser.Username && item.Password == compareUser.Password {
 			return true
