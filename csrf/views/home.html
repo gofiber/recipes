@@ -1,0 +1,17 @@
+<p>Welcome, {{.username}}!</p>
+<p>You currently have balance of <code>{{.balance}}</code> in your account.</p>
+<p>Use the form below to transfer funds to another account.</p>
+<form action="/transfer" method="POST">
+	<div>
+		<label>Send funds to account: <input type="text" name="to" value=""></label>
+	</div>
+	<br>
+	<div>
+		<label>Amount: <input type="text" name="amount" value=""></label>
+	</div>
+	<br>
+	<div>
+		<input type="hidden" name="_csrf" value="{{.csrfToken}}">
+		<input type="submit" value="Transfer">
+	</div>
+</form>
