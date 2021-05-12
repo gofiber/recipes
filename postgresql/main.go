@@ -61,7 +61,7 @@ func main() {
 
 	// Get all records from postgreSQL
 	app.Get("/employee", func(c *fiber.Ctx) error {
-		// Insert Employee into database
+		// Select all Employee(s) from database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
@@ -115,7 +115,7 @@ func main() {
 			return c.Status(400).SendString(err.Error())
 		}
 
-		// Insert Employee into database
+		// Update Employee into database
 		res, err := db.Query("UPDATE employees SET name=$1,salary=$2,age=$3 WHERE id=$5", u.Name, u.Salary, u.Age, u.ID)
 		if err != nil {
 			return err
@@ -138,7 +138,7 @@ func main() {
 			return c.Status(400).SendString(err.Error())
 		}
 
-		// Insert Employee into database
+		// Delete Employee from database
 		res, err := db.Query("DELETE FROM employees WHERE id = $1", u.ID)
 		if err != nil {
 			return err
