@@ -5,7 +5,7 @@
 - init your go module
 `go mod init github.com/[username]/gqlgen-todos`
 - install gqlgen
-`go get -u github.com/arsmn/fastgql`
+`go get github.com/arsmn/fastgql`
 - build the server
 `go run github.com/arsmn/fastgql init`
 - implement the resolvers
