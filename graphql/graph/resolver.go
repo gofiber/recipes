@@ -1,6 +1,6 @@
 package graph
 
-import "api-fiber-graphql/graph/model"
+import "github.com/gofiber/recipes/graphql/graph/model"
 
 // This file will not be regenerated automatically.
 //

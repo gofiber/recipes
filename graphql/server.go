@@ -1,14 +1,14 @@
 package main
 
 import (
-	"api-fiber-graphql/graph"
-	"api-fiber-graphql/graph/generated"
 	"log"
 	"os"
 
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
-	fiber "github.com/gofiber/fiber/v2"
+	"github.com/arsmn/fastgql/graphql/handler"
+	"github.com/arsmn/fastgql/graphql/playground"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/recipes/graphql/graph"
+	"github.com/gofiber/recipes/graphql/graph/generated"
 )
 
 const defaultPort = "8080"
