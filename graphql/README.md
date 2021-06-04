@@ -1,5 +1,5 @@
 
-# Simple graphql example for [Fiber](https://github.com/gofiber/fiber) with [Fasthttp gqlgen](https://github.com/arsmn/gqlgen)
+# Simple graphql example for [Fiber](https://github.com/gofiber/fiber) with [fastgql](https://github.com/arsmn/fastgql)
 
 ## Usage
 - init your go module
