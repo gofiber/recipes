@@ -16,7 +16,7 @@ type Dbinstance struct {
 
 var DB Dbinstance
 
-// connect to local postgres database
+// connectDb
 func ConnectDb() {
 	dsn := "host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 
