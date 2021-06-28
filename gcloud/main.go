@@ -29,7 +29,11 @@ func init() {
 
 // Start start Fiber app with normal interface
 func Start(addr string) error {
-	return app.Listen(addr)
+    if -1 == strings.IndexByte(addr, ':') {
+        addr = ":" + addr
+    }
+    
+    return app.Listen(addr)
 }
 
 // MyCloudFunction Exported http.HandlerFunc to be deployed to as a Cloud Function
