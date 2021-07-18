@@ -1,38 +1,17 @@
-import "./styles/main.css";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import FiberLogo from "./assets/fiber-logo.svg";
-import ReactLogo from "./assets/react-logo.svg";
+import Fiber from "./components/Fiber";
+import NotFound from "./components/NotFound";
+import React from "./components/React";
 
-function App() {
-  return (
-    <main className="application">
-      <img src={FiberLogo} className="application-logo" alt="Logo of Fiber" />
-      <img src={ReactLogo} className="application-logo" alt="Logo of React" />
-
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-
-      <div className="application-links">
-        <a
-          className="application-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React, a JavaScript framework
-        </a>
-        <a
-          className="application-link"
-          href="https://gofiber.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Fiber, a FastHTTP-based Go framework
-        </a>
-      </div>
-    </main>
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={Fiber} exact />
+      <Route path="/react" component={React} exact />
+      <Route path="*" component={NotFound} />
+    </Switch>
+  </BrowserRouter>
+);
 
 export default App;
