@@ -13,7 +13,7 @@ WORKDIR /backendcompile
 COPY . .
 
 # Get and install all dependencies.
-RUN CGO_ENABLED=0 go build -o react-fiber .
+RUN CGO_ENABLED=0 go build -o react-fiber ./cmd/react-fiber/main.go
 
 # Next stage: Build our frontend application.
 FROM node:16 AS frontend-builder
