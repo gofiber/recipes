@@ -28,6 +28,10 @@ code {
   justify-content: center;
 }
 
+.application p {
+  text-align: center;
+}
+
 .application-logo {
   height: 15vh;
 }
