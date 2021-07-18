@@ -1,7 +1,9 @@
 {
   "name": "react-app-fiber",
   "version": "1.0.0",
+  "description": "Sample application to serve React with Go-Fiber",
   "private": true,
+  "author": "Nicholas Dwiarto W. <nicholasdwiarto@yahoo.com> (https://www.nicholasdw.com)",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -9,6 +11,14 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -16,12 +26,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "@types/react-router-dom": "^5.1.8"
   },
   "eslintConfig": {
     "extends": [
@@ -40,8 +45,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-router-dom": "^5.1.8"
   }
 }
