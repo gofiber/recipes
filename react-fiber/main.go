@@ -11,7 +11,7 @@ func main() {
 	app := fiber.New()
 
 	// Prepare a static middleware to serve the built React files.
-	app.Static("/", "./web")
+	app.Static("/", "./web/build")
 
 	// Prepare a fallback route to always serve the 'index.html', had there not be any matching routes.
 	app.Static("*", "./web/build/index.html")
