@@ -18,18 +18,18 @@ A sample application to showcase serving React (with Router) with an almost bare
 
 ## Installation
 
-It is recommended that you use Docker to instantly run this application. After running the Docker application, please open `localhost:8080` in your browser. Make sure you are in the `react-fiber` folder before running these commands.
+It is recommended that you use Docker to instantly run this application. After running the Docker application, please open `localhost:8080` in your browser. Make sure you are in the `react-router` folder before running these commands.
 
 ```bash
-docker build . -t react-fiber:latest
-docker run -d -p 8080:8080 react-fiber:latest
+docker build . -t react-router:latest
+docker run -d -p 8080:8080 react-router:latest
 ```
 
 If you prefer doing things manually, then the installation steps are as follows:
 
 - Clone the repository by using `git clone git@github.com:gofiber/recipes.git`.
-- Switch to the application by using `cd recipes/react-fiber`.
+- Switch to the application by using `cd recipes/react-router`.
 - Install npm dependencies by using `cd web && yarn install`.
 - Build frontend by using `yarn build`.
-- Run the Fiber application by using `go run cmd/react-fiber/main.go`. Don't forget to return to the main repository by using `cd ..` (assuming you are in `web` folder).
+- Run the Fiber application by using `go run cmd/react-router/main.go`. Don't forget to return to the main repository by using `cd ..` (assuming you are in `web` folder).
 - Open `localhost:8080` in your browser.

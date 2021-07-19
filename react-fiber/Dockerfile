@@ -13,7 +13,7 @@ WORKDIR /backendcompile
 COPY . .
 
 # Get and install all dependencies.
-RUN CGO_ENABLED=0 go build -o react-fiber ./cmd/react-fiber/main.go
+RUN CGO_ENABLED=0 go build -o react-router ./cmd/react-router/main.go
 
 # Next stage: Build our frontend application.
 FROM node:16 AS frontend-builder
@@ -43,9 +43,9 @@ WORKDIR /build
 RUN mkdir -p /web/build
 
 # Copy our executable and our built React application.
-COPY --from=backend-builder /backendcompile/react-fiber .
+COPY --from=backend-builder /backendcompile/react-router .
 COPY --from=frontend-builder /frontendcompile/build ./web/build
 
 # Declare entrypoints and activation commands.
 EXPOSE 8080
-ENTRYPOINT ["./react-fiber"]
+ENTRYPOINT ["./react-router"]
