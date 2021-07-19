@@ -31,7 +31,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Netlify Functions](fiber-svelte-netlify)
 - [PostgreSQL](/postgresql)
 - [RabbitMQ](rabbitmq)
-- [React Fiber](/react-fiber)
+- [React Router](/react-fiber)
 - [Recover from panic](/recover)
 - [RSS feed](/rss-feed)
 - [Serve Static Files](/file-server)
