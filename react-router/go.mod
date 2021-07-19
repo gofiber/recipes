@@ -1,4 +1,4 @@
-module react-fiber
+module react-router
 
 go 1.16
 

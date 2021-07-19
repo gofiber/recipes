@@ -2,7 +2,7 @@
 FROM golang:1.16.5 AS backend-builder
 
 # Label this container.
-LABEL appname="React Fiber"
+LABEL appname="React App Fiber"
 LABEL author="Nicholas Dwiarto W. <nicholasdwiarto@yahoo.com>"
 LABEL description="Sample application to showcase serving React SPA with Fiber"
 
