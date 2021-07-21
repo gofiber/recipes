@@ -3,6 +3,7 @@ package routes
 import (
 	"clean-architecture/pkg/book"
 	"clean-architecture/pkg/entities"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -77,15 +78,19 @@ func removeBook(service book.Service) fiber.Handler {
 func getBooks(service book.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		fetched, err := service.FetchBooks()
+		var result fiber.Map
 		if err != nil {
-			_ = c.JSON(&fiber.Map{
+			result = fiber.Map{
 				"status": false,
-				"error":  err,
-			})
+				"error":  err.Error(),
+			}
+		} else {
+			result = fiber.Map{
+				"status": true,
+				"books":  fetched,
+			}
 		}
-		return c.JSON(&fiber.Map{
-			"status": true,
-			"books":  fetched,
-		})
+
+		return c.JSON(&result)
 	}
 }
