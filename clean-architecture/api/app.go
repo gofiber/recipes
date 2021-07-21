@@ -5,12 +5,13 @@ import (
 	"clean-architecture/pkg/book"
 	"context"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
-	"time"
 )
 
 func main() {
@@ -30,7 +31,7 @@ func main() {
 	})
 	api := app.Group("/api")
 	routes.BookRouter(api, bookService)
-	_ = app.Listen(":8080")
+	log.Fatal(app.Listen(":8080"))
 
 }
 
