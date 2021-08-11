@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  # fiber-application:
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: prod
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - application
+  #   depends_on:
+  #     - mariadb
+  #   command: ./docker-mariadb-clean-arch
+
+  mariadb:
+    image: mariadb:10.6.3
+    restart: always
+    volumes:
+      - ./scripts/migrations.sql:/docker-entrypoint-initdb.d/1.sql
+    expose:
+      - 3306
+    environment:
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
+    networks:
+      - application
+
+networks:
+  application:
