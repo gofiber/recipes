@@ -1,6 +1,7 @@
 package main
 
 import (
+	"docker-mariadb-clean-arch/internal/auth"
 	"docker-mariadb-clean-arch/internal/infrastructure"
 	"docker-mariadb-clean-arch/internal/misc"
 	"docker-mariadb-clean-arch/internal/user"
@@ -21,6 +22,10 @@ func main() {
 	// Creates a new Fiber instance and group router to '/api/v1' subroutes.
 	app := fiber.New()
 	api := app.Group("/api/v1")
+
+	// Prepare endpoints for 'auth' routes.
+	authRoute := api.Group("/auth")
+	auth.NewAuthHandler(authRoute)
 
 	// Prepare endpoints for 'miscellaneous' routes, such as health-check, etc.
 	misc.NewMiscHandler(api)
