@@ -1,6 +1,9 @@
 package main
 
 import (
+	"docker-mariadb-clean-arch/internal/infrastructure"
+	"docker-mariadb-clean-arch/internal/misc"
+	"docker-mariadb-clean-arch/internal/user"
 	"fmt"
 	"log"
 
@@ -9,25 +12,30 @@ import (
 )
 
 func main() {
-	// Creates a new Fiber instance.
-	app := fiber.New()
+	// Try to connect to our database as the initial part.
+	mariadb, err := infrastructure.ConnectToMariaDB()
+	if err != nil {
+		log.Fatal("Database connection error: $s", err)
+	}
 
-	// Group router to subroutes.
+	// Creates a new Fiber instance and group router to '/api/v1' subroutes.
+	app := fiber.New()
 	api := app.Group("/api/v1")
 
-	// Create a small route to check for the health.
-	api.Get("", func(c *fiber.Ctx) error {
-		return c.JSON(&fiber.Map{
-			"status":  "success",
-			"message": "Hello World!",
-		})
-	})
+	// Prepare endpoints for 'miscellaneous' routes, such as health-check, etc.
+	misc.NewMiscHandler(api)
+
+	// Prepare endpoints and dependency injection for 'User' entity.
+	userRoute := api.Group("/users")
+	userRepository := user.NewUserRepository(mariadb)
+	userService := user.NewUserService(userRepository)
+	user.NewUserHandler(userRoute, userService)
 
 	// Prepare an endpoint for 'Not Found'.
 	app.All("*", func(c *fiber.Ctx) error {
 		errorMessage := fmt.Sprintf("Route '%s' does not exist in this API!", c.OriginalURL())
 
-		return c.JSON(&fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": errorMessage,
 		})
