@@ -8,6 +8,10 @@ services:
       target: prod
     ports:
       - 8080:8080
+    environment:
+      - API_USERNAME=fiber
+      - API_PASSWORD=fiber
+      - JWT_SECRET=fiber
     networks:
       - application
     depends_on:
