@@ -6,10 +6,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Represents our handler with our use-case / service.
 type UserHandler struct {
 	userService UserService
 }
 
+// Creates a new handler.
 func NewUserHandler(userRoute fiber.Router, us UserService) {
 	// Create a handler based on our created service / use-case.
 	handler := &UserHandler{
@@ -26,6 +28,7 @@ func NewUserHandler(userRoute fiber.Router, us UserService) {
 	userRoute.Delete("/:userID", handler.checkIfUserExistsMiddleware, handler.deleteUser)
 }
 
+// Gets all users.
 func (h *UserHandler) getUsers(c *fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
@@ -47,6 +50,7 @@ func (h *UserHandler) getUsers(c *fiber.Ctx) error {
 	})
 }
 
+// Gets a single user.
 func (h *UserHandler) getUser(c *fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
@@ -77,6 +81,7 @@ func (h *UserHandler) getUser(c *fiber.Ctx) error {
 	})
 }
 
+// Creates a single user.
 func (h *UserHandler) createUser(c *fiber.Ctx) error {
 	// Initialize variables.
 	user := &User{}
@@ -109,6 +114,7 @@ func (h *UserHandler) createUser(c *fiber.Ctx) error {
 	})
 }
 
+// Updates a single user.
 func (h *UserHandler) updateUser(c *fiber.Ctx) error {
 	// Initialize variables.
 	user := &User{}
@@ -142,6 +148,7 @@ func (h *UserHandler) updateUser(c *fiber.Ctx) error {
 	})
 }
 
+// Deletes a single user.
 func (h *UserHandler) deleteUser(c *fiber.Ctx) error {
 	// Initialize previous user ID.
 	targetedUserID := c.Locals("userID").(int)
