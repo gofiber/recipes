@@ -48,5 +48,5 @@ echo "Testing POST route '/api/v1/auth/logout'..."
 curl -X POST $API_URL/api/v1/auth/logout; echo
 
 # Finish end-to-end testing.
-rm -rf cookie.txt
+rm cookie.txt
 echo "Finished testing the application!"
