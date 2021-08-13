@@ -32,7 +32,8 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 
 	// Create a struct for our custom JWT payload.
 	type jwtClaims struct {
-		User string `json:"user"`
+		UserID string `json:"uid"`
+		User   string `json:"user"`
 		jwt.StandardClaims
 	}
 
@@ -55,6 +56,7 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 
 	// Send back JWT as a cookie.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwtClaims{
+		os.Getenv("API_USERID"),
 		os.Getenv("API_USERNAME"),
 		jwt.StandardClaims{
 			Audience:  "docker-mariadb-clean-arch-users",
@@ -106,10 +108,11 @@ func (h *AuthHandler) signOutUser(c *fiber.Ctx) error {
 func (h *AuthHandler) privateRoute(c *fiber.Ctx) error {
 	// Give form to our output response.
 	type jwtResponse struct {
-		User interface{} `json:"user"`
-		Iss  interface{} `json:"iss"`
-		Aud  interface{} `json:"aud"`
-		Exp  interface{} `json:"exp"`
+		UserID interface{} `json:"uid"`
+		User   interface{} `json:"user"`
+		Iss    interface{} `json:"iss"`
+		Aud    interface{} `json:"aud"`
+		Exp    interface{} `json:"exp"`
 	}
 
 	// Prepare our variables to be displayed.
@@ -118,10 +121,11 @@ func (h *AuthHandler) privateRoute(c *fiber.Ctx) error {
 
 	// Shape output response.
 	jwtResp := &jwtResponse{
-		User: claims["user"],
-		Iss:  claims["iss"],
-		Aud:  claims["aud"],
-		Exp:  claims["exp"],
+		UserID: claims["uid"],
+		User:   claims["user"],
+		Iss:    claims["iss"],
+		Aud:    claims["aud"],
+		Exp:    claims["exp"],
 	}
 
 	return c.Status(fiber.StatusOK).JSON(&fiber.Map{

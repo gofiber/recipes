@@ -2,9 +2,11 @@ package auth
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v2"
+	"github.com/golang-jwt/jwt"
 )
 
 // JWT error message.
@@ -30,4 +32,23 @@ func JWTMiddleware() fiber.Handler {
 		SigningMethod: "HS256",
 		TokenLookup:   "cookie:jwt",
 	})
+}
+
+// Gets user data (their ID) from the JWT middleware. Should be executed after calling 'JWTMiddleware()'.
+func GetDataFromJWT(c *fiber.Ctx) error {
+	// Get userID from the previous route.
+	jwtData := c.Locals("user").(*jwt.Token)
+	claims := jwtData.Claims.(jwt.MapClaims)
+	parsedUserID := claims["uid"].(string)
+	userID, err := strconv.Atoi(parsedUserID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+			"status":  "fail",
+			"message": err.Error(),
+		})
+	}
+
+	// Go to next.
+	c.Locals("currentUser", userID)
+	return c.Next()
 }
