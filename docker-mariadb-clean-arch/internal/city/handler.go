@@ -2,6 +2,7 @@ package city
 
 import (
 	"context"
+	"docker-mariadb-clean-arch/internal/auth"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,17 +13,15 @@ type CityHandler struct {
 }
 
 // Creates a new handler.
-func NewCityHandler(cityRoute fiber.Router, cs CityService, middlewares ...fiber.Handler) {
+func NewCityHandler(cityRoute fiber.Router, cs CityService) {
 	// Create a handler based on our created service / use-case.
 	handler := &CityHandler{
 		cityService: cs,
 	}
 
 	// We will restrict this route with our JWT middleware.
-	// You can inject other middlewares if you see fit.
-	for i := 0; i < len(middlewares); i++ {
-		cityRoute.Use(middlewares[i])
-	}
+	// You can inject other middlewares if you see fit here.
+	cityRoute.Use(auth.JWTMiddleware(), auth.GetDataFromJWT)
 
 	// Routing for general routes.
 	cityRoute.Get("", handler.getCities)
