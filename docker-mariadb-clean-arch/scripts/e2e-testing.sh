@@ -4,8 +4,7 @@ API_URL=http://localhost:8080
 
 # Introduction to the script.
 echo "Welcome to 'docker-mariadb-clean-arch' application!"
-echo "Before running the end-to-end tests, please ensure that you have run 'docker-compose up -d'!"
-read -n 1 -s -r -p "If you have done so, please press any key to continue!"; echo
+echo "Before running the end-to-end tests, please ensure that you have run 'make start'!"; echo
 
 # Testing '/api/v1'.
 echo
@@ -23,6 +22,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"name":"Lucy Heartfilia","
 
 # Testing '/api/v1/users/:userID'.
 echo
+echo "Using 'userID' with value of 11 (the one created beforehand)."
 echo "Testing GET route '/api/v1/users/:userID'..."
 curl $API_URL/api/v1/users/11; echo
 echo
@@ -41,6 +41,26 @@ curl -X POST -H 'Content-Type: application/json' -d '{"username":"fiber","passwo
 echo
 echo "Testing GET route '/api/v1/auth/private'..."
 curl -b cookie.txt $API_URL/api/v1/auth/private; echo
+
+# Testing '/api/v1/cities'.
+echo
+echo "Testing GET route '/api/v1/cities'..."
+curl -b cookie.txt $API_URL/api/v1/cities; echo
+echo
+echo "Testing POST route '/api/v1/cities'..."
+curl -b cookie.txt -X POST -H 'Content-Type: application/json' -d '{"name":"Kyoto"}' $API_URL/api/v1/cities; echo
+
+# Testing '/api/v1/cities/:cityID'.
+echo
+echo "Using 'cityID' with value of 6 (the one created beforehand)."
+echo "Testing GET route '/api/v1/cities/:cityID'..."
+curl -b cookie.txt $API_URL/api/v1/cities/6; echo
+echo
+echo "Testing PUT route '/api/v1/cities/:cityID'..."
+curl -b cookie.txt -X PUT -H 'Content-Type: application/json' -d '{"name":"Osaka"}' $API_URL/api/v1/cities/6; echo
+echo
+echo "Testing DELETE route '/api/v1/cities/:cityID'..."
+curl -b cookie.txt -X DELETE $API_URL/api/v1/cities/6; echo
 
 # Testing '/api/v1/auth/logout'.
 echo
