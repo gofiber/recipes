@@ -29,8 +29,14 @@ echo
 echo "Testing PUT route '/api/v1/users/:userID'..."
 curl -X PUT -H 'Content-Type: application/json' -d '{"name":"Mirajane Strauss","address":"Osaka, Japan"}' $API_URL/api/v1/users/11; echo
 echo
+echo "Testing GET route after PUT '/api/v1/users/:userID'..."
+curl $API_URL/api/v1/users/11; echo
+echo
 echo "Testing DELETE route '/api/v1/users/:userID'..."
 curl -X DELETE $API_URL/api/v1/users/11; echo
+echo
+echo "Testing GET route after DELETE '/api/v1/users/:userID'..."
+curl $API_URL/api/v1/users/11; echo
 
 # Testing '/api/v1/auth/login'.
 echo
@@ -59,8 +65,14 @@ echo
 echo "Testing PUT route '/api/v1/cities/:cityID'..."
 curl -b cookie.txt -X PUT -H 'Content-Type: application/json' -d '{"name":"Osaka"}' $API_URL/api/v1/cities/6; echo
 echo
+echo "Testing GET route after PUT '/api/v1/cities/:cityID'..."
+curl -b cookie.txt $API_URL/api/v1/cities/6; echo
+echo
 echo "Testing DELETE route '/api/v1/cities/:cityID'..."
 curl -b cookie.txt -X DELETE $API_URL/api/v1/cities/6; echo
+echo
+echo "Testing GET route after DELETE '/api/v1/cities/:cityID'..."
+curl -b cookie.txt $API_URL/api/v1/cities/6; echo
 
 # Testing '/api/v1/auth/logout'.
 echo
