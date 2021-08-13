@@ -20,6 +20,10 @@ Clean architecture will be explained here.
 
 System architecture diagram / graph will be explained here.
 
+## FAQ
+
+FAQ section here.
+
 ## API Endpoints / Features
 
 This API is divided into four 'major endpoints', which are miscellaneous, users, authentication, and cities.
@@ -32,7 +36,7 @@ Endpoints classified here are miscellaneous endpoints.
 
 ### Users
 
-Endpoints classified here are endpoints to perform operation on 'user' domain.
+Endpoints classified here are endpoints to perform operation on 'User' domain.
 
 - `GET /api/v1/users` to get all users.
 - `POST /api/v1/users` to create a user.
@@ -50,7 +54,7 @@ Endpoints classified here are endpoints to perform authentication. In my opinion
 
 ### Cities
 
-Endpoints classified here are endpoints to perform operation on `city` domain. Endpoints here are protected, so if you are going to use this endpoint, make sure you are logged in first (or at least have a valid JWT).
+Endpoints classified here are endpoints to perform operation on `City` domain. **Endpoints here are protected**, so if you are going to use this endpoint, make sure you are logged in first (or at least have a valid JWT).
 
 - `GET /api/v1/cities` to get all cities.
 - `POST /api/v1/cities` to create a new city.
@@ -93,3 +97,7 @@ make stop
 ```
 
 You're done!
+
+## References
+
+References.
