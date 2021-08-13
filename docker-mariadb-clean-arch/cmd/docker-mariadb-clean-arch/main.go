@@ -26,9 +26,6 @@ func main() {
 		ServerHeader: "Fiber",
 	})
 
-	// Prepare to group all routes to '/api/v1'.
-	api := app.Group("/api/v1")
-
 	// Create repositories.
 	cityRepository := city.NewCityRepository(mariadb)
 	userRepository := user.NewUserRepository(mariadb)
@@ -37,20 +34,11 @@ func main() {
 	cityService := city.NewCityService(cityRepository)
 	userService := user.NewUserService(userRepository)
 
-	// Prepare endpoints for 'auth' routes.
-	authRoute := api.Group("/auth")
-	auth.NewAuthHandler(authRoute)
-
-	// Prepare endpoints for 'City' entity.
-	cityRoute := api.Group("/cities")
-	city.NewCityHandler(cityRoute, cityService, auth.JWTMiddleware(), auth.GetDataFromJWT)
-
-	// Prepare endpoints for 'miscellaneous' routes, such as health-check, etc.
-	misc.NewMiscHandler(api)
-
-	// Prepare endpoints and dependency injection for 'User' entity.
-	userRoute := api.Group("/users")
-	user.NewUserHandler(userRoute, userService)
+	// Prepare our endpoints for the API.
+	misc.NewMiscHandler(app.Group("/api/v1"))
+	auth.NewAuthHandler(app.Group("/api/v1/auth"))
+	city.NewCityHandler(app.Group("/api/v1/cities"), cityService)
+	user.NewUserHandler(app.Group("/api/v1/users"), userService)
 
 	// Prepare an endpoint for 'Not Found'.
 	app.All("*", func(c *fiber.Ctx) error {
