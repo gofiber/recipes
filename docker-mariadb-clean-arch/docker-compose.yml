@@ -2,6 +2,7 @@ version: "3.9"
 services:
   fiber-application:
     restart: always
+    image: docker-mariadb-clean-arch:latest
     build:
       context: .
       dockerfile: Dockerfile
