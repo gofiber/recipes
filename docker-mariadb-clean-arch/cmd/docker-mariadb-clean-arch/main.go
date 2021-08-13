@@ -2,6 +2,7 @@ package main
 
 import (
 	"docker-mariadb-clean-arch/internal/auth"
+	"docker-mariadb-clean-arch/internal/city"
 	"docker-mariadb-clean-arch/internal/infrastructure"
 	"docker-mariadb-clean-arch/internal/misc"
 	"docker-mariadb-clean-arch/internal/user"
@@ -19,21 +20,36 @@ func main() {
 		log.Fatal("Database connection error: $s", err)
 	}
 
-	// Creates a new Fiber instance and group router to '/api/v1' subroutes.
-	app := fiber.New()
+	// Creates a new Fiber instance.
+	app := fiber.New(fiber.Config{
+		AppName:      "Docker MariaDB Clean Arch",
+		ServerHeader: "Fiber",
+	})
+
+	// Prepare to group all routes to '/api/v1'.
 	api := app.Group("/api/v1")
+
+	// Create repositories.
+	cityRepository := city.NewCityRepository(mariadb)
+	userRepository := user.NewUserRepository(mariadb)
+
+	// Create all of our services.
+	cityService := city.NewCityService(cityRepository)
+	userService := user.NewUserService(userRepository)
 
 	// Prepare endpoints for 'auth' routes.
 	authRoute := api.Group("/auth")
 	auth.NewAuthHandler(authRoute)
+
+	// Prepare endpoints for 'City' entity.
+	cityRoute := api.Group("/cities")
+	city.NewCityHandler(cityRoute, cityService, auth.JWTMiddleware(), auth.GetDataFromJWT)
 
 	// Prepare endpoints for 'miscellaneous' routes, such as health-check, etc.
 	misc.NewMiscHandler(api)
 
 	// Prepare endpoints and dependency injection for 'User' entity.
 	userRoute := api.Group("/users")
-	userRepository := user.NewUserRepository(mariadb)
-	userService := user.NewUserService(userRepository)
 	user.NewUserHandler(userRoute, userService)
 
 	// Prepare an endpoint for 'Not Found'.
