@@ -54,7 +54,6 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 	}
 
 	// Send back JWT as a cookie.
-	// HTTPOnly cookie is disabled - it causes problems with JWT middleware of Fiber.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwtClaims{
 		os.Getenv("API_USERNAME"),
 		jwt.StandardClaims{
@@ -105,13 +104,29 @@ func (h *AuthHandler) signOutUser(c *fiber.Ctx) error {
 
 // A single private route that only logged in users can access.
 func (h *AuthHandler) privateRoute(c *fiber.Ctx) error {
+	// Give form to our output response.
+	type jwtResponse struct {
+		User interface{} `json:"user"`
+		Iss  interface{} `json:"iss"`
+		Aud  interface{} `json:"aud"`
+		Exp  interface{} `json:"exp"`
+	}
+
+	// Prepare our variables to be displayed.
 	jwtData := c.Locals("user").(*jwt.Token)
 	claims := jwtData.Claims.(jwt.MapClaims)
-	user := claims["user"]
+
+	// Shape output response.
+	jwtResp := &jwtResponse{
+		User: claims["user"],
+		Iss:  claims["iss"],
+		Aud:  claims["aud"],
+		Exp:  claims["exp"],
+	}
 
 	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"status":  "success",
 		"message": "Welcome to the private route!",
-		"user":    user,
+		"jwtData": jwtResp,
 	})
 }
