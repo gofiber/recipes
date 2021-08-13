@@ -38,7 +38,7 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 
 	// Get request body.
 	request := &loginRequest{}
-	if err := c.BodyParser(&request); err != nil {
+	if err := c.BodyParser(request); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
