@@ -28,7 +28,7 @@ func NewCityHandler(cityRoute fiber.Router, cs CityService) {
 	cityRoute.Post("", handler.createCity)
 
 	// Routing for specific routes.
-	cityRoute.Get("/:cityID", handler.checkIfCityExistsMiddleware, handler.getCity)
+	cityRoute.Get("/:cityID", handler.getCity)
 	cityRoute.Put("/:cityID", handler.checkIfCityExistsMiddleware, handler.updateCity)
 	cityRoute.Delete("/:cityID", handler.checkIfCityExistsMiddleware, handler.deleteCity)
 }
