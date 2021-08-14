@@ -1,7 +1,7 @@
 package main
 
-import "docker-mariadb-clean-arch/internal/server"
+import "docker-mariadb-clean-arch/internal/infrastructure"
 
 func main() {
-	server.Run()
+	infrastructure.Run()
 }

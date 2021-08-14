@@ -1,9 +1,8 @@
-package server
+package infrastructure
 
 import (
 	"docker-mariadb-clean-arch/internal/auth"
 	"docker-mariadb-clean-arch/internal/city"
-	"docker-mariadb-clean-arch/internal/infrastructure"
 	"docker-mariadb-clean-arch/internal/misc"
 	"docker-mariadb-clean-arch/internal/user"
 	"fmt"
@@ -24,7 +23,7 @@ import (
 // Run our Fiber webserver.
 func Run() {
 	// Try to connect to our database as the initial part.
-	mariadb, err := infrastructure.ConnectToMariaDB()
+	mariadb, err := ConnectToMariaDB()
 	if err != nil {
 		log.Fatal("Database connection error: $s", err)
 	}
