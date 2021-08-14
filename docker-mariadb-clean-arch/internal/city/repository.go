@@ -7,8 +7,8 @@ import (
 
 // Queries that we will use.
 const (
-	QUERY_GET_CITIES  = "SELECT * FROM cities"
-	QUERY_GET_CITY    = "SELECT * FROM cities WHERE id = ?"
+	QUERY_GET_CITIES  = "SELECT c.id, c.name, c.created, c.modified, u.id, u.name, u.address, u.created, u.modified FROM cities AS c JOIN users AS u ON (c.user = u.id)"
+	QUERY_GET_CITY    = "SELECT c.id, c.name, c.created, c.modified, u.id, u.name, u.address, u.created, u.modified FROM cities AS c JOIN users AS u ON (c.user = u.id) WHERE c.id = ?"
 	QUERY_CREATE_CITY = "INSERT INTO cities (name, created, modified, user) VALUES (?, ?, ?, ?)"
 	QUERY_UPDATE_CITY = "UPDATE cities SET name = ?, modified = ?, user = ? WHERE id = ?"
 	QUERY_DELETE_CITY = "DELETE FROM cities WHERE id = ?"
@@ -27,9 +27,9 @@ func NewCityRepository(mariaDBConnection *sql.DB) CityRepository {
 }
 
 // Gets all cities in the database.
-func (r *mariaDBRepository) GetCities(ctx context.Context) (*[]City, error) {
+func (r *mariaDBRepository) GetCities(ctx context.Context) (*[]CityAndUser, error) {
 	// Initialize variables.
-	var cities []City
+	var cities []CityAndUser
 
 	// Fetches all cities.
 	res, err := r.mariadb.QueryContext(ctx, QUERY_GET_CITIES)
@@ -40,8 +40,18 @@ func (r *mariaDBRepository) GetCities(ctx context.Context) (*[]City, error) {
 
 	// Scan all of the cities from the results.
 	for res.Next() {
-		city := &City{}
-		err = res.Scan(&city.ID, &city.Name, &city.Created, &city.Modified, &city.User)
+		city := &CityAndUser{}
+		err = res.Scan(
+			&city.ID,
+			&city.Name,
+			&city.Created,
+			&city.Modified,
+			&city.User.ID,
+			&city.User.Name,
+			&city.User.Address,
+			&city.User.Created,
+			&city.User.Modified,
+		)
 		if err != nil && err == sql.ErrNoRows {
 			return nil, nil
 		}
@@ -55,9 +65,9 @@ func (r *mariaDBRepository) GetCities(ctx context.Context) (*[]City, error) {
 }
 
 // Gets a single city in the database.
-func (r *mariaDBRepository) GetCity(ctx context.Context, cityID int) (*City, error) {
+func (r *mariaDBRepository) GetCity(ctx context.Context, cityID int) (*CityAndUser, error) {
 	// Initialize variable.
-	city := &City{}
+	city := &CityAndUser{}
 
 	// Prepare SQL to get one city.
 	stmt, err := r.mariadb.PrepareContext(ctx, QUERY_GET_CITY)
@@ -68,7 +78,17 @@ func (r *mariaDBRepository) GetCity(ctx context.Context, cityID int) (*City, err
 
 	// Get one city and insert it to the 'city' struct.
 	// If it's empty, return null.
-	err = stmt.QueryRowContext(ctx, cityID).Scan(&city.ID, &city.Name, &city.Created, &city.Modified, &city.User)
+	err = stmt.QueryRowContext(ctx, cityID).Scan(
+		&city.ID,
+		&city.Name,
+		&city.Created,
+		&city.Modified,
+		&city.User.ID,
+		&city.User.Name,
+		&city.User.Address,
+		&city.User.Created,
+		&city.User.Modified,
+	)
 	if err != nil && err == sql.ErrNoRows {
 		return nil, nil
 	}

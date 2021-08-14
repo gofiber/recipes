@@ -18,12 +18,12 @@ func NewCityService(r CityRepository) CityService {
 }
 
 // Implementation of 'FetchCities'.
-func (s *cityService) FetchCities(ctx context.Context) (*[]City, error) {
+func (s *cityService) FetchCities(ctx context.Context) (*[]CityAndUser, error) {
 	return s.cityReposiory.GetCities(ctx)
 }
 
 // Implementation of 'FetchCity'.
-func (s *cityService) FetchCity(ctx context.Context, cityID int) (*City, error) {
+func (s *cityService) FetchCity(ctx context.Context, cityID int) (*CityAndUser, error) {
 	return s.cityReposiory.GetCity(ctx, cityID)
 }
 
