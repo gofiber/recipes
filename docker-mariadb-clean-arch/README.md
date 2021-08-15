@@ -12,7 +12,7 @@ A slightly complex REST application with Fiber to showcase Clean Architecture wi
 
 This application is a slightly complex example of a REST API that have four major endpoints. A public user can access the `User`, `Auth`, and `Misc` major endpoints, but they cannot access the `City` endpoint (as it is protected). If one wants to access said endpoint, they have to log in first via the `Auth` endpoint, and only after that they can access the `City` endpoint.
 
-This application uses MariaDB as a database (dockerized), and JWT as an authentication mechanism. This application also showcases how to perform 1-to-many relational mapping in Clean Architecture, and also the implementation of `JOIN` SQL clause in Go in general.
+This application uses MariaDB as a database (dockerized), and JWT as an authentication mechanism. This application also showcases how to perform 1-to-many relational mapping in Clean Architecture (one user can have multiple cities), and also the implementation of `JOIN` SQL clause in Go in general.
 
 ## Clean Architecture
 
@@ -32,7 +32,9 @@ For the sake of clearness, here is the diagram that showcases the system archite
 
 ![System Architecture](./assets/SystemArchitecture.png)
 
-Refer to below table for terminologies / filenames for each layers that are used in this application. The project structure is referred from [this project](https://github.com/golang-standards/project-layout). In the `internal` package, there are packages that are grouped according to their functional responsibilities. If you open the package, you will see the files that represents the Clean Architecture layers.
+Please refer to below table for terminologies / filenames for each layers that are used in this application. The project structure is referred from [this project](https://github.com/golang-standards/project-layout). In the `internal` package, there are packages that are grouped according to their functional responsibilities. If you open the package, you will see the files that represents the Clean Architecture layers.
+
+For the dependency graph, it is straightforward: handler/middleware depends on service, service depends on repository, and repository depends on domain and the database (via dependency injection). All of the layers are implemented with the said infrastructure (Fiber, MariaDB, and Authentication Service) in above image.
 
 I have slightly modified the layers in this application to conform to my own taste of Clean Architecture.
 
@@ -43,13 +45,13 @@ I have slightly modified the layers in this application to conform to my own tas
 |      Use Cases      |      Repositories      |         `repository.go`          |
 |      Entities       |        Entities        |           `domain.go`            |
 
-Basically, a request will have to go through `handler.go` (and `middleware.go`) first. After that, the program will call a use-case that is requested with `service.go`. That use-case in `service.go` will call `repository.go` that conforms to the `domain.go` in order to fulfill the request that the `service.go` asked for. The result of the request will be returned back to the user by `handler.go`.
+Basically, a request will have to go through `handler.go` (and `middleware.go`) first. After that, the program will call a repository or a use-case that is requested with `service.go`. That controller (`service.go`) will call `repository.go` that conforms to the `domain.go` in order to fulfill the request that the `service.go` asked for. The result of the request will be returned back to the user by `handler.go`.
 
 In short:
 
 - `handler.go` and `middleware.go` is used to receive and send requests.
-- `service.go` is business-logic.
-- `repository.go` is used to interact to the database.
+- `service.go` is business-logic or controller (some might have different opinions, but this is my subjective opinion).
+- `repository.go` is used to interact to the database (use-case).
 - `domain.go` is the 'shape' of the data models that the program use.
 
 For the sake of completeness, here are the functional responsibilities of the project structure.
@@ -59,6 +61,8 @@ For the sake of completeness, here are the functional responsibilities of the pr
 - `internal/infrastructure` is used to manage infrastructure of the application, such as MariaDB and Fiber.
 - `internal/misc` is used to manage miscellaneous endpoints.
 - `internal/user` is used to manage users. This endpoint is **not protected**.
+
+Please refer to the code itself for further details. I commented everything in the code, so I hope it is clear enough!
 
 ## API Endpoints / Features
 
@@ -158,15 +162,20 @@ A: Nope. You can simply adjust `handler.go` and `middleware.go` files in order t
 
 A: I try to make this as production-ready as possible 😉
 
-## Further Improvements
+## Improvements
 
 Several further improvements that could be implemented in this project:
 
 - Add more tests and mocks, especially unit tests (Clean Architecture is the best for performing unit tests).
 - Add more API endpoints.
 - Add a caching mechanism to the repository layer, such as Redis.
+- Add transaction support.
 - Maybe try to integrate S3 backend to the repository layer (MinIO is a good choice).
 - Maybe add a `domain` folder in the `internal` package where we can leave the entities there?
+
+## Discussion
+
+Feel free to create an issue in this repository (or maybe ask in Fiber's Discord Server) in order to discuss this together!
 
 ## References
 
@@ -177,7 +186,7 @@ Thanks to articles and their writers that I have read and found inspiration in!
 - [Clean Architecture with Go by Elton Minetto](https://dev.to/eminetto/clean-architecture-using-golang-5791)
 - [Clean Architecture with Go Part 2 by Elton Minetto](https://dev.to/eminetto/clean-architecture-2-years-later-4een)
 - [Creating Clean Architecture using Go by @namkount](https://hackernoon.com/creating-clean-architecture-using-golang-9h5i3wgr)
-- [Dive to Clean Architecture with Gol by Kenta Takeuchi](https://dev.to/bmf_san/dive-to-clean-architecture-with-golang-cd4)
+- [Dive to Clean Architecture with Go by Kenta Takeuchi](https://dev.to/bmf_san/dive-to-clean-architecture-with-golang-cd4)
 - [Go and Clean Architecture by Reshef Sharvit](https://itnext.io/golang-and-clean-architecture-19ae9aae5683)
 - [Go Microservices with Clean Architecture by Jin Feng](https://medium.com/@jfeng45/go-microservice-with-clean-architecture-application-design-68f48802c8f)
 - [Go Project Layout Repository](https://github.com/golang-standards/project-layout)
