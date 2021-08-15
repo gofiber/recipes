@@ -118,7 +118,7 @@ git clone git@github.com:gofiber/recipes.git
 cd recipes/docker-mariadb-clean-arch
 ```
 
-- Run immediately with Docker.
+- Run immediately with Docker. After you run this command, migration script will be automatically run to populate your dockerized MariaDB.
 
 ```bash
 make start
