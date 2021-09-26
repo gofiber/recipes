@@ -1,6 +1,6 @@
 # Fiber with Auth
 
-(Postman collection)[https://www.getpostman.com/collections/c862d012d5dcf50326f7]
+[Postman collection](https://www.getpostman.com/collections/c862d012d5dcf50326f7)
 
 ## Endpoints
 
