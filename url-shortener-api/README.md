@@ -26,4 +26,9 @@
 
 #### Demo
 
+1. Run the dockers
+```
+docker-compose up -d
+```
+2. Test API
 ![test.gif](test.gif)
