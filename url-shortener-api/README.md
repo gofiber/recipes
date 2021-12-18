@@ -26,7 +26,7 @@
 
 #### Demo
 
-1. Run the dockers
+1. Start the containers
 ```
 docker-compose up -d
 ```
