@@ -30,5 +30,5 @@
 ```
 docker-compose up -d
 ```
-2. Test API
+2. Test the API
 ![test.gif](test.gif)
