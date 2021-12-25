@@ -4,11 +4,12 @@ import (
 	"api-fiber-gorm/config"
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
+	"errors"
+	"gorm.io/gorm"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -22,7 +23,7 @@ func getUserByEmail(e string) (*model.User, error) {
 	db := database.DB
 	var user model.User
 	if err := db.Where(&model.User{Email: e}).Find(&user).Error; err != nil {
-		if gorm.IsRecordNotFoundError(err) {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
 		return nil, err
@@ -34,7 +35,7 @@ func getUserByUsername(u string) (*model.User, error) {
 	db := database.DB
 	var user model.User
 	if err := db.Where(&model.User{Username: u}).Find(&user).Error; err != nil {
-		if gorm.IsRecordNotFoundError(err) {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
 		return nil, err
