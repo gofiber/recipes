@@ -1,5 +1,5 @@
 # Stage 1: Build the static HTML
-FROM mhart/alpine-node:16.4.2 as frontend-builder
+FROM node:16-alpine3.14 as frontend-builder
 WORKDIR /builder
 COPY /frontend/package.json /frontend/package-lock.json ./frontend/
 RUN npm install --prefix ./frontend
