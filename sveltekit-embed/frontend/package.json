@@ -1,0 +1,21 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Arya Prakasa <prakasa.arya@gmail.com>",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "next",
+    "@sveltejs/kit": "next",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "svelte": "^3.44.3",
+    "tailwindcss": "^3.0.7"
+  },
+  "type": "module"
+}
