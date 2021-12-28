@@ -1,0 +1,6 @@
+@tailwind base;
+::selection {
+  @apply bg-primary text-white dark:bg-white dark:text-gray-600;
+}
+@tailwind components;
+@tailwind utilities;

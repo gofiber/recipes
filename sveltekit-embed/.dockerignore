@@ -1,0 +1,10 @@
+.git
+.vscode
+public/
+node_modules/
+.svekte-kit/
+.dockerignore
+.gitignore
+Dockerfile
+README.md
+sveltekit
