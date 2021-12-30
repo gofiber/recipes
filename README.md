@@ -19,6 +19,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GeoIP (with MaxMind databases)](/geoip-maxmind)
 - [GeoIP](/geoip)
 - [GORM](/gorm)
+- [GORM Mysql Example](/gorm-mysql)
 - [Graceful shutdown](/graceful-shutdown)
 - [GraphQL](/graphql)
 - [Hello, World!](/hello-world)
