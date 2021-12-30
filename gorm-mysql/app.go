@@ -14,10 +14,9 @@ func setUpRoutes(app *fiber.App) {
 	app.Get("/hello", routes.Hello)
 	app.Get("/allbooks", routes.AllBooks)
 	app.Get("/book/:id", routes.GetBook)
-	app.Post("/addbook", routes.AddBook)
-	app.Post("/book", routes.Book)
-	app.Put("/update", routes.Update)
-	app.Delete("/delete", routes.Delete)
+	app.Post("/book", routes.AddBook)
+	app.Put("/book", routes.Update)
+	app.Delete("/book", routes.Delete)
 }
 
 func main() {
