@@ -11,7 +11,7 @@ package main
 
 import (
 	"log"
-	"os"
+	"main/config"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,14 +25,6 @@ func main() {
 		return ctx.SendString("Hello Heroku")
 	})
 
-	// Get the PORT from heroku env
-	port := os.Getenv("PORT")
-
-	// Verify if heroku provided the port or not
-	if os.Getenv("PORT") == "" {
-		port = "3000"
-	}
-
 	// Start server on http://${heroku-url}:${port}
-	log.Fatal(app.Listen(":" + port))
+	log.Fatal(app.Listen(config.Config("PORT")))
 }
