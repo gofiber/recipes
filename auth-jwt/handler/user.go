@@ -5,8 +5,8 @@ import (
 	"api-fiber-gorm/model"
 	"strconv"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 

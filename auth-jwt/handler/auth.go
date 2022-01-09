@@ -5,11 +5,12 @@ import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
 	"errors"
-	"gorm.io/gorm"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"gorm.io/gorm"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
