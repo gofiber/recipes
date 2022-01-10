@@ -32,9 +32,9 @@ func main() {
 		validate := validator.New()
 		if err := validate.Struct(user); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
-		} else {
-			return ctx.Status(fiber.StatusOK).JSON("success time")
 		}
+
+		return ctx.Status(fiber.StatusOK).JSON("success time")
 	})
 
 	// .env Variables validation
