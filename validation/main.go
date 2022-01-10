@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"validation/config"
 
@@ -32,7 +31,6 @@ func main() {
 
 		validate := validator.New()
 		if err := validate.Struct(user); err != nil {
-			fmt.Println(err.Error())
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		} else {
 			return ctx.Status(fiber.StatusOK).JSON("success time")
