@@ -20,7 +20,7 @@ func main() {
 		type User struct {
 			ID        uint   `validate:"required,omitempty"`
 			Firstname string `validate:"required"`
-			Password  string `validate:"gte=10"`
+			Password  string `validate:"gte=10"` // gte = Greater than or equal
 		}
 
 		user := User{
@@ -37,7 +37,7 @@ func main() {
 			*/
 		}
 
-		validate := validator.New()
+		validate := validator.New() // Create Validate for using.
 		if err := validate.Struct(user); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
