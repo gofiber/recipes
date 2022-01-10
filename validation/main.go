@@ -26,7 +26,15 @@ func main() {
 		user := User{
 			ID:        1,
 			Firstname: "Fiber",
-			Password:  "FiberPassword123",
+			/*
+				if you delete Firstname field
+				you'll get response like this: Error:Field validation for 'Firstname' failed on the 'required' tag"
+			*/
+			Password: "FiberPassword123",
+			/*
+				if you enter "Fiber" in Password
+				you'll get response like this: Error:Field validation for 'Password' failed on the 'gte' tag"
+			*/
 		}
 
 		validate := validator.New()
