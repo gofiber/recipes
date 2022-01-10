@@ -48,7 +48,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [User Auth with JWT](/auth-jwt)
 - [WebSocket Chat Example](/websocket-chat)
 - [WebSockets](/websocket)
-- [Validator](/validator)
+- [Validation](/validation)
 
 ## 👩‍🍳 Have a delicious recipe?
 
