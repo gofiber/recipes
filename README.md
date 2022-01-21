@@ -30,6 +30,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Listen on Multiple Ports](/multiple-ports)
 - [Live Reloading (Air)](/air)
 - [MongoDB](/mongodb)
+- [MVC Application Bootstrap](/fiber-bootstrap)
 - [Netlify Functions](fiber-svelte-netlify)
 - [PostgreSQL](/postgresql)
 - [RabbitMQ](rabbitmq)
@@ -46,9 +47,9 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Upload Single File](/upload-file/single)
 - [URL shortener API](/url-shortener-api)
 - [User Auth with JWT](/auth-jwt)
+- [Validation](/validation)
 - [WebSocket Chat Example](/websocket-chat)
 - [WebSockets](/websocket)
-- [MVC Application Bootstrap](/fiber-bootstrap)
 
 ## 👩‍🍳 Have a delicious recipe?
 
