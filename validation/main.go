@@ -7,15 +7,12 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 	app := fiber.New()
 	validate := validator.New() // Create Validate for using.
-
-	app.Use(pprof.New())
 
 	// Use Cors
 	app.Use(cors.New())
