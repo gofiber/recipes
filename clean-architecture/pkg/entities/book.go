@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Construct your model under entities.
+// Book Constructs your Book model under entities.
 type Book struct {
 	ID        primitive.ObjectID `json:"id"  bson:"_id,omitempty"`
 	Title     string             `json:"title" bson:"title"`
@@ -14,7 +14,7 @@ type Book struct {
 	UpdatedAt time.Time          `json:"updatedAt" bson:"updatedAt"`
 }
 
-// Only one struct per file should exists unless another struct is closely related with the one defined in this file.
+// DeleteRequest struct is used to parse Delete Reqeusts for Books
 type DeleteRequest struct {
 	ID string `json:"id"`
 }

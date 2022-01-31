@@ -27,6 +27,8 @@ func NewRepo(collection *mongo.Collection) Repository {
 		Collection: collection,
 	}
 }
+
+//CreateBook is a mongo repository that helps to create books
 func (r *repository) CreateBook(book *entities.Book) (*entities.Book, error) {
 	book.ID = primitive.NewObjectID()
 	book.CreatedAt = time.Now()
@@ -38,6 +40,7 @@ func (r *repository) CreateBook(book *entities.Book) (*entities.Book, error) {
 	return book, nil
 }
 
+//ReadBook is a mongo repository that helps to fetch books
 func (r *repository) ReadBook() (*[]presenter.Book, error) {
 	var books []presenter.Book
 	cursor, err := r.Collection.Find(context.Background(), bson.D{})
@@ -52,6 +55,7 @@ func (r *repository) ReadBook() (*[]presenter.Book, error) {
 	return &books, nil
 }
 
+//UpdateBook is a mongo repository that helps to update books
 func (r *repository) UpdateBook(book *entities.Book) (*entities.Book, error) {
 	book.UpdatedAt = time.Now()
 	_, err := r.Collection.UpdateOne(context.Background(), bson.M{"_id": book.ID}, bson.M{"$set": book})
@@ -61,6 +65,7 @@ func (r *repository) UpdateBook(book *entities.Book) (*entities.Book, error) {
 	return book, nil
 }
 
+//DeleteBook is a mongo repository that helps to delete books
 func (r *repository) DeleteBook(ID string) error {
 	bookID, err := primitive.ObjectIDFromHex(ID)
 	if err != nil {

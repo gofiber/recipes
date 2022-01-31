@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+// AddBook is handler/controller which creates Books in the BookShop
 func AddBook(service book.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var requestBody entities.Book
@@ -31,6 +32,7 @@ func AddBook(service book.Service) fiber.Handler {
 	}
 }
 
+// UpdateBook is handler/controller which updates data of Books in the BookShop
 func UpdateBook(service book.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var requestBody entities.Book
@@ -48,6 +50,7 @@ func UpdateBook(service book.Service) fiber.Handler {
 	}
 }
 
+// RemoveBook is handler/controller which removes Books from the BookShop
 func RemoveBook(service book.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var requestBody entities.DeleteRequest
@@ -70,6 +73,7 @@ func RemoveBook(service book.Service) fiber.Handler {
 	}
 }
 
+// GetBooks is handler/controller which lists all Books from the BookShop
 func GetBooks(service book.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		fetched, err := service.FetchBooks()
