@@ -89,6 +89,28 @@ func main() {
 		return c.JSON(employees)
 	})
 
+	// Get once employee records from MongoDB
+	// Docs: https://www.mongodb.com/blog/post/quick-start-golang--mongodb--how-to-read-documents
+	app.Get("/employee/:id", func(c *fiber.Ctx) error {
+		// get id by params
+		params := c.Params("id")
+
+		_id, err := primitive.ObjectIDFromHex(params)
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+
+		filter := bson.D{{"_id", _id}}
+
+		var result Employee
+
+		if err != mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
+			return c.Status(500).SendString("Something went wrong.")
+		}
+
+		return c.Status(fiber.StatusOK).JSON(result)
+	})
+
 	// Insert a new employee into MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/insert/
 	app.Post("/employee", func(c *fiber.Ctx) error {
