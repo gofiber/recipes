@@ -12,6 +12,7 @@ import (
 
 func main() {
 	app := fiber.New()
+	validate := validator.New() // Create Validate for using.
 
 	// Use Cors
 	app.Use(cors.New())
@@ -37,7 +38,6 @@ func main() {
 			*/
 		}
 
-		validate := validator.New() // Create Validate for using.
 		if err := validate.Struct(user); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
