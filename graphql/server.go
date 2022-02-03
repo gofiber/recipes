@@ -2,13 +2,15 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
-	"github.com/arsmn/fastgql/graphql/handler"
-	"github.com/arsmn/fastgql/graphql/playground"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/recipes/graphql/graph"
 	"github.com/gofiber/recipes/graphql/graph/generated"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 
 const defaultPort = "8080"
@@ -23,16 +25,18 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
-	gqlHandler := srv.Handler()
+	gqlHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		srv.ServeHTTP(w, r)
+	})
 	playground := playground.Handler("GraphQL playground", "/query")
 
 	app.All("/query", func(c *fiber.Ctx) error {
-		gqlHandler(c.Context())
+		fasthttpadaptor.NewFastHTTPHandler(gqlHandler)(c.Context())
 		return nil
 	})
 
 	app.All("/", func(c *fiber.Ctx) error {
-		playground(c.Context())
+		fasthttpadaptor.NewFastHTTPHandler(playground)(c.Context())
 		return nil
 	})
 
