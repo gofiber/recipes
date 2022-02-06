@@ -41,6 +41,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Serve Static Files](/file-server)
 - [Server Timing](/server-timing)
 - [Single Page Application Example](/spa)
+- [Server-Sent Events](/sse)
 - [Streaming of the Request Body](/stream-request-body)
 - [Sveltekit Embed](/sveltekit-embed)
 - [Unit Test Example](/unit-test)
