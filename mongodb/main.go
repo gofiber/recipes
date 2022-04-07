@@ -104,7 +104,7 @@ func main() {
 
 		var result Employee
 
-		if err != mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
+		if err := mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
 			return c.Status(500).SendString("Something went wrong.")
 		}
 
