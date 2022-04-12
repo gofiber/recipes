@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -33,6 +35,10 @@ func main() {
 	// Handle 404 errors
 	app.Use(handlers.NotFound("./public/404.html"))
 
-	// Listen on port :3000
-	log.Fatal(app.Listen(":3000"))
+	// Listen on environment specified PORT, "3000" otherwise
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+	log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
 }
