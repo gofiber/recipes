@@ -8,6 +8,9 @@ This example use [fiber-swagger](https://github.com/arsmn/fiber-swagger) and [sw
 
    ```bash
    $ go get -u github.com/swaggo/swag/cmd/swag
+
+   # 1.16 or newer
+   $ go install github.com/swaggo/swag/cmd/swag@latest
    ```
 
 2. Add comments to your API source code (example: `handlers/book.go`) or more details: [swaggo documentation](https://swaggo.github.io/swaggo.io/declarative_comments_format/).
