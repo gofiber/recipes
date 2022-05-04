@@ -3,7 +3,6 @@ module catalog
 go 1.18
 
 require (
-	github.com/go-chi/chi v1.5.4
 	github.com/gofiber/fiber/v2 v2.32.0
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.9.0
