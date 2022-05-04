@@ -25,6 +25,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GraphQL](/graphql)
 - [Hello, World!](/hello-world)
 - [Heroku App](/heroku)
+- [Hexagonal Architecture](/hexagonal)
 - [i18n](/i18n)
 - [JWT](/jwt)
 - [Kubernetes](/k8s)
