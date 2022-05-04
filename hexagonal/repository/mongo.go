@@ -117,6 +117,7 @@ func newMongoClient(mongoServerURL string, timeout int) (*mongo.Client, error) {
 	return client, nil
 }
 
+/* mongoDB adapter is created by constructing a mongo repository based on the mongoRepository struct */
 func NewMongoRepository(mongoServerURL, mongoDb string, timeout int) (domain.Repository, error) {
 	mongoClient, err := newMongoClient(mongoServerURL, timeout)
 	repo := &mongoRepository{

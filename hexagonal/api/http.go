@@ -59,6 +59,7 @@ func (h *handler) GetAll(ctx *fiber.Ctx) error {
 	return ctx.JSON(&p)
 }
 
+/* New handler instantiates a http handler for our product service */
 func NewHandler(productService domain.Service) *handler {
 	return &handler{productService: productService}
 }

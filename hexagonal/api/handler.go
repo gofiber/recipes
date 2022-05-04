@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+/* an interface with operations to be implemented by a specific handler, ie http, gRCP*/
 type ProductHandler interface {
 	Get(ctx *fiber.Ctx)
 	Post(ctx *fiber.Ctx)
