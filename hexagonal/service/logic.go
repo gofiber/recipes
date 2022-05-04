@@ -6,9 +6,7 @@ type service struct {
 	productRepo domain.Repository
 }
 
-/* a service struct that attaches to a repository via the Repository interface
-and then creates a product catalogue service by implementing the Service interface */
-
+// NewProductService a service struct that attaches to a repository via the Repository interface
 func NewProductService(productRepo domain.Repository) *service {
 	return &service{productRepo: productRepo}
 }

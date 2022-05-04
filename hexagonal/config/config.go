@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-/* Config struct for structuring the config data, can be extended accordingly */
+// Config struct for structuring the config data, can be extended accordingly
 type Config struct {
 	Database struct {
 		URL     string `yaml:"url"`
@@ -18,7 +18,7 @@ type Config struct {
 	} `yaml:"server"`
 }
 
-/* a fucntion to read the configuration file and return config struct*/
+// NewConfig  a function to read the configuration file and return config struct
 func NewConfig(configFile string) (*Config, error) {
 	file, err := os.Open(configFile)
 	if err != nil {
