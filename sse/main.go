@@ -65,8 +65,16 @@ func main() {
 				fmt.Fprintf(w, "data: Message: %s\n\n", msg)
 				fmt.Println(msg)
 
-				w.Flush()
-				time.Sleep(5 * time.Second)
+				err := w.Flush()
+				if err != nil {
+					// Refreshing page in web browser will establish a new
+					// SSE connection, but only (the last) one is alive, so
+					// dead connections must be closed here.
+					fmt.Printf("Error while flushing: %v. Closing http connection.\n", err)
+
+					break
+				}
+				time.Sleep(2 * time.Second)
 			}
 		}))
 
