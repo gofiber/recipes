@@ -45,6 +45,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Server-Sent Events](/sse)
 - [Streaming of the Request Body](/stream-request-body)
 - [Sveltekit Embed](/sveltekit-embed)
+- [Template Asset Bundling](/template-asset-bundling)
 - [Unit Test Example](/unit-test)
 - [Upload Multiple Files](/upload-file/multiple)
 - [Upload Single File](/upload-file/single)
