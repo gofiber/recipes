@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Main</title>
+    {{ getCssAsset "app.css" }}
+</head>
+
+<body class="flex flex-col w-screen h-screen bg-gray-800 place-content-center text-white">
+    {{template "partials/header" .}}
+
+    <div class="flex flex-col flex-grow place-content-center p-8">
+        {{embed}}
+    </div>
+
+    {{template "partials/footer" .}}
+</body>
+
+</html>

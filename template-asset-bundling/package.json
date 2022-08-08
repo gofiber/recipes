@@ -1,0 +1,15 @@
+{
+  "name": "template-asset-bundling",
+  "scripts": {
+    "predev": "npm run clean",
+    "dev": "parcel watch --dist-dir ./public/assets/ assets/**/*",
+    "prebuild": "npm run clean",
+    "build": "parcel build --no-source-maps --dist-dir ./public/assets/ assets/**/*",
+    "clean": "rm -rf ./public/assets"
+  },
+  "devDependencies": {
+    "parcel": "2.6.0",
+    "postcss": "8.4.14",
+    "tailwindcss": "3.1.3"
+  }
+}
