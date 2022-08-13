@@ -6,3 +6,259 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/server-timing"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/template-asset-bundling"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-svelte-netlify"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/optional-parameter"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/.github"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/gorm"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/gorm-mysql"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/gorm-postgres"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/todo-app-with-auth-gorm"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/mongodb"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/stream-request-body"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/firebase-auth"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/auth-jwt"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/https-tls"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/websocket"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/hexagonal"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/rabbitmq"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-grpc"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-opentelemetry"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/recover"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/multiple-ports"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/url-shortener-api"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/https-pkcs12-tls"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/geoip-maxmind"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/hello-world"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/tableflip"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/aws-eb"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/jwt"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/.git"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/file-server"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/graphql"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-bootstrap"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/sse"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/cloud-run"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/websocket-chat"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/csrf"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/gcloud-firebase"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/postgresql"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/neo4j"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/validation"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/k8s"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/air"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/geoip"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/docker-mariadb-clean-arch"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/react-router"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/404-handler"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/template"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/gcloud"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/unit-test"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/clean-architecture"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/prefork"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/sveltekit-embed"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/rss-feed"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/mysql"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/swagger"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/upload-file"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/spa"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/heroku"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/testOauth2"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/i18n"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/graceful-shutdown"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-envoy-extauthz"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/docker-nginx-loadbalancer"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/autocert"
+    schedule:
+      interval: "daily"
