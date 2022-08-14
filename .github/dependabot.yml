@@ -23,10 +23,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/.github"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "gomod"
     directory: "/gorm"
     schedule:
       interval: "daily"
@@ -116,10 +112,6 @@ updates:
       interval: "daily"
   - package-ecosystem: "gomod"
     directory: "/jwt"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "gomod"
-    directory: "/.git"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
