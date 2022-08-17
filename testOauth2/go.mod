@@ -4,11 +4,8 @@ go 1.16
 
 require (
 	github.com/antigloss/go v0.0.0-20201201072909-f29271b13566
-	github.com/gofiber/fiber/v2 v2.6.0
+	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/gofiber/template v1.6.7
 	github.com/joho/godotenv v1.4.0
-	github.com/klauspost/compress v1.11.13 // indirect
 	github.com/segmentio/encoding v0.3.5
-	github.com/valyala/fasthttp v1.22.0 // indirect
-	github.com/valyala/tcplisten v1.0.0 // indirect
 )
