@@ -3,7 +3,7 @@ module catalog
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.32.0
+	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -15,7 +15,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.15.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.35.0 // indirect
+	github.com/valyala/fasthttp v1.38.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect
