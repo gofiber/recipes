@@ -3,8 +3,8 @@ module sveltekit-embed
 go 1.17
 
 require (
-	github.com/gofiber/fiber/v2 v2.23.0
-	github.com/valyala/fasthttp v1.34.0
+	github.com/gofiber/fiber/v2 v2.36.0
+	github.com/valyala/fasthttp v1.38.0
 )
 
 require (
