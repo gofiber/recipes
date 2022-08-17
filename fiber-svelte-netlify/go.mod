@@ -9,5 +9,5 @@ require (
 	github.com/gofiber/utils v0.0.10
 	github.com/onsi/ginkgo v1.14.1 // indirect
 	github.com/onsi/gomega v1.10.2 // indirect
-	github.com/valyala/fasthttp v1.34.0
+	github.com/valyala/fasthttp v1.39.0
 )
