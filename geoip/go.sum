@@ -87,8 +87,8 @@ github.com/go-toolsmith/typep v1.0.2/go.mod h1:JSQCQMUPdRlMZFswiq3TGpNp1GMktqkR2
 github.com/go-xmlfmt/xmlfmt v0.0.0-20191208150333-d5b6f63a941b/go.mod h1:aUCEOzzezBEjDBbFBoSiya/gduyIiWYRP6CnSFIV8AM=
 github.com/gobwas/glob v0.2.3/go.mod h1:d3Ez4x06l9bZtSvzIay5+Yzi0fmZzPgnTbPcKjJAkT8=
 github.com/gofiber/fiber/v2 v2.0.4/go.mod h1:VyfrlfcUCW0TcO5uaLHVlxZ8N25BgwnP6YjkzJmJP24=
-github.com/gofiber/fiber/v2 v2.0.5 h1:CGf7XRGfmeyEiRrA4AbOCd3FGBiPYWWGr49WH3F3sy8=
-github.com/gofiber/fiber/v2 v2.0.5/go.mod h1:VyfrlfcUCW0TcO5uaLHVlxZ8N25BgwnP6YjkzJmJP24=
+github.com/gofiber/fiber/v2 v2.36.0 h1:1qLMe5rhXFLPa2SjK10Wz7WFgLwYi4TYg7XrjztJHqA=
+github.com/gofiber/fiber/v2 v2.36.0/go.mod h1:tgCr+lierLwLoVHHO/jn3Niannv34WRkQETU8wiL9fQ=
 github.com/gofiber/template v1.6.3 h1:Kw/Ynwbt4DxM4vuBQze+a8ZNjm1J5YU5aXNO//9ALW4=
 github.com/gofiber/template v1.6.3/go.mod h1:d2TPzWS4RtCcggpv9DcZ6nykJLNHJODfjotNX5mqSJ8=
 github.com/gofrs/flock v0.7.1/go.mod h1:F1TvTiK9OcQqauNUHlbJvyl9Qa1QvF/gOUDKA14jxHU=
@@ -296,6 +296,7 @@ github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6Kllzaw
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasthttp v1.12.0/go.mod h1:229t1eWu9UXTPmoUkbpN/fctKPBY4IJoFXQnxHGXy6E=
 github.com/valyala/fasthttp v1.16.0/go.mod h1:YOKImeEosDdBPnxc0gy7INqi3m1zK6A+xl6TwOBhHCA=
+github.com/valyala/fasthttp v1.38.0/go.mod h1:t/G+3rLek+CyY9bnIE+YlMRddxVAAGjhxndDB4i4C0I=
 github.com/valyala/fasthttp v1.39.0 h1:lW8mGeM7yydOqZKmwyMTaz/PH/A+CLgtmmcjv+OORfU=
 github.com/valyala/fasthttp v1.39.0/go.mod h1:t/G+3rLek+CyY9bnIE+YlMRddxVAAGjhxndDB4i4C0I=
 github.com/valyala/quicktemplate v1.5.0/go.mod h1:v7yYWpBEiutDyNfVaph6oC/yKwejzVyTX/2cwwHxyok=
