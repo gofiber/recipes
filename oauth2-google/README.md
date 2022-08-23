@@ -4,8 +4,9 @@
 Obtain OAuth credentials from https://console.developers.google.com/
 
 ## Endpoints 
-/ - redirects to login url
-/auth/google/callback - gives a callback to google and on success return's user's email
+- /api/ - redirects to login url
+
+- /api/auth/google/callback - gives a callback to google and on success return's user's email
 
 ## Packages Used
 - [Godotenv](https://github.com/joho/godotenv)
