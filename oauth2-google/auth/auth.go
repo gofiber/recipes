@@ -13,6 +13,7 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+// ConfigGoogle to set config of oauth
 func ConfigGoogle() *oauth2.Config {
 	conf := &oauth2.Config{
 		ClientID:     config.Config("Client"),
