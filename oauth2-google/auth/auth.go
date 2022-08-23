@@ -25,6 +25,7 @@ func ConfigGoogle() *oauth2.Config {
 	return conf
 }
 
+// GetEmail of user
 func GetEmail(token string) string {
 	reqURL, err := url.Parse("https://www.googleapis.com/oauth2/v1/userinfo")
 	ptoken := fmt.Sprintf("Bearer %s", token)

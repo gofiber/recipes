@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Auth fiber handler
 func Auth(c *fiber.Ctx) error {
 	path := auth.ConfigGoogle()
 	url := path.AuthCodeURL("state")
@@ -13,6 +14,7 @@ func Auth(c *fiber.Ctx) error {
 
 }
 
+// Callback to receive google's response
 func Callback(c *fiber.Ctx) error {
 	token, error := auth.ConfigGoogle().Exchange(c.Context(), c.FormValue("code"))
 	if error != nil {
