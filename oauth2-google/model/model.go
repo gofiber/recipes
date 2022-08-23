@@ -1,5 +1,6 @@
 package model
 
+// GoogleResponse is the response sent by google
 type GoogleResponse struct {
 	ID       string `json:"id"`
 	Email    string `json:"email"`
