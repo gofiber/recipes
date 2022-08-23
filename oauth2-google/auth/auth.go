@@ -13,8 +13,6 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
-// returning the google config
-
 func ConfigGoogle() *oauth2.Config {
 	conf := &oauth2.Config{
 		ClientID:     config.Config("Client"),
@@ -27,16 +25,14 @@ func ConfigGoogle() *oauth2.Config {
 	return conf
 }
 
-// get email data of user
-
 func GetEmail(token string) string {
 	reqURL, err := url.Parse("https://www.googleapis.com/oauth2/v1/userinfo")
-	p_token := fmt.Sprintf("Bearer %s", token)
+	ptoken := fmt.Sprintf("Bearer %s", token)
 	res := &http.Request{
 		Method: "GET",
 		URL:    reqURL,
 		Header: map[string][]string{
-			"Authorization": {p_token}},
+			"Authorization": {ptoken}},
 	}
 	req, err := http.DefaultClient.Do(res)
 	if err != nil {
