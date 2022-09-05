@@ -33,6 +33,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Live Reloading (Air)](/air)
 - [MongoDB](/mongodb)
 - [MVC Application Bootstrap](/fiber-bootstrap)
+- [OAuth2 Google](/oauth2-google)
 - [Netlify Functions](fiber-svelte-netlify)
 - [PostgreSQL](/postgresql)
 - [RabbitMQ](rabbitmq)
