@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"strconv"
 	"gorm-mysql/database"
 	"gorm-mysql/models"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,7 +13,7 @@ func Hello(c *fiber.Ctx) error {
 	return c.SendString("fiber")
 }
 
-// AddBook
+//AddBook
 func AddBook(c *fiber.Ctx) error {
 	book := new(models.Book)
 	if err := c.BodyParser(book); err != nil {
@@ -25,7 +25,7 @@ func AddBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(book)
 }
 
-// getBook
+//GetBook
 func GetBook(c *fiber.Ctx) error {
 	books := []models.Book{}
 
@@ -34,7 +34,7 @@ func GetBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(books)
 }
 
-// AllBooks
+//AllBooks
 func AllBooks(c *fiber.Ctx) error {
 	books := []models.Book{}
 
@@ -43,7 +43,7 @@ func AllBooks(c *fiber.Ctx) error {
 	return c.Status(200).JSON(books)
 }
 
-// Update
+//Update
 func Update(c *fiber.Ctx) error {
 	book := new(models.Book)
 	if err := c.BodyParser(book); err != nil {
@@ -56,7 +56,7 @@ func Update(c *fiber.Ctx) error {
 	return c.Status(400).JSON("updated")
 }
 
-// Delete
+//Delete
 func Delete(c *fiber.Ctx) error {
 	book := new(models.Book)
 
