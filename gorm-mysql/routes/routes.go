@@ -25,7 +25,7 @@ func AddBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(book)
 }
 
-//GetBook
+
 func GetBook(c *fiber.Ctx) error {
 	books := []models.Book{}
 
