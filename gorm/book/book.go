@@ -4,8 +4,7 @@ import (
 	"fiber-gorm/database"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gorm.io/gorm"
 )
 
 type Book struct {

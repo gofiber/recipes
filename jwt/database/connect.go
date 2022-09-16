@@ -4,9 +4,9 @@ import (
 	"api-fiber-gorm/config"
 	"api-fiber-gorm/model"
 	"fmt"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"strconv"
-
-	"github.com/jinzhu/gorm"
 )
 
 // DB gorm connector
@@ -21,14 +21,14 @@ func ConnectDB() {
 		panic(err)
 	}
 
-	DB, err = gorm.Open("postgres", fmt.Sprintf(
+	DB, err = gorm.Open(postgres.Open(fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		config.Config("DB_HOST"),
 		port,
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"),
 		config.Config("DB_NAME"),
-	))
+	)))
 	if err != nil {
 		panic("failed to connect database")
 	}

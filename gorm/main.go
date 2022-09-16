@@ -8,8 +8,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -21,7 +21,7 @@ func setupRoutes(app *fiber.App) {
 
 func initDatabase() {
 	var err error
-	database.DBConn, err = gorm.Open("sqlite3", "books.db")
+	database.DBConn, err = gorm.Open(sqlite.Open("books.db"))
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -35,7 +35,6 @@ func main() {
 	app.Use(cors.New())
 
 	initDatabase()
-	defer database.DBConn.Close()
 
 	setupRoutes(app)
 
