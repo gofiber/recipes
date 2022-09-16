@@ -3,6 +3,7 @@ package routes
 import (
 	"gorm-mysql/database"
 	"gorm-mysql/models"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -24,7 +25,7 @@ func AddBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(book)
 }
 
-//getBook
+
 func GetBook(c *fiber.Ctx) error {
 	books := []models.Book{}
 
@@ -42,38 +43,26 @@ func AllBooks(c *fiber.Ctx) error {
 	return c.Status(200).JSON(books)
 }
 
-//Book
-func Book(c *fiber.Ctx) error {
-	book := []models.Book{}
-	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
-		return c.Status(400).JSON(err.Error())
-	}
-	database.DBConn.Where("title = ?", title.Title).Find(&book)
-	return c.Status(200).JSON(book)
-}
-
 //Update
 func Update(c *fiber.Ctx) error {
-	book := []models.Book{}
-	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
+	book := new(models.Book)
+	if err := c.BodyParser(book); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
+	id, _ := strconv.Atoi(c.Params("id"))
 
-	database.DBConn.Model(&book).Where("title = ?", title.Title).Update("author", title.Author)
+	database.DBConn.Model(&models.Book{}).Where("id = ?", id).Update("title", book.Title)
 
 	return c.Status(400).JSON("updated")
 }
 
 //Delete
 func Delete(c *fiber.Ctx) error {
-	book := []models.Book{}
-	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
-		return c.Status(400).JSON(err.Error())
-	}
-	database.DBConn.Where("title = ?", title.Title).Delete(&book)
+	book := new(models.Book)
+
+	id, _ := strconv.Atoi(c.Params("id"))
+
+	database.DBConn.Where("id = ?", id).Delete(&book)
 
 	return c.Status(200).JSON("deleted")
 }
