@@ -5,6 +5,7 @@ import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
 	"errors"
+	"net/mail"
 	"time"
 
 	"gorm.io/gorm"
@@ -44,6 +45,11 @@ func getUserByUsername(u string) (*model.User, error) {
 	return &user, nil
 }
 
+func valid(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
+}
+
 // Login get user and password
 func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
@@ -56,42 +62,48 @@ func Login(c *fiber.Ctx) error {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	var input LoginInput
+	input := new(LoginInput)
 	var ud UserData
 
 	if err := c.BodyParser(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "data": err})
 	}
+
 	identity := input.Identity
 	pass := input.Password
+	user, email, err := new(model.User), new(model.User), *new(error)
 
-	email, err := getUserByEmail(identity)
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
-	}
-
-	user, err := getUserByUsername(identity)
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
+	if valid(identity) == true {
+		email, err = getUserByEmail(identity)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
+		}
+	} else {
+		user, err = getUserByUsername(identity)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
+		}
 	}
 
 	if email == nil && user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
 	}
 
-	if email == nil {
-		ud = UserData{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
-			Password: user.Password,
-		}
-	} else {
+	if email != nil {
 		ud = UserData{
 			ID:       email.ID,
 			Username: email.Username,
 			Email:    email.Email,
 			Password: email.Password,
+		}
+
+	}
+	if user != nil {
+		ud = UserData{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+			Password: user.Password,
 		}
 	}
 
