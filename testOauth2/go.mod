@@ -7,5 +7,5 @@ require (
 	github.com/gofiber/fiber/v2 v2.38.1
 	github.com/gofiber/template v1.7.1
 	github.com/joho/godotenv v1.4.0
-	github.com/segmentio/encoding v0.3.5
+	github.com/segmentio/encoding v0.3.6
 )
