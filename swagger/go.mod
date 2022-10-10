@@ -8,5 +8,5 @@ require (
 	github.com/gofiber/fiber/v2 v2.38.1
 	github.com/swaggo/swag v1.8.6
 	gorm.io/driver/postgres v1.3.10
-	gorm.io/gorm v1.23.10
+	gorm.io/gorm v1.24.0
 )
