@@ -3,7 +3,6 @@ package handler
 import (
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
-	"log"
 	"net/http"
 )
 
@@ -31,8 +30,8 @@ func handler() http.HandlerFunc {
 
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.JSON(fiber.Map{
-			"version": ctx.Request().URI().String(),
-			"path":    ctx.Path(),
+			"uri":  ctx.Request().URI().String(),
+			"path": ctx.Path(),
 		})
 	})
 
