@@ -4,7 +4,7 @@ Deploy and run a serverless go fiber application on vercel. With this recipie, y
 
 ## Config
 
-Make sure to add the `vercel.json` file so the routing will work properly with vercel. This will rewrite all requests to the application to the `api/index.go` handler where where the router will take over.
+Make sure to add the `vercel.json` file so the routing will work properly with vercel. This will rewrite all requests to the application to the `api/index.go` handler where the router will take over.
 
 ```json
 {
