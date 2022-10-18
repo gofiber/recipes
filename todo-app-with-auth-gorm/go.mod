@@ -7,6 +7,6 @@ require (
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/gofiber/fiber/v2 v2.38.1
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
-	gorm.io/driver/sqlite v1.4.2
+	gorm.io/driver/sqlite v1.4.3
 	gorm.io/gorm v1.24.0
 )
