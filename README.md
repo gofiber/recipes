@@ -56,6 +56,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [WebSocket Chat Example](/websocket-chat)
 - [WebSockets](/websocket)
 - [Tableflip (Graceful updates)](/tableflip)
+- [Vercel](/vercel)
 
 ## 👩‍🍳 Have a delicious recipe?
 
