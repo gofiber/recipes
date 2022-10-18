@@ -258,3 +258,7 @@ updates:
     directory: "/autocert"
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/vercel"
+    schedule:
+      interval: "daily"
