@@ -7,5 +7,5 @@ require (
 	github.com/gofiber/fiber/v2 v2.38.1
 	github.com/joho/godotenv v1.4.0
 	github.com/sacsand/gofiber-firebaseauth v1.4.3
-	google.golang.org/api v0.98.0
+	google.golang.org/api v0.100.0
 )
