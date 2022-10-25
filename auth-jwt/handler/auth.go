@@ -73,7 +73,7 @@ func Login(c *fiber.Ctx) error {
 	pass := input.Password
 	user, email, err := new(model.User), new(model.User), *new(error)
 
-	if valid(identity) == true {
+	if valid(identity) {
 		email, err = getUserByEmail(identity)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
