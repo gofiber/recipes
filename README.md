@@ -44,6 +44,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Server Timing](/server-timing)
 - [Single Page Application Example](/spa)
 - [Server-Sent Events](/sse)
+- [Sessions-SQLite3](/sessions-sqlite3)
 - [Streaming of the Request Body](/stream-request-body)
 - [Sveltekit Embed](/sveltekit-embed)
 - [Template Asset Bundling](/template-asset-bundling)
