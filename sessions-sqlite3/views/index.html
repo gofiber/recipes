@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sessions - SQLite3</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-family: sans-serif;
+      color: black;
+      border: 0 none;
+      overflow: hidden;
+    }
+    button {
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    #app-bar {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      left: 0px;
+      top: 0px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+      background: powderblue;
+      border-bottom: 1px solid black;
+      box-sizing: border-box;
+    }
+    #app-bar #logo {
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+    }
+    #app-main {
+      position: relative;
+      width: 80%;
+      height: 100%;
+      left: 0px;
+      top: 0px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 20px;
+      box-sizing: border-box;
+    }
+    #app-main .title {
+      font-size: 12px;
+    }
+    #app-main #login {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    #app-main #profile,
+    #app-main #sessions {
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    #app-main .session {
+      position: relative;
+      width: 100%;
+      left: 0px;
+      top: 0px;
+      background-color: #eeeeee;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      display: flex;
+    }
+    #app-main .session:last-child {
+      margin-bottom: 0px;
+    }
+    #app-main .session div {
+      width: 80%;
+      box-sizing: border-box;
+    }
+    #app-main .session span {
+      width: 20%;
+      margin-left: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+      border-left: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #greeting,
+    #profile,
+    #sessions,
+    #login,
+    #logout {
+      display: none;
+    }
+  </style>
+  <script>
+    // Login API request
+    function login(uid) {
+      fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "uid": uid })
+      })
+      .then(response => response.json())
+      .then(json => {
+        location.reload();
+      });
+    }
+
+    // Logout API request
+    function logout(sid) {
+      fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "sid": sid })
+      })
+      .then(response => response.json())
+      .then(json => {
+        location.reload();
+      });
+    }
+
+    // Account API request
+    function account() {
+      fetch('/api/account', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: null
+      })
+      .then(response => response.json())
+      .then(json => {
+        var greeting = document.getElementById('greeting');
+        var profile = document.getElementById('profile');
+        var sessions = document.getElementById('sessions');
+        var login = document.getElementById('login');
+        var logout = document.getElementById('logout');
+
+        if (json != null) {
+          // Valid session
+          greeting.style.display = 'block';
+          profile.style.display = 'block';
+          sessions.style.display = 'block';
+          login.style.display = 'none';
+          logout.style.display = 'block';
+
+          // Fill greeting element
+          greeting.innerHTML = 'Welcome, ' + json.firstname;
+
+          // Fill profile info element
+          var info = profile.getElementsByClassName('info')[0];
+          info.innerHTML='<b>Email:</b> ' + json.email + '<br><b>First name:</b> ' + json.firstname + '<br><b>Last name:</b> ' + json.lastname;
+
+          // Fill sessions elements
+          json.sessions.forEach(session => {
+            var div = '<div class="session">';
+            div += '<div><b>Session ID:</b> ' + session.sid + '<br><b>IP:</b> ' + session.ip + '<br><b>Login time:</b> ' + session.login + '<br><b>Expiry time:</b> ' + session.expiry + '<br><b>User agent:</b> ' + session.ua + '</div>';
+            div += (json.session != session.sid) ? '<span><button onclick="logout(\'' + session.sid + '\')">Delete</button></span>' : '<span>Current session</span>';
+            div += '</div>';
+
+            sessions.insertAdjacentHTML('beforeend', div);
+          });
+        } else {
+          // Empty session
+          greeting.style.display = 'none';
+          profile.style.display = 'none';
+          sessions.style.display = 'none';
+          login.style.display = 'block';
+          logout.style.display = 'none';
+        }
+      });
+    }
+
+    // Document is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      account();
+    });
+  </script>
+</head>
+
+<body>
+  <div id="app-bar">
+    <span id="greeting"></span>
+    <span id="logo"><h1>My App</h1></span>
+    <button id="logout" onclick="logout()">Logout</button>
+  </div>
+  <div id="app-main">
+    <div id="login">
+      <button onclick="login('jj')">Login as John Joe</button>
+      <button onclick="login('mm')">Login as Mary Moe</button>
+      <button onclick="login('dd')">Login as Dale Doe</button>
+    </div>
+    <div id="profile">
+      <span class="title"><h1>Profile:</h1></span>
+      <div class="info"></div>
+    </div>
+    <div id="sessions">
+      <span class="title"><h1>Sessions:</h1></span>
+    </div>
+  </div>
+</body>
+
+</html>
