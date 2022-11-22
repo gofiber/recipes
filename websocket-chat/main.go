@@ -3,14 +3,19 @@ package main
 import (
 	"flag"
 	"log"
+	"sync"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
 )
 
-type client struct{} // Add more data to this type if needed
+// Add more data to this type if needed
+type client struct {
+	isClosing bool
+	mu        sync.Mutex
+}
 
-var clients = make(map[*websocket.Conn]client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
+var clients = make(map[*websocket.Conn]*client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
 var register = make(chan *websocket.Conn)
 var broadcast = make(chan string)
 var unregister = make(chan *websocket.Conn)
@@ -19,21 +24,28 @@ func runHub() {
 	for {
 		select {
 		case connection := <-register:
-			clients[connection] = client{}
+			clients[connection] = &client{}
 			log.Println("connection registered")
 
 		case message := <-broadcast:
 			log.Println("message received:", message)
-
 			// Send the message to all clients
-			for connection := range clients {
-				if err := connection.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-					log.Println("write error:", err)
+			for connection, c := range clients {
+				go func(connection *websocket.Conn, c *client) { // send to each client in parallel so we don't block on a slow client
+					c.mu.Lock()
+					defer c.mu.Unlock()
+					if c.isClosing {
+						return
+					}
+					if err := connection.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
+						c.isClosing = true
+						log.Println("write error:", err)
 
-					connection.WriteMessage(websocket.CloseMessage, []byte{})
-					connection.Close()
-					delete(clients, connection)
-				}
+						connection.WriteMessage(websocket.CloseMessage, []byte{})
+						connection.Close()
+						unregister <- connection
+					}
+				}(connection, c)
 			}
 
 		case connection := <-unregister:
