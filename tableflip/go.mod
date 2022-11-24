@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/cloudflare/tableflip v1.2.3
-	github.com/gofiber/fiber/v2 v2.40.0
+	github.com/gofiber/fiber/v2 v2.40.1
 )
 
 require (
