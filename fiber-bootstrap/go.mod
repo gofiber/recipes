@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/go-playground/validator/v10 v10.11.1
-	github.com/gofiber/fiber/v2 v2.40.0
+	github.com/gofiber/fiber/v2 v2.40.1
 	github.com/gofiber/template v1.7.2
 	github.com/joho/godotenv v1.4.0
 	gorm.io/driver/postgres v1.4.5
