@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gofiber/fiber/v2 v2.40.1
-	github.com/valyala/fasthttp v1.41.0
+	github.com/valyala/fasthttp v1.42.0
 )
 
 require (
