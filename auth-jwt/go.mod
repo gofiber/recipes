@@ -9,7 +9,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	golang.org/x/crypto v0.4.0
 	gorm.io/driver/postgres v1.4.6
-	gorm.io/gorm v1.24.2
+	gorm.io/gorm v1.24.3
 )
 
 require (
