@@ -10,9 +10,9 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/amalshaji/fiber-grpc/proto"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/recipes/fiber-grpc/proto"
 	"google.golang.org/grpc"
 )
 
