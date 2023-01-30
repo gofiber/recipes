@@ -21,6 +21,7 @@ import (
 )
 
 // Assets contains embedded frontend ressources
+//
 //go:embed www/*
 var Assets embed.FS
 

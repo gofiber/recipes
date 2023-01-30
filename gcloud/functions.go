@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -27,7 +26,7 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 	defer ln.Close()
 
 	// Copy request
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}
@@ -38,6 +37,11 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 	}
 
 	proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
+
+	if err != nil {
+		return err
+	}
+
 	proxyReq.Header = r.Header
 
 	// Create http client

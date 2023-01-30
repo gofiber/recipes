@@ -55,7 +55,7 @@ func main() {
 	// Authenticaed Routes.
 	app.Get("/hello", hello)
 	app.Get("/salut", salut)      // Ignore the auth by IgnoreUrls config
-	app.Post("/ciao", createCiao) // Ignore the auth by IgnoreUrls config
+	app.Post("/ciao", ciao) // Ignore the auth by IgnoreUrls config
 	app.Get("/ayubowan", ayubowan)
 
 	// Start server.
@@ -78,10 +78,6 @@ func salut(c *fiber.Ctx) error {
 
 func ciao(c *fiber.Ctx) error {
 	return c.SendString("Ciao, World 👋! ")
-}
-
-func createCiao(c *fiber.Ctx) error {
-	return c.SendString("Create Cuiao, World 👋! i am a post")
 }
 
 func ayubowan(c *fiber.Ctx) error {

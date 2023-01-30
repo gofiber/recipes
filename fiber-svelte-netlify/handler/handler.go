@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -31,7 +31,7 @@ func CacheRequest(exp time.Duration) fiber.Handler {
 func GeoLocation(c *fiber.Ctx) error {
 	ip := c.Params("ip")
 	res, _ := http.Get("http://ip-api.com/json/" + ip)
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 
 	var resp response
 	json.Unmarshal(body, &resp)

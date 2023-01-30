@@ -4,7 +4,7 @@ import (
 	"crypto"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,7 +22,7 @@ func initFiberApp() *fiber.App {
 }
 
 func initTLSConfig(path string, password string) (*tls.Certificate, error) {
-	pkcs12Data, err := ioutil.ReadFile(path)
+	pkcs12Data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

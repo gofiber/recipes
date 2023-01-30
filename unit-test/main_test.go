@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -70,7 +70,7 @@ func TestIndexRoute(t *testing.T) {
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
 
 		// Read the response body
-		body, err := ioutil.ReadAll(res.Body)
+		body, err := io.ReadAll(res.Body)
 
 		// Reading the response body should work everytime, such that
 		// the err variable should be nil

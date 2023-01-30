@@ -5,7 +5,7 @@ import (
 	"fiber-oauth-google/config"
 	"fiber-oauth-google/model"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 
@@ -29,6 +29,11 @@ func ConfigGoogle() *oauth2.Config {
 // GetEmail of user
 func GetEmail(token string) string {
 	reqURL, err := url.Parse("https://www.googleapis.com/oauth2/v1/userinfo")
+
+	if err != nil {
+		return err
+	}
+
 	ptoken := fmt.Sprintf("Bearer %s", token)
 	res := &http.Request{
 		Method: "GET",
@@ -42,7 +47,7 @@ func GetEmail(token string) string {
 
 	}
 	defer req.Body.Close()
-	body, err := ioutil.ReadAll(req.Body)
+	body, err := io.ReadAll(req.Body)
 	if err != nil {
 		panic(err)
 	}

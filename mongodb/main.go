@@ -41,6 +41,10 @@ type Employee struct {
 func Connect() error {
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
 
+	if err != nil {
+		return err
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 

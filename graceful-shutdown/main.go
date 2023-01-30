@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"github.com/gofiber/fiber/v2"
 	"time"
 )
 
@@ -28,7 +28,7 @@ func main() {
 		}
 	}()
 
-	c := make(chan os.Signal, 1)   // Create channel to signify a signal being sent
+	c := make(chan os.Signal, 1)                    // Create channel to signify a signal being sent
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM) // When an interrupt or termination signal is sent, notify the channel
 
 	_ = <-c // This blocks the main thread until an interrupt is received

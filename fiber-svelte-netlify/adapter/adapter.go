@@ -7,7 +7,7 @@ package adapter
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 
@@ -72,7 +72,7 @@ func (f *FiberLambda) adaptor(w http.ResponseWriter, r *http.Request) {
 	// New fasthttp request
 	var req fasthttp.Request
 	// Convert net/http -> fasthttp request
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, utils.StatusMessage(fiber.StatusInternalServerError), fiber.StatusInternalServerError)
 		return
