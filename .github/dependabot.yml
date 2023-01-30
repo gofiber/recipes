@@ -75,6 +75,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
+    directory: "/rabbitmq/worker"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
     directory: "/fiber-grpc"
     schedule:
       interval: "daily"
@@ -91,7 +95,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/url-shortener-api"
+    directory: "/url-shortener-api/api"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
@@ -247,7 +251,11 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/fiber-envoy-extauthz"
+    directory: "/fiber-envoy-extauthz/app"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/fiber-envoy-extauthz/authz"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"

@@ -1,6 +1,6 @@
 module testOauth2
 
-go 1.16
+go 1.18
 
 require (
 	github.com/antigloss/go v0.0.0-20201201072909-f29271b13566
@@ -8,4 +8,18 @@ require (
 	github.com/gofiber/template v1.7.4
 	github.com/joho/godotenv v1.4.0
 	github.com/segmentio/encoding v0.3.6
+)
+
+require (
+	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/klauspost/compress v1.15.9 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/segmentio/asm v1.1.3 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasthttp v1.43.0 // indirect
+	github.com/valyala/tcplisten v1.0.0 // indirect
+	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 )

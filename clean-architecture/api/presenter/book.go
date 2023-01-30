@@ -14,7 +14,7 @@ type Book struct {
 }
 
 // BookSuccessResponse is the singular SuccessResponse that will be passed in the response by
-//Handler
+// Handler
 func BookSuccessResponse(data *entities.Book) *fiber.Map {
 	book := Book{
 		ID:     data.ID,

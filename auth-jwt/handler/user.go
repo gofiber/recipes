@@ -24,11 +24,7 @@ func validToken(t *jwt.Token, id string) bool {
 	claims := t.Claims.(jwt.MapClaims)
 	uid := int(claims["user_id"].(float64))
 
-	if uid != n {
-		return false
-	}
-
-	return true
+	return uid == n
 }
 
 func validUser(id string, p string) bool {

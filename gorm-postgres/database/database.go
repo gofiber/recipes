@@ -2,7 +2,6 @@ package database
 
 import (
 	"log"
-	"os"
 
 	"github.com/zeimedee/go-postgres/models"
 	"gorm.io/driver/postgres"

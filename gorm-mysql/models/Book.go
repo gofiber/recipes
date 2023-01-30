@@ -2,7 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
-//Book model
+// Book model
 type Book struct {
 	gorm.Model
 

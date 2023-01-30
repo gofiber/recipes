@@ -44,7 +44,7 @@ func parse(token string) (*jwt.Token, error) {
 	return jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
 		}
 
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
@@ -69,7 +69,7 @@ func Verify(token string) (*TokenPayload, error) {
 	// Getting ID, it's an interface{} so I need to cast it to uint
 	id, ok := claims["ID"].(float64)
 	if !ok {
-		return nil, errors.New("Something went wrong")
+		return nil, errors.New("something went wrong")
 	}
 
 	return &TokenPayload{
