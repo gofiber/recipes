@@ -1,6 +1,6 @@
 module main
 
-go 1.19
+go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.41.0
