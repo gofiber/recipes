@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/gofiber/fiber/v2 v2.41.0
+	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/joho/godotenv v1.4.0
 	github.com/valyala/fasthttp v1.44.0
 )
@@ -18,24 +18,29 @@ require (
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.3.5 // indirect
 	github.com/google/go-cmp v0.4.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/jstemmer/go-junit-report v0.9.1 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/philhofer/fwd v1.1.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
+	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
+	github.com/tinylib/msgp v1.1.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.opencensus.io v0.22.3 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/mod v0.2.0 // indirect
+	golang.org/x/mod v0.3.0 // indirect
 	golang.org/x/net v0.0.0-20220906165146-f3363e06e74c // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/tools v0.0.0-20200325010219-a49f79bcc224 // indirect
-	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
+	golang.org/x/tools v0.0.0-20201022035929-9cf592e881e9 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/api v0.20.0 // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	google.golang.org/genproto v0.0.0-20200325114520-5b2d0af7952b // indirect
