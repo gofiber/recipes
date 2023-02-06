@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/gofiber/fiber/v2 v2.42.0
-	github.com/joho/godotenv v1.4.0
+	github.com/joho/godotenv v1.5.1
 )
 
 require (
