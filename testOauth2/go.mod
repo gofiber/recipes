@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/antigloss/go v0.0.0-20201201072909-f29271b13566
 	github.com/gofiber/fiber/v2 v2.42.0
-	github.com/gofiber/template v1.7.4
+	github.com/gofiber/template v1.7.5
 	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/encoding v0.3.6
 )
