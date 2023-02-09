@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.42.0
-	gorm.io/driver/mysql v1.4.5
+	gorm.io/driver/mysql v1.4.6
 	gorm.io/gorm v1.24.5
 )
 
