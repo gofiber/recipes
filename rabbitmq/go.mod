@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.42.0
-	github.com/rabbitmq/amqp091-go v1.6.1
+	github.com/rabbitmq/amqp091-go v1.7.0
 )
 
 require (
