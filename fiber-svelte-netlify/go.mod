@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/aws/aws-lambda-go v1.37.0
-	github.com/awslabs/aws-lambda-go-api-proxy v0.13.3
+	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0
 	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/gofiber/utils v1.0.1
 	github.com/valyala/fasthttp v1.44.0
