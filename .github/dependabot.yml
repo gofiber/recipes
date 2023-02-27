@@ -18,7 +18,15 @@ updates:
     directory: "/template-asset-bundling"
     schedule:
       interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/template-asset-bundling"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "gomod"
+    directory: "/fiber-svelte-netlify"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
     directory: "/fiber-svelte-netlify"
     schedule:
       interval: "daily"
