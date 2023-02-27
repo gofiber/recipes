@@ -186,6 +186,10 @@ updates:
     directory: "/react-router"
     schedule:
       interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/react-router"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "gomod"
     directory: "/404-handler"
     schedule:
