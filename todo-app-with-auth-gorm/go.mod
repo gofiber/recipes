@@ -8,7 +8,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.42.0
 	golang.org/x/crypto v0.6.0
 	gorm.io/driver/sqlite v1.4.4
-	gorm.io/gorm v1.24.5
+	gorm.io/gorm v1.24.6
 )
 
 require (
