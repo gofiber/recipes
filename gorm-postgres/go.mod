@@ -5,8 +5,8 @@ go 1.18
 require (
 	github.com/gofiber/fiber/v2 v2.42.0
 	github.com/zeimedee/go-postgres v0.0.0-20210622135935-cc5834be70dd
-	gorm.io/driver/postgres v1.4.8
-	gorm.io/gorm v1.24.6
+	gorm.io/driver/postgres v1.5.0
+	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
 )
 
 require (
