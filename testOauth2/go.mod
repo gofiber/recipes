@@ -3,7 +3,7 @@ module testOauth2
 go 1.18
 
 require (
-	github.com/antigloss/go v1.19.2
+	github.com/antigloss/go v1.19.3
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/gofiber/template v1.7.5
 	github.com/joho/godotenv v1.5.1
