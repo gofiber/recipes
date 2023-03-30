@@ -3,7 +3,7 @@ module github.com/gofiber/recipes
 go 1.18
 
 require (
-	github.com/gofiber/adaptor/v2 v2.1.32
+	github.com/gofiber/adaptor/v2 v2.2.0
 	github.com/gofiber/fiber/v2 v2.43.0
 )
 
