@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/pkg/errors v0.9.1
-	go.mongodb.org/mongo-driver v1.11.3
+	go.mongodb.org/mongo-driver v1.11.4
 	gopkg.in/yaml.v2 v2.4.0
 )
 
