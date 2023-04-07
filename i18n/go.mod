@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/gofiber/template v1.8.0
 	github.com/nicksnyder/go-i18n/v2 v2.2.1
-	golang.org/x/text v0.8.0
+	golang.org/x/text v0.9.0
 )
 
 require (
