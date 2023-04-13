@@ -3,7 +3,7 @@ module github.com/amalshaji/fiber-netlify
 go 1.18
 
 require (
-	github.com/aws/aws-lambda-go v1.39.1
+	github.com/aws/aws-lambda-go v1.40.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/gofiber/utils v1.0.1
