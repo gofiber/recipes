@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.43.0
-	github.com/lib/pq v1.10.7
+	github.com/lib/pq v1.10.8
 )
 
 require (
