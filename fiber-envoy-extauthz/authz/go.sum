@@ -2,8 +2,8 @@ github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/
 github.com/andybalholm/brotli v1.0.5/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/gofiber/fiber/v2 v2.44.0 h1:Z90bEvPcJM5GFJnu1py0E1ojoerkyew3iiNJ78MQCM8=
 github.com/gofiber/fiber/v2 v2.44.0/go.mod h1:VTMtb/au8g01iqvHyaCzftuM/xmZgKOZCtFzz6CdV9w=
-github.com/gofiber/keyauth/v2 v2.2.0 h1:1ph50jq81uT0mAKiFystkmp78Mvoce5TIS0M5J2+Ll4=
-github.com/gofiber/keyauth/v2 v2.2.0/go.mod h1:0fdEyfitmJuh0Ww1CUQ8ZihGgi8R5RZVqnoak/3cjiM=
+github.com/gofiber/keyauth/v2 v2.2.1 h1:4XrO8uKIdYxetDcCgj1UZ/GgqCAqKnSSTv/OvhloXtk=
+github.com/gofiber/keyauth/v2 v2.2.1/go.mod h1:QDWWQt+u9sApalaUk1DfU8OtfBMFpXO0o07qq2DjHes=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.16.3 h1:XuJt9zzcnaz6a16/OU53ZjWp/v7/42WcR5t2a0PcNQY=
