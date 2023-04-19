@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.44.0
-	github.com/gofiber/keyauth/v2 v2.2.0
+	github.com/gofiber/keyauth/v2 v2.2.1
 )
 
 require (
