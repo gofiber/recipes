@@ -78,33 +78,27 @@ func Login(c *fiber.Ctx) error {
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
 		}
-	} else {
-		user, err = getUserByUsername(identity)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
-		}
-	}
-
-	if email == nil && user == nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
-	}
-
-	if email != nil {
 		ud = UserData{
 			ID:       email.ID,
 			Username: email.Username,
 			Email:    email.Email,
 			Password: email.Password,
 		}
-
-	}
-	if user != nil {
+	} else {
+		user, err = getUserByUsername(identity)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
+		}
 		ud = UserData{
 			ID:       user.ID,
 			Username: user.Username,
 			Email:    user.Email,
 			Password: user.Password,
 		}
+	}
+
+	if email == nil && user == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
 	}
 
 	if !CheckPasswordHash(pass, ud.Password) {
