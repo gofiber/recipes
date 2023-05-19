@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"api-fiber-gorm/config"
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/model"
 	"errors"
 	"net/mail"
 	"time"
+
+	"api-fiber-gorm/config"
+	"api-fiber-gorm/database"
+	"api-fiber-gorm/model"
 
 	"gorm.io/gorm"
 
@@ -45,7 +46,7 @@ func getUserByUsername(u string) (*model.User, error) {
 	return &user, nil
 }
 
-func valid(email string) bool {
+func isEmail(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil
 }
@@ -63,7 +64,7 @@ func Login(c *fiber.Ctx) error {
 		Password string `json:"password"`
 	}
 	input := new(LoginInput)
-	var ud UserData
+	var userData UserData
 
 	if err := c.BodyParser(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "data": err})
@@ -71,51 +72,34 @@ func Login(c *fiber.Ctx) error {
 
 	identity := input.Identity
 	pass := input.Password
-	user, email, err := new(model.User), new(model.User), *new(error)
+	userModel, err := new(model.User), *new(error)
 
-	if valid(identity) {
-		email, err = getUserByEmail(identity)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
-		}
+	if isEmail(identity) {
+		userModel, err = getUserByEmail(identity)
 	} else {
-		user, err = getUserByUsername(identity)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
-		}
+		userModel, err = getUserByUsername(identity)
 	}
 
-	if email == nil && user == nil {
+	if userModel == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
-	}
-
-	if email != nil {
-		ud = UserData{
-			ID:       email.ID,
-			Username: email.Username,
-			Email:    email.Email,
-			Password: email.Password,
-		}
-
-	}
-	if user != nil {
-		ud = UserData{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
-			Password: user.Password,
+	} else {
+		userData = UserData{
+			ID:       userModel.ID,
+			Username: userModel.Username,
+			Email:    userModel.Email,
+			Password: userModel.Password,
 		}
 	}
 
-	if !CheckPasswordHash(pass, ud.Password) {
+	if !CheckPasswordHash(pass, userData.Password) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["username"] = ud.Username
-	claims["user_id"] = ud.ID
+	claims["username"] = userData.Username
+	claims["user_id"] = userData.ID
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
 	t, err := token.SignedString([]byte(config.Config("SECRET")))
