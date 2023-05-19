@@ -183,6 +183,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
+    directory: "/auth-docker-postgres-jwt"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
     directory: "/geoip"
     schedule:
       interval: "daily"
