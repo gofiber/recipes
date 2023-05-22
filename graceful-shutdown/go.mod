@@ -2,7 +2,7 @@ module graceful-shutdown
 
 go 1.18
 
-require github.com/gofiber/fiber/v2 v2.45.0
+require github.com/gofiber/fiber/v2 v2.46.0
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
