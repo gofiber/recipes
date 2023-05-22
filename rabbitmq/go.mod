@@ -3,7 +3,7 @@ module fiber-rabbitmq-example
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/rabbitmq/amqp091-go v1.8.1
 )
 
