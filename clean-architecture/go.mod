@@ -3,7 +3,7 @@ module clean-architecture
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.11.6
 )
