@@ -3,7 +3,7 @@ module geoip
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/gofiber/template v1.8.1
 	github.com/valyala/fasthttp v1.47.0
 )
