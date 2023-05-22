@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/99designs/gqlgen v0.17.30
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/valyala/fasthttp v1.47.0
 	github.com/vektah/gqlparser/v2 v2.5.1
 )
