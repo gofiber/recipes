@@ -3,7 +3,7 @@ module gorm-mysql
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.1
 )
