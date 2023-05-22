@@ -3,7 +3,7 @@ module neo4j
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/neo4j/neo4j-go-driver v1.8.3
 )
 
