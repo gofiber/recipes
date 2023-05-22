@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/validator/v10 v10.13.0
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	golang.org/x/crypto v0.9.0
 	gorm.io/driver/sqlite v1.5.0
 	gorm.io/gorm v1.25.1
