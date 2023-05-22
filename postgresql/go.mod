@@ -3,7 +3,7 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/lib/pq v1.10.9
 )
 
