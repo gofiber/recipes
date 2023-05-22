@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/fiber-grpc
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/golang/protobuf v1.5.3
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
