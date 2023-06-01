@@ -14,6 +14,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Custom 404 Not Found](/404-handler)
 - [Docker MariaDB Clean Architecture](/docker-mariadb-clean-arch)
 - [Docker Nginx Loadbalancer](/docker-nginx-loadbalancer)
+- [Docker Postgres-JWT](/auth-docker-postgres-jwt)
 - [Enable HTTPS/TLS using PKCS12 store](/https-pkcs12-tls)
 - [Enable HTTPS/TLS](/https-tls)
 - [Enable Preforking](/prefork)
