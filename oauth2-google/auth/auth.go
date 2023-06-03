@@ -29,11 +29,9 @@ func ConfigGoogle() *oauth2.Config {
 // GetEmail of user
 func GetEmail(token string) string {
 	reqURL, err := url.Parse("https://www.googleapis.com/oauth2/v1/userinfo")
-
 	if err != nil {
-		return err
+		panic(err)
 	}
-
 	ptoken := fmt.Sprintf("Bearer %s", token)
 	res := &http.Request{
 		Method: "GET",
@@ -52,10 +50,9 @@ func GetEmail(token string) string {
 		panic(err)
 	}
 	var data model.GoogleResponse
-	errorz := json.Unmarshal(body, &data)
-	if errorz != nil {
-
-		panic(errorz)
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		panic(err)
 	}
 	return data.Email
 }
