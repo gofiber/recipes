@@ -199,7 +199,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
-    directory: "/react-router"
+    directory: "/react-router/web"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
@@ -227,7 +227,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/sveltekit-embed"
+    directory: "/sveltekit-embed/frontend"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
