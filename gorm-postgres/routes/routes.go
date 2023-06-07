@@ -6,12 +6,12 @@ import (
 	"github.com/zeimedee/go-postgres/models"
 )
 
-//Hello
+// Hello
 func Hello(c *fiber.Ctx) error {
 	return c.SendString("fiber")
 }
 
-//AddBook
+// AddBook
 func AddBook(c *fiber.Ctx) error {
 	book := new(models.Book)
 	if err := c.BodyParser(book); err != nil {
@@ -23,7 +23,7 @@ func AddBook(c *fiber.Ctx) error {
 	return c.Status(200).JSON(book)
 }
 
-//AllBooks
+// AllBooks
 func AllBooks(c *fiber.Ctx) error {
 	books := []models.Book{}
 	database.DB.Db.Find(&books)
@@ -31,7 +31,7 @@ func AllBooks(c *fiber.Ctx) error {
 	return c.Status(200).JSON(books)
 }
 
-//Book
+// Book
 func Book(c *fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)
@@ -42,7 +42,7 @@ func Book(c *fiber.Ctx) error {
 	return c.Status(200).JSON(book)
 }
 
-//Update
+// Update
 func Update(c *fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)
@@ -55,7 +55,7 @@ func Update(c *fiber.Ctx) error {
 	return c.Status(400).JSON("updated")
 }
 
-//Delete
+// Delete
 func Delete(c *fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)

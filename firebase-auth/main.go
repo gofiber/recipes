@@ -54,8 +54,8 @@ func main() {
 
 	// Authenticaed Routes.
 	app.Get("/hello", hello)
-	app.Get("/salut", salut)      // Ignore the auth by IgnoreUrls config
-	app.Post("/ciao", ciao) // Ignore the auth by IgnoreUrls config
+	app.Get("/salut", salut) // Ignore the auth by IgnoreUrls config
+	app.Post("/ciao", ciao)  // Ignore the auth by IgnoreUrls config
 	app.Get("/ayubowan", ayubowan)
 
 	// Start server.

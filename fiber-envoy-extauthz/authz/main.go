@@ -34,10 +34,10 @@ func main() {
 
 	app.Use(keyauth.New(keyauth.Config{
 		SuccessHandler: successHandler,
-		ErrorHandler: errHandler,
-		KeyLookup: strings.Join([]string{authSrc, authName}, ":"),
-		Validator: validator,
-		ContextKey: authKey,
+		ErrorHandler:   errHandler,
+		KeyLookup:      strings.Join([]string{authSrc, authName}, ":"),
+		Validator:      validator,
+		ContextKey:     authKey,
 	}))
 
 	log.Fatal(app.Listen(":1337"))
