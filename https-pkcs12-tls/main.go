@@ -4,8 +4,8 @@ import (
 	"crypto"
 	"crypto/tls"
 	"fmt"
-	"os"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/pkcs12"
