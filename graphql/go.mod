@@ -6,7 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.32
 	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/valyala/fasthttp v1.47.0
-	github.com/vektah/gqlparser/v2 v2.5.2-0.20230422221642-25e09f9d292d
+	github.com/vektah/gqlparser/v2 v2.5.3
 )
 
 require (
