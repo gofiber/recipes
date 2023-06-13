@@ -19,7 +19,7 @@ func New() *fiber.App {
 		TimeZone:   "Asia/Jakarta",
 	}))
 
-	app.Get("/docs/*", swagger.Handler)
+	app.Get("/docs/*", swagger.HandlerDefault)
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c *fiber.Ctx) error {
 		c.JSON(fiber.Map{
