@@ -8,7 +8,7 @@ import (
 
 // Book is the presenter object which will be passed in the response by Handler
 type Book struct {
-	ID     primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	ID     primitive.ObjectID `json:"id" json:"_id,omitempty"`
 	Title  string             `json:"title"`
 	Author string             `json:"author"`
 }
