@@ -10,12 +10,12 @@ on:
 
 jobs:
   Tests:
-    name: Tests
-      strategy:
-        matrix:
-          go-version:
-            - oldstable
-            - stable
+    name: Build each recipe
+    strategy:
+      matrix:
+        go-version:
+          - oldstable
+          - stable
 
     runs-on: ubuntu-latest
     steps:
