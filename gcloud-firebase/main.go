@@ -39,7 +39,7 @@ func init() {
 		DatabaseURL: "https://" + projectID + ".firebaseio.com",
 	}
 
-	fbApp, err := firebase.NewApp(ctx, conf)
+	fbApp, err = firebase.NewApp(ctx, conf)
 
 	if err != nil {
 		log.Fatalf("functions.init: NewApp %v\n", err)

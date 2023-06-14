@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"time"
+	"context"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -9,6 +11,10 @@ import (
 )
 
 func main() {
+	// Create context
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
 	// Create a new RabbitMQ connection.
 	connRabbitMQ, err := amqp.Dial("amqp://user:password@localhost:5672/")
 	if err != nil {
@@ -54,7 +60,8 @@ func main() {
 		}
 
 		// Attempt to publish a message to the queue.
-		err = ch.Publish(
+		err = ch.PublishWithContext(
+			ctx,
 			"",
 			"TestQueue",
 			false,

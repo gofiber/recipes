@@ -14,16 +14,16 @@ jobs:
       strategy:
         matrix:
           go-version:
-            - 1.19.x
-            - 1.20.x
+            - oldstable
+            - stable
 
     runs-on: ubuntu-latest
     steps:
       -   name: Fetch Repository
-          uses: actions/checkout@v3.5.0
+          uses: actions/checkout@v3
       -   name: Install Go
           uses: actions/setup-go@v4
           with:
             go-version: ${{ matrix.go-version }}
       -   name: Run go build for each dir with go.mod
-          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build .); done
+          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done
