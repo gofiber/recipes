@@ -1,0 +1,29 @@
+name: Build go binaries
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  Tests:
+    name: Tests
+      strategy:
+        matrix:
+          go-version:
+            - 1.19.x
+            - 1.20.x
+
+    runs-on: ubuntu-latest
+    steps:
+      -   name: Fetch Repository
+          uses: actions/checkout@v3.5.0
+      -   name: Install Go
+          uses: actions/setup-go@v4
+          with:
+            go-version: ${{ matrix.go-version }}
+      -   name: Run go build for each dir with go.mod
+          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build .); done

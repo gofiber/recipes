@@ -3,10 +3,10 @@ package routes
 import (
 	"swagger/handlers"
 
-	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	swagger "github.com/gofiber/swagger"
 )
 
 // New create an instance of Book app routes
@@ -19,7 +19,7 @@ func New() *fiber.App {
 		TimeZone:   "Asia/Jakarta",
 	}))
 
-	app.Get("/docs/*", swagger.Handler)
+	app.Get("/docs/*", swagger.HandlerDefault)
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c *fiber.Ctx) error {
 		c.JSON(fiber.Map{
