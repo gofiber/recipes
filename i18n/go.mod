@@ -3,11 +3,11 @@ module i18n-example
 go 1.18
 
 require (
-	github.com/BurntSushi/toml v1.3.1
+	github.com/BurntSushi/toml v1.3.2
 	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/gofiber/template v1.8.1
 	github.com/nicksnyder/go-i18n/v2 v2.2.1
-	golang.org/x/text v0.9.0
+	golang.org/x/text v0.10.0
 )
 
 require (
