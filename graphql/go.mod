@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/graphql
 go 1.18
 
 require (
-	github.com/99designs/gqlgen v0.17.32
+	github.com/99designs/gqlgen v0.17.33
 	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/valyala/fasthttp v1.47.0
 	github.com/vektah/gqlparser/v2 v2.5.3
