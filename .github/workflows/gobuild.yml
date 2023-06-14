@@ -1,22 +1,25 @@
-name: Build go binaries
+name: Build each GoFiber recipe
 
 on:
   push:
     branches:
       - master
+      - main
+    paths-ignore:
+      - "**.md"
   pull_request:
     branches:
       - '*'
+    paths-ignore:
+      - "**.md"
 
 jobs:
-  Tests:
-    name: Build each recipe
+  builds:
     strategy:
       matrix:
         go-version:
           - oldstable
           - stable
-
     runs-on: ubuntu-latest
     steps:
       -   name: Fetch Repository
