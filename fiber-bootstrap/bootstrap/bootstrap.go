@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html"
+	"github.com/gofiber/template/html/v2"
 	"github.com/kooroshh/fiber-boostrap/pkg/database"
 	"github.com/kooroshh/fiber-boostrap/pkg/env"
 	"github.com/kooroshh/fiber-boostrap/pkg/router"
