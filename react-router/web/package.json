@@ -4,6 +4,7 @@
   "description": "Sample application to serve React with Go-Fiber",
   "private": true,
   "author": "Nicholas Dwiarto W. <nicholasdwiarto@yahoo.com> (https://www.nicholasdw.com)",
+  "homepage": "/web",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
