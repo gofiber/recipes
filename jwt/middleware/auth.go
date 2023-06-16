@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gofiber/fiber/v2"
-	jwtware "github.com/gofiber/jwt/v2"
+	jwtware "github.com/gofiber/contrib/jwt"
 )
 
 // Protected protect routes

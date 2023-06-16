@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	jwtware "github.com/gofiber/jwt/v2"
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/golang-jwt/jwt"
 )
 
