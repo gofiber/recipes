@@ -28,5 +28,7 @@ jobs:
           uses: actions/setup-go@v4
           with:
             go-version: ${{ matrix.go-version }}
+      -   name: Run go vet for each dir with go.mod
+          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go vet ./...); done
       -   name: Run go build for each dir with go.mod
           run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done
