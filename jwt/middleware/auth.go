@@ -8,7 +8,7 @@ import (
 // Protected protect routes
 func Protected() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
-		SigningKey:   []byte("secret"),
+		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
 		ErrorHandler: jwtError,
 	})
 }
