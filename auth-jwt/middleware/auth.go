@@ -4,13 +4,13 @@ import (
 	"api-fiber-gorm/config"
 
 	"github.com/gofiber/fiber/v2"
-	jwtware "github.com/gofiber/jwt/v2"
+	jwtware "github.com/gofiber/contrib/jwt"
 )
 
 // Protected protect routes
 func Protected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey:   []byte(config.Config("SECRET")),
+		SigningKey: jwtware.SigningKey{Key: []byte(config.Config("SECRET"))},
 		ErrorHandler: jwtError,
 	})
 }

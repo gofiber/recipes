@@ -104,7 +104,7 @@ func main() {
 			return c.Status(500).SendString(err.Error())
 		}
 
-		filter := bson.D{{"_id", _id}}
+		filter := bson.D{{Key: "_id", Value: _id}}
 
 		var result Employee
 

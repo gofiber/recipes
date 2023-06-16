@@ -172,7 +172,7 @@ func RegisterRoutes(app *fiber.App) {
 			return c.Status(fiber.StatusBadRequest).SendString("\"Amount\" is required.")
 		}
 
-		fmt.Printf("Transferring funds (%i) from \"%s\" to \"%s\"\n", transfer.Amount, username, transfer.To)
+		fmt.Printf("Transferring funds (%d) from \"%s\" to \"%s\"\n", transfer.Amount, username, transfer.To)
 
 		accounts[transfer.To] = accounts[transfer.To] + transfer.Amount
 		accounts[username] = accounts[username] - transfer.Amount

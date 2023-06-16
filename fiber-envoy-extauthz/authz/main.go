@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/keyauth/v2"
+	"github.com/gofiber/fiber/v2/middleware/keyauth"
 )
 
 const (

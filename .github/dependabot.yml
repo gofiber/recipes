@@ -227,14 +227,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/sveltekit-embed/frontend"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/sveltekit-embed"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "gomod"
     directory: "/rss-feed"
     schedule:
       interval: "daily"

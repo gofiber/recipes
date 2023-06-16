@@ -3,7 +3,7 @@
 One way of extending the popular [Envoy](https://www.envoyproxy.io) proxy is by developing an
 [external authorization service](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto).
 
-This example illustrates using `fiber` and `gofiber/keyauth` as an authorization service for a front
+This example illustrates using `fiber` and the `keyauth` middleware as an authorization service for a front
 proxy (the configuration could also be used for an L2 / Sidecar proxy). See `authz`.
 
 It also uses `fiber` as a sample upstream service, with the following endpoints. See `app`.

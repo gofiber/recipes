@@ -11,7 +11,7 @@ type Todo struct {
 	gorm.Model
 	Task      string `gorm:"not null"`
 	Completed bool   `gorm:"default:false"`
-	User      *uint  `gorm:"not null" gorm:"index"`
+	User      *uint  `gorm:"index,not null"`
 	// this is a pointer because int == 0,
 }
 

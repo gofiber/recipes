@@ -6,7 +6,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/html"
+	"github.com/gofiber/template/html/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
 )
