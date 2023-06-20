@@ -27,48 +27,50 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history so diffs can be performed
 
-      - name: Get directories to check
-        shell: bash
-        run: |
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            # Check all directories for pushes to master/main
-            dirs=$(find . -name go.mod -exec dirname {} \; | xargs)
-          else
-            # Check only changed directories for pull requests
-            files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-            if [ -n "$files" ]; then
-              dirs=$(echo "$files" | xargs -n 1 dirname | sort -u)
-            fi
-          fi
-          echo "dirs<<EOF" >> $GITHUB_ENV
-          echo "$dirs" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Find go.sum files
-        id: find_gosum
-        run: |
-          go_sum_files=$(find . -name go.sum | tr '\n' ',')
-          # Remove trailing comma
-          go_sum_files=${go_sum_files%,}
-          # Set output
-          echo "gosum_files=$go_sum_files" >> $GITHUB_ENV
-
       - name: Setup Go with Module Caching
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
-          cache-dependency-path: ${{ env.gosum_files }}
+          cache: false
 
-      - name: Run go vet for selected directories
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-${{ matrix.go-version }}-
+
+
+      - name: Get changed directories
+        id: get_changed_dirs
         shell: bash
         run: |
-          if [ -n "${{ env.dirs }}" ]; then
-            echo "${{ env.dirs }}" | xargs -n 1 -P 4 bash -c 'echo "Running go vet in $0"; if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            changed_dirs=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- '*.go' | xargs -r dirname | sort -u | tr '\n' ' ')
+            echo "changed_dirs<<EOF" >> $GITHUB_ENV
+            echo "${changed_dirs}" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "changed_dirs=." >> $GITHUB_ENV
           fi
 
-      - name: Run go build for selected directories
-        shell: bash
+      - name: Run go vet for changed directories
         run: |
-          if [ -n "${{ env.dirs }}" ]; then
-            echo "${{ env.dirs }}" | xargs -n 1 -P 4 bash -c 'echo "Running go build in $0"; if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
-          fi
+          for dir in ${{ env.changed_dirs }}; do
+            echo "Running go vet in directory: ${dir}"
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go vet ./...);
+            fi
+          done
+
+      - name: Run go build for changed directories
+        run: |
+          for dir in ${{ env.changed_dirs }}; do
+            echo "Running go build in directory: ${dir}"
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go build ./...);
+            fi
+          done
