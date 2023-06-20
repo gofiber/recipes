@@ -29,6 +29,6 @@ jobs:
           with:
             go-version: ${{ matrix.go-version }}
       -   name: Run go vet for each dir with go.mod
-          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go vet ./...); done
+          run: find . -name go.mod -print0 | xargs -0 -n1 -P4 bash -c 'cd $(dirname $0) && go vet ./...'
       -   name: Run go build for each dir with go.mod
           run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done
