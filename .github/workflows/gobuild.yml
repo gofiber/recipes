@@ -43,20 +43,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-${{ matrix.go-version }}-
 
-      - name: Get changed directories
-        id: get_changed_dirs
+      - name: Get directories to process
+        id: get_dirs
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            # Get the changed directories for the entire pull request
-            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs -r dirname | sort -u | tr '\n' ' ')
-            echo "changed_dirs<<EOF" >> $GITHUB_ENV
-            echo "${changed_dirs}" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+            dirs=$(git diff --name-only ${{ github.base_ref_sha }} ${{ github.sha }} | xargs -r dirname | sort -u | tr '\n' ' ')
           else
-            # For pushes to master/main, check all directories
-            echo "changed_dirs=." >> $GITHUB_ENV
+            # For master branch, process all directories with go.mod
+            dirs=$(find . -name go.mod -exec dirname {} \; | tr '\n' ' ')
           fi
+
+          echo "dirs<<EOF" >> $GITHUB_ENV
+          echo "${dirs}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
 
       - name: Run go vet for changed directories
         run: |
