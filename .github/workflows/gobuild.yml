@@ -1,4 +1,4 @@
-name: Build each GoFiber recipe
+name: Build Modified GoFiber Recipes
 
 on:
   push:
@@ -22,13 +22,33 @@ jobs:
           - stable
     runs-on: ubuntu-latest
     steps:
-      -   name: Fetch Repository
-          uses: actions/checkout@v3
-      -   name: Install Go
-          uses: actions/setup-go@v4
-          with:
-            go-version: ${{ matrix.go-version }}
-      -   name: Run go vet for each dir with go.mod
-          run: find . -name go.mod -print0 | xargs -0 -n1 -P4 bash -c 'cd $(dirname $0) && go vet ./...'
-      -   name: Run go build for each dir with go.mod
-          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done
+      - name: Fetch Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history so diffs can be performed
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Get changed directories
+        id: get_changed_dirs
+        run: |
+          echo "::set-output name=dirs::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '/.*\.go' | xargs -n 1 dirname | sort -u | xargs)"
+
+      - name: Run go vet for changed directories
+        run: |
+          for dir in ${{ steps.get_changed_dirs.outputs.dirs }}; do
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go vet ./...);
+            fi
+          done
+
+      - name: Run go build for changed directories
+        run: |
+          for dir in ${{ steps.get_changed_dirs.outputs.dirs }}; do
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go build ./...);
+            fi
+          done
