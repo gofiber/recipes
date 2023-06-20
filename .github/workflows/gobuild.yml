@@ -49,7 +49,7 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             # Get the changed directories for the entire pull request
-            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk -F'/' '{print $1}' | sort -u | tr '\n' ' '
+            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk -F'/' '{print $1}' | sort -u | tr '\n' ' ')
           else
             # For master branch, process all directories with go.mod
             changed_dirs=$(find . -name go.mod -exec dirname {} \; | tr '\n' ' ')
