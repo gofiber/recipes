@@ -1,4 +1,4 @@
-name: Build each GoFiber recipe
+name: Build GoFiber Recipes
 
 on:
   push:
@@ -22,13 +22,56 @@ jobs:
           - stable
     runs-on: ubuntu-latest
     steps:
-      -   name: Fetch Repository
-          uses: actions/checkout@v3
-      -   name: Install Go
-          uses: actions/setup-go@v4
-          with:
-            go-version: ${{ matrix.go-version }}
-      -   name: Run go vet for each dir with go.mod
-          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go vet ./...); done
-      -   name: Run go build for each dir with go.mod
-          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done
+      - name: Fetch Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history so diffs can be performed
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: false
+
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-${{ matrix.go-version }}-
+
+      - name: Get changed directories
+        id: get_changed_dirs
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # Get the changed directories for the entire pull request
+            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs -r dirname | sort -u | tr '\n' ' ')
+            echo "changed_dirs<<EOF" >> $GITHUB_ENV
+            echo "${changed_dirs}" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            # For pushes to master/main, check all directories
+            echo "changed_dirs=." >> $GITHUB_ENV
+          fi
+
+      - name: Run go vet for changed directories
+        run: |
+          for dir in ${{ env.changed_dirs }}; do
+            echo "Running go vet in directory: ${dir}"
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go vet ./...);
+            fi
+          done
+
+      - name: Run go build for changed directories
+        run: |
+          for dir in ${{ env.changed_dirs }}; do
+            echo "Running go build in directory: ${dir}"
+            if [ -f "${dir}/go.mod" ]; then
+              (cd $dir; go build ./...);
+            fi
+          done
