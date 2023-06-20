@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history so diffs can be performed
 
-      - name: Setup Go with Module Caching
+      - name: Setup Go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
@@ -43,17 +43,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-${{ matrix.go-version }}-
 
-
       - name: Get changed directories
         id: get_changed_dirs
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            changed_dirs=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- '*.go' | xargs -r dirname | sort -u | tr '\n' ' ')
+            # Get the changed directories for the entire pull request
+            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- '*.go' | xargs -r dirname | sort -u | tr '\n' ' ')
             echo "changed_dirs<<EOF" >> $GITHUB_ENV
             echo "${changed_dirs}" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
           else
+            # For pushes to master/main, check all directories
             echo "changed_dirs=." >> $GITHUB_ENV
           fi
 
