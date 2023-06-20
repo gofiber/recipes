@@ -3,6 +3,7 @@ package main
 import (
 	"fiber-oauth-google/router"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
 
