@@ -27,11 +27,20 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history so diffs can be performed
 
-      - name: Install Go
+      - name: Find go.sum files
+        id: find_gosum
+        run: |
+          go_sum_files=$(find . -name go.sum | tr '\n' ',')
+          # Remove trailing comma
+          go_sum_files=${go_sum_files%,}
+          # Set output
+          echo "gosum_files=$go_sum_files" >> $GITHUB_ENV
+
+      - name: Setup Go with Module Caching
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
-          cache-dependency-path: '**/go.sum'
+          cache-dependency-path: ${{ env.gosum_files }}
 
       - name: Get directories to check
         shell: bash
