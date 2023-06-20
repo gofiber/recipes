@@ -12,4 +12,5 @@ func main() {
 	app := fiber.New()
 	router.Routes(app)
 	app.Listen(":3300")
+
 }
