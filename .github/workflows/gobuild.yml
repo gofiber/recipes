@@ -27,21 +27,6 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history so diffs can be performed
 
-      - name: Find go.sum files
-        id: find_gosum
-        run: |
-          go_sum_files=$(find . -name go.sum | tr '\n' ',')
-          # Remove trailing comma
-          go_sum_files=${go_sum_files%,}
-          # Set output
-          echo "gosum_files=$go_sum_files" >> $GITHUB_ENV
-
-      - name: Setup Go with Module Caching
-        uses: actions/setup-go@v4
-        with:
-          go-version: ${{ matrix.go-version }}
-          cache-dependency-path: ${{ env.gosum_files }}
-
       - name: Get directories to check
         shell: bash
         run: |
@@ -58,6 +43,21 @@ jobs:
           echo "dirs<<EOF" >> $GITHUB_ENV
           echo "$dirs" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+
+      - name: Find go.sum files
+        id: find_gosum
+        run: |
+          go_sum_files=$(find . -name go.sum | tr '\n' ',')
+          # Remove trailing comma
+          go_sum_files=${go_sum_files%,}
+          # Set output
+          echo "gosum_files=$go_sum_files" >> $GITHUB_ENV
+
+      - name: Setup Go with Module Caching
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache-dependency-path: ${{ env.gosum_files }}
 
       - name: Run go vet for selected directories
         shell: bash
