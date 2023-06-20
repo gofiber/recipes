@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/gofiber/contrib/swagger v1.0.6
-	github.com/gofiber/fiber/v2 v2.46.0
+	github.com/gofiber/fiber/v2 v2.47.0
 	github.com/swaggo/swag v1.16.1
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.1
@@ -52,7 +52,7 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.mongodb.org/mongo-driver v1.11.3 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
-	golang.org/x/sys v0.8.0 // indirect
+	golang.org/x/sys v0.9.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/tools v0.9.3 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
