@@ -1,4 +1,4 @@
-name: Build Modified GoFiber Recipes
+name: Build GoFiber Recipes
 
 on:
   push:
@@ -32,23 +32,33 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Get changed directories
-        id: get_changed_dirs
+      - name: Get directories to check
+        id: get_dirs_to_check
+        shell: bash
         run: |
-          files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          if [ -n "$files" ]; then
-            dirs=$(echo "$files" | xargs -n 1 dirname | sort -u)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Check all directories for pushes to master/main
+            dirs=$(find . -name go.mod -exec dirname {} \; | xargs)
             echo "dirs=$dirs" >> $GITHUB_ENV
+          else
+            # Check only changed directories for pull requests
+            files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+            if [ -n "$files" ]; then
+              dirs=$(echo "$files" | xargs -n 1 dirname | sort -u)
+              echo "dirs=$dirs" >> $GITHUB_ENV
+            fi
           fi
 
-      - name: Run go vet for changed directories
+      - name: Run go vet for selected directories
+        shell: bash
         run: |
-          if [ -n "${dirs}" ]; then
-            echo "${dirs}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
+          if [ -n "$dirs" ]; then
+            echo "$dirs" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
           fi
 
-      - name: Run go build for changed directories
+      - name: Run go build for selected directories
+        shell: bash
         run: |
-          if [ -n "${dirs}" ]; then
-            echo "${dirs}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
+          if [ -n "$dirs" ]; then
+            echo "$dirs" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
           fi
