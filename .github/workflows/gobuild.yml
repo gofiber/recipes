@@ -52,13 +52,13 @@ jobs:
       - name: Run go vet for selected directories
         shell: bash
         run: |
-          if [ -n "$dirs" ]; then
-            echo "$dirs" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
+          if [ -n "${{ env.dirs }}" ]; then
+            echo "${{ env.dirs }}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
           fi
 
       - name: Run go build for selected directories
         shell: bash
         run: |
-          if [ -n "$dirs" ]; then
-            echo "$dirs" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
+          if [ -n "${{ env.dirs }}" ]; then
+            echo "${{ env.dirs }}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
           fi
