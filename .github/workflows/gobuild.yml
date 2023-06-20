@@ -1,0 +1,34 @@
+name: Build each GoFiber recipe
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    branches:
+      - '*'
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  builds:
+    strategy:
+      matrix:
+        go-version:
+          - oldstable
+          - stable
+    runs-on: ubuntu-latest
+    steps:
+      -   name: Fetch Repository
+          uses: actions/checkout@v3
+      -   name: Install Go
+          uses: actions/setup-go@v4
+          with:
+            go-version: ${{ matrix.go-version }}
+      -   name: Run go vet for each dir with go.mod
+          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go vet ./...); done
+      -   name: Run go build for each dir with go.mod
+          run: for f in $(find . -name go.mod); do (cd $(dirname $f); go build ./...); done

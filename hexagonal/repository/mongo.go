@@ -59,7 +59,7 @@ func (r *mongoRepository) Update(product *domain.Product) error {
 		ctx,
 		bson.M{"code": product.Code},
 		bson.D{
-			{"$set", bson.D{{"name", product.Name}, {"price", product.Price}}},
+			{Key: "$set", Value: bson.D{{Key: "name", Value: product.Name}, {Key: "price", Value: product.Price}}},
 		},
 	)
 	if err != nil {

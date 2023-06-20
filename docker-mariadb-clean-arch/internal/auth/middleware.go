@@ -4,9 +4,9 @@ import (
 	"os"
 	"strconv"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
-	jwtware "github.com/gofiber/jwt/v2"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // JWT error message.
@@ -27,10 +27,9 @@ func jwtError(c *fiber.Ctx, err error) error {
 // Guards a specific endpoint in the API.
 func JWTMiddleware() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		ErrorHandler:  jwtError,
-		SigningKey:    []byte(os.Getenv("JWT_SECRET")),
-		SigningMethod: "HS256",
-		TokenLookup:   "cookie:jwt",
+		ErrorHandler: jwtError,
+		SigningKey:   jwtware.SigningKey{Key: []byte(os.Getenv("JWT_SECRET"))},
+		TokenLookup:  "cookie:jwt",
 	})
 }
 

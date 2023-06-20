@@ -4,12 +4,14 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.46.0
-	github.com/gofiber/template v1.8.1
+	github.com/gofiber/template/django/v3 v3.1.3
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/flosch/pongo2/v4 v4.0.2 // indirect
+	github.com/flosch/pongo2/v6 v6.0.0 // indirect
+	github.com/gofiber/template v1.8.2 // indirect
+	github.com/gofiber/utils v1.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

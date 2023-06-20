@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.46.0
-	gorm.io/driver/sqlite v1.5.1
-	gorm.io/gorm v1.25.1
+	gorm.io/driver/sqlite v1.5.2
+	gorm.io/gorm v1.25.2-0.20230530020048-26663ab9bf55
 )
 
 require (
