@@ -33,21 +33,21 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Get directories to check
-        id: get_dirs_to_check
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "push" ]]; then
             # Check all directories for pushes to master/main
             dirs=$(find . -name go.mod -exec dirname {} \; | xargs)
-            echo "dirs=$dirs" >> $GITHUB_ENV
           else
             # Check only changed directories for pull requests
             files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
             if [ -n "$files" ]; then
               dirs=$(echo "$files" | xargs -n 1 dirname | sort -u)
-              echo "dirs=$dirs" >> $GITHUB_ENV
             fi
           fi
+          echo "dirs<<EOF" >> $GITHUB_ENV
+          echo "$dirs" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Run go vet for selected directories
         shell: bash
