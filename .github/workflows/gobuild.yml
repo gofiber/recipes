@@ -35,21 +35,20 @@ jobs:
       - name: Get changed directories
         id: get_changed_dirs
         run: |
-          files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '/.*\.go')
+          files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
           if [ -n "$files" ]; then
-            echo "::set-output name=dirs::$(echo "$files" | xargs -n 1 dirname | sort -u)"
-          else
-            echo "::set-output name=dirs::"
+            dirs=$(echo "$files" | xargs -n 1 dirname | sort -u)
+            echo "dirs=$dirs" >> $GITHUB_ENV
           fi
 
       - name: Run go vet for changed directories
         run: |
-          if [ -n "${{ steps.get_changed_dirs.outputs.dirs }}" ]; then
-            echo "${{ steps.get_changed_dirs.outputs.dirs }}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
+          if [ -n "${dirs}" ]; then
+            echo "${dirs}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go vet ./...); fi'
           fi
 
       - name: Run go build for changed directories
         run: |
-          if [ -n "${{ steps.get_changed_dirs.outputs.dirs }}" ]; then
-            echo "${{ steps.get_changed_dirs.outputs.dirs }}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
+          if [ -n "${dirs}" ]; then
+            echo "${dirs}" | xargs -n 1 -P 4 bash -c 'if [ -f "$0/go.mod" ]; then (cd $0; go build ./...); fi'
           fi
