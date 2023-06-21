@@ -7,7 +7,7 @@ require (
 	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0
 	github.com/gofiber/fiber/v2 v2.47.0
 	github.com/gofiber/utils v1.1.0
-	github.com/valyala/fasthttp v1.47.0
+	github.com/valyala/fasthttp v1.48.0
 )
 
 require (
