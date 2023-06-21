@@ -74,6 +74,6 @@ jobs:
           for dir in ${{ env.changed_dirs }}; do
             echo "Running go build in directory: ${dir}"
             if [ -f "${dir}/go.mod" ]; then
-              (cd $dir; go build ./...);
+              (cd $dir; go build -race ./...);
             fi
           done
