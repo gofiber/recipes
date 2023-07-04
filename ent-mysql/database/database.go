@@ -1,14 +1,13 @@
 package database
 
 import (
-	"http/ent"
 	"log"
 	"os"
+
+	"ent-mysql/ent"
 )
 
-var (
-	DBConn *ent.Client
-)
+var DBConn *ent.Client
 
 func ConnectDb() {
 	// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details

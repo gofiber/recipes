@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"log"
 
-	"http/ent/migrate"
+	"ent-mysql/ent/migrate"
 
-	"http/ent/book"
+	"ent-mysql/ent/book"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

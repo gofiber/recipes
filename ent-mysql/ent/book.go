@@ -3,8 +3,8 @@
 package ent
 
 import (
+	"ent-mysql/ent/book"
 	"fmt"
-	"http/ent/book"
 	"strings"
 
 	"entgo.io/ent"

@@ -1,6 +1,6 @@
-module http
+module ent-mysql
 
-go 1.20
+go 1.19
 
 require (
 	entgo.io/ent v0.12.3

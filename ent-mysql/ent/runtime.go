@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"http/ent/book"
-	"http/ent/schema"
+	"ent-mysql/ent/book"
+	"ent-mysql/ent/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

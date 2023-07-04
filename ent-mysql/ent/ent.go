@@ -4,15 +4,14 @@ package ent
 
 import (
 	"context"
-	"errors"
-	"fmt"
-	"http/ent/book"
-	"reflect"
-	"sync"
-
+	"ent-mysql/ent/book"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"errors"
+	"fmt"
+	"reflect"
+	"sync"
 )
 
 // ent aliases to avoid import conflicts in user's code.

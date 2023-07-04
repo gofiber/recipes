@@ -3,7 +3,7 @@
 package book
 
 import (
-	"http/ent/predicate"
+	"ent-mysql/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

@@ -4,10 +4,10 @@ package ent
 
 import (
 	"context"
+	"ent-mysql/ent/book"
+	"ent-mysql/ent/predicate"
 	"errors"
 	"fmt"
-	"http/ent/book"
-	"http/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
