@@ -282,3 +282,7 @@ updates:
     directory: "/vercel"
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/ent-mysql"
+    schedule:
+      interval: "daily"
