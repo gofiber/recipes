@@ -3,7 +3,6 @@ package routes
 import (
 	"context"
 	"log"
-	"strconv"
 
 	"ent-mysql/database"
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +11,7 @@ import (
 var ctx = context.Background()
 
 func GetBook(c *fiber.Ctx) error {
-	id, _ := strconv.Atoi(c.Params("id"))
+	id, _ := c.ParamsInt("id")
 	b, err := database.DBConn.Book.
 		Get(ctx, id)
 	if b == nil {
@@ -36,10 +35,15 @@ func GetAllBook(c *fiber.Ctx) error {
 }
 
 func CreateBook(c *fiber.Ctx) error {
+	title := c.Query("title")
+	author := c.Query("author")
+	if title == "" || author == "" {
+		return c.Status(fiber.StatusBadRequest).JSON("Not enough data for creating")
+	}
 	b, err := database.DBConn.Book.
 		Create().
-		SetTitle("book").
-		SetAuthor("user").
+		SetTitle(title).
+		SetAuthor(author).
 		Save(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
@@ -49,7 +53,7 @@ func CreateBook(c *fiber.Ctx) error {
 }
 
 func DeleteBook(c *fiber.Ctx) error {
-	id, _ := strconv.Atoi(c.Params("id"))
+	id, _ := c.ParamsInt("id")
 	err := database.DBConn.Book.
 		DeleteOneID(id).
 		Exec(ctx)
@@ -61,10 +65,16 @@ func DeleteBook(c *fiber.Ctx) error {
 }
 
 func UpdateBook(c *fiber.Ctx) error {
-	id, _ := strconv.Atoi(c.Params("id"))
+	title := c.Query("title")
+	author := c.Query("author")
+	id, _ := c.ParamsInt("id")
+	if title == "" || author == "" {
+		return c.Status(fiber.StatusBadRequest).JSON("Not enough data for updating")
+	}
 	b, err := database.DBConn.Book.
 		UpdateOneID(id).
-		SetTitle("updateBook").
+		SetTitle(title).
+		SetAuthor(author).
 		Save(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
