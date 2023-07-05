@@ -15,6 +15,9 @@ func GetBook(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	b, err := database.DBConn.Book.
 		Get(ctx, id)
+	if b == nil {
+		return c.Status(fiber.StatusNotFound).JSON("Not found")
+	}
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
