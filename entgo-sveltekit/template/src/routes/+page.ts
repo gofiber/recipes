@@ -1,11 +1,10 @@
-import { PUBLIC_API_URL as uri } from '$env/static/public'
 import { error,loading,todos, type TodoType } from '$lib/store/todos';
 import type { PageLoad } from './$types';
 
 export const load = (async ({fetch}) => {
     loading.set(true); // Set the loading state to true before fetching data
     try {
-        const response = await fetch(uri + "/todo/list");
+        const response = await fetch("/api/v1/todo/list");
         const result = await response.json() as TodoType[];
         todos.set(result); // Set the retrieved data to the todos store
     } catch (e) {

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { PUBLIC_API_URL as uri } from '$env/static/public'
+//import { PUBLIC_API_URL as uri } from '$env/static/public'
 
 /**
  * Represents the type of a todo item.
@@ -24,7 +24,7 @@ export const todos = writable<TodoType[]>([]);
  */
 export const add = async (todo: TodoType) => {
     try {
-        const response = await fetch(uri + "/todo/create", {
+        const response = await fetch("/api/v1/todo/create", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ export const remove = async (id: string | undefined) => {
         return;
     }
     try {
-        await fetch(uri + `/todo/delete/${id}`, {
+        await fetch(`/api/v1/todo/delete/${id}`, {
             method: 'DELETE'
         });
         todos.update(existingTodos => existingTodos.filter(todo => todo.id !== id));
@@ -63,7 +63,7 @@ export const update = async (id: string | undefined, updatedTodo: TodoType) => {
         return;
     }
     try {
-        const response = await fetch(uri + `/todo/update/${id}`, {
+        const response = await fetch(`/api/v1/todo/update/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
