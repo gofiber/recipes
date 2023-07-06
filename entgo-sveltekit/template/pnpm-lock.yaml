@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  uuid:
-    specifier: ^9.0.0
-    version: 9.0.0
-
 devDependencies:
   '@sveltejs/adapter-static':
     specifier: ^2.0.2
@@ -16,9 +11,6 @@ devDependencies:
   '@sveltejs/kit':
     specifier: ^1.20.4
     version: 1.21.0(svelte@4.0.4)(vite@4.3.9)
-  '@types/uuid':
-    specifier: ^9.0.2
-    version: 9.0.2
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.24)
@@ -34,9 +26,6 @@ devDependencies:
   svelte-check:
     specifier: ^3.4.3
     version: 3.4.4(postcss-load-config@4.0.1)(postcss@8.4.24)(svelte@4.0.4)
-  sveltekit-superforms:
-    specifier: ^1.1.3
-    version: 1.1.3(@sveltejs/kit@1.21.0)(svelte@4.0.4)(zod@3.21.4)
   tailwindcss:
     specifier: ^3.3.2
     version: 3.3.2
@@ -49,9 +38,6 @@ devDependencies:
   vite:
     specifier: ^4.3.6
     version: 4.3.9
-  zod:
-    specifier: ^3.21.4
-    version: 3.21.4
 
 packages:
 
@@ -406,10 +392,6 @@ packages:
 
   /@types/pug@2.0.6:
     resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
-    dev: true
-
-  /@types/uuid@9.0.2:
-    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
     dev: true
 
   /acorn@8.9.0:
@@ -1301,18 +1283,6 @@ packages:
       periscopic: 3.1.0
     dev: true
 
-  /sveltekit-superforms@1.1.3(@sveltejs/kit@1.21.0)(svelte@4.0.4)(zod@3.21.4):
-    resolution: {integrity: sha512-BMyzxYXppdSyzeMPd5VFfJRr0Gr/EpUISz4d97vSFuP+/HTACg7qTI+M0sddJ7IvVw/9PAzIvKFh+FRfmeOmaQ==}
-    peerDependencies:
-      '@sveltejs/kit': 1.x
-      svelte: 3.x || 4.x
-      zod: 3.x
-    dependencies:
-      '@sveltejs/kit': 1.21.0(svelte@4.0.4)(vite@4.3.9)
-      svelte: 4.0.4
-      zod: 3.21.4
-    dev: true
-
   /tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
     engines: {node: '>=14.0.0'}
@@ -1406,11 +1376,6 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
-    hasBin: true
-    dev: false
-
   /vite@4.3.9:
     resolution: {integrity: sha512-qsTNZjO9NoJNW7KnOrgYwczm0WctJ8m/yqYAMAK9Lxt4SoySUfS5S8ia9K7JHpa3KEeMfyF8LoJ3c5NeBJy6pg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1461,8 +1426,4 @@ packages:
   /yaml@2.3.1:
     resolution: {integrity: sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==}
     engines: {node: '>= 14'}
-    dev: true
-
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: true
