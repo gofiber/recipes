@@ -1,14 +1,6 @@
 <script lang="ts">
-  import { z } from "zod";
-
   import { todos, add, loading, remove, update, type TodoType } from "$lib/store/todos";
 
-  const TodoSchema = z.object({
-    id: z.string().optional(),
-    content: z.string(),
-    completed: z.boolean().optional(),
-  });
-  
   let newTodo = "";
 
   async function handleAdd() {
