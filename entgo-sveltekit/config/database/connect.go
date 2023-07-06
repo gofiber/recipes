@@ -1,10 +1,11 @@
 package database
 
 import (
-	"app/entity"
 	"context"
 	"errors"
 	"fmt"
+
+	"app/entity"
 
 	_ "github.com/mattn/go-sqlite3"
 )

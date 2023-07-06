@@ -1,9 +1,10 @@
 package fixtures
 
 import (
+	"context"
+
 	"app/config/database"
 	"app/entity"
-	"context"
 )
 
 func LoadTodos(name string) (err error) {

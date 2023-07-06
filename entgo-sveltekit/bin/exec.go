@@ -138,7 +138,6 @@ func Info() {
 	fmt.Println("Usage: go run ./bin <command>")
 }
 
-var (
-	green = color.New(color.FgGreen)
-	//bold  = color.New(color.Bold)
-)
+var green = color.New(color.FgGreen)
+
+// bold  = color.New(color.Bold)

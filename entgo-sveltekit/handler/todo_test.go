@@ -1,15 +1,16 @@
 package handler_test
 
 import (
-	"app/entity"
-	"app/entity/enttest"
-	"app/handler"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net/http/httptest"
 	"testing"
+
+	"app/entity"
+	"app/entity/enttest"
+	"app/handler"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
