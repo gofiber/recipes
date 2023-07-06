@@ -1,5 +1,5 @@
 # Todo Application
-![image](banner.png)
+![image](https://github.com/ugurkorkmaz/gofiber-recipes/assets/40540244/08c6ee52-724a-4cf4-8352-9cf6f5b007ef)
 
 This Todo application is a full-stack project built using Sveltekit, Tailwind CSS, Fiber, Entgo, and SQLite. It showcases the construction of a monolithic architecture for a full-stack application.
 
@@ -68,11 +68,7 @@ Npm Dependencies
 -   **SvelteKit:** A JavaScript framework used to build modern web applications.
 -   **Tailwind CSS:** A fast and customizable CSS styling library. Can be used in SvelteKit projects.
 
-## Author
+----------------
 
-👤 **Uğur Korkmaz**
-
-* Twitter: [@ugurkorkmaz](https://twitter.com/ugurkorkmaz)
-* Github: [@ugurkorkmaz](https://github.com/ugurkorkmaz)
-* LinkedIn: [@korkmazugur](https://linkedin.com/in/korkmazugur)
+Author: [@ugurkorkmaz](https://github.com/ugurkorkmaz)
 
