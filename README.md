@@ -15,6 +15,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker MariaDB Clean Architecture](/docker-mariadb-clean-arch)
 - [Docker Nginx Loadbalancer](/docker-nginx-loadbalancer)
 - [Docker Postgres-JWT](/auth-docker-postgres-jwt)
+- [Entgo Sveltekit](/entgo-sveltekit)
 - [Enable HTTPS/TLS using PKCS12 store](/https-pkcs12-tls)
 - [Enable HTTPS/TLS](/https-tls)
 - [Enable Preforking](/prefork)
