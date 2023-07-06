@@ -1,0 +1,4 @@
+/dist
+app
+.env
+.sqlite
