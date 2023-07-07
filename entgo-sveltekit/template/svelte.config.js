@@ -1,3 +1,4 @@
+// jshint esversion:6
 import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 
