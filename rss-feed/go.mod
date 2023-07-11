@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.47.0
-	github.com/gofiber/template/mustache/v2 v2.0.4
+	github.com/gofiber/template/mustache/v2 v2.0.5
 )
 
 require (
