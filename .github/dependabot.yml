@@ -286,3 +286,11 @@ updates:
     directory: "/ent-mysql"
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/entgo-sveltekit"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/sveltekit-embed/template"
+    schedule:
+      interval: "daily"
