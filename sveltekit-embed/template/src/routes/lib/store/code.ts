@@ -1,8 +1,7 @@
-import { writable } from "svelte/store";
-
+import { writable } from 'svelte/store';
 
 export const gofiber_code = writable(
-    `package main
+	`package main
 
 import (
     "log"
@@ -19,10 +18,11 @@ func main() {
 
     log.Fatal(app.Listen(":3000"))
 }
-`)
+`
+);
 
 export const robustRouting = writable(
-    `app.Get("/", func (c *fiber.Ctx) error {
+	`app.Get("/", func (c *fiber.Ctx) error {
     return c.SendString("GET request")
 })
 
@@ -33,10 +33,11 @@ app.Get("/:param", func (c *fiber.Ctx) error {
 app.Post("/", func (c *fiber.Ctx) error {
     return c.SendString("POST request")
 })
-`)
+`
+);
 
 export const serverStaticFiles = writable(
-    `app.Static("/", "./public")
+	`app.Static("/", "./public")
 
 // => http://localhost:3000/hello.html
 // => http://localhost:3000/js/jquery.js
@@ -44,4 +45,4 @@ export const serverStaticFiles = writable(
 
 // serve from multiple directories
 app.Static("/", "./files")`
-)
+);

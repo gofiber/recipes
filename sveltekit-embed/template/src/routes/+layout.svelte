@@ -9,7 +9,6 @@
 
 	import '../app.postcss';
 
-
 	import hljs from 'highlight.js';
 	import { LightSwitch, AppBar, AppShell, storeHighlightJs } from '@skeletonlabs/skeleton';
 	storeHighlightJs.set(hljs);
@@ -31,12 +30,16 @@
 	</div>
 	<svelte:fragment slot="pageFooter">
 		<div class="p-4 flex flex-col justify-center items-center bg-primary-50">
-			<p class="font-extrabold text-3xl text-primary-400 mb-4">
-				...and much more!
-			</p>
-			<a href="https://docs.gofiber.io/" class="btn variant-outline-primary" data-sveltekit-preload-data="hover">
+			<p class="font-extrabold text-3xl text-primary-400 mb-4">...and much more!</p>
+			<a
+				href="https://docs.gofiber.io/"
+				class="btn variant-outline-primary"
+				data-sveltekit-preload-data="hover"
+			>
 				<span class="text-primary-900">Explore Fiber</span>
-				<span class="text-primary-900 font-extrabold text-5xl select-none rotate-90 lg:rotate-0 m-1">&rarr;</span>
+				<span class="text-primary-900 font-extrabold text-5xl select-none rotate-90 lg:rotate-0 m-1"
+					>&rarr;</span
+				>
 			</a>
 		</div>
 	</svelte:fragment>

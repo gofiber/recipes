@@ -50,7 +50,8 @@
 	<div class="w-full inline-flex flex-col justify-center items-center">
 		<h3 class="h3">Robust Routing</h3>
 		<p class="p-3">
-			Setting up routes for your application has never been so easy! The Express-like route definitions are easy to understand and work with.
+			Setting up routes for your application has never been so easy! The Express-like route
+			definitions are easy to understand and work with.
 		</p>
 	</div>
 	<div class="w-full flex flex-col">
@@ -65,7 +66,8 @@
 	<div class="w-full inline-flex flex-col justify-center items-center">
 		<h3 class="h3">Serve Static Files</h3>
 		<p class="p-3">
-			Serve your static HTML, CSS, and JavaScript files with ease by defining static routes. You can also serve the contents of multiple directories on the same route!
+			Serve your static HTML, CSS, and JavaScript files with ease by defining static routes. You can
+			also serve the contents of multiple directories on the same route!
 		</p>
 	</div>
 </section>
