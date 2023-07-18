@@ -283,6 +283,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
+    directory: "/ent-mysql"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
     directory: "/entgo-sveltekit"
     schedule:
       interval: "daily"

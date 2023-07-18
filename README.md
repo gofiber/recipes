@@ -18,6 +18,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Enable HTTPS/TLS using PKCS12 store](/https-pkcs12-tls)
 - [Enable HTTPS/TLS](/https-tls)
 - [Enable Preforking](/prefork)
+- [Ent Mysql Example](/ent-mysql)
 - [Entgo Sveltekit](/entgo-sveltekit)
 - [GeoIP (with MaxMind databases)](/geoip-maxmind)
 - [GeoIP](/geoip)
