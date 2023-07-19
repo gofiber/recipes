@@ -10,7 +10,7 @@ To run the project, follow these steps:
 1. Execute the following command to run all the necessary commands for building and running the application:
 
 ```bash
-go run ./bin all
+make all
 ```
 2. Once the build process is complete, you can start the application by running:
 ```bash
@@ -34,7 +34,7 @@ The following commands are available to manage the project:
 To use this application, run the following command:
 
 ```bash
-go run ./bin <command>
+make <command>
 ```
 
 
