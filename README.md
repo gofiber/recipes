@@ -44,7 +44,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Recover from panic](/recover)
 - [RSS feed](/rss-feed)
 - [Serve Static Files](/file-server)
-- [Sveltekit Embed App](/sveltekit-embed)
 - [Server Timing](/server-timing)
 - [Server-Sent Events](/sse)
 - [Sessions-SQLite3](/sessions-sqlite3)
