@@ -291,6 +291,14 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
+    directory: "/entgo-sveltekit/template"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/sveltekit-embed"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
     directory: "/sveltekit-embed/template"
     schedule:
       interval: "daily"
