@@ -5,18 +5,29 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/neo4j/neo4j-go-driver/neo4j"
+	"github.com/neo4j/neo4j-go-driver/neo4j" // Memgraph is compatible with Neo4j GO driver, and you can use it to connect to Memgraph
 )
 
+// Developer represents a developer node in the graph
 type Developer struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-type Technology struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Label string `json:"label"`
 }
 
+// Loves represents a relationship between developer and technology
+type Loves struct {
+	Label string `json:"label"`
+}
+
+// Technology represents a technology node in the graph
+type Technology struct {
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Label string `json:"label"`
+}
+
+// Queries to create the mock dataset
 func getDatasetCreationQueries() []string {
 
 	//Create developer nodes
@@ -59,7 +70,8 @@ func getDatasetCreationQueries() []string {
 		"MATCH (a:Developer {id: 3}),(b:Technology {id: 3}) CREATE (a)-[r:LOVES]->(b);",
 	}
 
-	var allQueries []string
+	//Create a single list of all queries for sake of simplicity
+	var allQueries []string = []string{"MATCH (n) DETACH DELETE n;"}
 	allQueries = append(allQueries, developer_nodes...)
 	allQueries = append(allQueries, technology_nodes...)
 	allQueries = append(allQueries, indexes...)
@@ -69,6 +81,7 @@ func getDatasetCreationQueries() []string {
 }
 
 func ConnectDriverToDB() (neo4j.Driver, error) {
+	//Memgraph communicates via Bolt protocol, using port 7687
 	dbUri := "bolt://localhost:7687"
 	var (
 		driver neo4j.Driver
@@ -82,6 +95,7 @@ func ConnectDriverToDB() (neo4j.Driver, error) {
 }
 
 func executeQuery(driver neo4j.Driver, query string) (neo4j.Result, error) {
+	//Each session opens a new connection to the database and gets a thread from the thread pool, for multi-threaded access to Memgraph open multiple sessions
 	session, err := driver.Session(neo4j.AccessModeWrite)
 	if err != nil {
 		return nil, err
@@ -97,6 +111,7 @@ func executeQuery(driver neo4j.Driver, query string) (neo4j.Result, error) {
 
 func main() {
 
+	//Connect to Memgraph
 	driver, err := ConnectDriverToDB()
 	if err != nil {
 		fmt.Print(err)
@@ -104,8 +119,8 @@ func main() {
 	}
 	defer driver.Close()
 
+	//Create mock dataset
 	datasetCreationQueries := getDatasetCreationQueries()
-
 	for _, query := range datasetCreationQueries {
 		_, err := executeQuery(driver, query)
 		if err != nil {
@@ -114,9 +129,10 @@ func main() {
 		}
 	}
 
+	//Create a Fiber app
 	app := fiber.New()
 
-	//Get developer and technologies he loves
+	//Get developer called Andy and technologies he loves, http://localhost:3000/developer/Andy
 	app.Get("/developer/:name", func(c *fiber.Ctx) error {
 		name := c.Params("name")
 		query := fmt.Sprintf(`MATCH (dev:Developer {name:'%s'})-[loves:LOVES]->(tech:Technology) RETURN dev, loves, tech `, name)
@@ -126,33 +142,107 @@ func main() {
 			return err
 		}
 
-		res := &Developer{}
+		developer := Developer{}
+		loves := Loves{}
+		technologies := []Technology{}
+		technology := Technology{}
 
 		for result.Next() {
 			record := result.Record().Values()
-			fmt.Println(record)
-			fmt.Println(record[0].(neo4j.Node).Props()["name"])
+			for _, value := range record {
+				switch v := value.(type) {
+				case neo4j.Node:
+					if value.(neo4j.Node).Labels()[0] == "Developer" {
+						developer.Id = value.(neo4j.Node).Props()["id"].(int64)
+						developer.Label = value.(neo4j.Node).Labels()[0]
+						developer.Name = value.(neo4j.Node).Props()["name"].(string)
 
+					} else if value.(neo4j.Node).Labels()[0] == "Technology" {
+						technology.Id = value.(neo4j.Node).Props()["id"].(int64)
+						technology.Label = value.(neo4j.Node).Labels()[0]
+						technology.Name = value.(neo4j.Node).Props()["name"].(string)
+						technologies = append(technologies, technology)
+					} else {
+						fmt.Println("Unknown Node type")
+					}
+				case neo4j.Relationship:
+					if value.(neo4j.Relationship).Type() == "LOVES" {
+						loves.Label = value.(neo4j.Relationship).Type()
+					} else {
+						fmt.Println("Unknown Relationship type")
+					}
+				default:
+					fmt.Printf("I don't know about type %T!\n", v)
+				}
+
+			}
 		}
-		return c.JSON(res)
+
+		data := map[string]interface{}{
+			"developer":    developer,
+			"loves":        loves,
+			"technologies": technologies,
+		}
+
+		return c.JSON(data)
+
 	})
 
-	// //Get whole graph
-	// app.Get("/graph", func(c *fiber.Ctx) error {
-	// 	query := `MATCH (dev)-[loves]->(tech) RETURN dev, loves, tech`
+	//Get whole graph, including all nodes, and edges, http://localhost:3000/graph
+	app.Get("/graph", func(c *fiber.Ctx) error {
+		query := `MATCH (dev)-[loves]->(tech) RETURN dev, loves, tech`
 
-	// 	result, err := executeQuery(driver, query)
-	// 	if err != nil {
-	// 		return err
-	// 	}
+		result, err := executeQuery(driver, query)
+		if err != nil {
+			return err
+		}
+		developer := Developer{}
+		love := Loves{}
+		technology := Technology{}
+		developer_nodes := []Developer{}
+		love_edges := []Loves{}
+		technology_nodes := []Technology{}
+		for result.Next() {
+			record := result.Record().Values()
+			for _, value := range record {
+				switch v := value.(type) {
+				case neo4j.Node:
+					if value.(neo4j.Node).Labels()[0] == "Developer" {
+						developer.Id = value.(neo4j.Node).Props()["id"].(int64)
+						developer.Label = value.(neo4j.Node).Labels()[0]
+						developer.Name = value.(neo4j.Node).Props()["name"].(string)
+						developer_nodes = append(developer_nodes, developer)
 
-	// 	for result.Next() {
-	// 		record := result.Record().Values()
-	// 		fmt.Println(record[0].(neo4j.Node).Props()["name"])
+					} else if value.(neo4j.Node).Labels()[0] == "Technology" {
+						technology.Id = value.(neo4j.Node).Props()["id"].(int64)
+						technology.Label = value.(neo4j.Node).Labels()[0]
+						technology.Name = value.(neo4j.Node).Props()["name"].(string)
+						technology_nodes = append(technology_nodes, technology)
+					} else {
+						fmt.Println("Unknown Node type")
+					}
+				case neo4j.Relationship:
+					if value.(neo4j.Relationship).Type() == "LOVES" {
+						love.Label = value.(neo4j.Relationship).Type()
+						love_edges = append(love_edges, love)
+					} else {
+						fmt.Println("Unknown Relationship type")
+					}
+				default:
+					fmt.Printf("I don't know about type %T!\n", v)
+				}
 
-	// 	}
-	// 	return c.JSON("Graph")
-	// })
+			}
+		}
+
+		data := map[string]interface{}{
+			"developer":  developer_nodes,
+			"loves":      love_edges,
+			"technology": technology_nodes,
+		}
+		return c.JSON(data)
+
+	})
 	log.Fatal(app.Listen(":3000"))
 
 }
