@@ -302,3 +302,7 @@ updates:
     directory: "/sveltekit-embed/template"
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/aws-sam"
+    schedule:
+      interval: "daily"
