@@ -7,6 +7,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 ## 🌽 Table of contents
 
 - [Amazon Web Services (AWS) Elastic Beanstalk](/aws-eb)
+- [AWS SAM](/aws-sam)
 - [Certificates from Let's Encrypt](/autocert)
 - [Clean Architecture](/clean-architecture)
 - [Cloud Run](/cloud-run)
