@@ -12,8 +12,8 @@ devDependencies:
     specifier: ^1.9.0
     version: 1.9.0(svelte@3.59.2)
   '@sveltejs/adapter-static':
-    specifier: ^2.0.2
-    version: 2.0.2(@sveltejs/kit@1.22.3)
+    specifier: ^2.0.3
+    version: 2.0.3(@sveltejs/kit@1.22.3)
   '@sveltejs/kit':
     specifier: ^1.22.3
     version: 1.22.3(svelte@3.59.2)(vite@4.4.7)
@@ -417,8 +417,8 @@ packages:
       svelte: 3.59.2
     dev: true
 
-  /@sveltejs/adapter-static@2.0.2(@sveltejs/kit@1.22.3):
-    resolution: {integrity: sha512-9wYtf6s6ew7DHUHMrt55YpD1FgV7oWql2IGsW5BXquLxqcY9vjrqCFo0TzzDpo+ZPZkW/v77k0eOP6tsAb8HmQ==}
+  /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.22.3):
+    resolution: {integrity: sha512-VUqTfXsxYGugCpMqQv1U0LIdbR3S5nBkMMDmpjGVJyM6Q2jHVMFtdWJCkeHMySc6mZxJ+0eZK3T7IgmUCDrcUQ==}
     peerDependencies:
       '@sveltejs/kit': ^1.5.0
     dependencies:

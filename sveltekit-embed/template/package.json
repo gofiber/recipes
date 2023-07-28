@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@floating-ui/dom": "^1.4.5",
 		"@skeletonlabs/skeleton": "^1.9.0",
-		"@sveltejs/adapter-static": "^2.0.2",
+		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.22.3",
 		"@tailwindcss/forms": "^0.5.4",
 		"@tailwindcss/typography": "^0.5.9",
