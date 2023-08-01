@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.48.0
-	github.com/oschwald/maxminddb-golang v1.11.0
+	github.com/oschwald/maxminddb-golang v1.12.0
 )
 
 require (
