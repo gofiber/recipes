@@ -3,7 +3,7 @@ module validation
 go 1.18
 
 require (
-	github.com/go-playground/validator/v10 v10.14.1
+	github.com/go-playground/validator/v10 v10.15.0
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/joho/godotenv v1.5.1
 )
