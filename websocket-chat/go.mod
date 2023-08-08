@@ -3,7 +3,7 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/contrib/websocket v1.1.0
+	github.com/gofiber/contrib/websocket v1.2.0
 	github.com/gofiber/fiber/v2 v2.48.0
 )
 
