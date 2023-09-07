@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.49.1
-	github.com/gofiber/template/django/v3 v3.1.5
+	github.com/gofiber/template/django/v3 v3.1.6
 )
 
 require (
