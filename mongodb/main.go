@@ -6,7 +6,6 @@ package main
 import (
 	"context"
 	"log"
-	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -37,18 +36,20 @@ type Employee struct {
 }
 
 // Connect configures the MongoDB client and initializes the database connection.
-// Source: https://www.mongodb.com/blog/post/quick-start-golang--mongodb--starting-and-setup
+// Source: https://www.mongodb.com/docs/drivers/go/current/quick-start/
 func Connect() error {
-	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoURI))
 
 	if err != nil {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
 
-	err = client.Connect(ctx)
 	db := client.Database(dbName)
 
 	if err != nil {
