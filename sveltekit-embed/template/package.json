@@ -15,7 +15,7 @@
 		"@floating-ui/dom": "^1.5.2",
 		"@skeletonlabs/skeleton": "^1.12.0",
 		"@sveltejs/adapter-static": "^2.0.3",
-		"@sveltejs/kit": "^1.24.1",
+		"@sveltejs/kit": "^1.25.0",
 		"@tailwindcss/forms": "^0.5.6",
 		"@tailwindcss/typography": "^0.5.10",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
