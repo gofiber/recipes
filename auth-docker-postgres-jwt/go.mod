@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/go-playground/validator/v10 v10.15.4
 	github.com/gofiber/contrib/jwt v1.0.6
-	github.com/gofiber/fiber/v2 v2.49.1
+	github.com/gofiber/fiber/v2 v2.49.2
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.13.0
