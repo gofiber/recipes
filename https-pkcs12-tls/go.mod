@@ -3,7 +3,7 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.49.1
+	github.com/gofiber/fiber/v2 v2.49.2
 	golang.org/x/crypto v0.13.0
 )
 
