@@ -1,9 +1,15 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>renovatebot/.github"],
   "labels": ["\uD83E\uDD16 Dependencies"],
+  "schedule": "every 5 mins",
+  "automergeType": "pr",
+  "prCreation": "immediate",
   "packageRules": [
     {
-      "matchDepTypes": ["minor", "patch", "digest"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true
-    }
+    },
+    { "matchUpdateTypes": ["major"] }
   ]
 }
