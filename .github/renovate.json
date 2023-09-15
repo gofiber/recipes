@@ -1,0 +1,9 @@
+{
+  "labels": ["\uD83E\uDD16 Dependencies"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["minor", "patch", "digest"],
+      "automerge": true
+    }
+  ]
+}
