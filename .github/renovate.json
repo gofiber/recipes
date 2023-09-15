@@ -5,6 +5,7 @@
   "schedule": "every 5 mins",
   "automergeType": "pr",
   "prCreation": "immediate",
+  "enabledManagers": ["npm", "dockerfile", "gomod", "github-actions"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "digest"],
