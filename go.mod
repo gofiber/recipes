@@ -5,7 +5,7 @@ go 1.20
 replace (
 	github.com/gofiber/recipes/404-handler => ./404-handler
 	github.com/gofiber/recipes/air => ./air
-	github.com/gofiber/recipes/api => ./hexagonal
+	github.com/gofiber/recipes/hexagonal => ./hexagonal
 	github.com/gofiber/recipes/auth-docker-postgres-jwt => ./auth-docker-postgres-jwt
 	github.com/gofiber/recipes/auth-jwt => ./auth-jwt
 	github.com/gofiber/recipes/autocert => ./autocert
