@@ -14,6 +14,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      # Check for npm updates at 10am UTC
+      time: "10:00"
     groups:
       dev-dependencies:
         patterns:
