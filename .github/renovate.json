@@ -4,6 +4,7 @@
   "labels": ["\uD83E\uDD16 Dependencies"],
   "automergeType": "pr",
   "prCreation": "immediate",
+  "rangeStrategy": "replace",
   "enabledManagers": ["npm", "dockerfile", "gomod", "github-actions"],
   "packageRules": [
     {
