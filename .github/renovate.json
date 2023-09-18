@@ -5,6 +5,7 @@
   "automergeType": "pr",
   "prCreation": "immediate",
   "rangeStrategy": "replace",
+  "dependencyDashboard": false,
   "enabledManagers": ["npm", "dockerfile", "gomod", "github-actions"],
   "packageRules": [
     {
