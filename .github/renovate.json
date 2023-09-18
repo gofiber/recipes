@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>renovatebot/.github"],
   "labels": ["\uD83E\uDD16 Dependencies"],
-  "schedule": "every 5 mins",
   "automergeType": "pr",
   "prCreation": "immediate",
   "enabledManagers": ["npm", "dockerfile", "gomod", "github-actions"],
