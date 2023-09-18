@@ -9,8 +9,8 @@ devDependencies:
     specifier: ^1.5.3
     version: 1.5.3
   '@skeletonlabs/skeleton':
-    specifier: ^1.12.0
-    version: 1.12.0(svelte@3.59.2)
+    specifier: ^2.0.0
+    version: 2.1.0(svelte@3.59.2)
   '@sveltejs/adapter-static':
     specifier: ^2.0.3
     version: 2.0.3(@sveltejs/kit@1.25.0)
@@ -292,11 +292,6 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@eslint-community/regexpp@4.5.1:
-    resolution: {integrity: sha512-Z5ba73P98O1KUYCCJTUeVpja9RcGoMdncZ6T49FCUl2lN38JtCJ+3WgIDBv0AuY4WChU5PmtJmOCTlN6FZTFKQ==}
-    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
-    dev: true
-
   /@eslint-community/regexpp@4.6.2:
     resolution: {integrity: sha512-pPTNuaAG3QMH+buKyBIGJs3g/S5y0caxw0ygM3YyE6yJFySwiGGSzA+mM3KJ8QQvzeLh3blwgSonkFjgQdxzMw==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
@@ -420,8 +415,8 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@skeletonlabs/skeleton@1.12.0(svelte@3.59.2):
-    resolution: {integrity: sha512-NCGy6WT3LUqu6EaFEG7J6lFQNB/DHlqFQpXMWkSpwdZIZ005OEVoZznNgdATYdTet++nS6LymBGVUQK00z82gw==}
+  /@skeletonlabs/skeleton@2.1.0(svelte@3.59.2):
+    resolution: {integrity: sha512-i+H67MTo9w3BP8dqr0l9qjVWmxEDwLyTqif/+pTmTOpAZpV/B3wqHShtoh0sxminUBSncE3bsNdn694B+6zUnw==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
     dependencies:
@@ -549,7 +544,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@eslint-community/regexpp': 4.5.1
+      '@eslint-community/regexpp': 4.6.2
       '@typescript-eslint/parser': 5.62.0(eslint@8.49.0)(typescript@5.2.2)
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/type-utils': 5.62.0(eslint@8.49.0)(typescript@5.2.2)
