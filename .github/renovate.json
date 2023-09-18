@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>renovatebot/.github"],
+  "extends": ["github>renovatebot/.github", "default:pinDigestsDisabled"],
   "labels": ["\uD83E\uDD16 Dependencies"],
   "automergeType": "pr",
   "prCreation": "immediate",
