@@ -2,6 +2,7 @@ github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/
 github.com/andybalholm/brotli v1.0.5/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/antigloss/go v1.19.3 h1:7G/qe+EHRugXuAmtJRxWqA+PWXoxIyO2m/DxZFd1sNY=
 github.com/antigloss/go v1.19.3/go.mod h1:WS4gUakRmXdseEQamBMtYNWSbhrp6pispVI+sP5NVBE=
+github.com/antigloss/go/v2 v2.0.0/go.mod h1:7XR/CW/XfM3vTUvkcUNBG5+3KqXDnEqG+kxuseSGbm0=
 github.com/gofiber/fiber/v2 v2.49.2 h1:ONEN3/Vc+dUCxxDgZZwpqvhISgHqb+bu+isBiEyKEQs=
 github.com/gofiber/fiber/v2 v2.49.2/go.mod h1:gNsKnyrmfEWFpJxQAV0qvW6l70K1dZGno12oLtukcts=
 github.com/gofiber/template v1.8.2 h1:PIv9s/7Uq6m+Fm2MDNd20pAFFKt5wWs7ZBd8iV9pWwk=
