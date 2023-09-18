@@ -6,6 +6,8 @@ github.com/go-sql-driver/mysql v1.7.1 h1:lUIinVbN1DY0xBg0eMOzmmtGoHwWBbvnWubQUrt
 github.com/go-sql-driver/mysql v1.7.1/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
 github.com/gofiber/contrib/jwt v1.0.6 h1:iyBimZ5j25NWsXnpVy9pJhiW3KKWaSU1nUi8q7A2US8=
 github.com/gofiber/contrib/jwt v1.0.6/go.mod h1:V/bS52pr92+fNqajz2fbgHeM48dNxeu37jTjYGy6cVQ=
+github.com/gofiber/contrib/jwt v1.0.7 h1:LZuCnjEq8AjiDTUjBQSd2zg3H5uDWjHxSXjo7nj9iAc=
+github.com/gofiber/contrib/jwt v1.0.7/go.mod h1:fA1apg9zQlUhax+Foc0BHATCDzBsemga1Yr9X0KSvrQ=
 github.com/gofiber/fiber/v2 v2.49.2 h1:ONEN3/Vc+dUCxxDgZZwpqvhISgHqb+bu+isBiEyKEQs=
 github.com/gofiber/fiber/v2 v2.49.2/go.mod h1:gNsKnyrmfEWFpJxQAV0qvW6l70K1dZGno12oLtukcts=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
