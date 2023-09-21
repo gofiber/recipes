@@ -1,5 +1,5 @@
 # First stage: Get Golang image from DockerHub.
-FROM golang:1.16.5 AS backend-builder
+FROM golang:1.21.1@sha256:cffaba795c36f07e372c7191b35ceaae114d74c31c3763d442982e3a4df3b39e AS backend-builder
 
 # Label this container.
 LABEL appname="React App Fiber"
@@ -16,7 +16,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o react-router ./cmd/react-router/main.go
 
 # Next stage: Build our frontend application.
-FROM node:16 AS frontend-builder
+FROM node:20@sha256:14bd39208dbc0eb171cbfb26ccb9ac09fa1b2eba04ccd528ab5d12983fd9ee24 AS frontend-builder
 
 # Set our working directory for this stage.
 WORKDIR /frontendcompile
