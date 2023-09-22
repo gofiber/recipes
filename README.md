@@ -49,6 +49,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Server-Sent Events](/sse)
 - [Sessions-SQLite3](/sessions-sqlite3)
 - [Single Page Application Example](/spa)
+- [Sqlboiler](/sqlboiler)
 - [Streaming of the Request Body](/stream-request-body)
 - [Sveltekit Embed](/sveltekit-embed)
 - [Tableflip (Graceful updates)](/tableflip)
