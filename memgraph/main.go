@@ -132,7 +132,7 @@ func main() {
 	//Create a Fiber app
 	app := fiber.New()
 
-	//Get developer called Andy and technologies he loves, http://localhost:3000/developer/Andy
+	// Get developer called Andy and technologies he loves, http://localhost:3000/developer/Andy
 	app.Get("/developer/:name", func(c *fiber.Ctx) error {
 		name := c.Params("name")
 		query := fmt.Sprintf(`MATCH (dev:Developer {name:'%s'})-[loves:LOVES]->(tech:Technology) RETURN dev, loves, tech `, name)
