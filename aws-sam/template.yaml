@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-app
+  
+  Sample SAM Template for sam-app
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 256
+
+Resources:
+  LambdaFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sam-app-role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonVPCFullAccess
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: sample-lambda-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 'logs:*'
+                Resource: '*'
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: sam-app
+      PackageType: Zip
+      CodeUri: app/
+      Handler: cmd/Handler
+      Runtime: go1.x
+      Role: !GetAtt LambdaFunctionRole.Arn
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          PARAM1: VALUE
+
+  LambdaFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !GetAtt LambdaFunction.Arn
+      AuthType: NONE
+      Cors:
+        AllowMethods: [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ]
+        AllowOrigins: [ '*' ]
+        AllowHeaders: [ 'Content-Type', 'Authorization', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent' ]
+
+Outputs:
+  Endpoint:
+    Description: URL for function
+    Value: !GetAtt LambdaFunctionUrl.FunctionUrl
