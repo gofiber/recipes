@@ -35,6 +35,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Kubernetes](/k8s)
 - [Listen on Multiple Ports](/multiple-ports)
 - [Live Reloading (Air)](/air)
+- [Memgraph](/memgraph)
 - [MongoDB](/mongodb)
 - [MVC Application Bootstrap](/fiber-bootstrap)
 - [Netlify Functions](fiber-svelte-netlify)
