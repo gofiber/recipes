@@ -1,0 +1,14 @@
+version: "3.9"
+services: 
+  postgresql:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fiber_demo
+    volumes:
+      - ./data/postgres/:/var/lib/postgresql/data
