@@ -87,7 +87,7 @@ func main() {
 		KeyLookup:      "form:csrf", // In this example, we will be using a hidden input field to store the CSRF token
 		CookieSameSite: "Lax",       // Recommended to set this to Lax or Strict
 		CookieSecure:   true,        // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,        // Recommended, otherwise if using JS framework recomend  false and KeyLookup: "header:X-CSRF-Token"
+		CookieHTTPOnly: true,        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ContextKey:     "csrf",
 		ErrorHandler:   csrfErrorHandler,
 	}
