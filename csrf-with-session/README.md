@@ -29,7 +29,7 @@ go run main.go
 
 You should see the following if everything is OK:
 ```
-Server started and listening at localhost:3000
+Server started and listening at 127.0.0.1:8443
 ```
 
 ## Try the demo
@@ -38,7 +38,26 @@ Start the server by running:
 ```bash
 go run main.go
 ```
-Open your browser to and navigate to [localhost:3000](http://localhost:3000).
+Open your browser to and navigate to [127.0.0.1:8443](http://127.0.0.1:8443).
+
+### Accept the self-signed certificate warning and visit the site.
+
+In Chrome:
+
+- Click on "Advanced"
+- Click on "Proceed to 127.0.0.1:8443 (unsafe)"
+
+In Firefox:
+
+- Click on "Advanced"
+- Click on "Accept the Risk and Continue"
+
+In Safari:
+
+- Click on "Show Details"
+- Click on "visit this website"
+
+### Try to access the /protected page
 
 Login using one of the test accounts:
 * Username: `user1`
@@ -48,6 +67,10 @@ OR
 * Password: `password2`
 
 Once logged in, you will be able to see the /protected page.
+
+### Submit the form on the /protected page
+
+Once logged in, you will be able to see the /protected page. The /protected page contains a form that submits to the /protected page. If you try to submit the form without a valid CSRF token, you will get a 403 Forbidden error.
 
 ## CSRF Protection
 

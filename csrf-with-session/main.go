@@ -1,6 +1,17 @@
 package main
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/tls"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"encoding/pem"
+	"fmt"
+	"math/big"
+	"os"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -59,11 +70,29 @@ func main() {
 	// Initialize a session manager
 	store := session.New()
 
+	// CSRF Error handler
+	csrfErrorHandler := func(c *fiber.Ctx, err error) error {
+		// Log the error so we can track who is trying to perform CSRF attacks
+		// customize this to your needs
+		fmt.Printf("CSRF Error: %v IP: %v\n", err, c.IP())
+
+		// Don't leak CSRF error info to the client
+		return c.Render("error", fiber.Map{
+			"Title":     "Error",
+			"Error":     "403 Forbidden",
+			"ErrorCode": "403",
+		})
+	}
+
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
-		Session:    store,
-		KeyLookup:  "form:csrf",
-		ContextKey: "csrf",
+		Session:        store,
+		KeyLookup:      "form:csrf", // We will be using a hidden input field to store the CSRF token
+		CookieSameSite: "Lax",       // Recommended
+		CookieSecure:   true,        // Recommended, set to true when serving the app over TLS
+		CookieHTTPOnly: true,        // Recommended, if not using JS with header extraction
+		ContextKey:     "csrf",
+		ErrorHandler:   csrfErrorHandler,
 	}
 	csrfMiddleware := csrf.New(csrfConfig)
 
@@ -205,6 +234,69 @@ func main() {
 		})
 	})
 
-	// Run the Fiber app on port 3000
-	_ = app.Listen(":3000")
+	certFile := "cert.pem"
+	keyFile := "key.pem"
+
+	if _, err := os.Stat(certFile); os.IsNotExist(err) {
+		if err := generateCert(certFile, keyFile); err != nil {
+			panic(err)
+		}
+	}
+
+	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+	if err != nil {
+		panic(err)
+	}
+
+	config := &tls.Config{Certificates: []tls.Certificate{cert}}
+
+	ln, err := tls.Listen("tcp", "127.0.0.1:8443", config)
+	if err != nil {
+		panic(err)
+	}
+
+	app.Listener(ln)
+}
+
+func generateCert(certFile string, keyFile string) error {
+	priv, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		return err
+	}
+
+	template := x509.Certificate{
+		SerialNumber: big.NewInt(1),
+		Subject: pkix.Name{
+			Organization: []string{"Acme Co"},
+		},
+		NotBefore: time.Now(),
+		NotAfter:  time.Now().Add(time.Hour * 24 * 180),
+
+		KeyUsage:              x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		BasicConstraintsValid: true,
+	}
+
+	derBytes, err := x509.CreateCertificate(rand.Reader, &template, &template, &priv.PublicKey, priv)
+	if err != nil {
+		return err
+	}
+
+	certOut, err := os.Create(certFile)
+	if err != nil {
+		return err
+	}
+	defer certOut.Close()
+
+	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
+
+	keyOut, err := os.Create(keyFile)
+	if err != nil {
+		return err
+	}
+	defer keyOut.Close()
+
+	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
+
+	return nil
 }
