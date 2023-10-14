@@ -64,8 +64,15 @@ func main() {
 		ViewsLayout: "layouts/main",
 	})
 
-	// Initialize a session manager
-	store := session.New()
+	// Initialize a session store
+	sessConfig := session.Config{
+		Expiration:     30 * time.Minute, // Expire sessions after 30 minutes of inactivity
+		CookieName:     "session",
+		CookieSecure:   true,
+		CookieHTTPOnly: true,
+		CookieSameSite: "Lax",
+	}
+	store := session.New(sessConfig)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c *fiber.Ctx, err error) error {
@@ -90,6 +97,7 @@ func main() {
 		CookieHTTPOnly: true,        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ContextKey:     "csrf",
 		ErrorHandler:   csrfErrorHandler,
+		Expiration:     30 * time.Minute,
 	}
 	csrfMiddleware := csrf.New(csrfConfig)
 
