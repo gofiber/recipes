@@ -238,7 +238,7 @@ func main() {
 	keyFile := "key.pem"
 
 	if _, err := os.Stat(certFile); os.IsNotExist(err) {
-		if err := generateCert(certFile, keyFile); err != nil {
+		if err := generateSelfSignedCert(certFile, keyFile); err != nil {
 			panic(err)
 		}
 	}
@@ -258,7 +258,11 @@ func main() {
 	app.Listener(ln)
 }
 
-func generateCert(certFile string, keyFile string) error {
+// generateSelfSignedCert generates a self-signed certificate and key
+// and saves them to the specified files
+//
+// This is only for testing purposes and should not be used in production
+func generateSelfSignedCert(certFile string, keyFile string) error {
 	priv, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		return err
