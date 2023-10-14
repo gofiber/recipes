@@ -8,8 +8,6 @@ require (
 	golang.org/x/crypto v0.14.0
 )
 
-replace github.com/gofiber/fiber/v2 v2.49.3-0.20231013145519-cb89cce4ca08 => /Users/sixcolors/Documents/GitHub/fiber-ghsa-94w9-97p3-p368
-
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/gofiber/template v1.8.2 // indirect
