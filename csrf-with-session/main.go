@@ -42,6 +42,9 @@ func main() {
 	// See the following for more details:
 	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 	//
+	// It's also recommended to use the "github.com/gofiber/fiber/v2/middleware/helmet"
+	// middleware to set headers to help prevent attacks such as XSS, man-in-the-middle,
+	// protocol downgrade, cookie hijacking, etc.
 
 	// Never hardcode passwords in production code
 	hashedPassword1, _ := bcrypt.GenerateFromPassword([]byte("password1"), 10)
