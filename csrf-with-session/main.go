@@ -33,17 +33,14 @@ var users = map[string]User{
 
 func main() {
 	// In production, run the app on port 443 with TLS enabled
-	// or use a reverse proxy to handle the TLS termination
+	// or run the app behind a reverse proxy that handles TLS.
+	//
 	// It is also recommended that the csrf cookie is set to be
 	// Secure and HttpOnly and have the SameSite attribute set
 	// to Lax or Strict.
 	//
-	// Session cookies should also be set to Secure and HttpOnly
-	// and should have the SameSite attribute set to Lax or Strict
-	// to prevent CSRF attacks.
-	//
 	// See the following for more details:
-	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#samesite-cookie-attribute
+	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 	//
 
 	// Never hardcode passwords in production code
@@ -87,10 +84,10 @@ func main() {
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
 		Session:        store,
-		KeyLookup:      "form:csrf", // We will be using a hidden input field to store the CSRF token
-		CookieSameSite: "Lax",       // Recommended
-		CookieSecure:   true,        // Recommended, set to true when serving the app over TLS
-		CookieHTTPOnly: true,        // Recommended, if not using JS with header extraction
+		KeyLookup:      "form:csrf", // In this example, we will be using a hidden input field to store the CSRF token
+		CookieSameSite: "Lax",       // Recommended to set this to Lax or Strict
+		CookieSecure:   true,        // Recommended to set to true when serving the app over TLS
+		CookieHTTPOnly: true,        // Recommended, otherwise if using JS framework recomend  false and KeyLookup: "header:X-CSRF-Token"
 		ContextKey:     "csrf",
 		ErrorHandler:   csrfErrorHandler,
 	}
