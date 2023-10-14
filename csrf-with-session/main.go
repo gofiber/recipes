@@ -238,9 +238,12 @@ func main() {
 	keyFile := "key.pem"
 
 	if _, err := os.Stat(certFile); os.IsNotExist(err) {
+		fmt.Println("Self-signed certificate not found, generating...")
 		if err := generateSelfSignedCert(certFile, keyFile); err != nil {
 			panic(err)
 		}
+		fmt.Println("Self-signed certificate generated successfully")
+		fmt.Println("You will need to accept the self-signed certificate in your browser")
 	}
 
 	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
@@ -292,7 +295,7 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	}
 	defer certOut.Close()
 
-	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
+	_ = pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 
 	keyOut, err := os.Create(keyFile)
 	if err != nil {
@@ -300,7 +303,7 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	}
 	defer keyOut.Close()
 
-	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
+	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 
 	return nil
 }
