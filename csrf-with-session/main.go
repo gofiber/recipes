@@ -21,15 +21,32 @@ var users = map[string]User{
 }
 
 func main() {
+	// In production, run the app on port 443 with TLS enabled
+	// or use a reverse proxy to handle the TLS termination
+	// It is also recommended that the csrf cookie is set to be
+	// Secure and HttpOnly and have the SameSite attribute set
+	// to Lax or Strict.
+	//
+	// Session cookies should also be set to Secure and HttpOnly
+	// and should have the SameSite attribute set to Lax or Strict
+	// to prevent CSRF attacks.
+	//
+	// See the following for more details:
+	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#samesite-cookie-attribute
+	//
+
+	// Never hardcode passwords in production code
 	hashedPassword1, _ := bcrypt.GenerateFromPassword([]byte("password1"), 10)
 	hashedPassword2, _ := bcrypt.GenerateFromPassword([]byte("password2"), 10)
-	emptyHash, _ := bcrypt.GenerateFromPassword([]byte(""), 10) // used to help prevent timing attacks
-	emptyHashString := string(emptyHash)
 
+	// Used to help prevent timing attacks
+	emptyHash, _ := bcrypt.GenerateFromPassword([]byte(""), 10)
+	emptyHashString := string(emptyHash)
 	users := map[string]User{
 		"user1": {Username: "user1", Password: string(hashedPassword1)},
 		"user2": {Username: "user2", Password: string(hashedPassword2)},
 	}
+
 	// HTML templates
 	engine := html.New("./views", ".html")
 
