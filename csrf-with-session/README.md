@@ -11,9 +11,9 @@ Example Cross Site Request Forgery (CSRF) middleware for GoFiber web application
 
 ## Install Go Modules
 
-Like any golang project, you will need to download and install the required modules for the project to run. Change into the "csrf" directory:
+Like any golang project, you will need to download and install the required modules for the project to run. Change into the "csrf-with-session" directory:
 ```bash
-cd csrf
+cd csrf-with-session
 ```
 
 And then:
