@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+		label, input, button {
+			display: block;
+			margin: 10px 0;
+		}
+		.message {
+			color: green;
+			font-weight: bold;
+		}
+		.error {
+			color: red;
+			font-weight: bold;
+		}
+		form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+		footer {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+			display: inline;
+        }
+		footer a {
+			color: #6c757d;
+			text-decoration: none;
+		}
+		footer a:hover {
+			color: #343a40;
+		}
+	</style>
+	<meta charset="utf-8">
+	<title>CSRF With Session Example - {{ .Title }}</title>
+</head>
+<body>
+	{{embed}}
+</body>
+<footer>
+	<a href="/">Home</a> | <a href="/protected">Protected</a>
+</footer>
+</html>
