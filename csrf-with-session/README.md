@@ -1,6 +1,6 @@
 # CSRF-with-session Example
 
-Example Cross Site Request Forgery (CSRF) middleware for GoFiber web applications using sessions.
+Example GoFiber web app using Cross Site Request Forgery (CSRF) middleware with session.
 
 
 ## Requirements
@@ -78,7 +78,7 @@ All methods except GET, HEAD, OPTIONS, and TRACE are checked for the CSRF token.
 
 ## Token Lyfecycle
 
-The CSRF token is generated when the user visits any page on the site. The token is stored in the session and is valid for until it expires, of the users scope changes (e.g. they log in, or log out).
+The CSRF token is generated when the user visits any page on the site. The token is stored in the session and is valid for until it expires, or the authorization scope changes (e.g. the user logs in, or logs out).
 
 It is important that CSRF tokens do not presist beyond the scope of the user's session, that a new session is created when the user logs in, and that the session is destroyed when the user logs out.
 
@@ -88,7 +88,8 @@ Sessions are stored in memory for this example, but you can use any session stor
 
 ### Note on pre-sessions
 
-GoFiber's CSRF middleware will automatically create a session if one does not already exist. That means that we always have pre-sessions when using the CSRF middleware. Because we have pre-sessions: in this example we demonstrate that a session variable `loggedIn` is set to `true` when the user logs in, as to distinguish between logged in and logged out users.
+GoFiber's CSRF middleware will automatically create a session if one does not exist. That means that we always have pre-sessions when using the CSRF middleware. In this example we set a session variable `loggedIn` 
+to `true` when the user logs in, in order to distinguish between logged in and logged out users.
 
 ## Going further
 
