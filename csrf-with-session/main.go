@@ -91,19 +91,23 @@ func main() {
 		fmt.Printf("CSRF Error: %v Request: %v From: %v\n", err, c.OriginalURL(), c.IP())
 
 		// check accepted content types
-		accept := c.Accepts("html", "json")
-		if accept == "json" {
+		switch c.Accepts("html", "json") {
+		case "json":
 			// Return a 403 Forbidden response for JSON requests
 			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 				"error": "403 Forbidden",
 			})
+		case "html":
+			// Return a 403 Forbidden response for HTML requests
+			return c.Status(fiber.StatusForbidden).Render("error", fiber.Map{
+				"Title":     "Error",
+				"Error":     "403 Forbidden",
+				"ErrorCode": "403",
+			})
+		default:
+			// Return a 403 Forbidden response for all other requests
+			return c.Status(fiber.StatusForbidden).SendString("403 Forbidden")
 		}
-		// Otherwise, return a 403 Forbidden response as HTML
-		return c.Status(fiber.StatusForbidden).Render("error", fiber.Map{
-			"Title":     "Error",
-			"Error":     "403 Forbidden",
-			"ErrorCode": "403",
-		})
 	}
 
 	// Configure the CSRF middleware
