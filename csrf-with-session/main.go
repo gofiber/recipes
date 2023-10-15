@@ -39,12 +39,19 @@ func main() {
 	// Secure and HttpOnly and have the SameSite attribute set
 	// to Lax or Strict.
 	//
+	// In this example, we use the "__Host-" prefix for cookie names.
+	// This is suggested when your app uses secure connections (TLS).
+	// A cookie with this prefix is only accepted if it's secure,
+	// comes from a secure source, doesn't have a Domain attribute,
+	// and its Path attribute is "/".
+	// This makes these cookies "locked" to the domain.
+	//
 	// See the following for more details:
 	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 	//
-	// It's also recommended to use the "github.com/gofiber/fiber/v2/middleware/helmet"
+	// It's recommended to use the "github.com/gofiber/fiber/v2/middleware/helmet"
 	// middleware to set headers to help prevent attacks such as XSS, man-in-the-middle,
-	// protocol downgrade, cookie hijacking, etc.
+	// protocol downgrade, cookie hijacking, SSL stripping, clickjacking, etc.
 
 	// Never hardcode passwords in production code
 	hashedPassword1, _ := bcrypt.GenerateFromPassword([]byte("password1"), 10)
@@ -69,8 +76,8 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		Expiration:     30 * time.Minute, // Expire sessions after 30 minutes of inactivity
-		CookieName:     "session",
+		Expiration:     30 * time.Minute,        // Expire sessions after 30 minutes of inactivity
+		KeyLookup:      "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 		CookieSameSite: "Lax",
@@ -94,10 +101,11 @@ func main() {
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
 		Session:        store,
-		KeyLookup:      "form:csrf", // In this example, we will be using a hidden input field to store the CSRF token
-		CookieSameSite: "Lax",       // Recommended to set this to Lax or Strict
-		CookieSecure:   true,        // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
+		KeyLookup:      "form:csrf",   // In this example, we will be using a hidden input field to store the CSRF token
+		CookieName:     "__Host-csrf", // Recommended to use the __Host- prefix when serving the app over TLS
+		CookieSameSite: "Lax",         // Recommended to set this to Lax or Strict
+		CookieSecure:   true,          // Recommended to set to true when serving the app over TLS
+		CookieHTTPOnly: true,          // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ContextKey:     "csrf",
 		ErrorHandler:   csrfErrorHandler,
 		Expiration:     30 * time.Minute,
