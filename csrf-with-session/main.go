@@ -90,8 +90,16 @@ func main() {
 		// customize this to your needs
 		fmt.Printf("CSRF Error: %v Request: %v From: %v\n", err, c.OriginalURL(), c.IP())
 
-		// Don't leak CSRF error info to the client
-		return c.Render("error", fiber.Map{
+		// check accepted content types
+		accept := c.Accepts("html", "json")
+		if accept == "json" {
+			// Return a 403 Forbidden response for JSON requests
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+				"error": "403 Forbidden",
+			})
+		}
+		// Otherwise, return a 403 Forbidden response as HTML
+		return c.Status(fiber.StatusForbidden).Render("error", fiber.Map{
 			"Title":     "Error",
 			"Error":     "403 Forbidden",
 			"ErrorCode": "403",
