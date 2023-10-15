@@ -2,6 +2,16 @@
 
 Example GoFiber web app using Cross Site Request Forgery (CSRF) middleware with session.
 
+This example impliments multiple best-practices for CSRF protection:
+
+- CSRF Tokens are linked to the user's session.
+- Pre-sessions are used, so that CSRF tokens are always available, even for anonymous users (eg for login forms).
+- Cookies are set with a defense-in-depth approach:
+    - Secure: true
+    - HttpOnly: true
+    - SameSite: Lax
+    - Expiration: 30 minutes (of inactivity)
+    - Cookie names are prefixed with "__Host-" (see [MDN-Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) for more information))
 
 ## Requirements
 
@@ -40,6 +50,7 @@ go run main.go
 ```
 Open your browser to and navigate to [127.0.0.1:8443](http://127.0.0.1:8443).
 
+
 ### Accept the self-signed certificate warning and visit the site.
 
 In Chrome:
@@ -57,6 +68,7 @@ In Safari:
 - Click on "Show Details"
 - Click on "visit this website"
 
+
 ### Try to access the /protected page
 
 Login using one of the test accounts:
@@ -68,13 +80,16 @@ OR
 
 Once logged in, you will be able to see the /protected page.
 
+
 ### Submit the form on the /protected page
 
 Once logged in, you will be able to see the /protected page. The /protected page contains a form that submits to the /protected page. If you try to submit the form without a valid CSRF token, you will get a 403 Forbidden error.
 
+
 ## CSRF Protection
 
 All methods except GET, HEAD, OPTIONS, and TRACE are checked for the CSRF token. If the token is not present or does not match the token in the session, the request is aborted with a 403 Forbidden error.
+
 
 ## Token Lyfecycle
 
@@ -82,14 +97,17 @@ The CSRF token is generated when the user visits any page on the site. The token
 
 It is important that CSRF tokens do not presist beyond the scope of the user's session, that a new session is created when the user logs in, and that the session is destroyed when the user logs out.
 
+
 ## Session Storage
 
 Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/api/middleware/session) for more information.
+
 
 ### Note on pre-sessions
 
 GoFiber's CSRF middleware will automatically create a session if one does not exist. That means that we always have pre-sessions when using the CSRF middleware. In this example we set a session variable `loggedIn` 
 to `true` when the user logs in, in order to distinguish between logged in and logged out users.
+
 
 ## Going further
 

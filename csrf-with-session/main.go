@@ -26,10 +26,7 @@ type User struct {
 }
 
 // Dummy user database
-var users = map[string]User{
-	"user1": {Username: "user1"},
-	"user2": {Username: "user2"},
-}
+var users map[string]User
 
 func main() {
 	// In production, run the app on port 443 with TLS enabled
@@ -54,15 +51,28 @@ func main() {
 	// protocol downgrade, cookie hijacking, SSL stripping, clickjacking, etc.
 
 	// Never hardcode passwords in production code
-	hashedPassword1, _ := bcrypt.GenerateFromPassword([]byte("password1"), 10)
-	hashedPassword2, _ := bcrypt.GenerateFromPassword([]byte("password2"), 10)
+	hashedPasswords := make(map[string]string)
+	for username, password := range map[string]string{
+		"user1": "password1",
+		"user2": "password2",
+	} {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+		if err != nil {
+			panic(err)
+		}
+		hashedPasswords[username] = string(hashedPassword)
+	}
 
 	// Used to help prevent timing attacks
-	emptyHash, _ := bcrypt.GenerateFromPassword([]byte(""), 10)
+	emptyHash, err := bcrypt.GenerateFromPassword([]byte(""), 10)
+	if err != nil {
+		panic(err)
+	}
 	emptyHashString := string(emptyHash)
-	users := map[string]User{
-		"user1": {Username: "user1", Password: string(hashedPassword1)},
-		"user2": {Username: "user2", Password: string(hashedPassword2)},
+
+	users := make(map[string]User)
+	for username, hashedPassword := range hashedPasswords {
+		users[username] = User{Username: username, Password: hashedPassword}
 	}
 
 	// HTML templates
