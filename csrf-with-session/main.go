@@ -88,7 +88,7 @@ func main() {
 	csrfErrorHandler := func(c *fiber.Ctx, err error) error {
 		// Log the error so we can track who is trying to perform CSRF attacks
 		// customize this to your needs
-		fmt.Printf("CSRF Error: %v IP: %v\n", err, c.IP())
+		fmt.Printf("CSRF Error: %v Request: %v From: %v\n", err, c.OriginalURL(), c.IP())
 
 		// Don't leak CSRF error info to the client
 		return c.Render("error", fiber.Map{
