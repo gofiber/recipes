@@ -91,11 +91,11 @@ Once logged in, you will be able to see the /protected page. The /protected page
 All methods except GET, HEAD, OPTIONS, and TRACE are checked for the CSRF token. If the token is not present or does not match the token in the session, the request is aborted with a 403 Forbidden error.
 
 
-## Token Lyfecycle
+## Token Lifecycle
 
 The CSRF token is generated when the user visits any page on the site. The token is stored in the session and is valid for until it expires, or the authorization scope changes (e.g. the user logs in, or logs out).
 
-It is important that CSRF tokens do not presist beyond the scope of the user's session, that a new session is created when the user logs in, and that the session is destroyed when the user logs out.
+It is important that CSRF tokens do not persist beyond the scope of the user's session, that a new session is created when the user logs in, and that the session is destroyed when the user logs out.
 
 
 ## Session Storage
