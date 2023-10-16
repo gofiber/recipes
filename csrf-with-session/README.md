@@ -97,6 +97,8 @@ The CSRF token is generated when the user visits any page on the site. The token
 
 It is important that CSRF tokens do not persist beyond the scope of the user's session, that a new session is created when the user logs in, and that the session is destroyed when the user logs out.
 
+The CSRF middleware has a `SingleUseToken` configuration option that can be used to generate a new token for each request. This is useful for some applications, but is not used in this example. Single use tokens have usability implications in scenarios where the user has multiple tabs open, or when the user uses the back button in their browser.
+
 
 ## Session Storage
 
