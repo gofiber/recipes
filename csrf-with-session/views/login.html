@@ -1,0 +1,13 @@
+    <h1>Login Page</h1>
+	<p>Please login to access the protected route.</p>
+	<form method="POST" action="/login">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required><br>
+		<input type="hidden" id="csrf" name="csrf" value="{{ .csrf }}">
+		{{ if .error }}
+		<p class="error">Error: {{ .error }}</p>
+		{{ end }}
+		<button type="submit">Login</button>
+	</form>

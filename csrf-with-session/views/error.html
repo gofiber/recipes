@@ -1,0 +1,11 @@
+    <h2>Error {{ .ErrorCode }}</h2>
+    <p>Sorry, there was an error</p>
+    <p>{{ .Error }}</p>
+    <p><a href="/">Home</a> | <a href="#" onclick="goToReferer()">Go to referrer (GET)</a></p>
+    <!-- End: csrf-with-session/views/error.html -->
+
+    <script>
+        function goToReferer() {
+            window.location.href = document.referrer;
+        }
+    </script>
