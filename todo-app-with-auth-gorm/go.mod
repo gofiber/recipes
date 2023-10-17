@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/go-playground/validator/v10 v10.15.4
-	github.com/gofiber/fiber/v2 v2.49.2
+	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	golang.org/x/crypto v0.14.0
 	gorm.io/driver/sqlite v1.5.3
@@ -27,7 +27,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.49.0 // indirect
+	github.com/valyala/fasthttp v1.50.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
