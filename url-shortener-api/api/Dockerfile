@@ -1,6 +1,6 @@
 # multistage docker build. This redices the size of the final docker image.
 # stage 1 to build the app
-FROM golang:alpine as builder
+FROM golang:alpine@sha256:4db4aac30880b978cae5445dd4a706215249ad4f43d28bd7cdf7906e9be8dd6b as builder
 
 RUN mkdir /build 
 
@@ -11,7 +11,7 @@ WORKDIR /build
 RUN go build -o main .
 
 # stage 2 deploys the app built in stage 1
-FROM alpine
+FROM alpine@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48
 
 RUN adduser -S -D -H -h /app appuser
 

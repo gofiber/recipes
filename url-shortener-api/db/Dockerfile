@@ -1,3 +1,3 @@
-FROM redis:alpine
+FROM redis:alpine@sha256:090276da2603db19b154602c374f505d94c10ea57e9749fc3e68e955284bf0fd
 
 EXPOSE 6379
