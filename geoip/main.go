@@ -30,7 +30,7 @@ func main() {
 	})
 
 	// Main GEO handler that is cached for 10 minutes
-	app.Get("/geo/:ip?", handlers.Cache(10*time.Minute), handlers.GEO())
+	app.Get("/geo", handlers.Cache(10*time.Minute), handlers.GEO())
 
 	// Handle 404 errors
 	app.Use(handlers.NotFound("./public/404.html"))
