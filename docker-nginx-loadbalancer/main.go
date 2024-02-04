@@ -10,7 +10,7 @@ import (
 
 func main() {
 	app := fiber.New() // Initialize a new Fiber instance
-	// register middlwares
+	// register middlewares
 	app.Use(favicon.New()) // Use favicon middleware to serve favicon
 	app.Use(cors.New())    // Use CORS middleware to allow cross-origin requests
 	app.Use(logger.New())  // Use logger middleware to log HTTP requests
