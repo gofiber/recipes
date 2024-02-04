@@ -20,7 +20,7 @@ services:
   # nginx container
   nginx:
     # specifies the latest nginx image
-    image: nginx:latest
+    image: nginx:alpine3.18
     # Connects the conf file of the container to the conf file in our folder
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
