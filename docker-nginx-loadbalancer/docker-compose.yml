@@ -19,7 +19,7 @@ services:
       replicas: 5
   # nginx container
   nginx:
-    # specifies the latest nginx image
+    # specifies the latest stable alpine nginx image
     image: nginx:stable-alpine
     # Connects the conf file of the container to the conf file in our folder
     volumes:
