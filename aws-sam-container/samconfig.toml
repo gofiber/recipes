@@ -7,6 +7,7 @@ version = 0.1
 stack_name = "sam-app"
 
 [default.build.parameters]
+cached = true
 parallel = true
 
 [default.validate.parameters]
@@ -16,9 +17,6 @@ lint = true
 capabilities = "CAPABILITY_NAMED_IAM"
 confirm_changeset = true
 resolve_s3 = true
-resolve_image_repos = true
-s3_prefix = "sam-app"
-region = "ap-northeast-1"
 
 [default.package.parameters]
 resolve_s3 = true
