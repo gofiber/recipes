@@ -3,7 +3,7 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.0
+	github.com/gofiber/fiber/v2 v2.52.1
 	github.com/gofiber/template/django/v3 v3.1.9
 )
 

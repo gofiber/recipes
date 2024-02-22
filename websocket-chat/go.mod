@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/contrib/websocket v1.2.1
-	github.com/gofiber/fiber/v2 v2.52.0
+	github.com/gofiber/fiber/v2 v2.52.1
 )
 
 require (
