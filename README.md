@@ -23,6 +23,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Enable Preforking](/prefork)
 - [Ent Mysql Example](/ent-mysql)
 - [Entgo Sveltekit](/entgo-sveltekit)
+- [Firebase Functions](/firebase-functions)
 - [GeoIP (with MaxMind databases)](/geoip-maxmind)
 - [GeoIP](/geoip)
 - [GORM Mysql Example](/gorm-mysql)
