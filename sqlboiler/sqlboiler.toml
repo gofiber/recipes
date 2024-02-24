@@ -1,0 +1,12 @@
+output   = "models"
+wipe     = true
+no-tests = true
+no-hooks = true
+
+[psql]
+  dbname = "fiber_demo"
+  host   = "localhost"
+  port   = 5432
+  user   = "user"
+  pass   = "password"
+  sslmode   = "disable"

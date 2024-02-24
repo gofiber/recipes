@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Create an authentication handler. Leave this empty, as we have no domains nor use-cases.
@@ -34,7 +34,7 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 	type jwtClaims struct {
 		UserID string `json:"uid"`
 		User   string `json:"user"`
-		jwt.StandardClaims
+		jwt.RegisteredClaims
 	}
 
 	// Get request body.
@@ -58,10 +58,13 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwtClaims{
 		os.Getenv("API_USERID"),
 		os.Getenv("API_USERNAME"),
-		jwt.StandardClaims{
-			Audience:  "docker-mariadb-clean-arch-users",
-			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-			Issuer:    "docker-mariadb-clean-arch",
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			NotBefore: jwt.NewNumericDate(time.Now()),
+			Issuer:    "docker-mariadb-clean-arch-users",
+			Subject:   "docker-mariadb-clean-arch-users",
+			Audience:  []string{"docker-mariadb-clean-arch-users"},
 		},
 	})
 	signedToken, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))

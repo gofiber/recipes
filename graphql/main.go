@@ -1,12 +1,17 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/graphql-go/graphql"
 )
+
+type Input struct {
+	Query         string                 `query:"query"`
+	OperationName string                 `query:"operationName"`
+	Variables     map[string]interface{} `query:"variables"`
+}
 
 func main() {
 	fields := graphql.Fields{
@@ -26,18 +31,44 @@ func main() {
 
 	app := fiber.New()
 
+	// curl 'http://localhost:9090/?query=query%7Bhello%7D'
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		var input Input
+		if err := ctx.QueryParser(&input); err != nil {
+			return ctx.
+				Status(fiber.StatusInternalServerError).
+				SendString("Cannot parse query parameters: " + err.Error())
+		}
+
+		result := graphql.Do(graphql.Params{
+			Schema:         schema,
+			RequestString:  input.Query,
+			OperationName:  input.OperationName,
+			VariableValues: input.Variables,
+		})
+
+		ctx.Set("Content-Type", "application/graphql-response+json")
+		return ctx.JSON(result)
+	})
+
+	// curl 'http://localhost:9090/' --header 'content-type: application/json' --data-raw '{"query":"query{hello}"}'
 	app.Post("/", func(ctx *fiber.Ctx) error {
-		query := string(ctx.Body())
-		params := graphql.Params{Schema: schema, RequestString: query}
-		r := graphql.Do(params)
-		if len(r.Errors) > 0 {
-			ctx.SendString("failed to execute graphql operation")
+		var input Input
+		if err := ctx.BodyParser(&input); err != nil {
+			return ctx.
+				Status(fiber.StatusInternalServerError).
+				SendString("Cannot parse body: " + err.Error())
 		}
-		rJSON, err := json.Marshal(r)
-		if err != nil {
-			ctx.SendString("cannot marshal json")
-		}
-		return ctx.JSON(string(rJSON))
+
+		result := graphql.Do(graphql.Params{
+			Schema:         schema,
+			RequestString:  input.Query,
+			OperationName:  input.OperationName,
+			VariableValues: input.Variables,
+		})
+
+		ctx.Set("Content-Type", "application/graphql-response+json")
+		return ctx.JSON(result)
 	})
 
 	log.Fatal(app.Listen(":9090"))

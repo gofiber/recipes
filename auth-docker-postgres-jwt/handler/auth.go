@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -67,7 +67,7 @@ func Login(c *fiber.Ctx) error {
 	input := new(LoginInput)
 	var ud UserData
 
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.BodyParser(input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "errors": err.Error()})
 	}
 

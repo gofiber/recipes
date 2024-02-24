@@ -1,0 +1,28 @@
+	<h1>Protected Content</h1>
+	<p>Welcome to the protected route. You are logged in.</p>
+	<p><a href="/logout">Logout</a></p>
+	<hr>
+	<h3>CSRF Form</h3>
+	<form method="POST" action="/protected">
+		<label for="message">Message:</label>
+		<input type="text" id="message" name="message" required>
+		<input type="hidden" id="csrf" name="csrf" value="{{ .csrf }}">
+		<label for="csrf_enabled">Send CSRF token in form data:</label>
+		<input type="checkbox" id="csrf_enabled" name="csrf_enabled" checked>
+		<button type="submit">Submit</button>
+	</form>
+	{{ if .message }}
+		<p class="message">Message: {{ .message }}</p>
+	{{ end }}
+	<hr>
+
+	<script>
+		// Remove CSRF protection
+		document.getElementById('csrf_enabled').addEventListener('change', function() {
+			if (this.checked) {
+				document.getElementById('csrf').disabled = false;
+			} else {
+				document.getElementById('csrf').disabled = true;
+			}
+		});
+	</script>

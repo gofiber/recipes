@@ -15,8 +15,8 @@ func GEO() fiber.Handler {
 
 	// Return handler
 	return func(c *fiber.Ctx) error {
-		// Get domain from param else default to remote IP
-		ip := c.Params("ip", c.IP())
+		// Get domain from query string, else default to remote IP
+		ip := c.Query("ip", c.IP())
 
 		// Get request/response from pool
 		req := fasthttp.AcquireRequest()
