@@ -13,4 +13,4 @@ This is a basic Go application using the Fiber framework to create scraping task
 
 ### What It Does
 
-- Scrapes data from websites and and stores in PostgreSQL database.
+- Scrapes data from websites and stores in PostgreSQL database.
