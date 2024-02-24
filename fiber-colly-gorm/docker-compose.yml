@@ -10,20 +10,20 @@ services:
     volumes:
       - ./app:/go/src/app
     depends_on:
-      - quotes_db
+      - colly_db
     links:
-      - quotes_db
+      - colly_db
 
-  quotes_db:
-    container_name: quotes_db
+  colly_db:
+    container_name: colly_db
     build:
       context: ./db
       dockerfile: Dockerfile
     ports:
-      - 5432:5432
+      - 5435:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
 volumes:
-  quotes_db:
+  colly_db:
