@@ -2,7 +2,6 @@ package scrapers
 
 import (
 	"fiber-colly-gorm/internals/services/database"
-	"fmt"
 	"log"
 
 	"github.com/gocolly/colly"
@@ -30,8 +29,6 @@ func Quotes() {
 
 		newQuote.Text = e.ChildText("span.text")
 		newQuote.Author = e.ChildText("small.author")
-
-		fmt.Println(newQuote)
 
 		err := database.DB.Db.Create(&newQuote).Error
 		if err != nil {
