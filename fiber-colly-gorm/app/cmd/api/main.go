@@ -12,42 +12,48 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
-func init() {
+func main() {
+
 	config, err := consts.LoadConfig(".")
 	if err != nil {
 		log.Fatalln("Failed to load environment variables!\n", err.Error())
 	}
 	database.ConnectDb(&config)
-}
 
-func main() {
 	app := fiber.New()
 	micro := fiber.New()
 	scrape := fiber.New()
 
 	app.Mount("/api", micro)
-	app.Mount("/job", scrape)
+	app.Mount("/scrape", scrape)
 	app.Use(logger.New())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
 		AllowHeaders:     "Origin, Content-Type, Accept",
-		AllowMethods:     "GET, POST, PATCH, DELETE",
+		AllowMethods:     "GET",
 		AllowCredentials: true,
 	}))
 
 	micro.Get("/healthchecker", func(c *fiber.Ctx) error {
-		go scrapers.StartScraper()
 		return c.Status(200).JSON(fiber.Map{
 			"status":  "success",
 			"message": "Welcome to Golang, Fiber, and Colly",
 		})
 	})
 
-	scrape.Get("scrape", func(c *fiber.Ctx) error {
-
+	scrape.Get("quotes", func(c *fiber.Ctx) error {
+		go scrapers.Quotes()
 		return c.Status(200).JSON(fiber.Map{
 			"status":  "success",
-			"message": "Start Scraping...",
+			"message": "Start scraping quotes.toscrape.com ...",
+		})
+	})
+
+	scrape.Get("coursera", func(c *fiber.Ctx) error {
+		go scrapers.CourseraCourses()
+		return c.Status(200).JSON(fiber.Map{
+			"status":  "success",
+			"message": "Start scraping courses details from coursera.org...",
 		})
 	})
 
