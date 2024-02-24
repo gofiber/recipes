@@ -11,6 +11,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Certificates from Let's Encrypt](/autocert)
 - [Clean Architecture](/clean-architecture)
 - [Cloud Run](/cloud-run)
+- [Colly Scraping using Fiber and PostgreSQL](/fiber-colly-gorm)
 - [CSRF-with-Session](/csrf-with-session)
 - [CSRF](/csrf)
 - [Custom 404 Not Found](/404-handler)
