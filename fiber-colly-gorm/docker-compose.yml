@@ -15,15 +15,15 @@ services:
       - colly_db
 
   colly_db:
+    image: postgres:14.1-alpine
     container_name: colly_db
-    build:
-      context: ./db
-      dockerfile: Dockerfile
     ports:
       - 5435:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
 
 volumes:
   colly_db:
