@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  scraper_app:
+    container_name: scraper_app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app:/go/src/app
+    depends_on:
+      - colly_db
+    links:
+      - colly_db
+
+  colly_db:
+    image: postgres:14.1-alpine
+    container_name: colly_db
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+
+volumes:
+  colly_db:
