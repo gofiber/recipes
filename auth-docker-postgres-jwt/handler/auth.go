@@ -26,7 +26,7 @@ func CheckPasswordHash(password, hash string) bool {
 func getUserByEmail(e string) (*model.User, error) {
 	db := database.DB
 	var user model.User
-	if err := db.Where(&model.User{Email: e}).Find(&user).Error; err != nil {
+	if err := db.Where(&model.User{Email: e}).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
@@ -38,7 +38,7 @@ func getUserByEmail(e string) (*model.User, error) {
 func getUserByUsername(u string) (*model.User, error) {
 	db := database.DB
 	var user model.User
-	if err := db.Where(&model.User{Username: u}).Find(&user).Error; err != nil {
+	if err := db.Where(&model.User{Username: u}).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
@@ -73,38 +73,30 @@ func Login(c *fiber.Ctx) error {
 
 	identity := input.Identity
 	pass := input.Password
-	user, email, err := new(model.User), new(model.User), *new(error)
+	userModel, err := new(model.User), *new(error)
 
 	if valid(identity) {
-		email, err = getUserByEmail(identity)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "errors": err.Error()})
-		}
-		ud = UserData{
-			ID:       email.ID,
-			Username: email.Username,
-			Email:    email.Email,
-			Password: email.Password,
-		}
+		userModel, err = getUserByEmail(identity)
 	} else {
-		user, err = getUserByUsername(identity)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "errors": err.Error()})
-		}
-		ud = UserData{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
-			Password: user.Password,
-		}
+		userModel, err = getUserByUsername(identity)
 	}
-
-	if email == nil && user == nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "errors": err.Error()})
+	
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
+	} else if userModel == nil {
+		CheckPasswordHash(pass, "")
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid identity or password", "data": err})
+	} else {
+		ud = UserData{
+			ID:       userModel.ID,
+			Username: userModel.Username,
+			Email:    userModel.Email,
+			Password: userModel.Password,
+		}
 	}
 
 	if !CheckPasswordHash(pass, ud.Password) {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid identity or password", "data": nil})
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
