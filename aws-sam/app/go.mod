@@ -18,7 +18,7 @@ require (
 	golang.org/x/sys v0.17.0 // indirect
 )
 
-replace gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.2.8
+replace gopkg.in/yaml.v3 => gopkg.in/yaml.v2 v3.0.1
 
 module app
 

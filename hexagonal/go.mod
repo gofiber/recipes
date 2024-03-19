@@ -6,7 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.1
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.14.0
-	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
