@@ -32,3 +32,6 @@ go.work
 
 # Ignore main binaries
 **/main
+csrf-with-session/__debug_bin1210231247
+csrf-with-session/cert.pem
+csrf-with-session/key.pem
