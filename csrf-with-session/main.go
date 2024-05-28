@@ -142,17 +142,17 @@ func main() {
 	})
 
 	// Route for the login page
-	app.Get("/login", csrfMiddleware, func(c fiber.Ctx) error {
+	app.Get("/login", func(c fiber.Ctx) error {
 		csrfToken := csrf.TokenFromContext(c)
 
 		return c.Render("login", fiber.Map{
 			"Title": "Login",
 			"csrf":  csrfToken,
 		})
-	})
+	}, csrfMiddleware)
 
 	// Route for processing the login
-	app.Post("/login", csrfMiddleware, func(c fiber.Ctx) error {
+	app.Post("/login", func(c fiber.Ctx) error {
 		// Retrieve the submitted form data
 		username := c.FormValue("username")
 		password := c.FormValue("password")
@@ -192,7 +192,7 @@ func main() {
 
 		// Redirect to the protected route
 		return c.Redirect().To("/protected")
-	})
+	}, csrfMiddleware)
 
 	// Route for logging out
 	app.Get("/logout", func(c fiber.Ctx) error {
@@ -212,7 +212,7 @@ func main() {
 	})
 
 	// Route for the protected content
-	app.Get("/protected", csrfMiddleware, func(c fiber.Ctx) error {
+	app.Get("/protected", func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session, err := store.Get(c)
 		if err != nil {
@@ -231,10 +231,10 @@ func main() {
 			"Title": "Protected",
 			"csrf":  csrfToken,
 		})
-	})
+	}, csrfMiddleware)
 
 	// Route for processing the protected form
-	app.Post("/protected", csrfMiddleware, func(c fiber.Ctx) error {
+	app.Post("/protected", func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session, err := store.Get(c)
 		if err != nil {
@@ -257,7 +257,7 @@ func main() {
 			"csrf":    csrfToken,
 			"message": message,
 		})
-	})
+	}, csrfMiddleware)
 
 	certFile := "cert.pem"
 	keyFile := "key.pem"
