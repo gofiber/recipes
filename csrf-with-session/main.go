@@ -92,11 +92,9 @@ func main() {
 		CookieHTTPOnly: true,
 		CookieSameSite: "Lax",
 	}
-	store := session.New(sessConfig)
 
-	app.Use(session.NewMiddleware(session.MiddlewareConfig{
-		Store: store,
-	}))
+	sessMW, store := session.NewWithStore(sessConfig)
+	app.Use(sessMW)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c fiber.Ctx, err error) error {
