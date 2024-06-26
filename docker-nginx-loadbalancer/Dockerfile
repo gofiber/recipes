@@ -1,5 +1,5 @@
 # STEP 1 build executable binary
-FROM golang:alpine AS builder
+FROM golang:alpine@sha256:ace6cc3fe58d0c7b12303c57afe6d6724851152df55e08057b43990b927ad5e8 AS builder
 
 RUN adduser -D -g '' appuser
 RUN mkdir /app
