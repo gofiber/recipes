@@ -8,10 +8,12 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "**/*"
+    directories:
+      - "**/*"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
-    directory: "**/*"
+    directories:
+      - "**/*"
     schedule:
       interval: "daily"
