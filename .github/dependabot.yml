@@ -5,15 +5,21 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
+    labels:
+      - "🤖 Dependencies"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
     directories:
       - "**/*"
+    labels:
+      - "🤖 Dependencies"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
     directories:
       - "**/*"
+    labels:
+      - "🤖 Dependencies"
     schedule:
       interval: "daily"
