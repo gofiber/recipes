@@ -32,3 +32,6 @@ go.work
 
 # Ignore main binaries
 **/main
+
+# IDE files
+.idea/
