@@ -24,8 +24,8 @@ importers:
         specifier: ^0.5.6
         version: 0.5.6(tailwindcss@3.3.3)
       '@tailwindcss/typography':
-        specifier: ^0.5.10
-        version: 0.5.10(tailwindcss@3.3.3)
+        specifier: ^0.5.13
+        version: 0.5.13(tailwindcss@3.3.3)
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
         version: 6.7.2(@typescript-eslint/parser@6.7.2(eslint@8.49.0)(typescript@5.2.2))(eslint@8.49.0)(typescript@5.2.2)
@@ -331,8 +331,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
 
-  '@tailwindcss/typography@0.5.10':
-    resolution: {integrity: sha512-Pe8BuPJQJd3FfRnm6H0ulKIGoMEQS+Vq01R6M5aCrFB/ccR/shT+0kXLjouGC1gFLm9hopTFN+DMP0pfwRWzPw==}
+  '@tailwindcss/typography@0.5.13':
+    resolution: {integrity: sha512-ADGcJ8dX21dVVHIwTRgzrcunY6YY9uSlAHHGVKvkA+vLc5qLwEszvKts40lx7z0qc4clpjclwLeK5rVCV2P/uw==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
 
@@ -1553,7 +1553,7 @@ snapshots:
       mini-svg-data-uri: 1.4.4
       tailwindcss: 3.3.3
 
-  '@tailwindcss/typography@0.5.10(tailwindcss@3.3.3)':
+  '@tailwindcss/typography@0.5.13(tailwindcss@3.3.3)':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
