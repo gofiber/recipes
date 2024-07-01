@@ -23,3 +23,10 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+  - package-ecosystem: "docker"
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
