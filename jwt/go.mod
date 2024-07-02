@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/gofiber/contrib/jwt v1.0.7
-	github.com/gofiber/fiber/v2 v2.52.1
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/postgres v1.5.2
