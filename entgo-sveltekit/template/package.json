@@ -18,7 +18,7 @@
 		"eslint": "^8.57.0",
 		"eslint-plugin-svelte": "^2.43.0",
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
+    "postcss": "^8.4.40",
     "postcss-load-config": "^4.0.1",
     "svelte": "^4.2.18",
     "svelte-check": "^3.8.4",
