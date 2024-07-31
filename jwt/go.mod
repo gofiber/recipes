@@ -8,7 +8,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/postgres v1.5.2
-	gorm.io/gorm v1.25.7
+	gorm.io/gorm v1.25.11
 )
 
 require (
