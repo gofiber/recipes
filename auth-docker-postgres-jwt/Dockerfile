@@ -3,7 +3,7 @@ FROM golang:1.23.0@sha256:613a108a4a4b1dfb6923305db791a19d088f77632317cfc3446825
 # Enviroment variable
 WORKDIR /usr/src/some-api
 
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/air-verse/air@latest
 
 #Copying files to work directory
 COPY go.mod ./
