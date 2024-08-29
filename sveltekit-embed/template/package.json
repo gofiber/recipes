@@ -17,7 +17,7 @@
 		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.30.4",
 		"@tailwindcss/forms": "^0.5.8",
-		"@tailwindcss/typography": "^0.5.14",
+		"@tailwindcss/typography": "^0.5.15",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^6.21.0",
 		"autoprefixer": "^10.4.20",
