@@ -15,6 +15,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [CSRF-with-Session](/csrf-with-session)
 - [CSRF](/csrf)
 - [Custom 404 Not Found](/404-handler)
+- [Dependency Injection (with Parsley)](/parsley)
 - [Docker MariaDB Clean Architecture](/docker-mariadb-clean-arch)
 - [Docker Nginx Loadbalancer](/docker-nginx-loadbalancer)
 - [Docker Postgres-JWT](/auth-docker-postgres-jwt)
