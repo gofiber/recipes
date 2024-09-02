@@ -11,6 +11,8 @@ type greeterRouteHandler struct {
 	greeter services.Greeter
 }
 
+const defaultPoliteFlag = "true"
+
 // Register Registers all greeterRouteHandler route handlers.
 func (h *greeterRouteHandler) Register(app *fiber.App) {
 	app.Get("/say-hello", h.HandleSayHelloRequest)
@@ -21,16 +23,14 @@ func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
 
 	name := ctx.Query("name")
 
-	politeFlag := ctx.Query("polite", "true")
+	politeFlag := ctx.Query("polite", defaultPoliteFlag)
 	polite, err := strconv.ParseBool(politeFlag)
 	if err != nil {
 		polite = true
 	}
 
 	msg := h.greeter.SayHello(name, polite)
-	ctx.Send([]byte(msg))
-
-	return ctx.SendStatus(fiber.StatusOK)
+	return ctx.Status(fiber.StatusOK).Send([]byte(msg))
 }
 
 var _ RouteHandler = &greeterRouteHandler{}
