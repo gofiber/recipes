@@ -76,7 +76,7 @@ func main() {
 	}
 	emptyHashString := string(emptyHash)
 
-	users := make(map[string]User)
+	users = make(map[string]User)
 	for username, hashedPassword := range hashedPasswords {
 		users[username] = User{Username: username, Password: hashedPassword}
 	}
