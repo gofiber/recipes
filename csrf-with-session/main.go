@@ -27,8 +27,12 @@ type User struct {
 }
 
 const (
-	sessionExpirationKey = "Expiration"
-	sessionLifetime      = 10 * time.Hour // Session lifetime of 10 hours
+	// https://pages.nist.gov/800-63-3/sp800-63b.html#63bSec4-Table1 NIST Requirements
+	// For AAL2, reuathentication shall be required after 30 minutes of inactivity
+	// and at least once per 12 hours.
+	sessionExpirationKey   = "Expiration"
+	sessionAbsoluteTimeout = 12 * time.Hour   // Session lifetime of 10 hours
+	sessionIdleTimeout     = 30 * time.Minute // Session idle timeout of 30 minutes
 )
 
 // Dummy user database
@@ -92,7 +96,7 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		IdleTimeout:    30 * time.Minute,        // Expire sessions after 30 minutes of inactivity
+		IdleTimeout:    sessionIdleTimeout,
 		KeyLookup:      "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
@@ -102,7 +106,10 @@ func main() {
 	sessMW, store := session.NewWithStore(sessConfig)
 	app.Use(sessMW)
 
-	// Middleware to handle session expiration (10 hours)
+	// Middleware to handle session expiration
+	// This is a custom middleware that adds a session expiration time to each session
+	// and resets the session if it has expired.
+	store.RegisterType(time.Time{}) // sessionExpirationMiddleware uses time.Time as a value
 	app.Use(sessionExpirationMiddleware)
 
 	// CSRF Error handler
@@ -341,8 +348,7 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	return nil
 }
 
-// Middleware to handle session expiration
-// This middleware ensures that each session has a finite lifetime.
+// This middleware ensures that each session has an absolute timeout.
 // If the session has expired, it resets the session to prevent unauthorized access.
 // This helps in maintaining security by enforcing session timeouts.
 func sessionExpirationMiddleware(c fiber.Ctx) error {
@@ -354,16 +360,15 @@ func sessionExpirationMiddleware(c fiber.Ctx) error {
 	}
 
 	expiration, ok := session.Get(sessionExpirationKey).(time.Time)
-	if ok && time.Now().After(expiration) {
+	if !ok {
+		session.Set(sessionExpirationKey, time.Now().Add(sessionAbsoluteTimeout))
+	} else if time.Now().After(expiration) {
 		// Session has expired, reset the session
 		if err := session.Reset(); err != nil {
 			log.Println("Failed to reset expired session:", err)
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
 	}
-
-	// Set the session expiration time to 10 hours
-	session.Set(sessionExpirationKey, time.Now().Add(sessionLifetime))
 
 	return c.Next()
 }

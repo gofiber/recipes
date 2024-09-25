@@ -10,8 +10,9 @@ This example impliments multiple best-practices for CSRF protection:
     - Secure: true
     - HttpOnly: true
     - SameSite: Lax
-    - Expiration: 30 minutes (of inactivity)
+    - IdleTimeout: 30 minutes (of inactivity)
     - Cookie names are prefixed with "__Host-" (see [MDN-Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) for more information))
+- A custom Middleware is used to enforce an absolute timeout of 12 hours for the session.
 
 ## Requirements
 
@@ -110,6 +111,15 @@ Sessions are stored in memory for this example, but you can use any session stor
 GoFiber's CSRF middleware will automatically create a session if one does not exist. That means that we always have pre-sessions when using the CSRF middleware. In this example we set a session variable `loggedIn` 
 to `true` when the user logs in, in order to distinguish between logged in and logged out users.
 
+### Notes on the Session Timeout
+
+The session absolute timeout is set to 12 hours in this example. This is a reasonable default, but you may want to adjust this value based on your application's requirements. The session absolute timeout is enforced by the custom `sessionExpirationMiddleware`, which resets the session if the user has been inactive for more than 12 hours.
+
+The session idle timeout is set to 30 minutes in this example. This is a reasonable default, but you may want to adjust this value based on your application's requirements. The session idle timeout is enforced by the session middleware, which automatically deletes the session from the underlying store if the user has been inactive for more than 30 minutes.
+
+### Notes on authentication and authorization
+
+This example uses a simple username and password for authentication. In a real-world application, you should use a more secure authentication mechanism. Usernames and passwords should be securely stored, salted, and hashed. Implementing Multi-Factor Authentication (MFA) with username and password can significantly enhance security by requiring multiple forms of verification. Additionally, consider using OAuth2 or OpenID Connect, both of which support MFA for even greater security.
 
 ## Going further
 
