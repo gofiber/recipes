@@ -12,7 +12,7 @@ This example impliments multiple best-practices for CSRF protection:
     - SameSite: Lax
     - IdleTimeout: 30 minutes (of inactivity)
     - Cookie names are prefixed with "__Host-" (see [MDN-Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) for more information))
-- A custom Middleware is used to enforce an absolute timeout of 12 hours for the session.
+- A custom Middleware `sessionExpirationMiddleware` is used to enforce an absolute session timeout of 12 hours.
 
 ## Requirements
 
@@ -105,6 +105,7 @@ The CSRF middleware has a `SingleUseToken` configuration option that can be used
 
 Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/api/middleware/session) for more information.
 
+## Notes
 
 ### Note on pre-sessions
 
@@ -124,5 +125,9 @@ This example uses a simple username and password for authentication. In a real-w
 ## Going further
 
 Here are some useful links where you can learn more about this topic:
+* https://docs.gofiber.io/api/middleware/session
+* https://en.wikipedia.org/wiki/Session_(computer_science)
+* https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
+* https://docs.gofiber.io/api/middleware/csrf
 * https://en.wikipedia.org/wiki/Cross-site_request_forgery
 * https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
