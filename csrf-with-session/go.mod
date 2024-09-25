@@ -10,7 +10,7 @@ require (
 	golang.org/x/crypto v0.27.0
 )
 
-replace github.com/gofiber/fiber/v3 => github.com/sixcolors/fiber/v3 v3.0.0-20240925170926-7765ee557737
+replace github.com/gofiber/fiber/v3 => github.com/sixcolors/fiber/v3 v3.0.0-20240925172545-8716c95a746b
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect

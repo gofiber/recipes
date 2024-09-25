@@ -8,6 +8,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
+	"log"
 	"math/big"
 	"os"
 	"time"
@@ -24,6 +25,11 @@ type User struct {
 	Username string
 	Password string
 }
+
+const (
+	sessionExpirationKey = "Expiration"
+	sessionLifetime      = 10 * time.Hour // Session lifetime of 10 hours
+)
 
 // Dummy user database
 var users map[string]User
@@ -95,6 +101,9 @@ func main() {
 
 	sessMW, store := session.NewWithStore(sessConfig)
 	app.Use(sessMW)
+
+	// Middleware to handle session expiration (10 hours)
+	app.Use(sessionExpirationMiddleware)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c fiber.Ctx, err error) error {
@@ -330,4 +339,31 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 
 	return nil
+}
+
+// Middleware to handle session expiration
+// This middleware ensures that each session has a finite lifetime.
+// If the session has expired, it resets the session to prevent unauthorized access.
+// This helps in maintaining security by enforcing session timeouts.
+func sessionExpirationMiddleware(c fiber.Ctx) error {
+	// Retrieve the session
+	session := session.FromContext(c)
+	if session == nil {
+		log.Println("Failed to retrieve session from context")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	expiration, ok := session.Get(sessionExpirationKey).(time.Time)
+	if ok && time.Now().After(expiration) {
+		// Session has expired, reset the session
+		if err := session.Reset(); err != nil {
+			log.Println("Failed to reset expired session:", err)
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
+	}
+
+	// Set the session expiration time to 10 hours
+	session.Set(sessionExpirationKey, time.Now().Add(sessionLifetime))
+
+	return c.Next()
 }
