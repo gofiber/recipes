@@ -8,7 +8,6 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
-	"log"
 	"math/big"
 	"os"
 	"time"
@@ -96,21 +95,16 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		IdleTimeout:    sessionIdleTimeout,
-		KeyLookup:      "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
-		CookieSecure:   true,
-		CookieHTTPOnly: true,
-		CookieSameSite: "Lax",
+		IdleTimeout:     sessionIdleTimeout,
+		AbsoluteTimeout: sessionAbsoluteTimeout,
+		KeyLookup:       "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
+		CookieSecure:    true,
+		CookieHTTPOnly:  true,
+		CookieSameSite:  "Lax",
 	}
 
 	sessMW, store := session.NewWithStore(sessConfig)
 	app.Use(sessMW)
-
-	// Middleware to handle session expiration
-	// This is a custom middleware that adds a session expiration time to each session
-	// and resets the session if it has expired.
-	store.RegisterType(time.Time{}) // sessionExpirationMiddleware uses time.Time as a value
-	app.Use(sessionExpirationMiddleware)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c fiber.Ctx, err error) error {
@@ -147,7 +141,7 @@ func main() {
 		CookieSecure:   true,          // Recommended to set to true when serving the app over TLS
 		CookieHTTPOnly: true,          // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ErrorHandler:   csrfErrorHandler,
-		Expiration:     30 * time.Minute,
+		IdleTimeout:    30 * time.Minute,
 	}
 	csrfMiddleware := csrf.New(csrfConfig)
 
@@ -346,29 +340,4 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 
 	return nil
-}
-
-// This middleware ensures that each session has an absolute timeout.
-// If the session has expired, it resets the session to prevent unauthorized access.
-// This helps in maintaining security by enforcing session timeouts.
-func sessionExpirationMiddleware(c fiber.Ctx) error {
-	// Retrieve the session
-	session := session.FromContext(c)
-	if session == nil {
-		log.Println("Failed to retrieve session from context")
-		return c.SendStatus(fiber.StatusInternalServerError)
-	}
-
-	expiration, ok := session.Get(sessionExpirationKey).(time.Time)
-	if !ok {
-		session.Set(sessionExpirationKey, time.Now().Add(sessionAbsoluteTimeout))
-	} else if time.Now().After(expiration) {
-		// Session has expired, reset the session
-		if err := session.Reset(); err != nil {
-			log.Println("Failed to reset expired session:", err)
-			return c.SendStatus(fiber.StatusInternalServerError)
-		}
-	}
-
-	return c.Next()
 }

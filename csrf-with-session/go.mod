@@ -1,6 +1,6 @@
 module main
 
-go 1.22
+go 1.23
 
 toolchain go1.23.1
 
@@ -10,7 +10,7 @@ require (
 	golang.org/x/crypto v0.27.0
 )
 
-replace github.com/gofiber/fiber/v3 => github.com/sixcolors/fiber/v3 v3.0.0-20240925172545-8716c95a746b
+replace github.com/gofiber/fiber/v3 => github.com/sixcolors/fiber/v3 v3.0.0-20240926212957-0e9a73e6ebba
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
