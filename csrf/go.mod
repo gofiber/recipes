@@ -3,8 +3,8 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.1
-	github.com/gofiber/template/html/v2 v2.1.1
+	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/gofiber/template/html/v2 v2.1.2
 )
 
 require (

@@ -3,7 +3,7 @@ module main
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.1
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/graphql-go/graphql v0.8.1
 )
 

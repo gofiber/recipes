@@ -3,11 +3,11 @@ module i18n-example
 go 1.18
 
 require (
-	github.com/BurntSushi/toml v1.3.2
-	github.com/gofiber/fiber/v2 v2.52.1
-	github.com/gofiber/template/html/v2 v2.1.1
-	github.com/nicksnyder/go-i18n/v2 v2.2.1
-	golang.org/x/text v0.13.0
+	github.com/BurntSushi/toml v1.4.0
+	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/gofiber/template/html/v2 v2.1.2
+	github.com/nicksnyder/go-i18n/v2 v2.4.0
+	golang.org/x/text v0.17.0
 )
 
 require (
@@ -24,5 +24,4 @@ require (
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

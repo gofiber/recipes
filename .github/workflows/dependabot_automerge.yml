@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       - name: Wait for check is finished
-        uses: lewagon/wait-on-check-action@v1.3.1
+        uses: lewagon/wait-on-check-action@v1.3.4
         id: wait_for_checks
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v1.6.0
+        uses: dependabot/fetch-metadata@v2.2.0
         with:
           github-token: "${{ secrets.PR_TOKEN }}"
       - name: Enable auto-merge for Dependabot PRs

@@ -2,7 +2,7 @@
 
 1. Make sure you have the following installed outside the current project directory and available in your `GOPATH`
     - golang
-    - [air](https://github.com/cosmtrek/air) for hot reloading
+    - [air](https://github.com/air-verse/air) for hot reloading
     - [godotenv](https://github.com/joho/godotenv) for loading `.env` file
 
 # Installation

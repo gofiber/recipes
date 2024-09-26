@@ -4,11 +4,11 @@ go 1.19
 
 require (
 	entgo.io/ent v0.12.3
-	github.com/fatih/color v1.15.0
-	github.com/gofiber/fiber/v2 v2.52.1
-	github.com/google/uuid v1.5.0
-	github.com/mattn/go-sqlite3 v1.14.17
-	github.com/stretchr/testify v1.8.4
+	github.com/fatih/color v1.17.0
+	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/google/uuid v1.6.0
+	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
@@ -33,7 +33,7 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
 	golang.org/x/mod v0.10.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

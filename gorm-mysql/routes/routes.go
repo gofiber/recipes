@@ -52,7 +52,7 @@ func Update(c *fiber.Ctx) error {
 
 	database.DBConn.Model(&models.Book{}).Where("id = ?", id).Update("title", book.Title)
 
-	return c.Status(400).JSON("updated")
+	return c.Status(200).JSON("updated")
 }
 
 //Delete

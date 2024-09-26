@@ -36,3 +36,6 @@ go.work
 # Ignore certificates in csrf-with-session example
 csrf-with-session/cert.pem
 csrf-with-session/key.pem
+
+# IDE files
+.idea/

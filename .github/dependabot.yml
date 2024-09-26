@@ -1,0 +1,32 @@
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#directories
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"

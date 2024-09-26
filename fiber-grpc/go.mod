@@ -3,15 +3,15 @@ module github.com/gofiber/recipes/fiber-grpc
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.1
-	github.com/golang/protobuf v1.5.3
-	google.golang.org/grpc v1.58.3
-	google.golang.org/protobuf v1.33.0
+	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/golang/protobuf v1.5.4
+	google.golang.org/grpc v1.64.0
+	google.golang.org/protobuf v1.34.2
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -23,5 +23,5 @@ require (
 	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230711160842-782d3b101e98 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
 )

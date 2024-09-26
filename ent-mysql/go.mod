@@ -4,12 +4,13 @@ go 1.19
 
 require (
 	entgo.io/ent v0.12.3
-	github.com/go-sql-driver/mysql v1.7.1
-	github.com/gofiber/fiber/v2 v2.52.1
+	github.com/go-sql-driver/mysql v1.8.1
+	github.com/gofiber/fiber/v2 v2.52.5
 )
 
 require (
 	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect

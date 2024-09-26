@@ -8,8 +8,8 @@ github.com/gofiber/contrib/socketio v1.0.0 h1:Wanb9hsiuBg69IIDkes0mmKv23TsW+PxZQ
 github.com/gofiber/contrib/socketio v1.0.0/go.mod h1:I8TtbDgnvysM+VJckHbuMAZGFO8qDokuHysXgcx/JzI=
 github.com/gofiber/contrib/websocket v1.3.0 h1:XADFAGorer1VJ1bqC4UkCjqS37kwRTV0415+050NrMk=
 github.com/gofiber/contrib/websocket v1.3.0/go.mod h1:xguaOzn2ZZ759LavtosEP+rcxIgBEE/rdumPINhR+Xo=
-github.com/gofiber/fiber/v2 v2.52.2 h1:b0rYH6b06Df+4NyrbdptQL8ifuxw/Tf2DgfkZkDaxEo=
-github.com/gofiber/fiber/v2 v2.52.2/go.mod h1:KEOE+cXMhXG0zHc9d8+E38hoX+ZN7bhOtgeF2oT6jrQ=
+github.com/gofiber/fiber/v2 v2.52.5 h1:tWoP1MJQjGEe4GB5TUGOi7P2E0ZMMRx5ZTG4rT+yGMo=
+github.com/gofiber/fiber/v2 v2.52.5/go.mod h1:KEOE+cXMhXG0zHc9d8+E38hoX+ZN7bhOtgeF2oT6jrQ=
 github.com/google/uuid v1.5.0 h1:1p67kYwdtXjb0gL0BPiP1Av9wiZPo5A8z2cWkTZ+eyU=
 github.com/google/uuid v1.5.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.17.3 h1:qkRjuerhUU1EmXLYGkSH6EZL+vPSxIrYjLNAK4slzwA=

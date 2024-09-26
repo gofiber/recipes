@@ -3,9 +3,9 @@ module gorm-mysql
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.1
-	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.7
+	github.com/gofiber/fiber/v2 v2.52.5
+	gorm.io/driver/mysql v1.5.7
+	gorm.io/gorm v1.25.11
 )
 
 require (
@@ -23,4 +23,5 @@ require (
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )
