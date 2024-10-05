@@ -1,12 +1,67 @@
+# WebSocket Chat Example
 
-# Minimal chat example for [Fiber](https://github.com/gofiber/fiber) with [Fiber WebSocket](https://github.com/gofiber/websocket)
+This example demonstrates a simple chat application using Go Fiber and WebSockets.
 
-Uses a client hub, somewhat similar to the [gorilla chat example](https://github.com/gorilla/websocket/tree/master/examples/chat) and [fasthttp chat example](https://github.com/fasthttp/websocket/tree/master/_examples/chat).
+## Description
 
-## Usage
+This project provides a basic setup for a WebSocket-based chat application using Go Fiber. It includes the necessary configuration and code to run a real-time chat server.
 
-`go run .` and visit http://localhost:8080
+## Requirements
 
-or e.g.
+- [Go](https://golang.org/dl/) 1.18 or higher
+- [Git](https://git-scm.com/downloads)
 
-`go run . -addr=3000` and visit http://localhost:3000
+## Project Structure
+
+- `main.go`: The main application entry point.
+- `home.html`: The HTML file for the chat client.
+- `go.mod`: The Go module file.
+
+## Setup
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/gofiber/recipes.git
+    cd recipes/websocket-chat
+    ```
+
+2. Install the dependencies:
+    ```bash
+    go mod download
+    ```
+
+3. Run the application:
+    ```bash
+    go run main.go
+    ```
+
+The application should now be running on `http://localhost:8080`.
+
+## WebSocket Endpoints
+
+- **GET /ws**: WebSocket endpoint for the chat application.
+
+## Example Usage
+
+1. Open your browser and navigate to `http://localhost:8080`.
+2. Enter a message in the input field and click "Send".
+3. The message should appear in the chat log.
+
+## Code Overview
+
+### `main.go`
+
+The main Go file sets up the Fiber application, handles WebSocket connections, and manages the chat hub.
+
+### `home.html`
+
+The HTML file provides a simple user interface for the chat application, including a message log and input field.
+
+## Conclusion
+
+This example provides a basic setup for a WebSocket-based chat application using Go Fiber. It can be extended and customized further to fit the needs of more complex applications.
+
+## References
+
+- [Fiber Documentation](https://docs.gofiber.io)
+- [WebSocket Documentation](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
