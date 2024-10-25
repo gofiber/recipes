@@ -12,8 +12,8 @@ importers:
         specifier: ^1.6.11
         version: 1.6.11
       '@skeletonlabs/skeleton':
-        specifier: ^2.10.2
-        version: 2.10.2(svelte@4.2.19)
+        specifier: ^2.10.3
+        version: 2.10.3(svelte@4.2.19)
       '@sveltejs/adapter-static':
         specifier: ^2.0.3
         version: 2.0.3(@sveltejs/kit@1.30.4(svelte@4.2.19)(vite@4.5.3))
@@ -298,10 +298,10 @@ packages:
   '@polka/url@1.0.0-next.23':
     resolution: {integrity: sha512-C16M+IYz0rgRhWZdCmK+h58JMv8vijAA61gmz2rspCSwKwzBebpdcsiUmwrtJRdphuY30i6BSLEOP8ppbNLyLg==}
 
-  '@skeletonlabs/skeleton@2.10.2':
-    resolution: {integrity: sha512-TV2yWjvHpmtaF1F5luB8n7UbjKZcsrJMMiiJQHbZvqXjBWvudAcL8zywhE/NFKW5rYU//MtgOODdMZPZxvKu6w==}
+  '@skeletonlabs/skeleton@2.10.3':
+    resolution: {integrity: sha512-O1RecF68zEVvZl3GgRS4emqWMUIQLHvTOFoqGOw/2OXCPE06IxUQrHQf2hnxCPxtGZNXY2YX8UNV38l+eH8GNQ==}
     peerDependencies:
-      svelte: ^3.56.0 || ^4.0.0
+      svelte: ^3.56.0 || ^4.0.0 || ^5.0.0
 
   '@sveltejs/adapter-static@2.0.3':
     resolution: {integrity: sha512-VUqTfXsxYGugCpMqQv1U0LIdbR3S5nBkMMDmpjGVJyM6Q2jHVMFtdWJCkeHMySc6mZxJ+0eZK3T7IgmUCDrcUQ==}
@@ -1577,7 +1577,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.23': {}
 
-  '@skeletonlabs/skeleton@2.10.2(svelte@4.2.19)':
+  '@skeletonlabs/skeleton@2.10.3(svelte@4.2.19)':
     dependencies:
       esm-env: 1.0.0
       svelte: 4.2.19
