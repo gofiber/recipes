@@ -63,6 +63,20 @@ func main() {
 		}
 		defer file.Close() // Ensure the file is closed after the upload
 
+		// Detect content type
+		buffer := make([]byte, 512)
+		_, err = file.Read(buffer)
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).SendString("Error reading file: " + err.Error())
+		}
+		contentType := http.DetectContentType(buffer)
+
+		// Reset file pointer
+		_, err = file.Seek(0, 0)
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).SendString("Error resetting file: " + err.Error())
+		}
+
 		// Upload the file to MinIO
 		uploadInfo, err := mc.PutObject(
 			c.Context(),
@@ -71,8 +85,8 @@ func main() {
 			file,          // File data to upload
 			formFile.Size, // File size
 			minio.PutObjectOptions{
-				PartSize:    5 * 1024 * 1024,       // Chunk size for large files (5 MB per part)
-				ContentType: fiber.MIMEOctetStream, // Default content type for binary files
+				PartSize:    5 * 1024 * 1024, // Chunk size for large files (5 MB per part)
+				ContentType: contentType,     // content type for binary files
 			},
 		)
 		if err != nil {
