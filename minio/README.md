@@ -110,4 +110,5 @@ This example offers a approach for managing file uploads and downloads with Go F
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
+- [Fiber storage](https://github.com/gofiber/storage)
 - [MinIO Documentation](https://min.io/docs/)
