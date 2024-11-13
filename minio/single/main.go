@@ -30,6 +30,8 @@ var (
 	location        = getEnv("FIBER_MINIO_LOCATION", "us-east-1")               // MinIO location
 )
 
+const maxFileSize = 10 * 1024 * 1024 // 10MB
+
 func main() {
 	// Initialize the MinIO client
 	if err := newMinioClient(); err != nil {
@@ -41,11 +43,22 @@ func main() {
 
 	// Define the route to handle file uploads
 	app.Post("/upload", func(c *fiber.Ctx) error {
+
+		// Check file size before processing
+		if c.Request().Header.ContentLength() > maxFileSize {
+			return c.Status(http.StatusRequestEntityTooLarge).SendString("File too large")
+		}
+
 		// Get the file from the form data (input field name: "document")
 		formFile, err := c.FormFile("document")
 		if err != nil {
 			// Return a bad request response if file retrieval fails
 			return c.Status(http.StatusBadRequest).SendString("Error retrieving file: " + err.Error())
+		}
+
+		// Double-check file size
+		if formFile.Size > maxFileSize {
+			return c.Status(http.StatusRequestEntityTooLarge).SendString("File too large")
 		}
 
 		// Validate the filename to ensure it is non-empty and contains only allowed characters

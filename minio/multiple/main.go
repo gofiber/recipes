@@ -30,6 +30,11 @@ var (
 	location        = getEnv("FIBER_MINIO_LOCATION", "us-east-1")               // MinIO location
 )
 
+const (
+	maxFileSize = 10 * 1024 * 1024 // 10MB
+	maxFiles    = 5
+)
+
 func main() {
 	// Initialize the MinIO client
 	if err := newMinioClient(); err != nil {
@@ -54,11 +59,24 @@ func main() {
 			return c.Status(http.StatusBadRequest).SendString("No files found in request")
 		}
 
+		if len(files) > maxFiles {
+			// Return a bad request response if the number of files exceeds the maximum allowed
+			return c.Status(http.StatusBadRequest).SendString(fmt.Sprintf("Too many files. Maximum allowed: %d", maxFiles))
+		}
+
 		var uploadedFiles []fiber.Map // List to store information about successfully uploaded files
 		var failedFiles []fiber.Map   // List to store information about files that failed to upload
 
 		// Iterate over the files and upload each one
 		for _, filePart := range files {
+			// Double-check file size
+			if filePart.Size > maxFileSize {
+				failedFiles = append(failedFiles, fiber.Map{
+					"filename": filePart.Filename,
+					"error":    "File too large",
+				})
+				continue // Skip to the next file
+			}
 
 			// Validate the filename to ensure it is non-empty and contains only allowed characters
 			err := validateFilename(filePart.Filename)
