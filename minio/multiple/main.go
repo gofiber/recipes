@@ -91,8 +91,8 @@ func main() {
 				file,              // File data to upload
 				filePart.Size,     // File size
 				minio.PutObjectOptions{ // Options for file upload
-					PartSize:    5 * 1024 * 1024,            // Upload in chunks (5 MB per part)
-					ContentType: "application/octet-stream", // Default content type for binary files
+					PartSize:    5 * 1024 * 1024,       // Upload in chunks (5 MB per part)
+					ContentType: fiber.MIMEOctetStream, // Default content type for binary files
 				},
 			)
 			if err != nil {
