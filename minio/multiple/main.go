@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,12 +20,14 @@ import (
 
 var mc *minio.Client
 
-const (
-	endpoint        = "127.0.0.1:9000" // MinIO endpoint (local MinIO server)
-	accessKeyID     = "minioadmin"     // Access key for MinIO
-	secretAccessKey = "minioadmin"     // Secret access key for MinIO
-	useSSL          = false            // Whether to use SSL (set to true for secure connections)
-	bucketName      = "fiber"          // Name of the bucket in MinIO
+var (
+	// MinIO configuration with defaults if environment variables are not set
+	endpoint        = getEnv("FIBER_MINIO_ENDPOINT", "127.0.0.1:9000")          // MinIO endpoint (local MinIO server)
+	accessKeyID     = getEnv("FIBER_MINIO_ACCESS_KEY", "minioadmin")            // Access key for MinIO
+	secretAccessKey = getEnv("FIBER_MINIO_SECRET_KEY", "minioadmin")            // Secret access key for MinIO
+	useSSL, _       = strconv.ParseBool(getEnv("FIBER_MINIO_USE_SSL", "false")) // Whether to use SSL (set to true for secure connections)
+	bucketName      = getEnv("FIBER_MINIO_BUCKET_NAME", "fiber")                // Name of the bucket in MinIO
+	location        = getEnv("FIBER_MINIO_LOCATION", "us-east-1")               // MinIO location
 )
 
 func main() {
@@ -160,6 +164,14 @@ func main() {
 	log.Fatal(app.Listen(":3000"))
 }
 
+// Get environment variable or return default value if not set
+func getEnv(key, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultValue
+}
+
 // newMinioClient initializes a new MinIO client and ensures the "fiber" bucket exists.
 func newMinioClient() error {
 	// Initialize the MinIO client with the specified credentials and endpoint
@@ -174,7 +186,6 @@ func newMinioClient() error {
 	mc = minioClient
 
 	// Ensure the "fiber" bucket exists, creating it if necessary
-	location := "us-east-1"
 	if err := ensureBucketExists(context.Background(), mc, bucketName, location); err != nil {
 		return err
 	}
