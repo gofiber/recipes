@@ -79,7 +79,11 @@ func main() {
 		log.Printf("File uploaded: ETag: %s, Size: %d", uploadInfo.ETag, uploadInfo.Size)
 
 		// Create a URL to access the uploaded file
-		fileURL := fmt.Sprintf("http://localhost:3000/file/%s", filename)
+		protocol := "http"
+		if c.Protocol() == "https" {
+			protocol = "https"
+		}
+		fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Hostname(), filename)
 
 		// Return a successful response with the file details and URL
 		return c.Status(http.StatusOK).JSON(fiber.Map{

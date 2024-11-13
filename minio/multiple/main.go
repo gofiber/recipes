@@ -103,7 +103,11 @@ func main() {
 			log.Printf("File uploaded successfully: ETag: %s, Size: %d", uploadInfo.ETag, uploadInfo.Size)
 
 			// Generate a URL for the uploaded file
-			fileURL := fmt.Sprintf("http://localhost:3000/file/%s", filePart.Filename)
+			protocol := "http"
+			if c.Protocol() == "https" {
+				protocol = "https"
+			}
+			fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Hostname(), filePart.Filename)
 
 			uploadedFiles = append(uploadedFiles, fiber.Map{
 				"filename": filePart.Filename,
