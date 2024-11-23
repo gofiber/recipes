@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// GetBooks returns a handler function that retrieves all books
 func GetBooks(service services.BooksService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		books, err := service.GetBooks(c.UserContext())
@@ -23,6 +24,7 @@ func GetBooks(service services.BooksService) fiber.Handler {
 	}
 }
 
+// AddBook returns a handler function that adds a book
 func AddBook(service services.BooksService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var book domain.Book

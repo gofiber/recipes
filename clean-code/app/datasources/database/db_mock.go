@@ -18,7 +18,7 @@ func (m *DatabaseMock) LoadAllBooks(ctx context.Context) ([]Book, error) {
 	return args.Get(0).([]Book), args.Error(1)
 }
 
-func (m *DatabaseMock) CreateBook(ctx context.Context, newBook Book) error {
+func (m *DatabaseMock) CreateBook(ctx context.Context, newBook NewBook) error {
 	args := m.Called(ctx, newBook)
 	return args.Error(0)
 }

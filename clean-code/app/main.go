@@ -10,13 +10,16 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
-	conf := NewConfiguration()
-	dataSources := &datasources.DataSources{
-		DB: database.NewDatabase(ctx, conf.DatabaseURL),
-	}
-	defer dataSources.DB.CloseConnections()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-	app := server.NewServer(ctx, dataSources)
+	conf := NewConfiguration()
+	db, err := database.NewDatabase(ctx, conf.DatabaseURL)
+	if err != nil {
+		log.Fatalf("failed to create database: %v", err)
+	}
+	defer db.CloseConnections()
+
+	app := server.NewServer(ctx, &datasources.DataSources{DB: db})
 	log.Fatal(app.Listen(":" + conf.Port))
 }

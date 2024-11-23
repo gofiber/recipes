@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// NewServer creates a new Fiber app and sets up the routes
 func NewServer(ctx context.Context, dataSources *datasources.DataSources) *fiber.App {
 	app := fiber.New()
 	apiRoutes := app.Group("/api")

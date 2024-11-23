@@ -95,6 +95,7 @@ func postRequest(url string, body string) *http.Request {
 }
 
 func bodyFromResponse[T any](t *testing.T, resp *http.Response) T {
+	defer resp.Body.Close()
 	var body T
 	err := json.NewDecoder(resp.Body).Decode(&body)
 	assert.Nil(t, err)

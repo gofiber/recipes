@@ -19,7 +19,7 @@ func (db *memoryDB) LoadAllBooks(_ context.Context) ([]Book, error) {
 	return db.records, nil
 }
 
-func (db *memoryDB) CreateBook(_ context.Context, newBook Book) error {
+func (db *memoryDB) CreateBook(_ context.Context, newBook NewBook) error {
 	db.records = append(db.records, Book{
 		ID:    db.idCounter,
 		Title: newBook.Title,

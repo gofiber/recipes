@@ -10,25 +10,25 @@ import (
 
 func TestNewDatabase_MemoryDB(t *testing.T) {
 	ctx := context.Background()
-	db := NewDatabase(ctx, "")
+	db, err := NewDatabase(ctx, "")
+	assert.Nil(t, err)
 	assert.Equal(t, "*database.memoryDB", reflect.TypeOf(db).String())
 }
 
 func TestNewDatabase_PostgresDB(t *testing.T) {
 	ctx := context.Background()
-	db := NewDatabase(ctx, "postgres://localhost:5432")
+	db, err := NewDatabase(ctx, "postgres://localhost:5432")
+	assert.Nil(t, err)
 	assert.Equal(t, "*database.postgresDB", reflect.TypeOf(db).String())
 }
 
 func TestNewDatabase_InvalidDatabaseConfiguration(t *testing.T) {
 	ctx := context.Background()
-	defer func() {
-		assert.NotNil(t, recover())
-	}()
-	_ = NewDatabase(ctx, "invalid")
+	_, err := NewDatabase(ctx, "invalid")
+	assert.ErrorContains(t, err, "unsupported database")
 }
 
-func assertBook(t *testing.T, book Book, expectedID int, expected Book) {
+func assertBook(t *testing.T, book Book, expectedID int, expected NewBook) {
 	assert.Equal(t, expectedID, book.ID)
 	assert.Equal(t, expected.Title, book.Title)
 }

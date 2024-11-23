@@ -22,7 +22,7 @@ func TestPostgresDB_GetBooks(t *testing.T) {
 	result, err := db.LoadAllBooks(context.Background())
 	assert.Nil(t, err)
 	assert.Equal(t, 1, len(result))
-	assertBook(t, result[0], 1, Book{Title: "book1"})
+	assertBook(t, result[0], 1, NewBook{Title: "book1"})
 
 	assert.Nil(t, mockPool.ExpectationsWereMet())
 }
@@ -55,7 +55,7 @@ func TestPostgresDB_CreateBook(t *testing.T) {
 	db := postgresDB{
 		pool: mockPool,
 	}
-	err = db.CreateBook(context.Background(), Book{Title: "book1"})
+	err = db.CreateBook(context.Background(), NewBook{Title: "book1"})
 	assert.Nil(t, err)
 
 	assert.Nil(t, mockPool.ExpectationsWereMet())
@@ -72,7 +72,7 @@ func TestPostgresDB_CreateBook_Fail(t *testing.T) {
 	db := postgresDB{
 		pool: mockPool,
 	}
-	err = db.CreateBook(context.Background(), Book{Title: "book1"})
+	err = db.CreateBook(context.Background(), NewBook{Title: "book1"})
 	assert.ErrorContains(t, err, "failed to insert book")
 
 	assert.Nil(t, mockPool.ExpectationsWereMet())

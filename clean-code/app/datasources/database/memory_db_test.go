@@ -16,7 +16,7 @@ func TestMemoryDB_LoadBooks(t *testing.T) {
 
 func TestMemoryDB_SaveBook(t *testing.T) {
 	db := newMemoryDB()
-	newBook := Book{Title: "Title"}
+	newBook := NewBook{Title: "Title"}
 	err := db.CreateBook(context.Background(), newBook)
 	assert.Nil(t, err)
 
@@ -28,11 +28,11 @@ func TestMemoryDB_SaveBook(t *testing.T) {
 
 func TestMemoryDB_SaveBookMultiple(t *testing.T) {
 	db := newMemoryDB()
-	newBook1 := Book{Title: "Title1"}
+	newBook1 := NewBook{Title: "Title1"}
 	err := db.CreateBook(context.Background(), newBook1)
 	assert.Nil(t, err)
 
-	newBook2 := Book{Title: "Title2"}
+	newBook2 := NewBook{Title: "Title2"}
 	err = db.CreateBook(context.Background(), newBook2)
 	assert.Nil(t, err)
 
