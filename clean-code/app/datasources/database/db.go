@@ -34,16 +34,18 @@ type Database interface {
 // NewDatabase creates a new Database instance
 func NewDatabase(ctx context.Context, databaseURL string) (Database, error) {
 	if databaseURL == "" {
-		slog.Info("Using in-memory database")
+		slog.Info("Using in-memory database implementation")
 		return newMemoryDB(), nil
-	} else if strings.HasPrefix(databaseURL, "postgres://") {
+	}
+	
+	if strings.HasPrefix(databaseURL, "postgres://") {
 		db, err := newPostgresDB(ctx, databaseURL)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create postgres database: %w", err)
+			return nil, fmt.Errorf("failed to initialize PostgreSQL database connection: %w", err)
 		}
-		slog.Info("Using Postgres database")
+		slog.Info("Using PostgreSQL database implementation")
 		return db, nil
 	}
-	return nil, fmt.Errorf("unsupported database: %s", databaseURL)
-
+	
+	return nil, fmt.Errorf("unsupported database URL scheme: %s", databaseURL)
 }
