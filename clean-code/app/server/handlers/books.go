@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"log"
+	"log/slog"
 
 	"app/server/domain"
 	"app/server/services"
@@ -14,7 +14,7 @@ func GetBooks(service services.BooksService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		books, err := service.GetBooks(c.UserContext())
 		if err != nil {
-			log.Printf("GetBooks failed: %v", err)
+			slog.Error("GetBooks failed", "error", err)
 			return sendError(c, fiber.StatusInternalServerError, "internal error")
 		}
 
@@ -29,13 +29,14 @@ func AddBook(service services.BooksService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var book domain.Book
 		if err := c.BodyParser(&book); err != nil {
-			log.Printf("AddBook request parsing failed: %v", err)
+			slog.Warn("AddBook request parsing failed", "error", err)
 			return sendError(c, fiber.StatusBadRequest, "invalid request")
 		}
+		// For production use add proper validation here
 
 		err := service.SaveBook(c.UserContext(), book)
 		if err != nil {
-			log.Printf("AddBook failed: %v", err)
+			slog.Error("AddBook failed", "error", err)
 			return sendError(c, fiber.StatusInternalServerError, "internal error")
 		}
 		return c.SendStatus(fiber.StatusCreated)

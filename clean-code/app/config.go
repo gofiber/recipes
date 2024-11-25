@@ -1,6 +1,9 @@
 package main
 
-import "os"
+import (
+	"log/slog"
+	"os"
+)
 
 // Configuration is used to store values from environment variables
 type Configuration struct {
@@ -10,9 +13,13 @@ type Configuration struct {
 
 // NewConfiguration reads environment variables and returns a new Configuration
 func NewConfiguration() *Configuration {
+	dbURL := getEnvOrDefault("DATABASE_URL", "")
+	if dbURL == "" {
+		slog.Warn("DATABASE_URL is not set")
+	}
 	return &Configuration{
 		Port:        getEnvOrDefault("PORT", "3000"),
-		DatabaseURL: getEnvOrDefault("DATABASE_URL", ""),
+		DatabaseURL: dbURL,
 	}
 }
 
