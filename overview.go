@@ -46,7 +46,7 @@ func main() {
 				if title == "" {
 					title = "No title"
 				}
-				toc += fmt.Sprintf("- [%s](./%s)\n", title, relativePath)
+				toc += fmt.Sprintf("- [%s](./%s/README.md)\n", title, relativePath)
 			} else {
 				missingReadmeDirs = append(missingReadmeDirs, relativePath)
 			}
