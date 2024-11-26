@@ -1,6 +1,6 @@
 ---
 title: Autocert
-keywords: [autocert, tls, letsencrypt, ssl, https]
+keywords: [autocert, tls, letsencrypt, ssl, https, certificate]
 ---
 
 # Autocert Example
