@@ -5,6 +5,8 @@ keywords: [colly, gorm, postgresql]
 
 # Simple Web Scraping Colly App with Fiber
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/colly-gorm) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/colly-gorm)
+
 This is a basic Go application using the Fiber framework to create scraping tasks in colly.
 
 ## How to Run

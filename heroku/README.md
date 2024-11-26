@@ -5,6 +5,8 @@ keywords: [heroku, deployment]
 
 # Heroku Deployment Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/heroku) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/heroku)
+
 This project demonstrates how to deploy a Go application using the Fiber framework on Heroku.
 
 ## Prerequisites

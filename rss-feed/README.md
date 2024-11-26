@@ -5,6 +5,8 @@ keywords: [rss, feed]
 
 # RSS Feed
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/rss-feed) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/rss-feed)
+
 This project demonstrates how to create an RSS feed in a Go application using the Fiber framework.
 
 ## Prerequisites

@@ -5,6 +5,8 @@ keywords: [minio, file upload, file download]
 
 # MinIO File Upload & Download Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/minio) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/minio)
+
 This example demonstrates a simple Go Fiber application that includes modules for uploading both single and multiple files, as well as downloading files from MinIO. Each module provides REST API endpoints for file upload and retrieval, serving as a foundation for applications requiring file storage and access.
 
 ## Prerequisites

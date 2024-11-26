@@ -5,6 +5,8 @@ keywords: [jwt, json web token, authentication]
 
 # Fiber with JWT
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/jwt) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/jwt)
+
 This example demonstrates how to use JSON Web Tokens (JWT) for authentication in a Fiber application.
 
 ## Prerequisites

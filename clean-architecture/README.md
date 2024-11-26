@@ -5,6 +5,8 @@ keywords: [clean, architecture, fiber, mongodb, go]
 
 # Clean Architecture Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/clean-architecture) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/clean-architecture)
+
 This example demonstrates a Go Fiber application following the principles of Clean Architecture.
 
 ## Description

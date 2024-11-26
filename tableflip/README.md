@@ -5,6 +5,8 @@ keywords: [tableflip, golang, graceful upgrade]
 
 # Tableflip Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/tableflip) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/tableflip)
+
 This example demonstrates how to use [tableflip](https://github.com/cloudflare/tableflip) for graceful upgrades in a Go application.
 
 ## What is Tableflip?

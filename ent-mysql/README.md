@@ -5,6 +5,8 @@ keywords: [ent, mysql, orm, rest]
 
 # Example ent ORM for fiber with MySQL
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/ent-mysql) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/ent-mysql)
+
 A sample program how to connect ent ORM
 
 ## How to start (If no ent dir)

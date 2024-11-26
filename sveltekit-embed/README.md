@@ -4,6 +4,9 @@ keywords: [sveltekit, tailwindcss, embed]
 ---
 
 # Fiber Sveltekit Embed App
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/sveltekit-embed) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/sveltekit-embed)
+
 ![image](https://github.com/gofiber/recipes/assets/40540244/2aa084b8-9bbc-46f3-9759-930857429f05)
 
 This application is a full-stack project built using Sveltekit, Tailwind CSS, Fiber. It showcases the construction of a monolithic architecture for a full-stack application.

@@ -5,6 +5,8 @@ keywords: [stream, request body]
 
 # Stream Request Body
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/stream-request-body) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/stream-request-body)
+
 This project demonstrates how to handle streaming request bodies in a Go application using the Fiber framework.
 
 ## Prerequisites

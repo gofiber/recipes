@@ -5,6 +5,8 @@ keywords: [air, live reloading, development, air tool, hot reload, watch, change
 
 # Live Reloading with Air Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/air) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/air)
+
 This example demonstrates how to set up live reloading for a Go application using the [Air](https://github.com/cosmtrek/air) tool. The purpose of this example is to show how to automatically reload your application during development whenever you make changes to the source code.
 
 ## Description

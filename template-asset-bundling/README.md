@@ -5,6 +5,8 @@ keywords: [template, tailwindcss, parcel]
 
 # Template Asset Bundling
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/template-asset-bundling) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/template-asset-bundling)
+
 This is a quick example of how to do asset bundling using [gofiber/template](https://github.com/gofiber/template), [Tailwind CSS](https://tailwindcss.com), and [Parcel](https://parceljs.org).
 
 ## Prerequisites

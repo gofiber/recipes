@@ -5,6 +5,8 @@ keywords: [geoip, maxmind, ip]
 
 # GeoIP Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/geoip) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/geoip)
+
 This project demonstrates how to set up a GeoIP lookup service in a Go application using the Fiber framework.
 
 ## Prerequisites

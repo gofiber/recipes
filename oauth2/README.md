@@ -6,6 +6,8 @@ keywords: [oauth2, golang, authentication, api]
 
 # OAuth2
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/oauth2) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/oauth2)
+
 This project demonstrates how to implement OAuth2 authentication in a Go application.
 
 ## Prerequisites

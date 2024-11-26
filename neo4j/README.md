@@ -5,6 +5,8 @@ keywords: [neo4j, database]
 
 # Neo4j Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/neo4j) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/neo4j)
+
 This project demonstrates how to connect to a Neo4j database in a Go application using the Fiber framework.
 
 ## Prerequisites

@@ -5,6 +5,8 @@ keywords: [sessions, sqlite3, storage]
 
 # Sessions - SQLite3
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/sessions-sqlite3) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/sessions-sqlite3)
+
 This example uses the SQLite3 storage package to persist user sessions. While the storage package can automatically create the sessions table at initialization, we create it manually to add an additional "u" column. This custom column serves several purposes:
 
 - Enables efficient querying of sessions by user identifier

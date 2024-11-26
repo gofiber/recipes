@@ -5,6 +5,8 @@ keywords: [recover, middleware]
 
 # Recover Middleware Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/recover) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/recover)
+
 This project demonstrates how to implement a recovery mechanism in a Go application using the Fiber framework's `Recover` middleware.
 
 ## Prerequisites

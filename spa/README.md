@@ -5,6 +5,8 @@ keywords: [spa, react, tailwindcss, parcel]
 
 # Single Page Application (SPA)
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/spa) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/spa)
+
 This project demonstrates how to set up a Single Page Application (SPA) using React for the frontend and Go with the Fiber framework for the backend.
 
 ## Prerequisites

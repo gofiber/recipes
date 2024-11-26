@@ -5,6 +5,8 @@ keywords: [firebase, gcloud, cloud run, cloud function, app engine]
 
 # Deploy Fiber to Google Cloud with Firebase
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/gcloud-firebase) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/gcloud-firebase)
+
 Examples on how to run an application using Fiber on Google Cloud and connecting to Firebase Realtime Database.
 
 ## Running Locally

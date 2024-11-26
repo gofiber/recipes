@@ -5,6 +5,8 @@ keywords: [envoy, external authorization, keyauth]
 
 # Fiber as an Envoy External Authorization HTTP Service
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/envoy-extauthz) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/envoy-extauthz)
+
 One way of extending the popular [Envoy](https://www.envoyproxy.io) proxy is by developing an
 [external authorization service](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto).
 

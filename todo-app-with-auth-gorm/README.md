@@ -5,6 +5,8 @@ keywords: [todo app, gorm, authentication]
 
 # Todo App with Auth using GORM
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/todo-app-with-auth-gorm) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/todo-app-with-auth-gorm)
+
 This project demonstrates a Todo application with authentication using GORM.
 
 ## Prerequisites

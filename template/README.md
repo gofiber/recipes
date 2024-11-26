@@ -5,6 +5,8 @@ keywords: [template, tailwindcss, parcel]
 
 # Template Project
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/template) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/template)
+
 This project demonstrates how to set up a Go application with template rendering, Tailwind CSS, and Parcel for asset bundling.
 
 ## Prerequisites

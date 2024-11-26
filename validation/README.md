@@ -5,6 +5,8 @@ keywords: [validation, input, go-playground, validator]
 
 # Validation with [Fiber](https://gofiber.io)
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/validation) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/validation)
+
 This example demonstrates how to use [go-playground/validator](https://github.com/go-playground/validator) for input validation in a Go Fiber application.
 
 ## Description

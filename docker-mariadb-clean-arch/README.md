@@ -5,6 +5,8 @@ keywords: [docker, mariadb, clean architecture, makefile]
 
 # Docker MariaDB Clean Architecture
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/docker-mariadb-clean-arch) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/docker-mariadb-clean-arch)
+
 A slightly complex REST application with Fiber to showcase Clean Architecture with MariaDB as a dependency with Docker.
 
 ## Prerequisites

@@ -5,6 +5,8 @@ keywords: [hexagonal, architecture, mongodb]
 
 # A Hexagonal Software Architecture in Golang and MongoDB
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/hexagonal) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/hexagonal)
+
 This project presents a simple product catalogue microservice to demonstrate the principles of a hexagonal software architecture. The microservice exposes a RESTful API that allows consuming applications to perform CRUD operations on a product catalogue. The microservice is developed in Golang, and the product catalogue data is persisted in a MongoDB repository.
 
 ![Hexagonal Architecture](Hexagonal-Arch.png)

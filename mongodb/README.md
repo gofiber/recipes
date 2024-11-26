@@ -5,6 +5,8 @@ keywords: [mongodb, database]
 
 # MongoDB Example
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/mongodb) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/mongodb)
+
 This project demonstrates how to connect to a MongoDB database in a Go application using the Fiber framework.
 
 ## Prerequisites
