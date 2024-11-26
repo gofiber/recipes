@@ -49,7 +49,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Memgraph](./memgraph)
 - [MinIO](./minio)
 - [MongoDB](./mongodb)
-- [MVC Application Bootstrap](./fiber-bootstrap)
+- [MVC Application Bootstrap](./bootstrap)
 - [Netlify Functions](fiber-svelte-netlify)
 - [OAuth2 Google](./oauth2-google)
 - [PostgreSQL](./postgresql)

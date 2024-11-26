@@ -1,3 +1,8 @@
+---
+title: Autocert
+keywords: [autocert, tls, letsencrypt, ssl, https]
+---
+
 # Autocert Example
 
 This example demonstrates how to set up a secure Go Fiber application using Let's Encrypt for automatic TLS certificate management with `autocert`.

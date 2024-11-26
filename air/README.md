@@ -1,3 +1,8 @@
+---
+title: Air Live Reloading
+keywords: [air, live reloading, development, air tool, hot reload, watch, changes]
+---
+
 # Live Reloading with Air Example
 
 This example demonstrates how to set up live reloading for a Go application using the [Air](https://github.com/cosmtrek/air) tool. The purpose of this example is to show how to automatically reload your application during development whenever you make changes to the source code.

@@ -1,3 +1,8 @@
+---
+title: Clean Architecture
+keywords: [clean, architecture, fiber, mongodb, go]
+---
+
 # Clean Architecture Example
 
 This example demonstrates a Go Fiber application following the principles of Clean Architecture.

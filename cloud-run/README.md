@@ -1,3 +1,8 @@
+---
+title: Cloud Run
+keywords: [cloud run, deploy, google, docker, gcp]
+---
+
 # Cloud Run Example
 
 This example demonstrates how to deploy a Go Fiber application to Google Cloud Run.

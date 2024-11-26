@@ -1,3 +1,8 @@
+---
+title: CSRF
+keywords: [csrf, security, hacking, vulnerability]
+---
+
 # CSRF Examples
 
 Example Cross Site Request Forgery (CSRF) vulnerabilities in action.

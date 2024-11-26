@@ -1,3 +1,8 @@
+---
+title: Auth + Docker + Postgres + JWT
+keywords: [auth, docker, postgres, jwt]
+---
+
 # Auth Docker Postgres JWT Example
 
 This example demonstrates a boilerplate setup for a Go Fiber application that uses Docker, PostgreSQL, and JWT for authentication.

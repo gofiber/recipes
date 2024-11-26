@@ -1,3 +1,8 @@
+---
+title: Docker + MariaDB
+keywords: [docker, mariadb, clean architecture, makefile]
+---
+
 # Docker MariaDB Clean Architecture
 
 A slightly complex REST application with Fiber to showcase Clean Architecture with MariaDB as a dependency with Docker.

@@ -1,4 +1,9 @@
-# sam-app
+---
+title: AWS SAM
+keywords: [aws, sam, serverless, lambda]
+---
+
+# AWS SAM
 
 This is a sample template for sam-app - Below is a brief explanation of what we have generated for you:
 

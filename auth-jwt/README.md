@@ -1,3 +1,8 @@
+---
+title: Auth + JWT
+keywords: [auth, jwt, gorm, fiber]
+---
+
 # Auth JWT Example
 
 This example demonstrates a boilerplate setup for a Go Fiber application that uses JWT for authentication.

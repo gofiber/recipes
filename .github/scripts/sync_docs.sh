@@ -17,6 +17,9 @@ git clone https://${TOKEN}@${REPO_URL} fiber-docs
 
 latest_commit=$(git rev-parse --short HEAD)
 
+# remove all files in the docs directory
+rm -rf $ROOT/../fiberDocs/docs/${REPO_DIR}/*
+
 for f in $(find -E . -type f -iregex '.*\.(md|png|jpe?g|gif|bmp|svg|webp)$' -not -path "./(fiberDocs)/*" -not -path "*/vendor/*" -not -path "*/.github/*" -not -path "*/.*"); do
   log_output=$(git log --oneline "${BRANCH}" HEAD~1..HEAD --name-status -- "${f}")
 

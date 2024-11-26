@@ -1,3 +1,8 @@
+---
+title: AWS Elastic Beanstalk
+keywords: [aws, elastic beanstalk, deploy, amazon, aws-eb]
+---
+
 # AWS Elastic Beanstalk Example
 
 This example demonstrates how to deploy a Go Fiber application to AWS Elastic Beanstalk.

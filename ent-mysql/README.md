@@ -1,8 +1,13 @@
-### Example ent ORM for fiber with MySQL
+---
+title: Entgo ORM (MySQL)
+keywords: [ent, mysql, orm, rest]
+---
+
+# Example ent ORM for fiber with MySQL
 
 A sample program how to connect ent ORM
 
-### How to start (If no ent dir)
+## How to start (If no ent dir)
 Execute command first
 ```bash
 go run -mod=mod entgo.io/ent/cmd/ent new Book
@@ -22,7 +27,7 @@ Execute command
 go generate ./ent
 ```
 
-#### Endpoints
+### Endpoints
 
 | Method | URL         | Description     |
 |--------|-------------|-----------------|

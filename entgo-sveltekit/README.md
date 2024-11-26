@@ -1,3 +1,8 @@
+---
+title: Entgo Sveltekit
+keywords: [ent, sveltekit, tailwindcss, sqlite, rest]
+---
+
 # Todo Application
 ![image](https://github.com/ugurkorkmaz/gofiber-recipes/assets/40540244/08c6ee52-724a-4cf4-8352-9cf6f5b007ef)
 

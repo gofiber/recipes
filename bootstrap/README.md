@@ -1,4 +1,9 @@
-# Fiber Bootstrap
+---
+title: Bootstrap
+keywords: [bootstrap, gorm, validator, env]
+---
+
+# Bootstrap
 Fiber bootstrap for rapid development using Go-Fiber / Gorm / Validator.
 
 # Components
@@ -8,12 +13,12 @@ Fiber bootstrap for rapid development using Go-Fiber / Gorm / Validator.
   * Monitoring
 * Gorm
   * PGSQL Driver
-* Validator  
+* Validator
 * Env File
 
-# Router 
-API Router `/api` with rate limiter middleware  
-Http Router `/` with CORS and CSRF middleware  
+# Router
+API Router `/api` with rate limiter middleware
+Http Router `/` with CORS and CSRF middleware
 
 # Setup
 

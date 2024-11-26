@@ -1,12 +1,9 @@
-# Docker+Nginx 🚀
+---
+title: Docker + Nginx
+keywords: [docker, nginx, loadbalancer, reverse proxy]
+---
 
-  <a href="https://gofiber.io">
-    <picture>
-      <source height="125" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo-dark.svg" />
-      <img height="125" alt="Fiber" src="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg" />
-    </picture>
-  </a>
-
+# Docker + Nginx
 
 ## Features
 
