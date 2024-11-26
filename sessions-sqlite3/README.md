@@ -5,7 +5,13 @@ keywords: [sessions, sqlite3, storage]
 
 # Sessions - SQLite3
 
-This example demonstrates how to use Fiber sessions with the SQLite3 storage package. Run `localhost:3000` from multiple browsers to see active sessions for different users.
+This example uses the SQLite3 storage package to persist user sessions. While the storage package can automatically create the sessions table at initialization, we create it manually to add an additional "u" column. This custom column serves several purposes:
+
+- Enables efficient querying of sessions by user identifier
+- Allows tracking of multiple sessions per user
+- Facilitates session cleanup for specific users
+
+The default table schema only stores session data and expiry, making it difficult to associate sessions with specific users. The "u" column solves this limitation.
 
 ## Prerequisites
 

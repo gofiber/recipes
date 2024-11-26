@@ -64,7 +64,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Google OAuth2](./oauth2-google)
 - [Optional Parameter Example](./optional-parameter)
 - [Parsley](./parsley)
-- [PostgreSQL Example](./postgresql)
+- [PostgreSQL](./postgresql)
 - [Prefork Example](./prefork)
 - [RabbitMQ](./rabbitmq)
 - [React](./react-router)

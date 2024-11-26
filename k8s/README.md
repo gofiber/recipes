@@ -23,7 +23,7 @@ Ensure you have the following installed:
 1. Clone the repository:
     ```sh
     git clone https://github.com/gofiber/recipes.git
-    cd recipes/kubernetes
+    cd recipes/k8s
     ```
 
 2. Install dependencies:

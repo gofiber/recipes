@@ -4,7 +4,7 @@ set -e
 REPO_DIR="recipes"
 
 # determine root repo directory
-ROOT=$(cd "$(dirname "$0")/.." && dirname "$(pwd -P)")
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 
 # remove all files in the docs directory
 rm -rf $ROOT/../fiberDocs/docs/${REPO_DIR}/*

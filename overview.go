@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+var (
+	titleRegex    = regexp.MustCompile(`(?m)^title: (.+)`)
+	keywordsRegex = regexp.MustCompile(`(?m)^keywords: \[(.+)\]`)
+)
+
 //go:generate go run overview.go
 func main() {
 	// fetch current file directory
@@ -103,11 +108,9 @@ func extractTitleAndKeywords(readmePath string) (string, []string, error) {
 	if err != nil {
 		return "", nil, err
 	}
-	titleRe := regexp.MustCompile(`(?m)^title: (.+)`)
-	keywordsRe := regexp.MustCompile(`(?m)^keywords: \[(.+)\]`)
 
-	titleMatches := titleRe.FindSubmatch(content)
-	keywordsMatches := keywordsRe.FindSubmatch(content)
+	titleMatches := titleRegex.FindSubmatch(content)
+	keywordsMatches := keywordsRegex.FindSubmatch(content)
 
 	var title string
 	if len(titleMatches) > 1 {
