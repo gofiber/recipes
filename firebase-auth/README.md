@@ -5,7 +5,7 @@ keywords: [firebase, authentication, middleware]
 
 # Go Fiber Firebase Authentication Example
 
-This example use  [gofiber-firebaseauth middleware ](https://github.com/sacsand/gofiber-firebaseauth) to authenticate the endpoints. Find the documentation  for middlewae here for more confgurtion oprions  [docs ](https://github.com/sacsand/gofiber-firebaseauth)
+This example use [gofiber-firebaseauth middleware](https://github.com/sacsand/gofiber-firebaseauth) to authenticate the endpoints. Find the documentation for middleware here for more configurations options [docs](https://github.com/sacsand/gofiber-firebaseauth)
 
 ## Setting Up
 
