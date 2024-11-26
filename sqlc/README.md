@@ -9,8 +9,10 @@ keywords: [database, sqlc, postgresql]
 
 > #### 🎯 [fiber](https://github.com/gofiber/fiber) + [sqlc](https://github.com/sqlc-dev/sqlc) Example
 
-## 👀 Usage
+## Usage
+
 #### 1. Run Postgres
+
 ```bash
 $ docker compose build
 ```
