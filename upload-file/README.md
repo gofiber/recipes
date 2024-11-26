@@ -1,3 +1,8 @@
+---
+title: File Upload
+keywords: [file upload, upload, form, multipart]
+---
+
 # File Upload Example
 
 This example demonstrates how to handle file uploads using Go Fiber.

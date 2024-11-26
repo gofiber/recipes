@@ -1,3 +1,8 @@
+---
+title: MinIO
+keywords: [minio, file upload, file download]
+---
+
 # MinIO File Upload & Download Example
 
 This example demonstrates a simple Go Fiber application that includes modules for uploading both single and multiple files, as well as downloading files from MinIO. Each module provides REST API endpoints for file upload and retrieval, serving as a foundation for applications requiring file storage and access.

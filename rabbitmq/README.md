@@ -1,3 +1,8 @@
+---
+title: RabbitMQ
+keywords: [rabbitmq, amqp, messaging, queue]
+---
+
 # Fiber and RabbitMQ example
 
 1. Create Docker network:

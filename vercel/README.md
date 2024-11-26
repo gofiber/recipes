@@ -1,3 +1,8 @@
+---
+title: Vercel
+keywords: [vercel, deploy, serverless]
+---
+
 # Vercel Example
 
 This example demonstrates how to deploy a Go Fiber application to Vercel.

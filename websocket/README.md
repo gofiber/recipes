@@ -1,3 +1,8 @@
+---
+title: WebSocket
+keywords: [websocket, real-time, chat, contrib]
+---
+
 # WebSocket Example
 
 This example demonstrates a simple WebSocket application using Go Fiber.

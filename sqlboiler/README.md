@@ -1,3 +1,8 @@
+---
+title: Sqlboiler
+keywords: [sqlboiler, database, docker]
+---
+
 # Fiber with sqlboiler
 
 > #### 🎯 [Fiber](https://github.com/gofiber/fiber) + [Sqlboiler](https://github.com/volatiletech/sqlboiler) Example

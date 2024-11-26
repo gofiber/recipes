@@ -1,3 +1,8 @@
+---
+title: Parsley
+keywords: [parsley, dependency injection, di, inversion of control, ioc]
+---
+
 # Fiber with Dependency Injection (via Parsley)
 
 This example demonstrates integrating the [Parsley dependency injection framework](https://github.com/matzefriedrich/parsley) into a GoFiber web application. The goal is to showcase how dependency injection can create a clean, maintainable, and modular structure in your GoFiber projects.

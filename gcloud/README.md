@@ -1,15 +1,20 @@
+---
+title: Firebase GCloud
+keywords: [firebase, gcloud, cloud run, cloud function, app engine]
+---
+
 # Deploy Fiber to Google Cloud with Firebase
 
 Examples on how to run an application using Fiber on Google Cloud.
 
-#### Running Locally
+## Running Locally
 
 * Run on the command line:
 ```
 go run cmd/main.go
 ```
 
-#### Deploy using Google Cloud Run
+## Deploy using Google Cloud Run
 
 This step will build a Docker Image, publish to Google Cloud Registry and deploy on Cloud Run Managed enviroment.
 
@@ -26,7 +31,7 @@ gcloud builds submit — -tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber .
 gcloud beta run deploy --platform managed --image gcr.io/$GCLOUD_PROJECT/gcloud-fiber
 ```
 
-#### Deploy using Google App Engine
+## Deploy using Google App Engine
 
 This step will deploy the app to Google App Engine Standard Go enviroment. The app configuration and additional configurations can be tweaked on the `app.yaml` file.
 
@@ -35,7 +40,7 @@ This step will deploy the app to Google App Engine Standard Go enviroment. The a
 gcloud app deploy
 ```
 
-#### Deploy using Google Cloud Function
+## Deploy using Google Cloud Function
 
 This step will deploy a HTTP Cloud Function using Go enviroment. You can use the `deploy.sh` script. Just edit your project id on it.
 

@@ -1,5 +1,5 @@
 ---
-title: "AWS SAM Container"
+title: AWS SAM Container
 keywords: [aws, sam, serverless, lambda, container]
 ---
 

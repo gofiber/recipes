@@ -1,3 +1,8 @@
+---
+title: Unit Testing
+keywords: [unit testing, testing, stretchr/testify]
+---
+
 # Unit Testing Example
 
 This example demonstrates how to write unit tests for a Go Fiber application using the `stretchr/testify` package.

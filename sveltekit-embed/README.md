@@ -1,3 +1,8 @@
+---
+title: Sveltekit Embed
+keywords: [sveltekit, tailwindcss, embed]
+---
+
 # Fiber Sveltekit Embed App
 ![image](https://github.com/gofiber/recipes/assets/40540244/2aa084b8-9bbc-46f3-9759-930857429f05)
 

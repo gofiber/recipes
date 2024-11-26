@@ -1,4 +1,7 @@
-
+---
+title: Firebase Functions
+keywords: [firebase, functions, deployment, gcloud, cloud]
+---
 # Deploying GoFiber Application to Firebase Functions
 
 Welcome to this step-by-step guide on deploying a GoFiber application to Firebase Functions. If you’re looking to leverage the power of GoFiber, a fast and lightweight web framework for Go, and host your application on Firebase, you’re in the right place. In this tutorial, we’ll walk through the process of setting up your GoFiber app to run seamlessly on Firebase Functions.

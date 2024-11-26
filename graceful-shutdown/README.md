@@ -1,3 +1,8 @@
+---
+title: Graceful shutdown
+keywords: [graceful, shutdown, os/signal, channel]
+---
+
 # Graceful shutdown in Fiber
 
 ```
@@ -18,7 +23,7 @@ Running cleanup tasks...
 
 This shows how to implement a graceful shutdown with Fiber and the `os/signal` package.
 
-### Explanation
+## Explanation
 
 This example relies on the use of channels, a data type in Go that allows you to send and receive data to/from specific places in an application (read more about them [here](https://tour.golang.org/concurrency/2)).
 

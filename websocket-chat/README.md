@@ -1,3 +1,8 @@
+---
+title: WebSocket Chat
+keywords: [websocket, chat, chatroom, contrib]
+---
+
 # WebSocket Chat Example
 
 This example demonstrates a simple chat application using Go Fiber and WebSockets.

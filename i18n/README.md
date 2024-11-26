@@ -1,3 +1,8 @@
+---
+title: I18n
+keywords: [i18n, go-i18n, internationalization]
+---
+
 # Fiber with i18n
 
 This is a quick example of how to use [nicksnyder/go-i18n](https://github.com/nicksnyder/go-i18n) package to translate your Fiber application into multiple languages.

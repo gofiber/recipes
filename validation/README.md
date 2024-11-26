@@ -1,3 +1,8 @@
+---
+title: Validation
+keywords: [validation, input, go-playground, validator]
+---
+
 # Validation with [Fiber](https://gofiber.io)
 
 This example demonstrates how to use [go-playground/validator](https://github.com/go-playground/validator) for input validation in a Go Fiber application.

@@ -1,3 +1,8 @@
+---
+title: Sqlc
+keywords: [database, sqlc, postgresql]
+---
+
 # Fiber with sqlc
 
 > #### 🎯 [fiber](https://github.com/gofiber/fiber) + [sqlc](https://github.com/sqlc-dev/sqlc) Example

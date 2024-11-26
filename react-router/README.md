@@ -1,3 +1,8 @@
+---
+title: React
+keywords: [react, react-router, client-side, spa, docker]
+---
+
 # React Fiber
 
 A sample application to showcase serving React (with Router) with an almost bare Fiber. Hopefully, this application can be of use (as a reference or others) for those who wants to serve their client-side SPA with Fiber.
