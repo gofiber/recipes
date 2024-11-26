@@ -114,7 +114,7 @@ func extractTitleAndKeywords(readmePath string) (string, []string, error) {
 
 	var title string
 	if len(titleMatches) > 1 {
-		title = string(titleMatches[1])
+		title = strings.TrimSpace(string(titleMatches[1]))
 	}
 
 	var keywords []string

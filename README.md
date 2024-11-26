@@ -29,7 +29,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [CSRF + Session](./csrf-with-session)
 - [Docker + MariaDB](./docker-mariadb-clean-arch)
 - [Docker + Nginx](./docker-nginx-loadbalancer)
-- [Dummy JSON Proxy](./dummyjson)
+- [Dummy JSON Proxy](./dummyjson)
 - [Entgo ORM (MySQL)](./ent-mysql)
 - [Entgo Sveltekit](./entgo-sveltekit)
 - [Envoy External Authorization](./envoy-extauthz)
@@ -80,7 +80,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Stream Request Body](./stream-request-body)
 - [Svelte Netlify](./svelte-netlify)
 - [Sveltekit Embed](./sveltekit-embed)
-- [Swagger](./swagger)
+- [Swagger](./swagger)
 - [Tableflip Example](./tableflip)
 - [Template](./template)
 - [Template Asset Bundling](./template-asset-bundling)
