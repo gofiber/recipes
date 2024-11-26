@@ -24,28 +24,34 @@ Tableflip is a library that allows you to update the running code and/or configu
 ## Steps
 
 1. **Build v0.0.1 Demo:**
+
     ```bash
     go build -o demo main.go
     ```
 
 2. **Run the Demo and Create a GET Request to `127.0.0.1:8080/version`:**
+
     ```bash
     [PID: 123] v0.0.1
     ```
 
 3. **Prepare a New Version:**
-  - Change the `main.go` to update the version to "v0.0.2".
-  - Rebuild the demo:
+
+- Change the `main.go` to update the version to "v0.0.2".
+- Rebuild the demo:
+
     ```bash
     go build -o demo main.go
     ```
 
 4. **Kill the Old Process:**
+
     ```bash
     kill -s HUP 123
     ```
 
 5. **Create the Request to the Version API Again:**
+
     ```bash
     [PID: 123] v0.0.2
     ```

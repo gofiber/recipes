@@ -22,17 +22,20 @@ Live reloading is a useful feature during development as it saves time by automa
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/air
     ```
 
 2. Install the dependencies:
+
     ```bash
     go mod download
     ```
 
 3. Install Air:
+
     ```bash
     go install github.com/cosmtrek/air@latest
     ```
@@ -47,10 +50,13 @@ Air is configured using the `air/.air.conf` file. This file specifies the build 
 ## Running the Example
 
 To run the example with live reloading, use the following command:
+
 ```bash
 air -c .air.linux.conf
 ```
+
 or for Windows:
+
 ```bash
 air -c .air.windows.conf
 ```

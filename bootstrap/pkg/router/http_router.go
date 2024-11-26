@@ -7,8 +7,7 @@ import (
 	"github.com/kooroshh/fiber-boostrap/app/controllers"
 )
 
-type HttpRouter struct {
-}
+type HttpRouter struct{}
 
 func (h HttpRouter) InstallRouter(app *fiber.App) {
 	group := app.Group("", cors.New(), csrf.New())

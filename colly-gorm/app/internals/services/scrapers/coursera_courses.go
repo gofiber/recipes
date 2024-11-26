@@ -12,7 +12,6 @@ import (
 // CourseraCourses is based on Colly's official examples:
 // https://github.com/gocolly/colly/blob/master/_examples/coursera_courses/coursera_courses.go
 func CourseraCourses() {
-
 	c := colly.NewCollector(
 		colly.AllowedDomains("coursera.org", "www.coursera.org"),
 
@@ -24,7 +23,6 @@ func CourseraCourses() {
 	detailCollector := c.Clone()
 
 	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-
 		if e.Attr("class") == "Button_1qxkboh-o_O-primary_cv02ee-o_O-md_28awn8-o_O-primaryLink_109aggg" {
 			return
 		}
@@ -77,5 +75,4 @@ func CourseraCourses() {
 	if err != nil {
 		return
 	}
-
 }

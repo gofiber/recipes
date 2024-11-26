@@ -37,7 +37,6 @@ func init() {
 
 // GeoIP is a handler for IP address lookups
 func GeoIP(c *fiber.Ctx) error {
-
 	ipAddr := c.Params("ip", c.IP())
 
 	// Check IP address format

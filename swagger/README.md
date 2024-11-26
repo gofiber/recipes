@@ -19,12 +19,14 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/swagger
     ```
 
 2. Install dependencies:
+
     ```sh
     go get -u github.com/swaggo/swag/cmd/swag
     go get -u github.com/swaggo/gin-swagger
@@ -34,6 +36,7 @@ Ensure you have the following installed:
 ## Generating Swagger Docs
 
 1. Generate the Swagger documentation:
+
     ```sh
     swag init
     ```
@@ -41,6 +44,7 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Start the application:
+
     ```sh
     go run main.go
     ```

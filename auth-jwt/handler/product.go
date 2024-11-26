@@ -23,7 +23,6 @@ func GetProduct(c *fiber.Ctx) error {
 	db.Find(&product, id)
 	if product.Title == "" {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
-
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Product found", "data": product})
 }
@@ -48,7 +47,6 @@ func DeleteProduct(c *fiber.Ctx) error {
 	db.First(&product, id)
 	if product.Title == "" {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
-
 	}
 	db.Delete(&product)
 	return c.JSON(fiber.Map{"status": "success", "message": "Product successfully deleted", "data": nil})

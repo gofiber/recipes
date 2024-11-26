@@ -56,5 +56,6 @@ http://localhost:3000/developer/Andy
 ## Additional resources
 
 For extra information use the documentation on the following links:
-- Fiber: https://docs.gofiber.io/
-- Memgraph: https://memgraph.com/docs
+
+- Fiber: <https://docs.gofiber.io/>
+- Memgraph: <https://memgraph.com/docs>

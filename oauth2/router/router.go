@@ -12,7 +12,6 @@ import (
 
 // SetupRoutes prepares required routes
 func SetupRoutes(app *fiber.App) {
-
 	app.Use(cors.New(cors.Config{
 		// attempt to mitigate CORS issues - pay attention to last /
 		AllowOrigins: "http://localhost:8080, http://localhost:8080/, https://api.github.com/user, https://api.github.com/user/,", //

@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-
 	config, err := consts.LoadConfig(".")
 	if err != nil {
 		log.Fatalln("Failed to load environment variables!\n", err.Error())

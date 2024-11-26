@@ -20,32 +20,38 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/heroku
     ```
 
 2. Install dependencies:
+
     ```sh
     go get
     ```
 
 3. Log in to Heroku:
+
     ```sh
     heroku login
     ```
 
 4. Create a new Heroku application:
+
     ```sh
     heroku create
     ```
 
 5. Add a `Procfile` to the project directory with the following content:
+
     ```
     web: go run main.go
     ```
 
 6. Deploy the application to Heroku:
+
     ```sh
     git add .
     git commit -m "Deploy to Heroku"
@@ -55,6 +61,7 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Open the application in your browser:
+
     ```sh
     heroku open
     ```

@@ -17,12 +17,14 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/jwt
     ```
 
 2. Install dependencies:
+
     ```sh
     go mod tidy
     ```
@@ -30,6 +32,7 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 ## Running the Application
 
 1. Run the application:
+
     ```sh
     go run main.go
     ```
@@ -46,11 +49,13 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 ## Example Requests
 
 ### Login
+
 ```sh
 curl -X POST http://localhost:3000/login -d '{"username": "user", "password": "pass"}' -H "Content-Type: application/json"
 ```
 
 ### Access Restricted Route
+
 ```sh
 curl -X GET http://localhost:3000/restricted -H "Authorization: Bearer <your_jwt_token>"
 ```

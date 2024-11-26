@@ -10,21 +10,27 @@ keywords: [ent, mysql, orm, rest]
 A sample program how to connect ent ORM
 
 ## How to start (If no ent dir)
+
 Execute command first
+
 ```bash
 go run -mod=mod entgo.io/ent/cmd/ent new Book
 ```
+
 go to `./ent/schema/book.go` and add fields(you want) to Book Schema
+
 ```go
 // Fields of the Book.
 func (Book) Fields() []ent.Field {
-	return []ent.Field{
-		field.String("title").NotEmpty(),
-		field.String("author").NotEmpty(),
-	}
+ return []ent.Field{
+  field.String("title").NotEmpty(),
+  field.String("author").NotEmpty(),
+ }
 }
 ```
+
 Execute command
+
 ```bash
 go generate ./ent
 ```

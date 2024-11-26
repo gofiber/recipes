@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
-	"oauth2/config"
-	"oauth2/models"
-	"oauth2/router"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"oauth2/config"
+	"oauth2/models"
+	"oauth2/router"
 
 	"github.com/antigloss/go/logger"
 	"github.com/gofiber/fiber/v2"
@@ -46,7 +47,6 @@ func main() {
 		LogDest:           logger.LogDestFile, //| logger.LogDestConsole,
 		Flag:              logger.ControlFlagLogDate | logger.ControlFlagLogLineNum,
 	})
-
 	if err != nil {
 		panic(err)
 	}

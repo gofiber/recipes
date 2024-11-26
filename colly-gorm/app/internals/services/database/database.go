@@ -1,9 +1,10 @@
 package database
 
 import (
-	"fiber-colly-gorm/internals/consts"
 	"fmt"
 	"log"
+
+	"fiber-colly-gorm/internals/consts"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,7 +23,6 @@ func ConnectDb(config *consts.Config) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
-
 	if err != nil {
 		log.Fatal("Failed to connect to database. \n", err)
 	}

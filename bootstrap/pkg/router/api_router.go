@@ -5,8 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 )
 
-type ApiRouter struct {
-}
+type ApiRouter struct{}
 
 func (h ApiRouter) InstallRouter(app *fiber.App) {
 	api := app.Group("/api", limiter.New())

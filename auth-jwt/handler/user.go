@@ -64,13 +64,11 @@ func CreateUser(c *fiber.Ctx) error {
 	user := new(model.User)
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
-
 	}
 
 	hash, err := hashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't hash password", "data": err})
-
 	}
 
 	user.Password = hash
@@ -126,12 +124,10 @@ func DeleteUser(c *fiber.Ctx) error {
 
 	if !validToken(token, id) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
-
 	}
 
 	if !validUser(id, pi.Password) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
-
 	}
 
 	db := database.DB

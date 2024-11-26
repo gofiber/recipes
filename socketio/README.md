@@ -17,12 +17,14 @@ This example demonstrates how to create a simple chatroom using WebSockets. The 
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/socketio-chat
     ```
 
 2. Install dependencies:
+
     ```sh
     go mod tidy
     ```
@@ -30,6 +32,7 @@ This example demonstrates how to create a simple chatroom using WebSockets. The 
 ## Running the Application
 
 1. Run the application:
+
     ```sh
     go run main.go
     ```
@@ -39,6 +42,7 @@ This example demonstrates how to create a simple chatroom using WebSockets. The 
 ## Connecting to the WebSocket
 
 To connect to the WebSocket, use the following URL:
+
 ```
 ws://localhost:3000/ws/<user-id>
 ```
@@ -46,6 +50,7 @@ ws://localhost:3000/ws/<user-id>
 ## Message Object Example
 
 Here is an example of a message object that can be sent between users:
+
 ```json
 {
   "from": "<user-id>",

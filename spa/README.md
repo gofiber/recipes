@@ -20,18 +20,21 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/spa
     ```
 
 2. Install frontend dependencies:
+
     ```sh
     cd frontend
     npm install
     ```
 
 3. Install backend dependencies:
+
     ```sh
     cd ../backend
     go get
@@ -42,12 +45,14 @@ Ensure you have the following installed:
 ### Building Frontend Assets
 
 1. Build the frontend assets:
+
     ```sh
     cd frontend
     npm run build
     ```
 
 2. Watch frontend assets for changes:
+
     ```sh
     npm run dev
     ```
@@ -55,6 +60,7 @@ Ensure you have the following installed:
 ### Running the Application
 
 1. Start the Fiber backend application:
+
     ```sh
     cd backend
     go run main.go

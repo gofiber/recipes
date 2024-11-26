@@ -21,12 +21,14 @@ This project provides a starting point for building a web application with user 
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/auth-jwt
     ```
 
 2. Set the environment variables in a `.env` file:
+
     ```env
     DB_PORT=5432
     DB_USER=example_user
@@ -36,11 +38,13 @@ This project provides a starting point for building a web application with user 
     ```
 
 3. Install the dependencies:
+
     ```bash
     go mod download
     ```
 
 4. Run the application:
+
     ```bash
     go run main.go
     ```
@@ -50,6 +54,7 @@ The API should now be running on `http://localhost:3000`.
 ## Database Management
 
 You can manage the database via `psql` with the following command:
+
 ```bash
 psql -U <DB_USER> -d <DB_NAME> -h localhost -p <DB_PORT>
 ```
@@ -74,16 +79,19 @@ The following endpoints are available in the API:
 ## Example Usage
 
 1. Register a new user:
+
     ```bash
     curl -X POST http://localhost:3000/api/auth/register -d '{"username":"testuser", "password":"testpassword", "email":"test@example.com"}' -H "Content-Type: application/json"
     ```
 
 2. Login to get a JWT:
+
     ```bash
     curl -X POST http://localhost:3000/api/auth/login -d '{"username":"testuser", "password":"testpassword"}' -H "Content-Type: application/json"
     ```
 
 3. Access a protected route:
+
     ```bash
     curl -H "Authorization: Bearer <JWT>" http://localhost:3000/api/user/1
     ```

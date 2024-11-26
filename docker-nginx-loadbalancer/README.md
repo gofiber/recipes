@@ -26,8 +26,9 @@ To get a local copy up and running, follow these steps:
 2. Navigate to the project directory.
 3. Build the Docker image with docker compose
 4. Run the Docker compose composition
+
   ```bash
   docker compose up --build
   ```
-5. Access the application at `http://localhost:8080/hello`.
 
+5. Access the application at `http://localhost:8080/hello`.

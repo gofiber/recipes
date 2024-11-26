@@ -18,5 +18,4 @@ func SetupEnvFile() {
 	if err != nil {
 		panic(err)
 	}
-
 }

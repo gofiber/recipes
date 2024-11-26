@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+
 	"oauth2/models"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +11,6 @@ import (
 
 // OAUTHRedirect performs the GitHub OAUTH2 login sequence and stored the token in a session variable
 func OAUTHRedirect(ctx *fiber.Ctx) error {
-
 	models.SYSLOG.Tracef("entering OAUTHRedirect; original URL: %v", ctx.OriginalURL())
 	defer models.SYSLOG.Trace("exiting OAUTHRedirect")
 
@@ -52,7 +52,7 @@ func OAUTHRedirect(ctx *fiber.Ctx) error {
 		models.SYSLOG.Tracef("setting session token %v", t.AccessToken)
 		sessData, _ := models.MySessionStore.Get(ctx)
 		defer sessData.Save()
-		//models.MySessionStore.RegisterType(models.OAuthAccessResponse)
+		// models.MySessionStore.RegisterType(models.OAuthAccessResponse)
 		sessData.Set("oauth-scope", t.Scope)
 		sessData.Set("oauth-token-type", t.TokenType)
 		sessData.Set("oauth-token", t.AccessToken)

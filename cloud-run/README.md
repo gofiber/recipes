@@ -23,22 +23,26 @@ This project provides a starting point for deploying a Go Fiber application to G
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/cloud-run
     ```
 
 2. Install the dependencies:
+
     ```bash
     go mod download
     ```
 
 3. Build the Docker image:
+
     ```bash
     docker build -t cloud-run-example .
     ```
 
 4. Run the Docker container:
+
     ```bash
     docker run -p 3000:3000 cloud-run-example
     ```
@@ -48,17 +52,20 @@ The application should now be running on `http://localhost:3000`.
 ## Deploy to Google Cloud Run
 
 1. Set up Google Cloud SDK and authenticate:
+
     ```bash
     gcloud auth login
     gcloud config set project [YOUR_PROJECT_ID]
     ```
 
 2. Build and push the Docker image using Google Cloud Build:
+
     ```bash
     gcloud builds submit --tag gcr.io/[YOUR_PROJECT_ID]/cloud-run-example
     ```
 
 3. Deploy the image to Cloud Run:
+
     ```bash
     gcloud run deploy cloud-run-example --image gcr.io/[YOUR_PROJECT_ID]/cloud-run-example --platform managed --region [YOUR_REGION] --allow-unauthenticated
     ```

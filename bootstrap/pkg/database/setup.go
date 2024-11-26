@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+
 	"github.com/kooroshh/fiber-boostrap/app/models"
 	"github.com/kooroshh/fiber-boostrap/pkg/env"
 	"gorm.io/gorm"

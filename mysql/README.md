@@ -21,12 +21,14 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/mysql
     ```
 
 2. Install dependencies:
+
     ```sh
     go get
     ```
@@ -36,6 +38,7 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Start the application:
+
     ```sh
     go run main.go
     ```

@@ -61,9 +61,11 @@ go mod download
    ```
 
 3. Upload a file using `curl` or `Postman`:
+
    ```bash
    curl -F "document=@/path/to/your/file" http://localhost:3000/upload
    ```
+
 4. Download the file by specifying its name in the request:
 
    ```bash

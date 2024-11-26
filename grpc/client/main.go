@@ -51,7 +51,6 @@ func main() {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),
 		})
-
 	})
 
 	app.Get("/mult/:a/:b", func(c *fiber.Ctx) error {
@@ -76,7 +75,6 @@ func main() {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),
 		})
-
 	})
 	log.Fatal(app.Listen(":3000"))
 }

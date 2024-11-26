@@ -10,7 +10,8 @@ keywords: [geoip, maxmind, databases]
 This is an alternative method to resolve IP addresses to real-world location data using MaxMind GeoLite2 City databases.
 
 ## Prerequisites
-Before you run this, you must first download a database from the MaxMind website - https://dev.maxmind.com/geoip/geoip2/geolite2/. To do this, you may need to register for a free account.
+
+Before you run this, you must first download a database from the MaxMind website - <https://dev.maxmind.com/geoip/geoip2/geolite2/>. To do this, you may need to register for a free account.
 
 The database you need to download is the one with the edition ID `GeoLite2-City`. Place it in this folder and run
 
@@ -19,6 +20,7 @@ go run geoip-maxmind
 ```
 
 ## Usage
+
 Make a request to `http://127.0.0.1:3000/geo/178.62.56.160`, for example. You can omit an IP address to use your current IP address, or replace to use another. If the IP address is invalid, a HTTP 400 is returned.
 
 The response fields can be modified from the `ipLookup` struct, found in the `handlers/handlers.go` file.

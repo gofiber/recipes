@@ -27,12 +27,14 @@ This project provides a basic setup for unit testing in a Go Fiber application. 
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/unit-test
     ```
 
 2. Install the dependencies:
+
     ```bash
     go mod download
     ```
@@ -40,6 +42,7 @@ This project provides a basic setup for unit testing in a Go Fiber application. 
 ## Running the Tests
 
 To run the tests, use the following command:
+
 ```bash
 go test ./...
 ```
@@ -137,6 +140,7 @@ The `app.Test` method in Fiber is used to simulate HTTP requests to the Fiber ap
 #### Usage of the `app.Test` Method
 
 The `app.Test` method takes two parameters:
+
 1. **req**: An `*http.Request` object representing the HTTP request to be tested.
 2. **timeout**: An `int` value specifying the maximum time in milliseconds that the request can take. A value of `-1` disables the timeout.
 

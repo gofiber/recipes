@@ -1,8 +1,9 @@
 package scrapers
 
 import (
-	"fiber-colly-gorm/internals/services/database"
 	"log"
+
+	"fiber-colly-gorm/internals/services/database"
 
 	"github.com/gocolly/colly"
 )
@@ -24,7 +25,6 @@ func Quotes() {
 	})
 
 	c.OnHTML("div.quote", func(e *colly.HTMLElement) {
-
 		newQuote := database.Quote{}
 
 		newQuote.Text = e.ChildText("span.text")
@@ -41,5 +41,4 @@ func Quotes() {
 	})
 
 	c.Visit("https://quotes.toscrape.com/")
-
 }

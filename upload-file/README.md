@@ -28,12 +28,14 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/upload-file
     ```
 
 2. Install the dependencies:
+
     ```bash
     go mod download
     ```
@@ -43,16 +45,19 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
 ### Single File Upload
 
 1. Navigate to the `single` directory:
+
     ```bash
     cd single
     ```
 
 2. Run the application:
+
     ```bash
     go run main.go
     ```
 
 3. Use a tool like `curl` or Postman to upload a file:
+
     ```bash
     curl -F "document=@/path/to/your/file" http://localhost:3000/
     ```
@@ -60,16 +65,19 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
 ### Single File Upload with Relative Path
 
 1. Navigate to the `single_relative_path` directory:
+
     ```bash
     cd single_relative_path
     ```
 
 2. Run the application:
+
     ```bash
     go run main.go
     ```
 
 3. Use a tool like `curl` or Postman to upload a file:
+
     ```bash
     curl -F "document=@/path/to/your/file" http://localhost:3000/
     ```
@@ -77,16 +85,19 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
 ### Multiple File Upload
 
 1. Navigate to the `multiple` directory:
+
     ```bash
     cd multiple
     ```
 
 2. Run the application:
+
     ```bash
     go run main.go
     ```
 
 3. Use a tool like `curl` or Postman to upload multiple files:
+
     ```bash
     curl -F "documents=@/path/to/your/file1" -F "documents=@/path/to/your/file2" http://localhost:3000/
     ```

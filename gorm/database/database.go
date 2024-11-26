@@ -4,6 +4,4 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-	DBConn *gorm.DB
-)
+var DBConn *gorm.DB

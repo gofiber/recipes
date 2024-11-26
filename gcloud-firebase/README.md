@@ -12,6 +12,7 @@ Examples on how to run an application using Fiber on Google Cloud and connecting
 ## Running Locally
 
 * Run on the command line:
+
 ```
 go run cmd/main.go
 ```
@@ -29,6 +30,7 @@ After deploying the server on Cloud Run, you can get it's url on GCP Console ([l
 Or you can do it manually with those steps:
 
 * Run on the command line:
+
 ```
 export GCLOUD_PROJECT=[YOUR_PROJECT_ID]
 gcloud builds submit — -tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber-firebase .
@@ -41,6 +43,7 @@ gcloud beta run deploy --platform managed --image gcr.io/$GCLOUD_PROJECT/gcloud-
 This step will deploy the app to Google App Engine Standard Go enviroment. The app configuration and additional configurations can be tweaked on the `app.yaml` file.
 
 * Run on the command line:
+
 ```
 gcloud app deploy
 ```
@@ -52,6 +55,7 @@ This step will deploy a HTTP Cloud Function using Go enviroment. You can use the
 For the Cloud Functions env, Google enforces us to deploy a function that is a `http.HandlerFunc`, so on the file `functions.go` there is a workaround to reroute the HTTP call to the Fiber app instance.
 
 * Run on the command line:
+
 ```
 gcloud functions deploy HeroesAPI --runtime go111 --trigger-http
 ```

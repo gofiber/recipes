@@ -2,12 +2,13 @@ package auth
 
 import (
 	"encoding/json"
-	"fiber-oauth-google/config"
-	"fiber-oauth-google/model"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+
+	"fiber-oauth-google/config"
+	"fiber-oauth-google/model"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -20,7 +21,8 @@ func ConfigGoogle() *oauth2.Config {
 		ClientSecret: config.Config("Secret"),
 		RedirectURL:  config.Config("redirect_url"),
 		Scopes: []string{
-			"https://www.googleapis.com/auth/userinfo.email"}, // you can use other scopes to get more data
+			"https://www.googleapis.com/auth/userinfo.email",
+		}, // you can use other scopes to get more data
 		Endpoint: google.Endpoint,
 	}
 	return conf
@@ -37,12 +39,12 @@ func GetEmail(token string) string {
 		Method: "GET",
 		URL:    reqURL,
 		Header: map[string][]string{
-			"Authorization": {ptoken}},
+			"Authorization": {ptoken},
+		},
 	}
 	req, err := http.DefaultClient.Do(res)
 	if err != nil {
 		panic(err)
-
 	}
 	defer req.Body.Close()
 	body, err := io.ReadAll(req.Body)

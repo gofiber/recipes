@@ -2,9 +2,10 @@ package controller
 
 import (
 	"context"
+	"strconv"
+
 	"fiber-sqlboiler/database"
 	"fiber-sqlboiler/models"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/sqlboiler/v4/boil"

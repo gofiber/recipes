@@ -3,14 +3,14 @@ package middleware
 import (
 	"api-fiber-gorm/config"
 
-	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/contrib/jwt"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Protected protect routes
 func Protected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte(config.Config("SECRET"))},
+		SigningKey:   jwtware.SigningKey{Key: []byte(config.Config("SECRET"))},
 		ErrorHandler: jwtError,
 	})
 }

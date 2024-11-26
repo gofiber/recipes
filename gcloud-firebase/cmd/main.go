@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	port := "8080"
 	if envPort := os.Getenv("PORT"); envPort != "" {
 		port = envPort

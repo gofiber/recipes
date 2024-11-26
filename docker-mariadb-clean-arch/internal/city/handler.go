@@ -2,6 +2,7 @@ package city
 
 import (
 	"context"
+
 	"docker-mariadb-clean-arch/internal/auth"
 
 	"github.com/gofiber/fiber/v2"

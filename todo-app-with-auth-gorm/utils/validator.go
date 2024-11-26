@@ -13,7 +13,6 @@ var validate = validator.New()
 // Validate validates the input struct
 func Validate(payload interface{}) *fiber.Error {
 	err := validate.Struct(payload)
-
 	if err != nil {
 		var errors []string
 		for _, err := range err.(validator.ValidationErrors) {

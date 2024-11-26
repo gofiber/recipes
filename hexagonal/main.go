@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-
 	conf, _ := config.NewConfig("./config/config.yaml")
 	repo, _ := repository.NewMongoRepository(conf.Database.URL, conf.Database.DB, conf.Database.Timeout)
 	service := service.NewProductService(repo)
@@ -29,5 +28,4 @@ func main() {
 	r.Get("/products", handler.GetAll)
 	r.Put("/products", handler.Put)
 	r.Listen(":8080")
-
 }

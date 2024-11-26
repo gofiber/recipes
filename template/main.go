@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	// Create a new engine
 	engine := django.New("./views", ".html")
 

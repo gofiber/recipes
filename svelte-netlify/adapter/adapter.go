@@ -52,7 +52,6 @@ func (f *FiberLambda) ProxyWithContext(ctx context.Context, req events.APIGatewa
 }
 
 func (f *FiberLambda) proxyInternal(req *http.Request, err error) (events.APIGatewayProxyResponse, error) {
-
 	if err != nil {
 		return core.GatewayTimeout(), core.NewLoggedError("Could not convert proxy event to request: %v", err)
 	}

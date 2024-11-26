@@ -29,15 +29,14 @@ type Technology struct {
 
 // Queries to create the mock dataset
 func getDatasetCreationQueries() []string {
-
-	//Create developer nodes
+	// Create developer nodes
 	developer_nodes := []string{
 		"CREATE (n:Developer {id: 1, name:'Andy'});",
 		"CREATE (n:Developer {id: 2, name:'John'});",
 		"CREATE (n:Developer {id: 3, name:'Michael'});",
 	}
 
-	//Create technology nodes
+	// Create technology nodes
 	technology_nodes := []string{
 		"CREATE (n:Technology {id: 1, name:'Fiber'})",
 		"CREATE (n:Technology {id: 2, name:'Memgraph'})",
@@ -47,13 +46,13 @@ func getDatasetCreationQueries() []string {
 		"CREATE (n:Technology {id: 6, name:'Kubernetes'})",
 		"CREATE (n:Technology {id: 7, name:'Python'})",
 	}
-	//Create indexes on developer and technology nodes
+	// Create indexes on developer and technology nodes
 	indexes := []string{
 		"CREATE INDEX ON :Developer(id);",
 		"CREATE INDEX ON :Technology(id);",
 	}
 
-	//Create relationships between developers and technologies
+	// Create relationships between developers and technologies
 	edges := []string{
 		"MATCH (a:Developer {id: 1}),(b:Technology {id: 1}) CREATE (a)-[r:LOVES]->(b);",
 		"MATCH (a:Developer {id: 1}),(b:Technology {id: 2}) CREATE (a)-[r:LOVES]->(b);",
@@ -70,7 +69,7 @@ func getDatasetCreationQueries() []string {
 		"MATCH (a:Developer {id: 3}),(b:Technology {id: 3}) CREATE (a)-[r:LOVES]->(b);",
 	}
 
-	//Create a single list of all queries for sake of simplicity
+	// Create a single list of all queries for sake of simplicity
 	var allQueries []string = []string{"MATCH (n) DETACH DELETE n;"}
 	allQueries = append(allQueries, developer_nodes...)
 	allQueries = append(allQueries, technology_nodes...)
@@ -81,7 +80,7 @@ func getDatasetCreationQueries() []string {
 }
 
 func ConnectDriverToDB() (neo4j.Driver, error) {
-	//Memgraph communicates via Bolt protocol, using port 7687
+	// Memgraph communicates via Bolt protocol, using port 7687
 	dbUri := "bolt://localhost:7687"
 	var (
 		driver neo4j.Driver
@@ -95,7 +94,7 @@ func ConnectDriverToDB() (neo4j.Driver, error) {
 }
 
 func executeQuery(driver neo4j.Driver, query string) (neo4j.Result, error) {
-	//Each session opens a new connection to the database and gets a thread from the thread pool, for multi-threaded access to Memgraph open multiple sessions
+	// Each session opens a new connection to the database and gets a thread from the thread pool, for multi-threaded access to Memgraph open multiple sessions
 	session, err := driver.Session(neo4j.AccessModeWrite)
 	if err != nil {
 		return nil, err
@@ -110,8 +109,7 @@ func executeQuery(driver neo4j.Driver, query string) (neo4j.Result, error) {
 }
 
 func main() {
-
-	//Connect to Memgraph
+	// Connect to Memgraph
 	driver, err := ConnectDriverToDB()
 	if err != nil {
 		fmt.Print(err)
@@ -119,7 +117,7 @@ func main() {
 	}
 	defer driver.Close()
 
-	//Create mock dataset
+	// Create mock dataset
 	datasetCreationQueries := getDatasetCreationQueries()
 	for _, query := range datasetCreationQueries {
 		_, err := executeQuery(driver, query)
@@ -129,7 +127,7 @@ func main() {
 		}
 	}
 
-	//Create a Fiber app
+	// Create a Fiber app
 	app := fiber.New()
 
 	// Get developer called Andy and technologies he loves, http://localhost:3000/developer/Andy
@@ -174,7 +172,6 @@ func main() {
 				default:
 					fmt.Printf("I don't know about type %T!\n", v)
 				}
-
 			}
 		}
 
@@ -185,10 +182,9 @@ func main() {
 		}
 
 		return c.JSON(data)
-
 	})
 
-	//Get whole graph, including all nodes, and edges, http://localhost:3000/graph
+	// Get whole graph, including all nodes, and edges, http://localhost:3000/graph
 	app.Get("/graph", func(c *fiber.Ctx) error {
 		query := `MATCH (dev)-[loves]->(tech) RETURN dev, loves, tech`
 
@@ -231,7 +227,6 @@ func main() {
 				default:
 					fmt.Printf("I don't know about type %T!\n", v)
 				}
-
 			}
 		}
 
@@ -241,8 +236,6 @@ func main() {
 			"technology": technology_nodes,
 		}
 		return c.JSON(data)
-
 	})
 	log.Fatal(app.Listen(":3000"))
-
 }

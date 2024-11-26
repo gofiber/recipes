@@ -21,12 +21,14 @@ Server-Sent Events (SSE) allow servers to push updates to the client over a sing
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/sse
     ```
 
 2. Install dependencies:
+
     ```sh
     go mod tidy
     ```
@@ -34,6 +36,7 @@ Server-Sent Events (SSE) allow servers to push updates to the client over a sing
 ## Running the Application
 
 1. Run the application:
+
     ```sh
     go run main.go
     ```
@@ -65,5 +68,6 @@ The HTML file provides a simple user interface to connect to the SSE endpoint an
 Server-Sent Events (SSE) is a standard allowing servers to push data to web clients over HTTP. Unlike WebSockets, which require a full-duplex connection, SSE uses a unidirectional connection from the server to the client. This makes SSE simpler to implement and more efficient for scenarios where only the server needs to send updates.
 
 For more information on SSE, you can refer to the following resources:
+
 - [Server-Sent Events on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
 - [Server-Sent Events on Wikipedia](https://en.wikipedia.org/wiki/Server-sent_events)

@@ -28,12 +28,14 @@ This project provides a starting point for deploying a Go Fiber application to V
 ## Setup
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/vercel
     ```
 
 2. Install the dependencies:
+
     ```bash
     go mod download
     ```
@@ -53,16 +55,19 @@ Ensure the `vercel.json` file is present in the root directory to handle routing
 ## Deploy
 
 1. Install the Vercel CLI:
+
     ```bash
     npm install -g vercel
     ```
 
 2. Log in to Vercel:
+
     ```bash
     vercel login
     ```
 
 3. Deploy the application:
+
     ```bash
     vercel
     ```

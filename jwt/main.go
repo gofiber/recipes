@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/router"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

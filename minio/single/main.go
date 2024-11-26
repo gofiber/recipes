@@ -18,7 +18,6 @@ import (
 const maxFileSize = 10 * 1024 * 1024 // 10MB
 
 func main() {
-
 	// Initialize the MinIO client
 	store := minio.New(minio.Config{
 		Endpoint: getEnv("FIBER_MINIO_ENDPOINT", "localhost:9000"),
@@ -43,7 +42,6 @@ func main() {
 
 	// Define the route to handle file uploads
 	app.Post("/upload", func(c *fiber.Ctx) error {
-
 		// Check file size before processing
 		if c.Request().Header.ContentLength() > maxFileSize {
 			return c.Status(http.StatusRequestEntityTooLarge).JSON(fiber.Map{
@@ -110,7 +108,6 @@ func main() {
 			formFile.Size,                        // File size
 			minio.ConfigDefault.PutObjectOptions, // content type for binary files
 		)
-
 		// If the upload fails, return Error
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
@@ -146,7 +143,6 @@ func main() {
 			return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 				"message": err.Error(),
 			})
-
 		}
 
 		// Check if the file exists in the MinIO bucket

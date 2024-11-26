@@ -5,8 +5,8 @@ import (
 	"log"
 	"sync"
 
-	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/contrib/websocket"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Add more data to this type if needed
@@ -15,10 +15,12 @@ type client struct {
 	mu        sync.Mutex
 }
 
-var clients = make(map[*websocket.Conn]*client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
-var register = make(chan *websocket.Conn)
-var broadcast = make(chan string)
-var unregister = make(chan *websocket.Conn)
+var (
+	clients    = make(map[*websocket.Conn]*client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
+	register   = make(chan *websocket.Conn)
+	broadcast  = make(chan string)
+	unregister = make(chan *websocket.Conn)
+)
 
 func runHub() {
 	for {

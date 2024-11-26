@@ -1,14 +1,16 @@
 package repository
 
 import (
-	"catalog/domain"
 	"context"
+	"log"
+	"time"
+
+	"catalog/domain"
+
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
-	"time"
 )
 
 type mongoRepository struct {
@@ -73,7 +75,6 @@ func (r *mongoRepository) FindAll() ([]*domain.Product, error) {
 
 	collection := r.client.Database(r.db).Collection("products")
 	cur, err := collection.Find(context.Background(), bson.D{})
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -97,7 +98,6 @@ func (r *mongoRepository) Delete(code string) error {
 
 	collection := r.client.Database(r.db).Collection("items")
 	_, err := collection.DeleteOne(ctx, filter)
-
 	if err != nil {
 		return err
 	}
@@ -130,5 +130,4 @@ func NewMongoRepository(mongoServerURL, mongoDb string, timeout int) (domain.Rep
 	}
 
 	return repo, nil
-
 }

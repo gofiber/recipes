@@ -19,21 +19,29 @@ The following scripts are available in the project's `package.json` file:
 To use the available scripts, you need to have Node.js and Npm (or Pnpm) installed on your system. Follow these steps:
 
 1. Install the project dependencies by running the following command in the project's root directory:
+
    ```bash
    npm install
    ```
-   or 
+
+   or
+
    ```bash
    pnpm install
    ```
+
 2. Once the installation is complete, you can run the desired script using the following command:
+
     ```bash
     npm run (code)
     ```
-    or 
+
+    or
+
     ```bash
     pnpm run (code)
     ```
+
     Replace `(code)` with one of the available scripts mentioned in the table above.
 
 3. The corresponding action will be executed, and you can see the output in the terminal.

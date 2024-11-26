@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/kooroshh/fiber-boostrap/bootstrap"
 	"github.com/kooroshh/fiber-boostrap/pkg/env"
-	"log"
 )
 
 func main() {

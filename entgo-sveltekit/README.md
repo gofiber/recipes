@@ -20,15 +20,16 @@ To run the project, follow these steps:
 ```bash
 go run ./bin all
 ```
+
 2. Once the build process is complete, you can start the application by running:
+
 ```bash
 ./app
 ```
 
-
 ## Available Commands
-The following commands are available to manage the project:
 
+The following commands are available to manage the project:
 
 | Command | Description |
 | --- | --- |
@@ -48,7 +49,6 @@ To use this application, run the following command:
 go run ./bin <command>
 ```
 
-
 API Routes
 ----------
 
@@ -65,18 +65,17 @@ The Go Fiber application provides the following API routes:
 Go Dependencies
 ---------------
 
--   **Go Modules:** Go's built-in package manager used to manage dependencies for Go projects.
--   **Entgo:** A Golang Object Relational Mapping (ORM) tool used to define and generate database schemas.
--   **Fiber:** A fast and minimalist web framework for Golang.
--   **Sqlite:** A small, lightweight, embedded SQL database engine.
+- **Go Modules:** Go's built-in package manager used to manage dependencies for Go projects.
+- **Entgo:** A Golang Object Relational Mapping (ORM) tool used to define and generate database schemas.
+- **Fiber:** A fast and minimalist web framework for Golang.
+- **Sqlite:** A small, lightweight, embedded SQL database engine.
 
 Npm Dependencies
 ----------------
 
--   **SvelteKit:** A JavaScript framework used to build modern web applications.
--   **Tailwind CSS:** A fast and customizable CSS styling library. Can be used in SvelteKit projects.
+- **SvelteKit:** A JavaScript framework used to build modern web applications.
+- **Tailwind CSS:** A fast and customizable CSS styling library. Can be used in SvelteKit projects.
 
 ----------------
 
 Author: [@ugurkorkmaz](https://github.com/ugurkorkmaz)
-

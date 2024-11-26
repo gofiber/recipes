@@ -1,12 +1,14 @@
 package database
 
 import (
+	"fmt"
+	"strconv"
+
 	"api-fiber-gorm/config"
 	"api-fiber-gorm/model"
-	"fmt"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 // DB gorm connector

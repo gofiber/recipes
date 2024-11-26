@@ -17,12 +17,14 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/oauth2-google
     ```
 
 2. Install dependencies:
+
     ```sh
     go mod tidy
     ```
@@ -30,6 +32,7 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 3. Obtain OAuth credentials from [Google Developers Console](https://console.developers.google.com/).
 
 4. Create a `.env` file in the root directory and add your Google OAuth credentials:
+
     ```env
     GOOGLE_CLIENT_ID=your_client_id
     GOOGLE_CLIENT_SECRET=your_client_secret
@@ -39,6 +42,7 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 ## Running the Application
 
 1. Run the application:
+
     ```sh
     go run main.go
     ```
@@ -55,11 +59,13 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 ## Example Requests
 
 ### Redirect to Google Login
+
 ```sh
 curl -X GET http://localhost:3000/api/
 ```
 
 ### Google OAuth2 Callback
+
 ```sh
 curl -X GET http://localhost:3000/api/auth/google/callback?state=state&code=code
 ```

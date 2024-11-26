@@ -73,7 +73,7 @@ func main() {
 	re := regexp.MustCompile(`(?s)<!-- AUTO-GENERATED-CONTENT:START -->(.*?)<!-- AUTO-GENERATED-CONTENT:END -->`)
 	newContent := re.ReplaceAllString(string(content), fmt.Sprintf("<!-- AUTO-GENERATED-CONTENT:START -->\n%s<!-- AUTO-GENERATED-CONTENT:END -->", toc))
 
-	err = os.WriteFile(readmePath, []byte(newContent), 0644)
+	err = os.WriteFile(readmePath, []byte(newContent), 0o644)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -174,5 +174,5 @@ func addLinksToReadme(readmePath, dirName string) error {
 	cleanedLines := append(lines[:start], append([]string{"", links, ""}, lines[end:]...)...)
 
 	content = []byte(strings.Join(cleanedLines, "\n"))
-	return os.WriteFile(readmePath, content, 0644)
+	return os.WriteFile(readmePath, content, 0o644)
 }

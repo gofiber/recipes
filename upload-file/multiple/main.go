@@ -34,7 +34,6 @@ func main() {
 
 			// Save the files to disk:
 			err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
-
 			// Check for errors
 			if err != nil {
 				return err

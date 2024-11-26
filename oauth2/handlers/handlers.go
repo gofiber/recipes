@@ -11,7 +11,7 @@ func HTMLPages(c *fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering HtmlPages; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting HtmlPages")
 
-	//models.SYSLOG.Tracef("inspecting header: %v", &c.Request().Header)
+	// models.SYSLOG.Tracef("inspecting header: %v", &c.Request().Header)
 
 	p := c.Path()
 	switch p {
