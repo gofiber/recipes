@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-REPO_DIR="recipes"
+if [ "$#" -eq 1 ]; then
+    REPO_DIR="$1"
+else
+    REPO_DIR="recipes"  # default value
+fi
+
+if [[ ! "$REPO_DIR" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    echo "Error: REPO_DIR must contain only alphanumeric characters, underscores, and hyphens" >&2
+    exit 1
+fi
 
 # determine root repo directory
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
