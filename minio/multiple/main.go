@@ -21,7 +21,6 @@ const (
 )
 
 func main() {
-
 	// Initialize the MinIO client
 	store := minio.New(minio.Config{
 		Endpoint: getEnv("FIBER_MINIO_ENDPOINT", "localhost:9000"),
@@ -46,7 +45,6 @@ func main() {
 
 	// Define the route for uploading multiple files
 	app.Post("/upload", func(c *fiber.Ctx) error {
-
 		// Retrieve all files from the multipart form, under the field name "documents"
 		multipartForm, err := c.MultipartForm()
 		if err != nil {
@@ -136,7 +134,6 @@ func main() {
 				filePart.Size,                        // File size
 				minio.ConfigDefault.PutObjectOptions, // content type for binary files
 			)
-
 			if err != nil {
 				// If the upload fails, add the file to the failed list
 				failedFiles = append(failedFiles, fiber.Map{
@@ -179,7 +176,6 @@ func main() {
 			return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 				"message": err.Error(),
 			})
-
 		}
 
 		// Check if the file exists in the MinIO bucket

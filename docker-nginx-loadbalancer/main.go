@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"                    // Importing the fiber package for handling HTTP requests
 	"github.com/gofiber/fiber/v2/middleware/cors"    // Middleware for handling Cross-Origin Resource Sharing (CORS)
 	"github.com/gofiber/fiber/v2/middleware/favicon" // Middleware for serving favicon
 	"github.com/gofiber/fiber/v2/middleware/logger"  // Middleware for logging HTTP requests
-	"log"                                            // Package for logging errors
+	// Package for logging errors
 )
 
 func main() {

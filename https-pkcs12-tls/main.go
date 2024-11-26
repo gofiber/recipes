@@ -28,7 +28,6 @@ func initTLSConfig(path string, password string) (*tls.Certificate, error) {
 	}
 
 	key, cert, err := pkcs12.Decode(pkcs12Data, password)
-
 	if err != nil {
 		return nil, err
 	}

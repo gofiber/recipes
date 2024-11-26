@@ -9,10 +9,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	"github.com/gofiber/contrib/socketio"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
-	"log"
 )
 
 // MessageObject Basic chat message object
@@ -23,7 +24,6 @@ type MessageObject struct {
 }
 
 func main() {
-
 	// The key for the map is message.to
 	clients := make(map[string]string)
 
@@ -51,7 +51,6 @@ func main() {
 
 	// On message event
 	socketio.On(socketio.EventMessage, func(ep *socketio.EventPayload) {
-
 		fmt.Println(fmt.Sprintf("Message event - User: %s - Message: %s", ep.Kws.GetStringAttribute("user_id"), string(ep.Data)))
 
 		message := MessageObject{}
@@ -96,7 +95,6 @@ func main() {
 	})
 
 	app.Get("/ws/:id", socketio.New(func(kws *socketio.Websocket) {
-
 		// Retrieve the user id from endpoint
 		userId := kws.Params("id")
 
@@ -108,12 +106,11 @@ func main() {
 		// Every websocket connection has an optional session key => value storage
 		kws.SetAttribute("user_id", userId)
 
-		//Broadcast to all the connected users the newcomer
+		// Broadcast to all the connected users the newcomer
 		kws.Broadcast([]byte(fmt.Sprintf("New user connected: %s and UUID: %s", userId, kws.UUID)), true)
-		//Write welcome message
+		// Write welcome message
 		kws.Emit([]byte(fmt.Sprintf("Hello user: %s with UUID: %s", userId, kws.UUID)))
 	}))
 
 	log.Fatal(app.Listen(":3000"))
-
 }

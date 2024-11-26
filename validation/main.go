@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"validation/config"
 
 	"github.com/go-playground/validator/v10"

@@ -1,4 +1,11 @@
+---
+title: Unit Testing
+keywords: [unit testing, testing, stretchr/testify]
+---
+
 # Unit Testing Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/unit-test) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/unit-test)
 
 This example demonstrates how to write unit tests for a Go Fiber application using the `stretchr/testify` package.
 

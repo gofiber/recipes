@@ -1,4 +1,11 @@
+---
+title: Autocert
+keywords: [autocert, tls, letsencrypt, ssl, https, certificate]
+---
+
 # Autocert Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/autocert) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/autocert)
 
 This example demonstrates how to set up a secure Go Fiber application using Let's Encrypt for automatic TLS certificate management with `autocert`.
 

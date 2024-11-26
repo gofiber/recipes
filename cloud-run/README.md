@@ -1,4 +1,11 @@
+---
+title: Cloud Run
+keywords: [cloud run, deploy, google, docker, gcp]
+---
+
 # Cloud Run Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/cloud-run) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/cloud-run)
 
 This example demonstrates how to deploy a Go Fiber application to Google Cloud Run.
 

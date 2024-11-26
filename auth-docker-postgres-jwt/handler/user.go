@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"strconv"
+
 	"app/database"
 	"app/model"
-	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -129,12 +130,10 @@ func DeleteUser(c *fiber.Ctx) error {
 
 	if !validToken(token, id) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
-
 	}
 
 	if !validUser(id, pi.Password) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
-
 	}
 
 	db := database.DB

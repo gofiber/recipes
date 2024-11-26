@@ -12,7 +12,6 @@ import (
 )
 
 func NewConnection() *firestore.Client {
-
 	ctx := context.Background()
 
 	sa := option.WithCredentialsJSON(credentials())

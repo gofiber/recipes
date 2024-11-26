@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/cloudflare/tableflip"
-	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/cloudflare/tableflip"
+	"github.com/gofiber/fiber/v2"
 )
 
 const version = "v0.0.1"

@@ -32,7 +32,7 @@ func main() {
 	}
 	app := fiber.New()
 
-	//app.Use(csrf.New())
+	// app.Use(csrf.New())
 	app.Use(logger.New())
 
 	setupRoutes(app)

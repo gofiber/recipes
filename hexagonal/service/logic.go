@@ -14,9 +14,11 @@ func NewProductService(productRepo domain.Repository) *service {
 func (s *service) Find(code string) (*domain.Product, error) {
 	return s.productRepo.Find(code)
 }
+
 func (s *service) Store(product *domain.Product) error {
 	return s.productRepo.Store(product)
 }
+
 func (s *service) Update(product *domain.Product) error {
 	return s.productRepo.Update(product)
 }

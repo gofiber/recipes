@@ -24,8 +24,10 @@ type MongoInstance struct {
 var mg MongoInstance
 
 // Database settings (insert your own database name and connection URI)
-const dbName = "fiber_test"
-const mongoURI = "mongodb://user:password@localhost:27017/" + dbName
+const (
+	dbName   = "fiber_test"
+	mongoURI = "mongodb://user:password@localhost:27017/" + dbName
+)
 
 // Employee struct
 type Employee struct {
@@ -39,7 +41,6 @@ type Employee struct {
 // Source: https://www.mongodb.com/docs/drivers/go/current/quick-start/
 func Connect() error {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoURI))
-
 	if err != nil {
 		return err
 	}
@@ -88,7 +89,6 @@ func main() {
 		// iterate the cursor and decode each item into an Employee
 		if err := cursor.All(c.Context(), &employees); err != nil {
 			return c.Status(500).SendString(err.Error())
-
 		}
 		// return employees list in JSON format
 		return c.JSON(employees)
@@ -154,7 +154,6 @@ func main() {
 	app.Put("/employee/:id", func(c *fiber.Ctx) error {
 		idParam := c.Params("id")
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
-
 		// the provided ID might be invalid ObjectID
 		if err != nil {
 			return c.SendStatus(400)
@@ -169,7 +168,8 @@ func main() {
 		// Find the employee and update its data
 		query := bson.D{{Key: "_id", Value: employeeID}}
 		update := bson.D{
-			{Key: "$set",
+			{
+				Key: "$set",
 				Value: bson.D{
 					{Key: "name", Value: employee.Name},
 					{Key: "age", Value: employee.Age},
@@ -178,7 +178,6 @@ func main() {
 			},
 		}
 		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), query, update).Err()
-
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
@@ -198,7 +197,6 @@ func main() {
 		employeeID, err := primitive.ObjectIDFromHex(
 			c.Params("id"),
 		)
-
 		// the provided ID might be invalid ObjectID
 		if err != nil {
 			return c.SendStatus(400)
@@ -207,7 +205,6 @@ func main() {
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
 		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
-
 		if err != nil {
 			return c.SendStatus(500)
 		}

@@ -1,11 +1,11 @@
-# Docker+Nginx 🚀
-<a href="https://gofiber.io">
-  <picture>
-    <source height="125" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo-dark.svg">
-    <img height="125" alt="Fiber" src="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg">
-  </picture>
-</a>
+---
+title: Docker + Nginx
+keywords: [docker, nginx, loadbalancer, reverse proxy]
+---
 
+# Docker + Nginx
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/docker-nginx-loadbalancer) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/docker-nginx-loadbalancer)
 
 ## Features
 

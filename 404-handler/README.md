@@ -1,4 +1,11 @@
+---
+title: 404 Handler
+keywords: [404, not found, handler, errorhandler, custom]
+---
+
 # Custom 404 Not Found Handler Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/404-handler) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/404-handler)
 
 This example demonstrates how to implement a custom 404 Not Found handler using the [Fiber](https://gofiber.io) web framework in Go. The purpose of this example is to show how to handle requests to undefined routes gracefully by returning a 404 status code.
 

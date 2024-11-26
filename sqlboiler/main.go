@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"fiber-sqlboiler/api/route"
 	"fiber-sqlboiler/database"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 )

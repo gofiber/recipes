@@ -6,8 +6,7 @@ type Greeter interface {
 	SayHello(name string, polite bool) string
 }
 
-type greeter struct {
-}
+type greeter struct{}
 
 // SayHello Generates a greeter message for the given user.
 func (g *greeter) SayHello(name string, polite bool) string {

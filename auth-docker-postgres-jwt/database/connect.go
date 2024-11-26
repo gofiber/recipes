@@ -1,10 +1,11 @@
 package database
 
 import (
-	"app/config"
-	"app/model"
 	"fmt"
 	"strconv"
+
+	"app/config"
+	"app/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,7 +16,6 @@ func ConnectDB() {
 	var err error
 	p := config.Config("DB_PORT")
 	port, err := strconv.ParseUint(p, 10, 32)
-
 	if err != nil {
 		panic("failed to parse database port")
 	}
@@ -28,7 +28,6 @@ func ConnectDB() {
 		config.Config("DB_NAME"),
 	)
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
 	if err != nil {
 		panic("failed to connect database")
 	}

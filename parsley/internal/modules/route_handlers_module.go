@@ -17,7 +17,6 @@ import (
 // Returns:
 // - error: Any error that occurred during the registration process.
 func RegisterRouteHandlers(registry types.ServiceRegistry) error {
-
 	// The Parsley app requires a list of RouteHandler instances, so we must enable it.
 	features.RegisterList[route_handlers.RouteHandler](registry)
 

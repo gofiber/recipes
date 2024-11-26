@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+
 	"parsley-app/internal"
 	"parsley-app/internal/modules"
 
@@ -9,7 +10,6 @@ import (
 )
 
 func main() {
-
 	context := context.Background()
 
 	// Runs a Fiber instance as a Parsley-enabled app
