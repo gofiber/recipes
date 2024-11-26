@@ -9,7 +9,7 @@ keywords: [bootstrap, gorm, validator, env]
 
 Fiber bootstrap for rapid development using Go-Fiber / Gorm / Validator.
 
-# Components
+## Components
 * Fiber
   * Html Engine Template
   * Logger
@@ -19,11 +19,11 @@ Fiber bootstrap for rapid development using Go-Fiber / Gorm / Validator.
 * Validator
 * Env File
 
-# Router
+## Router
 API Router `/api` with rate limiter middleware
 Http Router `/` with CORS and CSRF middleware
 
-# Setup
+## Setup
 
 1. Copy the example env file over:
     ```
