@@ -18,17 +18,24 @@ git clone https://${TOKEN}@${REPO_URL} fiber-docs
 latest_commit=$(git rev-parse --short HEAD)
 
 # remove all files in the docs directory
-rm -rf $ROOT/../fiberDocs/docs/${REPO_DIR}/*
+rm -rf fiber-docs/docs/${REPO_DIR}/*
 
-for f in $(find -E . -type f -iregex '.*\.(md|png|jpe?g|gif|bmp|svg|webp)$' -not -path "./(fiberDocs)/*" -not -path "*/vendor/*" -not -path "*/.github/*" -not -path "*/.*"); do
-  log_output=$(git log --oneline "${BRANCH}" HEAD~1..HEAD --name-status -- "${f}")
+# Find and copy relevant files
+find . \
+  -type f \
+  \( -iname '*.md' -o -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.svg' -o -iname '*.webp' \) \
+  -not -path "./fiber-docs/*" \
+  -not -path "*/vendor/*" \
+  -not -path "*/.github/*" \
+  -not -path "*/.*" |
+while IFS= read -r f; do
+  log_output=$(git log --oneline "${BRANCH}" HEAD~1..HEAD --name-status -- "${f}" || true)
 
-    if [[ $log_output != "" || ! -f "fiber-docs/docs/${REPO_DIR}/$f" ]]; then
-      mkdir -p fiber-docs/docs/${REPO_DIR}/$(dirname $f)
-      cp "${f}" fiber-docs/docs/${REPO_DIR}/$f
+  if [[ -n $log_output || ! -f "fiber-docs/docs/${REPO_DIR}/${f}" ]]; then
+    mkdir -p fiber-docs/docs/${REPO_DIR}/$(dirname "$f")
+    cp "$f" fiber-docs/docs/${REPO_DIR}/$f
   fi
 done
-
 
 # Push changes
 cd fiber-docs/ || true

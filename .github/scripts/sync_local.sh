@@ -18,8 +18,16 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 # remove all files in the docs directory
 rm -rf $ROOT/../fiberDocs/docs/${REPO_DIR}/*
 
-for f in $(find -E . -type f -iregex '.*\.(md|png|jpe?g|gif|bmp|svg|webp)$' -not -path "./(fiberDocs)/*" -not -path "*/vendor/*" -not -path "*/.github/*" -not -path "*/.*"); do
+# Find and copy relevant files
+find . \
+  -type f \
+  \( -iname '*.md' -o -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.svg' -o -iname '*.webp' \) \
+  -not -path "./fiber-docs/*" \
+  -not -path "*/vendor/*" \
+  -not -path "*/.github/*" \
+  -not -path "*/.*" |
+while IFS= read -r f; do
   echo "Copying $f"
-    mkdir -p $ROOT/../fiberDocs/docs/${REPO_DIR}/$(dirname $f)
-    cp "${f}" $ROOT/../fiberDocs/docs/${REPO_DIR}/$f
+  mkdir -p $ROOT/../fiberDocs/docs/${REPO_DIR}/$(dirname "$f")
+  cp "$f" $ROOT/../fiberDocs/docs/${REPO_DIR}/$f
 done
