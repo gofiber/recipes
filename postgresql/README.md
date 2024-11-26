@@ -1,5 +1,5 @@
 ---
-title: PostgreSQL Example
+title: PostgreSQL
 keywords: [postgresql]
 ---
 
@@ -28,6 +28,19 @@ Ensure you have the following installed:
     go get
     ```
 
+3. Set up your PostgreSQL database and update the connection string in the code.
+
+## Running the Application
+
+1. Start the application:
+    ```sh
+    go run main.go
+    ```
+
+2. Access the application at `http://localhost:3000`.
+
+## Example
+
 Here is an example of how to connect to a PostgreSQL database in a Fiber application:
 
 ```go
@@ -43,17 +56,6 @@ import (
 
 func main() {
     // Database connection
-3. Set up your PostgreSQL database and update the connection string in the code.
-
-## Running the Application
-
-1. Start the application:
-    ```sh
-    go run main.go
-    ```
-
-## Example
-
     connStr := "user=username dbname=mydb sslmode=disable"
     db, err := sql.Open("postgres", connStr)
     if err != nil {
