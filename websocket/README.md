@@ -26,20 +26,17 @@ This project provides a basic setup for a WebSocket server using Go Fiber. It in
 ## Setup
 
 1. Clone the repository:
-
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/websocket
     ```
 
 2. Install the dependencies:
-
     ```bash
     go mod download
     ```
 
 3. Run the application:
-
     ```bash
     go run main.go
     ```

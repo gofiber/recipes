@@ -18,20 +18,17 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/gorm-mysql
    ```
 
 2. Install dependencies:
-
     ```sh
     go mod tidy
     ```
 
 3. Configure the database connection in the `config.json` file:
-
     ```json
     {
       "DB_Username": "your_db_username",
@@ -45,7 +42,6 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Running the Application
 
 1. Run the application:
-
     ```sh
     go run main.go
     ```
@@ -66,31 +62,26 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Example Requests
 
 ### Get All Books
-
 ```sh
 curl -X GET http://localhost:3000/allbooks
 ```
 
 ### Get Book by ID
-
 ```sh
 curl -X GET http://localhost:3000/book/1
 ```
 
 ### Create a New Book
-
 ```sh
 curl -X POST http://localhost:3000/book -d '{"title": "New Book", "author": "Author Name"}' -H "Content-Type: application/json"
 ```
 
 ### Update a Book
-
 ```sh
 curl -X PUT http://localhost:3000/book -d '{"id": 1, "title": "Updated Book", "author": "Updated Author"}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Book
-
 ```sh
 curl -X DELETE http://localhost:3000/book -d '{"id": 1}' -H "Content-Type: application/json"
 ```

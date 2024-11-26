@@ -23,26 +23,22 @@ This project provides a starting point for deploying a Go Fiber application to A
 ## Setup
 
 1. Clone the repository:
-
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/aws-eb
     ```
 
 2. Initialize Elastic Beanstalk:
-
     ```bash
     eb init
     ```
 
 3. Create an Elastic Beanstalk environment:
-
     ```bash
     eb create
     ```
 
 4. Deploy the application:
-
     ```bash
     eb deploy
     ```
@@ -52,13 +48,11 @@ This project provides a starting point for deploying a Go Fiber application to A
 The build process is defined in the `Buildfile` and `build.sh` scripts.
 
 - `Buildfile`:
-
     ```ruby
     make: ./build.sh
     ```
 
 - `build.sh`:
-
     ```bash
     #!/bin/bash -xe
     # Get dependencies
@@ -74,7 +68,6 @@ The build process is defined in the `Buildfile` and `build.sh` scripts.
 ## Application Code
 
 The main application code is in `application.go`:
-
 ```go
 package main
 
@@ -107,7 +100,6 @@ func main() {
 ## .gitignore
 
 The `.gitignore` file includes configurations to ignore Elastic Beanstalk specific files:
-
 ```plaintext
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

@@ -9,11 +9,12 @@ keywords: [netlify, deploy, svelte]
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/143c3c42-60f7-427a-b3fd-8ca3947a2d40/deploy-status)](https://app.netlify.com/sites/gofiber-svelte/deploys)
 
-### Demo @ <https://gofiber-svelte.netlify.app/>
+### Demo @ https://gofiber-svelte.netlify.app/
 
 #### Based on the fiber-lambda API written by Fenny. Since the code hasn't been merged yet, I borrowed it into `adapter/adapter.go`
 
 The app uses static pages under `public` directory. These are compiled using sveltejs and the complete template can be found [here](https://github.com/amalshaji/gofiber-sveltejs-netlify).
+
 
 ```toml
 # netlify.toml
@@ -36,7 +37,6 @@ The app uses static pages under `public` directory. These are compiled using sve
 Deploying `net/http to Netlify` explains what these functions are doing. You can read it [here](https://blog.carlmjohnson.net/post/2020/how-to-host-golang-on-netlify-for-free/).
 
 #### TL;DR
-
 - build command builds the whole code to binary `cmd/gateway/gateway`
 - we're building something called [netlify functions](https://functions.netlify.com/) (Please read)
 - everything under public folder will be published(entrypoint: `index.html`)
@@ -44,5 +44,4 @@ Deploying `net/http to Netlify` explains what these functions are doing. You can
 - status = 200 for server side redirects
 
 #### Important
-
 Netlify functions allows you to have up to 125,000 requests a month. This means you can have 2.89 requests per minute. Make sure you use `Cache` in you request handlers.

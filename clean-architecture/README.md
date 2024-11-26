@@ -28,27 +28,23 @@ This project provides a starting point for building a web application with a cle
 ## Setup
 
 1. Clone the repository:
-
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/clean-architecture
     ```
 
 2. Set the environment variables in a `.env` file:
-
     ```env
     DB_URI=mongodb://localhost:27017
     DB_NAME=example_db
     ```
 
 3. Install the dependencies:
-
     ```bash
     go mod download
     ```
 
 4. Run the application:
-
     ```bash
     go run cmd/main.go
     ```
@@ -67,25 +63,21 @@ The following endpoints are available in the API:
 ## Example Usage
 
 1. Add a new book:
-
     ```bash
     curl -X POST http://localhost:3000/books -d '{"title":"Book Title", "author":"Author Name"}' -H "Content-Type: application/json"
     ```
 
 2. List all books:
-
     ```bash
     curl http://localhost:3000/books
     ```
 
 3. Update a book:
-
     ```bash
     curl -X PUT http://localhost:3000/books -d '{"id":"<book_id>", "title":"Updated Title", "author":"Updated Author"}' -H "Content-Type: application/json"
     ```
 
 4. Remove a book:
-
     ```bash
     curl -X DELETE http://localhost:3000/books -d '{"id":"<book_id>"}' -H "Content-Type: application/json"
     ```
@@ -99,24 +91,20 @@ Clean Architecture is a software design philosophy that emphasizes the separatio
 ### Layers in Clean Architecture
 
 1. **Entities (Core Business Logic)**
-
-- Located in the `pkg/entities` directory.
-- Contains the core business logic and domain models, which are independent of any external frameworks or technologies.
+  - Located in the `pkg/entities` directory.
+  - Contains the core business logic and domain models, which are independent of any external frameworks or technologies.
 
 2. **Use Cases (Application Logic)**
-
-- Located in the `pkg/book` directory.
-- Contains the application-specific business rules and use cases. This layer orchestrates the flow of data to and from the entities.
+  - Located in the `pkg/book` directory.
+  - Contains the application-specific business rules and use cases. This layer orchestrates the flow of data to and from the entities.
 
 3. **Interface Adapters (Adapters and Presenters)**
-
-- Located in the `api` directory.
-- Contains the HTTP handlers, routes, and presenters. This layer is responsible for converting data from the use cases into a format suitable for the web framework (Fiber in this case).
+  - Located in the `api` directory.
+  - Contains the HTTP handlers, routes, and presenters. This layer is responsible for converting data from the use cases into a format suitable for the web framework (Fiber in this case).
 
 4. **Frameworks and Drivers (External Interfaces)**
-
-- Located in the `cmd` directory.
-- Contains the main application entry point and any external dependencies like the web server setup.
+  - Located in the `cmd` directory.
+  - Contains the main application entry point and any external dependencies like the web server setup.
 
 ### Example Breakdown
 
@@ -128,7 +116,6 @@ Clean Architecture is a software design philosophy that emphasizes the separatio
 ### Code Example
 
 #### `entities/book.go`
-
 ```go
 package entities
 
@@ -142,7 +129,6 @@ type Book struct {
 ```
 
 #### `pkg/book/service.go`
-
 ```go
 package book
 
@@ -157,7 +143,6 @@ type Service interface {
 ```
 
 #### `api/handlers/book_handler.go`
-
 ```go
 package handlers
 
@@ -193,7 +178,6 @@ func AddBook(service book.Service) fiber.Handler {
 ```
 
 #### `cmd/main.go`
-
 ```go
 package main
 

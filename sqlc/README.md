@@ -10,19 +10,14 @@ keywords: [database, sqlc, postgresql]
 > #### 🎯 [fiber](https://github.com/gofiber/fiber) + [sqlc](https://github.com/sqlc-dev/sqlc) Example
 
 ## 👀 Usage
-
 #### 1. Run Postgres
-
 ```bash
-docker compose build
+$ docker compose build
 ```
-
 ```bash
-docker compose up
+$ docker compose up
 ```
-
 #### 2. Wait 1-2 minutes
-
 ```console
 [+] Running 2/0
  ✔ Network sqlc_default       Created                                                                             0.1s
@@ -39,30 +34,21 @@ postgres  | 2023-09-28 09:17:50.740 UTC [1] LOG:  listening on Unix socket "/var
 postgres  | 2023-09-28 09:17:50.751 UTC [30] LOG:  database system was shut down at 2023-09-28 08:50:35 UTC
 postgres  | 2023-09-28 09:17:50.770 UTC [1] LOG:  database system is ready to accept connections
 ```
-
-#### 3. You have to migrate the database
->
-> ##### 🎯 It is a "database-first" ORM as opposed to "code-first" (like gorm/gorp). That means you must first create your database schema
->
-> ##### 🎯 I used [golang-migrate](https://github.com/golang-migrate/migrate) to proceed with the migrate
->
+#### 3. You have to migrate the database.
+> ##### 🎯 It is a "database-first" ORM as opposed to "code-first" (like gorm/gorp). That means you must first create your database schema.
+> ##### 🎯 I used [golang-migrate](https://github.com/golang-migrate/migrate) to proceed with the migrate.
 ###### 1. Make Migration files
-
 ```bash
-migrate create -ext sql -dir ./database/migrations -seq create_initial_table
+$ migrate create -ext sql -dir ./database/migrations -seq create_initial_table
 ```
-
 ```console
 sqlc/database/migrations/000001_create_initial_table.up.sql
 sqlc/database/migrations/000001_create_initial_table.up.sql
 ```
-
 ###### 2. Migrate
-
 ```bash
-migrate -path database/migrations -database "postgresql://user:password@localhost:5432/fiber_demo?sslmode=disable" -verbose up
+$ migrate -path database/migrations -database "postgresql://user:password@localhost:5432/fiber_demo?sslmode=disable" -verbose up
 ```
-
 ```console
 2023/09/28 20:00:00 Start buffering 1/u create_initial_table
 2023/09/28 20:00:00 Read and execute 1/u create_initial_table
@@ -70,13 +56,10 @@ migrate -path database/migrations -database "postgresql://user:password@localhos
 2023/09/28 20:00:00 Finished after 100.661625ms
 2023/09/28 20:00:00 Closing source and database
 ```
-
 ###### 3. Rollback Migrate
-
 ```bash
-migrate -path database/migrations -database "postgresql://user:password@localhost:5432/fiber_demo?sslmode=disable" -verbose down
+$ migrate -path database/migrations -database "postgresql://user:password@localhost:5432/fiber_demo?sslmode=disable" -verbose down
 ```
-
 ```console
 2023/09/28 20:00:00 Are you sure you want to apply all down migrations? [y/N]
 y
@@ -86,11 +69,8 @@ y
 2023/09/28 20:00:00 Finished 1/d create_initial_table (read 39.681125ms, ran 66.220125ms)
 2023/09/28 20:00:00 Finished after 1.83152475s
 ```
-
 #### 4. Use sqlc
-
 ###### 1. Install
-
 ```bash
 # Go 1.17 and above:
 $ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
@@ -98,13 +78,9 @@ $ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 # Go 1.16 and below:
 go get github.com/sqlc-dev/sqlc/cmd/sqlc
 ```
-
 ###### 2. Create a configuration file
-
 ###### Example
-
 ###### sqlc.yaml
-
 ```yaml
 version: "2"
 sql:
@@ -116,9 +92,7 @@ sql:
         package: "sqlc"
         out: "database/sqlc"
 ```
-
 ###### author.sql
-
 ```sql
 -- name: GetAuthors :many
 SELECT * FROM author;
@@ -135,9 +109,7 @@ UPDATE author SET email = $1, name = $2 WHERE id = $3 RETURNING *;
 -- name: DeleteAuthor :exec
 DELETE FROM author WHERE id = $1;
 ```
-
 ###### post.sql
-
 ```sql
 -- name: GetPosts :many
 SELECT * FROM post;
@@ -155,13 +127,10 @@ UPDATE post SET title = $1, content = $2, author = $3 WHERE id = $4 RETURNING *;
 DELETE FROM post WHERE id = $1;
 
 ```
-
 ###### 3. Generate
-
 ```bash
-sqlc generate
+$ sqlc generate
 ```
-
 ```text
 sqlc/
 ├── author.sql.go
@@ -169,7 +138,5 @@ sqlc/
 ├── models.go
 ├── post.sql.go
 ```
-
 #### 5. Reference
-
 [sqlc document](https://docs.sqlc.dev/en/stable/)

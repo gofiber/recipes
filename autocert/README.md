@@ -21,20 +21,17 @@ This project provides a starting point for building a secure web application wit
 ## Setup
 
 1. Clone the repository:
-
     ```bash
     git clone https://github.com/gofiber/recipes.git
     cd recipes/autocert
     ```
 
 2. Install the dependencies:
-
     ```bash
     go mod download
     ```
 
 3. Update the `HostPolicy` in `main.go` with your domain:
-
     ```go
     m := &autocert.Manager{
         Prompt: autocert.AcceptTOS,
@@ -44,7 +41,6 @@ This project provides a starting point for building a secure web application wit
     ```
 
 4. Run the application:
-
     ```bash
     go run main.go
     ```

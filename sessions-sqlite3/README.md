@@ -23,20 +23,17 @@ The default table schema only stores session data and expiry, making it difficul
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/sessions-sqlite3
     ```
 
 2. Install dependencies:
-
     ```sh
     go mod tidy
     ```
 
 3. Create the sessions table in SQLite3:
-
     ```sql
     CREATE TABLE sessions (
         key TEXT PRIMARY KEY,
@@ -49,7 +46,6 @@ The default table schema only stores session data and expiry, making it difficul
 ## Running the Application
 
 1. Run the application:
-
     ```sh
     go run main.go
     ```

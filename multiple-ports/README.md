@@ -19,14 +19,12 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/multiple-ports
     ```
 
 2. Install dependencies:
-
     ```sh
     go get
     ```
@@ -34,7 +32,6 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Start the application:
-
     ```sh
     go run main.go
     ```
@@ -78,7 +75,6 @@ func main() {
 ```
 
 In this example:
-
 - The application listens on multiple ports (`:3000` and `:3001`).
 - A `sync.WaitGroup` is used to wait for all goroutines to finish.
 

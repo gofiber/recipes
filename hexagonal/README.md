@@ -20,20 +20,17 @@ This project presents a simple product catalogue microservice to demonstrate the
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/hexagonal
     ```
 
 2. Install dependencies:
-
     ```sh
     go mod tidy
     ```
 
 3. Configure the MongoDB connection in the `config.json` file:
-
     ```json
     {
       "DB_URI": "your_mongodb_uri",
@@ -44,7 +41,6 @@ This project presents a simple product catalogue microservice to demonstrate the
 ## Running the Application
 
 1. Run the application:
-
     ```sh
     go run main.go
     ```
@@ -64,31 +60,26 @@ This project presents a simple product catalogue microservice to demonstrate the
 ## Example Requests
 
 ### Get All Products
-
 ```sh
 curl -X GET http://localhost:3000/api/v1/products
 ```
 
 ### Get Product by ID
-
 ```sh
 curl -X GET http://localhost:3000/api/v1/product/1
 ```
 
 ### Create a New Product
-
 ```sh
 curl -X POST http://localhost:3000/api/v1/product -d '{"name": "New Product", "price": 100}' -H "Content-Type: application/json"
 ```
 
 ### Update a Product
-
 ```sh
 curl -X PUT http://localhost:3000/api/v1/product/1 -d '{"name": "Updated Product", "price": 150}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Product
-
 ```sh
 curl -X DELETE http://localhost:3000/api/v1/product/1
 ```
@@ -100,6 +91,5 @@ Hexagonal architecture, also known as ports and adapters architecture, is a desi
 ## Additional Information
 
 For more information on hexagonal architecture, you can refer to the following resources:
-
 - [Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)
 - [Hexagonal Architecture in Golang](https://medium.com/@matryer/hexagonal-architecture-in-go-2b5e0df2d8f8)

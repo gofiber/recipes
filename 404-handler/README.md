@@ -21,7 +21,6 @@ In web applications, it's common to encounter requests to routes that do not exi
 ## Running the Example
 
 To run the example, use the following command:
-
 ```bash
 go run main.go
 ```

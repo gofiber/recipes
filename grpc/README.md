@@ -3,7 +3,7 @@ title: gRPC
 keywords: [grpc, server, client]
 ---
 
-# Example for fiber as a client to gRPC server
+# Example for fiber as a client to gRPC server.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/grpc) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/grpc)
 
@@ -17,14 +17,12 @@ A sample program to showcase fiber as a client to a gRPC server.
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/grpc
     ```
 
 2. Install dependencies:
-
     ```sh
     go mod tidy
     ```
@@ -32,13 +30,11 @@ A sample program to showcase fiber as a client to a gRPC server.
 ## Running the Application
 
 1. Run the gRPC server:
-
     ```sh
     go run server/main.go
     ```
 
 2. Run the Fiber client:
-
     ```sh
     go run client/main.go
     ```

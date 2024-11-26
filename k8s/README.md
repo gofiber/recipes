@@ -23,32 +23,27 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/k8s
     ```
 
 2. Install dependencies:
-
     ```sh
     go get
     ```
 
 3. Build the Docker image:
-
     ```sh
     docker build -t fiber-k8s-example .
     ```
 
 4. Start Minikube (if using Minikube):
-
     ```sh
     minikube start
     ```
 
 5. Deploy the application to Kubernetes:
-
     ```sh
     kubectl apply -f deployment.yaml
     ```
@@ -56,13 +51,11 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Check the status of the pods:
-
     ```sh
     kubectl get pods
     ```
 
 2. Forward the port to access the application:
-
     ```sh
     kubectl port-forward svc/fiber-k8s-example 3000:3000
     ```

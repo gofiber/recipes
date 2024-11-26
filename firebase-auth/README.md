@@ -19,7 +19,6 @@ SERVICE_ACCOUNT_JSON = "path to service account credential json"
 ```
 
 ## Start
-
 ```
 go build
 go run main

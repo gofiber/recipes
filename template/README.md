@@ -20,14 +20,12 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/template
     ```
 
 2. Install dependencies:
-
     ```sh
     npm install
     ```
@@ -37,13 +35,11 @@ Ensure you have the following installed:
 ### Building Assets
 
 1. Build the assets:
-
     ```sh
     npm run build
     ```
 
 2. Watch assets for changes:
-
     ```sh
     npm run dev
     ```
@@ -51,7 +47,6 @@ Ensure you have the following installed:
 ### Running the Application
 
 1. Start the Fiber application:
-
     ```sh
     go run main.go
     ```

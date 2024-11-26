@@ -38,7 +38,6 @@ This project provides a URL shortening service with a simple API.
 ## Setup
 
 1. Start the containers:
-
     ```sh
     docker-compose up -d
     ```

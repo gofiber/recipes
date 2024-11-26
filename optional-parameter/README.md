@@ -19,14 +19,12 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/optional-parameter
     ```
 
 2. Install dependencies:
-
     ```sh
     go get
     ```
@@ -34,7 +32,6 @@ Ensure you have the following installed:
 ## Running the Application
 
 1. Start the application:
-
     ```sh
     go run main.go
     ```
@@ -63,7 +60,6 @@ func main() {
 ```
 
 In this example:
-
 - The `:id?` parameter in the route is optional.
 - If the `id` parameter is not provided, it defaults to `"defaultID"`.
 

@@ -417,5 +417,4 @@ gcloud functions deploy MyCloudFunction --runtime go120 --trigger-http
 Congratulations! You’ve successfully configured and deployed a GoFiber application on Firebase Functions. This powerful combination allows you to build fast and efficient serverless applications. Experiment further with GoFiber features and Firebase integrations to unlock the full potential of your serverless architecture. Happy coding!
 
 ## Medium Post
-
-<https://medium.com/@kmltrk07/how-to-deploy-gofiber-app-to-firebase-functions-8d4d537a4464>
+https://medium.com/@kmltrk07/how-to-deploy-gofiber-app-to-firebase-functions-8d4d537a4464

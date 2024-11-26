@@ -17,14 +17,12 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Setup
 
 1. Clone the repository:
-
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/gorm-example
     ```
 
 2. Install dependencies:
-
     ```sh
     go mod tidy
     ```
@@ -32,7 +30,6 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Running the Application
 
 1. Run the application:
-
     ```sh
     go run main.go
     ```
@@ -51,25 +48,21 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 ## Example Requests
 
 ### Get All Books
-
 ```sh
 curl -X GET http://localhost:3000/api/v1/book
 ```
 
 ### Get Book by ID
-
 ```sh
 curl -X GET http://localhost:3000/api/v1/book/1
 ```
 
 ### Create a New Book
-
 ```sh
 curl -X POST http://localhost:3000/api/v1/book -d '{"title": "New Book", "author": "Author Name"}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Book
-
 ```sh
 curl -X DELETE http://localhost:3000/api/v1/book/1
 ```

@@ -8,8 +8,7 @@ Thank you for considering contributing to this project! To ensure a smooth and e
 
 2. **Add a `README.md`**: Each example must include a `README.md` file in its directory. This file should contain the following:
 
-- **Docusaurus Metadata**: Add the following metadata at the top of the `README.md` file:
-
+  - **Docusaurus Metadata**: Add the following metadata at the top of the `README.md` file:
     ```markdown
     ---
     title: Your Example Title
@@ -17,17 +16,16 @@ Thank you for considering contributing to this project! To ensure a smooth and e
     ---
     ```
 
-  - `title`: A short and descriptive title for your example.
-  - `keywords`: A list of relevant keywords (excluding "fiber").
+    - `title`: A short and descriptive title for your example.
+    - `keywords`: A list of relevant keywords (excluding "fiber").
 
-- **Content**: The `README.md` should provide a detailed explanation of the example, including:
-  - The idea behind the example.
-  - The components used in the example.
-  - Instructions on how to run the example.
-  - Any other relevant information.
+  - **Content**: The `README.md` should provide a detailed explanation of the example, including:
+    - The idea behind the example.
+    - The components used in the example.
+    - Instructions on how to run the example.
+    - Any other relevant information.
 
 3. **Update the Overview**: After adding your example, run the following command in the root directory to update the overview table of contents:
-
     ```bash
     make generate
     ```
