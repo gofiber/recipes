@@ -1,6 +1,7 @@
 ---
 title: URL Shortener
 keywords: [url shortener, redis, api]
+description: URL shortening service with a simple API.
 ---
 
 # URL Shortener API

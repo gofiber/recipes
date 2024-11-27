@@ -1,6 +1,7 @@
 ---
 title: Parsley
 keywords: [parsley, dependency injection, di, inversion of control, ioc]
+description: Using Parsley for dependency injection in an application.
 ---
 
 # Fiber with Dependency Injection (via Parsley)

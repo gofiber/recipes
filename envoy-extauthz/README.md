@@ -1,6 +1,7 @@
 ---
 title: Envoy External Authorization
 keywords: [envoy, external authorization, keyauth]
+description: External authorization with Envoy.
 ---
 
 # Fiber as an Envoy External Authorization HTTP Service

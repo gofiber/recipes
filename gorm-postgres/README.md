@@ -1,6 +1,7 @@
 ---
 title: GORM + PostgreSQL
 keywords: [gorm, postgres, database]
+description: Using GORM with PostgreSQL database.
 ---
 
 # GORM with PostgreSQL Example

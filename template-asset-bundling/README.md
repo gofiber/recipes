@@ -1,6 +1,7 @@
 ---
 title: Template Asset Bundling
 keywords: [template, tailwindcss, parcel]
+description: Setting up a Go application with template rendering and asset bundling.
 ---
 
 # Template Asset Bundling

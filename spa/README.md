@@ -1,6 +1,7 @@
 ---
 title: Single Page Application (SPA)
 keywords: [spa, react, tailwindcss, parcel]
+description: Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
 ---
 
 # Single Page Application (SPA)

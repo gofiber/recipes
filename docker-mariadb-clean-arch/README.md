@@ -1,6 +1,7 @@
 ---
 title: Docker + MariaDB
 keywords: [docker, mariadb, clean architecture, makefile]
+description: Dockerized MariaDB with Clean Architecture.
 ---
 
 # Docker MariaDB Clean Architecture

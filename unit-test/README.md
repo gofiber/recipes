@@ -1,6 +1,7 @@
 ---
 title: Unit Testing
 keywords: [unit testing, testing, stretchr/testify]
+description: Writing unit tests for a Go Fiber application.
 ---
 
 # Unit Testing Example

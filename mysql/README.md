@@ -1,6 +1,7 @@
 ---
 title: MySQL
 keywords: [mysql]
+description: Connecting to a MySQL database.
 ---
 
 # MySQL Example

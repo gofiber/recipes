@@ -1,6 +1,7 @@
 ---
 title: Entgo Sveltekit
 keywords: [ent, sveltekit, tailwindcss, sqlite, rest]
+description: A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
 ---
 
 # Todo Application

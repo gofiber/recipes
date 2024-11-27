@@ -1,6 +1,7 @@
 ---
-title: Recover Middleware Example
+title: Recover Middleware
 keywords: [recover, middleware]
+description: Recover middleware for error handling.
 ---
 
 # Recover Middleware Example

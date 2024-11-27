@@ -1,6 +1,7 @@
 ---
 title: Hexagonal Architecture
 keywords: [hexagonal, architecture, mongodb]
+description: A Hexagonal Software Architecture in Golang and MongoDB.
 ---
 
 # A Hexagonal Software Architecture in Golang and MongoDB

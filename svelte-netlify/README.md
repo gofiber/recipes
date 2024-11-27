@@ -1,6 +1,7 @@
 ---
 title: Svelte Netlify
 keywords: [netlify, deploy, svelte]
+description: Deploying a Svelte application on Netlify.
 ---
 
 # Deploying fiber on Netlify

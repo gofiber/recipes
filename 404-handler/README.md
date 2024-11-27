@@ -1,6 +1,7 @@
 ---
 title: 404 Handler
 keywords: [404, not found, handler, errorhandler, custom]
+description: Custom 404 error page handling.
 ---
 
 # Custom 404 Not Found Handler Example

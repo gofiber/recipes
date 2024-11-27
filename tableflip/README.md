@@ -1,6 +1,7 @@
 ---
 title: Tableflip Example
 keywords: [tableflip, golang, graceful upgrade]
+description: Use tableflip for graceful upgrades in a Go application.
 ---
 
 # Tableflip Example

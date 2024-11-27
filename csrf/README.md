@@ -1,6 +1,7 @@
 ---
 title: CSRF
 keywords: [csrf, security, hacking, vulnerability]
+description: Cross-Site Request Forgery (CSRF) protection.
 ---
 
 # CSRF Examples

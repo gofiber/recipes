@@ -1,6 +1,7 @@
 ---
 title: Docker + Nginx
 keywords: [docker, nginx, loadbalancer, reverse proxy]
+description: Load balancing with Docker and Nginx.
 ---
 
 # Docker + Nginx

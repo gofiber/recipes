@@ -1,6 +1,7 @@
 ---
 title: gRPC
 keywords: [grpc, server, client]
+description: Using Fiber as a client to a gRPC server.
 ---
 
 # Example for fiber as a client to gRPC server.

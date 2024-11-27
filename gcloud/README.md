@@ -1,6 +1,7 @@
 ---
 title: Firebase GCloud
 keywords: [firebase, gcloud, cloud run, cloud function, app engine]
+description: Integrating Firebase with Google Cloud.
 ---
 
 # Deploy Fiber to Google Cloud with Firebase

@@ -1,6 +1,7 @@
 ---
 title: Entgo ORM (MySQL)
 keywords: [ent, mysql, orm, rest]
+description: Using Entgo ORM with MySQL
 ---
 
 # Example ent ORM for fiber with MySQL

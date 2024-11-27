@@ -1,6 +1,7 @@
 ---
 title: I18n
 keywords: [i18n, go-i18n, internationalization]
+description: Internationalization support.
 ---
 
 # Fiber with i18n

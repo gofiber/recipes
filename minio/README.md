@@ -1,6 +1,7 @@
 ---
 title: MinIO
 keywords: [minio, file upload, file download]
+description: A simple application for uploading and downloading files from MinIO.
 ---
 
 # MinIO File Upload & Download Example

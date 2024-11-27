@@ -1,6 +1,7 @@
 ---
-title: Prefork Example
+title: Prefork
 keywords: [prefork]
+description: Running an application in prefork mode.
 ---
 
 # Prefork Example

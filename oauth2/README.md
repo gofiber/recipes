@@ -1,7 +1,7 @@
-```markdown
 ---
 title: OAuth2
 keywords: [oauth2, golang, authentication, api]
+description: Implementing OAuth2 authentication.
 ---
 
 # OAuth2

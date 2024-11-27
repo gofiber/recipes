@@ -1,6 +1,7 @@
 ---
 title: Swagger
 keywords: [swagger, api, documentation, contrib]
+description: Generate Swagger documentation for your application.
 ---
 
 # Swagger API Documentation

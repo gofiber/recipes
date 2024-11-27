@@ -1,6 +1,7 @@
 ---
 title: Todo App + Auth + GORM
 keywords: [todo app, gorm, authentication]
+description: A Todo application with authentication using GORM.
 ---
 
 # Todo App with Auth using GORM

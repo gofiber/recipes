@@ -1,6 +1,7 @@
 ---
-title: Optional Parameter Example
+title: Optional Parameter
 keywords: [optional, parameter]
+description: Handling optional parameters.
 ---
 
 # Optional Parameter Example

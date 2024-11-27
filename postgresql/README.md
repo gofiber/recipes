@@ -1,6 +1,7 @@
 ---
 title: PostgreSQL
 keywords: [postgresql]
+description: Connecting to a PostgreSQL database.
 ---
 
 # PostgreSQL Example

@@ -1,6 +1,7 @@
 ---
 title: Sveltekit Embed
 keywords: [sveltekit, tailwindcss, embed]
+description: A full-stack application built using Sveltekit and Tailwind CSS.
 ---
 
 # Fiber Sveltekit Embed App

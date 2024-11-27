@@ -1,6 +1,7 @@
 ---
 title: HTTPS with PKCS12 TLS
 keywords: [https, tls, pkcs12]
+description: Setting up an HTTPS server with PKCS12 TLS certificates.
 ---
 
 # HTTPS with PKCS12 TLS Example

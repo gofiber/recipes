@@ -1,6 +1,7 @@
 ---
 title: Bootstrap
 keywords: [bootstrap, gorm, validator, env]
+description: Integrating Bootstrap.
 ---
 
 # Bootstrap

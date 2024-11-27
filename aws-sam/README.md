@@ -1,6 +1,7 @@
 ---
 title: AWS SAM
 keywords: [aws, sam, serverless, lambda]
+description: Serverless applications with AWS SAM.
 ---
 
 # AWS SAM

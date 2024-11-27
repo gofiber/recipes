@@ -1,6 +1,7 @@
 ---
 title: Auth + JWT
 keywords: [auth, jwt, gorm, fiber]
+description: Simple JWT authentication.
 ---
 
 # Auth JWT Example

@@ -1,6 +1,7 @@
 ---
 title: Vercel
 keywords: [vercel, deploy, serverless]
+description: Deploy a Go application to Vercel.
 ---
 
 # Vercel Example

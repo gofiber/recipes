@@ -1,6 +1,7 @@
 ---
 title: Neo4j
 keywords: [neo4j, database]
+description: Connecting to a Neo4j database.
 ---
 
 # Neo4j Example

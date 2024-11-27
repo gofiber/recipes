@@ -1,6 +1,7 @@
 ---
 title: CSRF + Session
 keywords: [csrf, security, hacking, vulnerability, session]
+description: Cross-Site Request Forgery (CSRF) protection with session management.
 ---
 
 # CSRF-with-session Example

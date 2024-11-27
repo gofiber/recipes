@@ -1,6 +1,7 @@
 ---
 title: RSS Feed
 keywords: [rss, feed]
+description: Generating an RSS feed.
 ---
 
 # RSS Feed

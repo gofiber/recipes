@@ -1,6 +1,7 @@
 ---
 title: WebSocket
 keywords: [websocket, real-time, chat, contrib]
+description: Real-time communication application using WebSockets.
 ---
 
 # WebSocket Example

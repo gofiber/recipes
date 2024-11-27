@@ -1,6 +1,7 @@
 ---
 title: Cloud Run
 keywords: [cloud run, deploy, google, docker, gcp]
+description: Deploying to Google Cloud Run.
 ---
 
 # Cloud Run Example

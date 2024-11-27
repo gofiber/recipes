@@ -1,6 +1,7 @@
 ---
 title: Colly Gorm
 keywords: [colly, gorm, postgresql]
+description: Web scraping with Colly and GORM.
 ---
 
 # Simple Web Scraping Colly App with Fiber

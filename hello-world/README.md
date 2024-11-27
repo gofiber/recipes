@@ -1,6 +1,7 @@
 ---
 title: Hello World
 keywords: [hello world, golang, fiber]
+description: A simple "Hello, World!" application.
 ---
 
 # Hello World Example

@@ -1,6 +1,7 @@
 ---
 title: GeoIP
 keywords: [geoip, maxmind, ip]
+description: Geolocation with GeoIP.
 ---
 
 # GeoIP Example

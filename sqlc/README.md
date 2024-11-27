@@ -1,6 +1,7 @@
 ---
 title: Sqlc
 keywords: [database, sqlc, postgresql]
+description: Using Sqlc to generate Go code from SQL queries.
 ---
 
 # Fiber with sqlc

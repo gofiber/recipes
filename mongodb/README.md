@@ -1,6 +1,7 @@
 ---
-title: MongoDB Example
+title: MongoDB
 keywords: [mongodb, database]
+description: Connecting to a MongoDB database.
 ---
 
 # MongoDB Example

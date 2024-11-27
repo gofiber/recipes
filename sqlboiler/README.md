@@ -1,6 +1,7 @@
 ---
 title: Sqlboiler
 keywords: [sqlboiler, database, docker]
+description: Using Sqlboiler ORM.
 ---
 
 # Fiber with sqlboiler

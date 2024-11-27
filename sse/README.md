@@ -1,6 +1,7 @@
 ---
 title: Server-Sent Events
 keywords: [sse, server-sent events, real-time]
+description: Implementing Server-Sent Events in an application.
 ---
 
 # Server-Sent Events with Fiber

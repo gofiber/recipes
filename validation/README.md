@@ -1,6 +1,7 @@
 ---
 title: Validation
 keywords: [validation, input, go-playground, validator]
+description: Input validation using go-playground/validator.
 ---
 
 # Validation with [Fiber](https://gofiber.io)

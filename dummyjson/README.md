@@ -1,6 +1,7 @@
 ---
 title: Dummy JSON Proxy
 keywords: [dummyjson, proxy, json, server]
+description: Proxying dummy JSON data.
 ---
 
 # Simple Fiber Proxy Server

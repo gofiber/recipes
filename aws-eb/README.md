@@ -1,6 +1,7 @@
 ---
 title: AWS Elastic Beanstalk
 keywords: [aws, elastic beanstalk, deploy, amazon, aws-eb]
+description: Deploying to AWS Elastic Beanstalk.
 ---
 
 # AWS Elastic Beanstalk Example

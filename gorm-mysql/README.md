@@ -1,6 +1,7 @@
 ---
 title: GORM MySQL
 keywords: [gorm, mysql, database, rest, api]
+description: Using GORM with MySQL database.
 ---
 
 # GORM MySQL Example

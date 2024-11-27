@@ -1,6 +1,7 @@
 ---
 title: GORM
 keywords: [gorm, sqlite, api, rest]
+description: Using GORM with SQLite database.
 ---
 
 # GORM Example

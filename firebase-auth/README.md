@@ -1,6 +1,7 @@
 ---
 title: Firebase Authentication
 keywords: [firebase, authentication, middleware]
+description: Firebase authentication integration.
 ---
 
 # Go Fiber Firebase Authentication Example

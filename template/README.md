@@ -1,6 +1,7 @@
 ---
 title: Template
 keywords: [template, tailwindcss, parcel]
+description: Setting up a Go application with template rendering.
 ---
 
 # Template Project

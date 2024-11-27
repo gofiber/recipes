@@ -1,6 +1,7 @@
 ---
 title: Auth + Docker + Postgres + JWT
 keywords: [auth, docker, postgres, jwt]
+description: Authentication with Docker, Postgres, and JWT.
 ---
 
 # Auth Docker Postgres JWT Example

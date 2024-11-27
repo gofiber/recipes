@@ -1,6 +1,7 @@
 ---
 title: Graceful shutdown
 keywords: [graceful, shutdown, os/signal, channel]
+description: Graceful shutdown of applications.
 ---
 
 # Graceful shutdown in Fiber

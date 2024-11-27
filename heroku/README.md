@@ -1,6 +1,7 @@
 ---
 title: Heroku
 keywords: [heroku, deployment]
+description: Deploying to Heroku.
 ---
 
 # Heroku Deployment Example

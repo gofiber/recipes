@@ -1,6 +1,7 @@
 ---
 title: Memgraph
 keywords: [memgraph, graph, database]
+description: Using Memgraph.
 ---
 
 # Fiber and Memgraph

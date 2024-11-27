@@ -1,6 +1,7 @@
 ---
 title: Socketio
 keywords: [websocket, chat, socketio, chatroom, contrib]
+description: A chatroom application using Socket.IO.
 ---
 
 # WebSocket Chat Example

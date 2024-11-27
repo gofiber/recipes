@@ -1,6 +1,7 @@
 ---
 title: Clean Architecture
 keywords: [clean, architecture, fiber, mongodb, go]
+description: Implementing clean architecture in Go.
 ---
 
 # Clean Architecture Example

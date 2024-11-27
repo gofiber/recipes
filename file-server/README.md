@@ -1,6 +1,7 @@
 ---
 title: File Server
 keywords: [file server, static files]
+description: Serving static files.
 ---
 
 # File Server Example

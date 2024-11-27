@@ -1,6 +1,7 @@
 ---
 title: Firebase Functions
 keywords: [firebase, functions, deployment, gcloud, cloud]
+description: Using Firebase Functions.
 ---
 # Deploying GoFiber Application to Firebase Functions
 

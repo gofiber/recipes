@@ -1,6 +1,7 @@
 ---
 title: Server Timing
 keywords: [server timing]
+description: Adding Server Timing headers to an application.
 ---
 
 # Server Timing

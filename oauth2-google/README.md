@@ -1,6 +1,7 @@
 ---
 title: Google OAuth2
 keywords: [oauth2, google, authentication]
+description: Implementing Google OAuth2 authentication.
 ---
 
 # Fiber with Google OAuth2

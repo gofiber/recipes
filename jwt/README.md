@@ -1,6 +1,7 @@
 ---
 title: JWT
 keywords: [jwt, json web token, authentication]
+description: Using JSON Web Tokens (JWT) for authentication.
 ---
 
 # Fiber with JWT

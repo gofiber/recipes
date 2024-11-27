@@ -1,6 +1,7 @@
 ---
 title: GeoIP + MaxMind
 keywords: [geoip, maxmind, databases]
+description: Geolocation with GeoIP and MaxMind databases.
 ---
 
 # GeoIP (with MaxMind databases)

@@ -1,6 +1,7 @@
 ---
 title: GraphQL
 keywords: [graphql]
+description: Setting up a GraphQL server.
 ---
 
 # GraphQL Example

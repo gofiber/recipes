@@ -1,6 +1,7 @@
 ---
 title: Sessions + SQLite3
 keywords: [sessions, sqlite3, storage]
+description: Using SQLite3 as a storage engine for user sessions.
 ---
 
 # Sessions - SQLite3

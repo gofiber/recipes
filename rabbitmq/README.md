@@ -1,6 +1,7 @@
 ---
 title: RabbitMQ
 keywords: [rabbitmq, amqp, messaging, queue]
+description: Using RabbitMQ.
 ---
 
 # Fiber and RabbitMQ example

@@ -1,6 +1,7 @@
 ---
 title: File Upload
 keywords: [file upload, upload, form, multipart]
+description: Handling file uploads in a Go application.
 ---
 
 # File Upload Example

@@ -1,6 +1,7 @@
 ---
 title: Kubernetes
 keywords: [kubernetes, cloud, deployment, gcloud, aws, azure]
+description: Deploying applications to Kubernetes.
 ---
 
 # Kubernetes Example
