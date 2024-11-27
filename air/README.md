@@ -34,7 +34,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 3. Install Air:
     ```bash
-    go install github.com/cosmtrek/air@latest
+    go install github.com/air-verse/air@latest
     ```
 
 ## Configuration
