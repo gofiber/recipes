@@ -100,7 +100,7 @@ func main() {
 			// Get session ID
 			sid := s.ID()
 
-			//Get user ID
+			// Get user ID
 			uid := req.UID
 
 			// Save session data

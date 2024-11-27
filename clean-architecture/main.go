@@ -1,12 +1,13 @@
 package main
 
 import (
-	"clean-architecture/api/routes"
-	"clean-architecture/pkg/book"
 	"context"
 	"fmt"
 	"log"
 	"time"
+
+	"clean-architecture/api/routes"
+	"clean-architecture/pkg/book"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

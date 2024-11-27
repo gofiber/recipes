@@ -20,7 +20,7 @@ func New() *fiber.App {
 	}))
 
 	swaggerCfg := swagger.Config{
-		BasePath: "/docs", //swagger ui base path
+		BasePath: "/docs", // swagger ui base path
 		FilePath: "./docs/swagger.json",
 	}
 

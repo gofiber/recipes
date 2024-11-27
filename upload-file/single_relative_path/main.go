@@ -22,7 +22,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		//Save file inside uploads folder under current working directory:
+		// Save file inside uploads folder under current working directory:
 		return c.SaveFile(file, fmt.Sprintf("./uploads/%s", file.Filename))
 	})
 

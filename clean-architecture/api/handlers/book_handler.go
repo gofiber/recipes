@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"net/http"
+
 	"clean-architecture/api/presenter"
 	"clean-architecture/pkg/book"
 	"clean-architecture/pkg/entities"
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"
-	"net/http"
 )
 
 // AddBook is handler/controller which creates Books in the BookShop

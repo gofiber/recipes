@@ -1,4 +1,12 @@
-# sam-app
+---
+title: AWS SAM
+keywords: [aws, sam, serverless, lambda]
+description: Serverless applications with AWS SAM.
+---
+
+# AWS SAM
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/aws-sam) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/aws-sam)
 
 This is a sample template for sam-app - Below is a brief explanation of what we have generated for you:
 
@@ -19,10 +27,10 @@ This is a sample template for sam-app - Below is a brief explanation of what we 
 
 ## Setup process
 
-### Installing dependencies & building the target 
+### Installing dependencies & building the target
 
-In this example we use the built-in `sam build` to automatically download all the dependencies and package our build target.   
-Read more about [SAM Build here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html) 
+In this example we use the built-in `sam build` to automatically download all the dependencies and package our build target.
+Read more about [SAM Build here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
 
 ```shell
 sam build --use-container
@@ -35,7 +43,7 @@ sam build --use-container
 ```bash
 sam local start-api
 
-curl -XPOST "http://localhost:3001/2015-03-31/functions/sam-app/invocations" 
+curl -XPOST "http://localhost:3001/2015-03-31/functions/sam-app/invocations"
 {"statusCode":200,"headers":null,"multiValueHeaders":{"Content-Type":["application/json"]},"body":"{\"message\":\"Hello World\"}"}%
 ```
 
@@ -138,7 +146,7 @@ choco upgrade golang
 
 Here are a few ideas that you can use to get more acquainted as to how this overall process works:
 
-* Create an additional API resource (e.g. /hello/{proxy+}) and return the name requested through this new path
+* Create an additional API resource (e.g. `/hello/{proxy+}`) and return the name requested through this new path
 * Update unit test to capture that
 * Package & Deploy
 

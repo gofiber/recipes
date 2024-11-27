@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"fiber-sqlc/api/route"
 	"fiber-sqlc/database"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 )

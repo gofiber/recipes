@@ -2,18 +2,16 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gofiber/recipes/template-asset-bundling/handlers"
-
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/template/html/v2"
-
-	"path/filepath"
 )
 
 func main() {

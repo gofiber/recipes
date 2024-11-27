@@ -1,12 +1,13 @@
 package infrastructure
 
 import (
+	"fmt"
+	"log"
+
 	"docker-mariadb-clean-arch/internal/auth"
 	"docker-mariadb-clean-arch/internal/city"
 	"docker-mariadb-clean-arch/internal/misc"
 	"docker-mariadb-clean-arch/internal/user"
-	"fmt"
-	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"

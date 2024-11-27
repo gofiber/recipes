@@ -2,10 +2,11 @@ package controller
 
 import (
 	"context"
-	"fiber-sqlc/database"
-	"fiber-sqlc/database/sqlc"
 	"strconv"
 	"time"
+
+	"fiber-sqlc/database"
+	"fiber-sqlc/database/sqlc"
 
 	"github.com/gofiber/fiber/v2"
 )

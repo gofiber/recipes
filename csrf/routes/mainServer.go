@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/utils"
 )
 
-//region struct definitions
+// region struct definitions
 
 // User contains the login user information
 type User struct {
@@ -26,10 +26,11 @@ type TransferItem struct {
 	Amount int    `json:"amount" xml:"amount" form:"amount"`
 }
 
-//endregion
-
-var sessionStore = session.New()
-var csrfActivated = true
+// endregion
+var (
+	sessionStore  = session.New()
+	csrfActivated = true
+)
 
 func init() {
 	sessionStore.RegisterType(fiber.Map{})
@@ -62,7 +63,7 @@ func RegisterRoutes(app *fiber.App) {
 	}
 	// Simple accounts ledger.
 	// This information would normally be stored in a database like MySQL, PostgreSQL, etc.
-	var accounts = map[string]int{
+	accounts := map[string]int{
 		"bob":   500,
 		"alice": 500,
 	}

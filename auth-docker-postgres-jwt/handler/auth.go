@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"app/config"
-	"app/database"
-	"app/model"
 	"errors"
 	"log"
 	"net/mail"
 	"time"
+
+	"app/config"
+	"app/database"
+	"app/model"
 
 	"gorm.io/gorm"
 
@@ -80,7 +81,7 @@ func Login(c *fiber.Ctx) error {
 	} else {
 		userModel, err = getUserByUsername(identity)
 	}
-	
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
 	} else if userModel == nil {

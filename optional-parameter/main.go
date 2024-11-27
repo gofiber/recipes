@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-
 	// user list
 	users := [...]string{"Alice", "Bob", "Charlie", "David"}
 

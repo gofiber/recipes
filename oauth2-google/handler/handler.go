@@ -11,7 +11,6 @@ func Auth(c *fiber.Ctx) error {
 	path := auth.ConfigGoogle()
 	url := path.AuthCodeURL("state")
 	return c.Redirect(url)
-
 }
 
 // Callback to receive google's response
@@ -22,5 +21,4 @@ func Callback(c *fiber.Ctx) error {
 	}
 	email := auth.GetEmail(token.AccessToken)
 	return c.Status(200).JSON(fiber.Map{"email": email, "login": true})
-
 }

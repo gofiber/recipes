@@ -1,4 +1,12 @@
+---
+title: Sqlboiler
+keywords: [sqlboiler, database, docker]
+description: Using Sqlboiler ORM.
+---
+
 # Fiber with sqlboiler
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/sqlboiler) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/sqlboiler)
 
 > #### 🎯 [Fiber](https://github.com/gofiber/fiber) + [Sqlboiler](https://github.com/volatiletech/sqlboiler) Example
 

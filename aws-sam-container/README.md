@@ -1,4 +1,12 @@
-# app
+---
+title: AWS SAM Container
+keywords: [aws, sam, serverless, lambda, container]
+description: Containerized serverless applications with AWS SAM.
+---
+
+# AWS SAM Container
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/aws-sam-container) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/aws-sam-container)
 
 This is a sample template for app - Below is a brief explanation of what we have generated for you:
 
@@ -28,10 +36,10 @@ You may need the following for local testing.
 
 ## Setup process
 
-### Installing dependencies & building the target 
+### Installing dependencies & building the target
 
-In this example we use the built-in `sam build` to build a docker image from a Dockerfile and then copy the source of your application inside the Docker image.  
-Read more about [SAM Build here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html) 
+In this example we use the built-in `sam build` to build a docker image from a Dockerfile and then copy the source of your application inside the Docker image.
+Read more about [SAM Build here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
 
 ### Local development
 

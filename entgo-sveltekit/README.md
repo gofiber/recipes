@@ -1,4 +1,13 @@
+---
+title: Entgo Sveltekit
+keywords: [ent, sveltekit, tailwindcss, sqlite, rest]
+description: A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
+---
+
 # Todo Application
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/entgo-sveltekit) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/entgo-sveltekit)
+
 ![image](https://github.com/ugurkorkmaz/gofiber-recipes/assets/40540244/08c6ee52-724a-4cf4-8352-9cf6f5b007ef)
 
 This Todo application is a full-stack project built using Sveltekit, Tailwind CSS, Fiber, Entgo, and SQLite. It showcases the construction of a monolithic architecture for a full-stack application.

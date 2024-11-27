@@ -12,9 +12,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var app *fiber.App
-var fbApp *firebase.App
-var projectID string
+var (
+	app       *fiber.App
+	fbApp     *firebase.App
+	projectID string
+)
 
 // Hero db heroes struct
 type Hero struct {
@@ -40,7 +42,6 @@ func init() {
 	}
 
 	fbApp, err = firebase.NewApp(ctx, conf)
-
 	if err != nil {
 		log.Fatalf("functions.init: NewApp %v\n", err)
 	}

@@ -1,6 +1,14 @@
+---
+title: Air Live Reloading
+keywords: [air, live reloading, development, air tool, hot reload, watch, changes]
+description: Live reloading for Go applications.
+---
+
 # Live Reloading with Air Example
 
-This example demonstrates how to set up live reloading for a Go application using the [Air](https://github.com/cosmtrek/air) tool. The purpose of this example is to show how to automatically reload your application during development whenever you make changes to the source code.
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/air) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/air)
+
+This example demonstrates how to set up live reloading for a Go application using the [Air](https://github.com/air-verse/air) tool. The purpose of this example is to show how to automatically reload your application during development whenever you make changes to the source code.
 
 ## Description
 
@@ -10,7 +18,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 - [Go](https://golang.org/dl/) 1.18 or higher
 - [Git](https://git-scm.com/downloads)
-- [Air](https://github.com/cosmtrek/air)
+- [Air](https://github.com/air-verse/air)
 
 ## Setup
 
@@ -27,7 +35,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 3. Install Air:
     ```bash
-    go install github.com/cosmtrek/air@latest
+    go install github.com/air-verse/air@latest
     ```
 
 ## Configuration
@@ -86,6 +94,6 @@ This example provides a basic setup for live reloading a Go application using Ai
 
 ## References
 
-- [Air Documentation](https://github.com/cosmtrek/air)
+- [Air Documentation](https://github.com/air-verse/air)
 - [Fiber Documentation](https://docs.gofiber.io)
 - [GitHub Repository](https://github.com/gofiber/fiber)

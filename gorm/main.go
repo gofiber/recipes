@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fiber-gorm/book"
-	"fiber-gorm/database"
 	"fmt"
 	"log"
+
+	"fiber-gorm/book"
+	"fiber-gorm/database"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

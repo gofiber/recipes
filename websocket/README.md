@@ -1,4 +1,12 @@
+---
+title: WebSocket
+keywords: [websocket, real-time, chat, contrib]
+description: Real-time communication application using WebSockets.
+---
+
 # WebSocket Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/websocket) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/websocket)
 
 This example demonstrates a simple WebSocket application using Go Fiber.
 

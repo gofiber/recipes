@@ -1,4 +1,12 @@
+---
+title: React
+keywords: [react, react-router, client-side, spa, docker]
+description: Using React.
+---
+
 # React Fiber
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/react-router) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/react-router)
 
 A sample application to showcase serving React (with Router) with an almost bare Fiber. Hopefully, this application can be of use (as a reference or others) for those who wants to serve their client-side SPA with Fiber.
 
