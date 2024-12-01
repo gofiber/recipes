@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/cloudflare/tableflip"
 	"github.com/gofiber/fiber/v2"
@@ -47,4 +49,15 @@ func main() {
 	}
 
 	<-upg.Exit()
+
+	// Make sure to set a deadline on exiting the process
+	// after upg.Exit() is closed. No new upgrades can be
+	// performed if the parent doesn't exit.
+	time.AfterFunc(30*time.Second, func() {
+		log.Println("Graceful shutdown timed out")
+		os.Exit(1)
+	})
+
+	// Wait for connections to drain.
+	app.ShutdownWithContext(context.Background())
 }
