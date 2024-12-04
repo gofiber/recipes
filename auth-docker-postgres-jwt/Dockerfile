@@ -1,4 +1,4 @@
-FROM golang:1.23.3@sha256:73f06be4578c9987ce560087e2e2ea6485fb605e3910542cadd8fa09fc5f3e31
+FROM golang:1.23.4@sha256:81e1da9b9604cdee2bc226e90e15f9d51ae6a8cd2271dc341c42ca0926c3b83f
 
 # Enviroment variable
 WORKDIR /usr/src/some-api
