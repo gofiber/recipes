@@ -90,11 +90,10 @@ This example provides a basic setup for handling 404 Not Found errors in a Fiber
 2. `go test -v`
 
 
-Here's an example of how to write a unit test for your `main.go` using the `testing` package in Go. You can use the `httptest` package to simulate HTTP requests and test your Fiber routes.
 
-Create a file named `main_test.go` alongside your `main.go` file:
+When I submit my pull request, I am told to make the following suggested updates:
 
-```go
+```
 package main
 
 import (
@@ -134,7 +133,11 @@ func TestHelloRoute(t *testing.T) {
 
 	// Read the response body
 	body := make([]byte, resp.ContentLength)
-	resp.Body.Read(body)
+	_, err := resp.Body.Read(body)
+	if err != nil {
+		t.Fatalf("Failed to read reponse body: %v", err)
+	}
+	
 	defer resp.Body.Close()
 
 	// Assert the response body
@@ -154,32 +157,20 @@ func TestNotFoundRoute(t *testing.T) {
 }
 ```
 
-### Explanation:
+However when I now run the test:
 
-1. **Setup Function**:
-   - The `setupApp` function creates a new instance of your Fiber app, defining all routes and middleware. This allows you to reuse it across tests without starting a real server.
 
-2. **TestHelloRoute**:
-   - Simulates a `GET` request to the `/hello` endpoint.
-   - Verifies that the status code is `200 OK`.
-   - Asserts that the response body matches the expected string.
-
-3. **TestNotFoundRoute**:
-   - Simulates a `GET` request to an unknown route.
-   - Verifies that the status code is `404 Not Found`.
-
-4. **Assertions**:
-   - Uses `github.com/stretchr/testify/assert` to make the code more readable and expressive.
-
-### Running the Tests
-
-Run the tests using the `go test` command:
-
-```bash
-go test -v
+```
+=== RUN   TestHelloRoute
+    main_test.go:42: Failed to read reponse body: EOF
+--- FAIL: TestHelloRoute (0.00s)
+=== RUN   TestNotFoundRoute
+--- PASS: TestNotFoundRoute (0.00s)
+FAIL
+exit status 1
+FAIL    404     0.795s
 ```
 
-This will execute the test cases and output the results.
 
 ## References
 
@@ -188,45 +179,4 @@ This will execute the test cases and output the results.
 
 
 
-
-I have the following code in main.go:
-
-
-```
-// ⚡️ Fiber is an Express inspired web framework written in Go with ☕️
-// 🤖 Github Repository: https://github.com/gofiber/fiber
-// 📌 API Documentation: https://docs.gofiber.io
-
-package main
-
-import (
-	"log"
-
-	"github.com/gofiber/fiber/v2"
-)
-
-func main() {
-	// Fiber instance
-	app := fiber.New()
-
-	// Routes
-	app.Get("/hello", hello)
-
-	// 404 Handler
-	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
-	})
-
-	// Start server
-	log.Fatal(app.Listen(":3000"))
-}
-
-// Handler
-func hello(c *fiber.Ctx) error {
-	return c.SendString("I made a ☕ for you!")
-}
-
-```
-
-Can you show me how to write a unit test file for this code?
 
