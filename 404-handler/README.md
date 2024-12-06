@@ -21,6 +21,13 @@ In web applications, it's common to encounter requests to routes that do not exi
 
 ## Running the Example
 
+
+1. `go mod init 404`
+2. `touch main.go`
+3. edit main.go
+4. `go run main.go`
+
+
 To run the example, use the following command:
 ```bash
 go run main.go
@@ -75,7 +82,151 @@ func hello(c *fiber.Ctx) error {
 
 This example provides a basic setup for handling 404 Not Found errors in a Fiber application. It can be extended and customized further to fit the needs of more complex applications.
 
+
+
+## Testing
+
+1. `go get github.com/stretchr/testify/assert`
+2. `go test -v`
+
+
+Here's an example of how to write a unit test for your `main.go` using the `testing` package in Go. You can use the `httptest` package to simulate HTTP requests and test your Fiber routes.
+
+Create a file named `main_test.go` alongside your `main.go` file:
+
+```go
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/stretchr/testify/assert"
+)
+
+// Setup function to initialize the Fiber app
+func setupApp() *fiber.App {
+	app := fiber.New()
+
+	// Routes
+	app.Get("/hello", hello)
+
+	// 404 Handler
+	app.Use(func(c *fiber.Ctx) error {
+		return c.SendStatus(404)
+	})
+
+	return app
+}
+
+func TestHelloRoute(t *testing.T) {
+	// Initialize the app
+	app := setupApp()
+
+	// Create a test request
+	req := httptest.NewRequest(http.MethodGet, "/hello", nil)
+	resp, _ := app.Test(req, -1) // -1 disables timeout
+
+	// Check the response
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+
+	// Read the response body
+	body := make([]byte, resp.ContentLength)
+	resp.Body.Read(body)
+	defer resp.Body.Close()
+
+	// Assert the response body
+	assert.Equal(t, "I made a ☕ for you!", string(body))
+}
+
+func TestNotFoundRoute(t *testing.T) {
+	// Initialize the app
+	app := setupApp()
+
+	// Create a test request for an unknown route
+	req := httptest.NewRequest(http.MethodGet, "/unknown", nil)
+	resp, _ := app.Test(req, -1) // -1 disables timeout
+
+	// Check the response
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+```
+
+### Explanation:
+
+1. **Setup Function**:
+   - The `setupApp` function creates a new instance of your Fiber app, defining all routes and middleware. This allows you to reuse it across tests without starting a real server.
+
+2. **TestHelloRoute**:
+   - Simulates a `GET` request to the `/hello` endpoint.
+   - Verifies that the status code is `200 OK`.
+   - Asserts that the response body matches the expected string.
+
+3. **TestNotFoundRoute**:
+   - Simulates a `GET` request to an unknown route.
+   - Verifies that the status code is `404 Not Found`.
+
+4. **Assertions**:
+   - Uses `github.com/stretchr/testify/assert` to make the code more readable and expressive.
+
+### Running the Tests
+
+Run the tests using the `go test` command:
+
+```bash
+go test -v
+```
+
+This will execute the test cases and output the results.
+
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
 - [GitHub Repository](https://github.com/gofiber/fiber)
+
+
+
+
+I have the following code in main.go:
+
+
+```
+// ⚡️ Fiber is an Express inspired web framework written in Go with ☕️
+// 🤖 Github Repository: https://github.com/gofiber/fiber
+// 📌 API Documentation: https://docs.gofiber.io
+
+package main
+
+import (
+	"log"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func main() {
+	// Fiber instance
+	app := fiber.New()
+
+	// Routes
+	app.Get("/hello", hello)
+
+	// 404 Handler
+	app.Use(func(c *fiber.Ctx) error {
+		return c.SendStatus(404) // => 404 "Not Found"
+	})
+
+	// Start server
+	log.Fatal(app.Listen(":3000"))
+}
+
+// Handler
+func hello(c *fiber.Ctx) error {
+	return c.SendString("I made a ☕ for you!")
+}
+
+```
+
+Can you show me how to write a unit test file for this code?
+
