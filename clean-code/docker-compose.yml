@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: app
+    build:
+      dockerfile: Dockerfile-local
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:postgres@example_db:5432/example
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app:/go/src/app
+    depends_on:
+      - example_db
+
+  example_db:
+    container_name: example_db
+    image: postgres:17.1-alpine
+    environment:
+      - POSTGRES_DB=example
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5435:5432
+    volumes:
+      - ./db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - ./db_data:/var/lib/postgresql/data
