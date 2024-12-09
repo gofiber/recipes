@@ -23,6 +23,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [AWS SAM Container](./aws-sam-container/README.md) - Containerized serverless applications with AWS SAM.
 - [Bootstrap](./bootstrap/README.md) - Integrating Bootstrap.
 - [Clean Architecture](./clean-architecture/README.md) - Implementing clean architecture in Go.
+- [Clean Code](./clean-code/README.md) - Implementing clean code in Go.
 - [Cloud Run](./cloud-run/README.md) - Deploying to Google Cloud Run.
 - [Colly Gorm](./colly-gorm/README.md) - Web scraping with Colly and GORM.
 - [CSRF](./csrf/README.md) - Cross-Site Request Forgery (CSRF) protection.
