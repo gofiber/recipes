@@ -6,7 +6,7 @@ require (
 	github.com/go-playground/validator/v10 v10.18.0
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/golang-jwt/jwt/v5 v5.2.0
-	golang.org/x/crypto v0.25.0
+	golang.org/x/crypto v0.31.0
 	gorm.io/driver/sqlite v1.5.3
 	gorm.io/gorm v1.25.11
 )
@@ -30,6 +30,6 @@ require (
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.23.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 )
