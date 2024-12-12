@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/gofiber/template/html/v2 v2.1.2
-	golang.org/x/crypto v0.26.0
+	golang.org/x/crypto v0.31.0
 )
 
 require (
@@ -23,5 +23,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 )
