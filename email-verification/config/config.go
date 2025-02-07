@@ -16,8 +16,8 @@ func GetConfig() *Config {
 	return &Config{
 		SMTPHost:       "smtp.gmail.com",
 		SMTPPort:       587,
-		SMTPUser:       "your-email@gmail.com",
-		SMTPPassword:   "your-app-password",
+		SMTPUser:       "tahasfhga@gmail.com",
+		SMTPPassword:   "bakkcmkakpfxwuef",
 		CodeExpiration: time.Minute * 1,
 	}
 }

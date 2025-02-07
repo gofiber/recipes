@@ -29,6 +29,14 @@ func NewVerificationService(
 }
 
 func (s *VerificationService) SendVerification(email string) error {
+	if email == "" {
+		return fmt.Errorf("email cannot be empty")
+	}
+
+	if _, err := s.repo.Get(email); err == nil {
+		return fmt.Errorf("verification already pending")
+	}
+
 	code, err := s.codeGen.Generate()
 	if err != nil {
 		return err
@@ -47,6 +55,10 @@ func (s *VerificationService) SendVerification(email string) error {
 }
 
 func (s *VerificationService) VerifyCode(email, code string) error {
+	if email == "" || code == "" {
+		return fmt.Errorf("email and code cannot be empty")
+	}
+
 	verification, err := s.repo.Get(email)
 	if err != nil {
 		return err
@@ -58,7 +70,9 @@ func (s *VerificationService) VerifyCode(email, code string) error {
 	}
 
 	if time.Now().After(verification.Exp) {
-		s.repo.Delete(email)
+		if err := s.repo.Delete(email); err != nil {
+			return fmt.Errorf("failed to delete expired code: %w", err)
+		}
 		return fmt.Errorf("code expired")
 	}
 
