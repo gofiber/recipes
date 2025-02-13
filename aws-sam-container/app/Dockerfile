@@ -1,4 +1,4 @@
-FROM golang:1.24rc3 as build-env
+FROM golang:1.24 as build-env
 
 WORKDIR /go/src/app
 
