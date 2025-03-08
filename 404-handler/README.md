@@ -21,6 +21,13 @@ In web applications, it's common to encounter requests to routes that do not exi
 
 ## Running the Example
 
+
+1. `go mod init 404`
+2. `touch main.go`
+3. edit main.go
+4. `go run main.go`
+
+
 To run the example, use the following command:
 ```bash
 go run main.go
@@ -75,7 +82,101 @@ func hello(c *fiber.Ctx) error {
 
 This example provides a basic setup for handling 404 Not Found errors in a Fiber application. It can be extended and customized further to fit the needs of more complex applications.
 
+
+
+## Testing
+
+1. `go get github.com/stretchr/testify/assert`
+2. `go test -v`
+
+
+
+When I submit my pull request, I am told to make the following suggested updates:
+
+```
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/stretchr/testify/assert"
+)
+
+// Setup function to initialize the Fiber app
+func setupApp() *fiber.App {
+	app := fiber.New()
+
+	// Routes
+	app.Get("/hello", hello)
+
+	// 404 Handler
+	app.Use(func(c *fiber.Ctx) error {
+		return c.SendStatus(404)
+	})
+
+	return app
+}
+
+func TestHelloRoute(t *testing.T) {
+	// Initialize the app
+	app := setupApp()
+
+	// Create a test request
+	req := httptest.NewRequest(http.MethodGet, "/hello", nil)
+	resp, _ := app.Test(req, -1) // -1 disables timeout
+
+	// Check the response
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+
+	// Read the response body
+	body := make([]byte, resp.ContentLength)
+	_, err := resp.Body.Read(body)
+	if err != nil {
+		t.Fatalf("Failed to read reponse body: %v", err)
+	}
+	
+	defer resp.Body.Close()
+
+	// Assert the response body
+	assert.Equal(t, "I made a ☕ for you!", string(body))
+}
+
+func TestNotFoundRoute(t *testing.T) {
+	// Initialize the app
+	app := setupApp()
+
+	// Create a test request for an unknown route
+	req := httptest.NewRequest(http.MethodGet, "/unknown", nil)
+	resp, _ := app.Test(req, -1) // -1 disables timeout
+
+	// Check the response
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+```
+
+However when I now run the test:
+
+
+```
+=== RUN   TestHelloRoute
+    main_test.go:42: Failed to read reponse body: EOF
+--- FAIL: TestHelloRoute (0.00s)
+=== RUN   TestNotFoundRoute
+--- PASS: TestNotFoundRoute (0.00s)
+FAIL
+exit status 1
+FAIL    404     0.795s
+```
+
+
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
 - [GitHub Repository](https://github.com/gofiber/fiber)
+
+
+
+
