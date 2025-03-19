@@ -1,78 +1,71 @@
 package app
 
 import (
-	"bytes"
-	"context"
-	"fmt"
 	"io"
-	"log"
 	"net"
 	"net/http"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/valyala/fasthttp/fasthttputil"
+	"github.com/gofiber/fiber/v2/utils"
+	"github.com/valyala/fasthttp"
 )
 
 // CloudFunctionRouteToFiber route cloud function http.Handler to *fiber.App
 // Internally, google calls the function with the /execute base URL
 func CloudFunctionRouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request) error {
-	return RouteToFiber(fiberApp, w, r, "/execute")
+
+	// Convert net/http -> fasthttp Ctx
+	ctx := ConvertNetHTTPRequestToFastHTTPCtx(r, w)
+
+	// Run Fiber
+	fiberApp.Handler()(ctx)
+
+	// Convert fasthttp Ctx -> net/http
+	ctx.Response.Header.VisitAll(func(k, v []byte) {
+		w.Header().Add(string(k), string(v))
+	})
+	w.WriteHeader(ctx.Response.StatusCode())
+	_, err := w.Write(ctx.Response.Body())
+
+	return err
 }
 
-// RouteToFiber route http.Handler to *fiber.App
-func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, rootURL ...string) error {
-	ln := fasthttputil.NewInmemoryListener()
-	defer ln.Close()
+// ConvertNetHTTPRequestToFastHTTPCtx converts a net/http.Request to fasthttp.RequestCtx
+func ConvertNetHTTPRequestToFastHTTPCtx(r *http.Request, w http.ResponseWriter) *fasthttp.RequestCtx {
+	// New fasthttp request
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+	// Convert net/http -> fasthttp request
+	if r.Body != nil {
+		n, err := io.Copy(req.BodyWriter(), r.Body)
+		req.Header.SetContentLength(int(n))
 
-	// Copy request
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		return err
-	}
-
-	url := fmt.Sprintf("%s://%s%s", "http", "0.0.0.0", r.RequestURI)
-	if len(rootURL) > 0 {
-		url = strings.Replace(url, rootURL[0], "", -1)
-	}
-
-	proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
-	if err != nil {
-		return err
-	}
-
-	proxyReq.Header = r.Header
-
-	// Create http client
-	client := http.Client{
-		Transport: &http.Transport{
-			DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
-				return ln.Dial()
-			},
-		},
-	}
-
-	// Serve request to internal HTTP client
-	go func() {
-		log.Fatal(fiberApp.Listener(ln))
-	}()
-
-	// Call internal Fiber API
-	response, err := client.Do(proxyReq)
-	if err != nil {
-		return err
-	}
-
-	// Copy response and headers
-	for k, values := range response.Header {
-		for _, v := range values {
-			w.Header().Set(k, v)
+		if err != nil {
+			http.Error(w, utils.StatusMessage(fiber.StatusInternalServerError), fiber.StatusInternalServerError)
+			return nil
 		}
 	}
-	w.WriteHeader(response.StatusCode)
+	req.Header.SetMethod(r.Method)
+	req.SetRequestURI(r.RequestURI)
+	req.SetHost(r.Host)
+	req.Header.SetHost(r.Host)
+	for key, val := range r.Header {
+		for _, v := range val {
+			req.Header.Set(key, v)
+		}
+	}
 
-	io.Copy(w, response.Body)
-	response.Body.Close()
+	if _, _, err := net.SplitHostPort(r.RemoteAddr); err != nil && err.(*net.AddrError).Err == "missing port in address" {
+		r.RemoteAddr = net.JoinHostPort(r.RemoteAddr, "80")
+	}
+	remoteAddr, err := net.ResolveTCPAddr("tcp", r.RemoteAddr)
+	if err != nil {
+		http.Error(w, utils.StatusMessage(fiber.StatusInternalServerError), fiber.StatusInternalServerError)
+		return nil
+	}
 
-	return nil
+	var fctx fasthttp.RequestCtx
+	fctx.Init(req, remoteAddr, nil)
+
+	return &fctx
 }
