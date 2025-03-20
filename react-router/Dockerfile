@@ -16,7 +16,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o react-router ./cmd/react-router/main.go
 
 # Next stage: Build our frontend application.
-FROM node:23@sha256:680ce90faed12b9d3b9343690c0e06262099c64189e5f48ec5f98be5182609da AS frontend-builder
+FROM node:23@sha256:990d0ab35ae15d8a322ee1eeaf4f7cf14e367d3d0ee2f472704b7b3df4c9e7c1 AS frontend-builder
 
 # Set our working directory for this stage.
 WORKDIR /frontendcompile
