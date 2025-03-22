@@ -17,9 +17,9 @@ import (
 // ConfigGoogle to set config of oauth
 func ConfigGoogle() *oauth2.Config {
 	conf := &oauth2.Config{
-		ClientID:     config.Config("Client"),
-		ClientSecret: config.Config("Secret"),
-		RedirectURL:  config.Config("redirect_url"),
+		ClientID:     config.Config("GOOGLE_CLIENT_ID"),
+		ClientSecret: config.Config("GOOGLE_CLIENT_SECRET"),
+		RedirectURL:  config.Config("GOOGLE_REDIRECT_URL"),
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 		}, // you can use other scopes to get more data
