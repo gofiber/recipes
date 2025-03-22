@@ -32,6 +32,7 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 
 4. Create a `.env` file in the root directory and add your Google OAuth credentials:
     ```env
+    APP_PORT=3300
     GOOGLE_CLIENT_ID=your_client_id
     GOOGLE_CLIENT_SECRET=your_client_secret
     GOOGLE_REDIRECT_URL=http://localhost:3300/api/auth/google/callback
