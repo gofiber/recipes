@@ -34,7 +34,7 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
     ```env
     GOOGLE_CLIENT_ID=your_client_id
     GOOGLE_CLIENT_SECRET=your_client_secret
-    GOOGLE_REDIRECT_URL=http://localhost:3000/api/auth/google/callback
+    GOOGLE_REDIRECT_URL=http://localhost:3300/api/auth/google/callback
     ```
 
 ## Running the Application
@@ -44,7 +44,7 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
     go run main.go
     ```
 
-2. The server will start on `http://localhost:3000`.
+2. The server will start on `http://localhost:3300`.
 
 ## Endpoints
 
@@ -57,12 +57,12 @@ This example demonstrates how to implement Google OAuth2 authentication in a Fib
 
 ### Redirect to Google Login
 ```sh
-curl -X GET http://localhost:3000/api/
+curl -X GET http://localhost:3300/api/
 ```
 
 ### Google OAuth2 Callback
 ```sh
-curl -X GET http://localhost:3000/api/auth/google/callback?state=state&code=code
+curl -X GET http://localhost:3300/api/auth/google/callback?state=state&code=code
 ```
 
 ## Packages Used
