@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+
+	"fiber-oauth-google/config"
 	"fiber-oauth-google/router"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,7 +12,13 @@ import (
 
 func main() {
 	godotenv.Load()
+
+	port := config.Config("APP_PORT")
+	if port == "" {
+		port = "3300"
+	}
+
 	app := fiber.New()
 	router.Routes(app)
-	app.Listen(":3300")
+	log.Fatal(app.Listen(":" + port))
 }
