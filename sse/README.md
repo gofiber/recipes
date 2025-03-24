@@ -49,7 +49,7 @@ Server-Sent Events (SSE) allow servers to push updates to the client over a sing
 
 ## Example Usage
 
-By default the example will run on port `3000`, this can be changed by modifying the `appPort` constant in `main.go`
+By default, the example will run on port `3000`; this can be changed by modifying the `appPort` constant in `main.go`
 
 1. Open your browser and navigate to `http://localhost:3000`.
 2. The client will automatically connect to the SSE endpoint and start receiving updates from the server.
@@ -68,7 +68,7 @@ To send a custom message, send a `PUT` request to the `/publish` endpoint in the
 Messages sent to the `/publish` endpoint will be added to a queue that is read from in FIFO order. You can test this
 by using curl in an iterator
 
-If you are using bash/zsh:
+If you are using the Bash or Zsh shell:
 ```sh
 for i in {1..10}; do
   curl -X PUT -H 'Content-type: application/json' --data "{\"message\":\"SSE TEST $i\"}" http://localhost:3000/publish
