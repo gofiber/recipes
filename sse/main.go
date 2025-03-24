@@ -14,7 +14,7 @@ import (
 )
 
 // appPort is the port that the server will listen on
-const appPort = "7331"
+const appPort = "3000"
 
 // index is the HTML template that will be served to the client on the index page (`/`)
 const index = `<!DOCTYPE html>
