@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"log"
+	"text/template"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,7 +13,11 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-var index = []byte(`<!DOCTYPE html>
+// appPort is the port that the server will listen on
+const appPort = "7331"
+
+// index is the HTML template that will be served to the client on the index page (`/`)
+const index = `<!DOCTYPE html>
 <html>
 <body>
 
@@ -20,7 +26,7 @@ var index = []byte(`<!DOCTYPE html>
 
 <script>
 if(typeof(EventSource) !== "undefined") {
-  var source = new EventSource("http://127.0.0.1:3000/sse");
+  var source = new EventSource("http://127.0.0.1:{{.Port}}/sse");
   source.onmessage = function(event) {
     document.getElementById("result").innerHTML += event.data + "<br>";
   };
@@ -31,7 +37,7 @@ if(typeof(EventSource) !== "undefined") {
 
 </body>
 </html>
-`)
+`
 
 func main() {
 	// Fiber instance
@@ -39,15 +45,31 @@ func main() {
 
 	// CORS for external resources
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
-		AllowHeaders:     "Cache-Control",
-		AllowCredentials: true,
+		AllowOrigins: "*",
+		AllowHeaders: "Cache-Control",
 	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		c.Response().Header.SetContentType(fiber.MIMETextHTMLCharsetUTF8)
 
-		return c.Status(fiber.StatusOK).Send(index)
+		tpl, err := template.New("index").Parse(index)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		}
+
+		data := struct {
+			Port string
+		}{
+			Port: appPort,
+		}
+
+		buf := new(bytes.Buffer)
+		err = tpl.Execute(buf, data)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		}
+
+		return c.Status(fiber.StatusOK).Send(buf.Bytes())
 	})
 
 	app.Get("/sse", func(c *fiber.Ctx) error {
@@ -82,5 +104,5 @@ func main() {
 	})
 
 	// Start server
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":" + appPort))
 }
