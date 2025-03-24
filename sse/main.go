@@ -40,6 +40,10 @@ if(typeof(EventSource) !== "undefined") {
 `
 
 func main() {
+	// create a queue to store incoming messages from the
+	// `/publish` endpoint
+	var sseMessageQueue []string
+
 	// Fiber instance
 	app := fiber.New()
 
@@ -83,7 +87,19 @@ func main() {
 			var i int
 			for {
 				i++
-				msg := fmt.Sprintf("%d - the time is %v", i, time.Now())
+
+				var msg string
+
+				// if there are messages that have been sent to the `/publish` endpoint
+				// then use these first, otherwise just send the current time
+				if len(sseMessageQueue) > 0 {
+					msg = fmt.Sprintf("%d - message recieved: %s", i, sseMessageQueue[0])
+					// remove the message from the buffer
+					sseMessageQueue = sseMessageQueue[1:]
+				} else {
+					msg = fmt.Sprintf("%d - the time is %v", i, time.Now())
+				}
+
 				fmt.Fprintf(w, "data: Message: %s\n\n", msg)
 				fmt.Println(msg)
 
@@ -101,6 +117,25 @@ func main() {
 		}))
 
 		return nil
+	})
+
+	// Publish endpoint adds messages to the queue that will be sent to the client
+	// via the `/sse` endpoint in FIFO order. If there are no messages in the queue
+	// then the current time will be sent to the client instead.
+	app.Put("/publish", func(c *fiber.Ctx) error {
+		type Message struct {
+			Message string `json:"message"`
+		}
+
+		payload := new(Message)
+
+		if err := c.BodyParser(payload); err != nil {
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+		}
+
+		sseMessageQueue = append(sseMessageQueue, payload.Message)
+
+		return c.SendString("Message added to queue\n")
 	})
 
 	// Start server
