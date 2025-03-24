@@ -56,6 +56,7 @@ By default the example will run on port `3000`, this can be changed by modifying
 3. The `/sse` endpoint will publish the current time to the client every two seconds
 
 ### Custom Messages
+
 To send a custom message, send a `PUT` request to the `/publish` endpoint in the following JSON format
 
 ```json
@@ -90,10 +91,6 @@ and no user-published messages are left, `/sse` will return to it's standard beh
 ### `main.go`
 
 The main Go file sets up the Fiber application and handles the SSE connections. It includes the necessary configuration to send events to the client.
-
-### `index.html`
-
-The HTML file provides a simple user interface to connect to the SSE endpoint and display the received messages.
 
 ## Additional Information
 
