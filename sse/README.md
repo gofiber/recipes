@@ -45,21 +45,52 @@ Server-Sent Events (SSE) allow servers to push updates to the client over a sing
 
 - **GET /**: Index page
 - **GET /sse**: SSE route
+- **PUT /publish**: Send messages via SSE
 
 ## Example Usage
 
+By default, the example will run on port `3000`; this can be changed by modifying the `appPort` constant in `main.go`
+
 1. Open your browser and navigate to `http://localhost:3000`.
 2. The client will automatically connect to the SSE endpoint and start receiving updates from the server.
+3. The `/sse` endpoint will publish the current time to the client every two seconds
+
+### Custom Messages
+
+To send a custom message, send a `PUT` request to the `/publish` endpoint in the following JSON format
+
+```json
+{
+  "message": "Hello, World!"
+}
+```
+
+Messages sent to the `/publish` endpoint will be added to a queue that is read from in FIFO order. You can test this
+by using curl in an iterator
+
+If you are using the Bash or Zsh shell:
+```sh
+for i in {1..10}; do
+  curl -X PUT -H 'Content-type: application/json' --data "{\"message\":\"SSE TEST $i\"}" http://localhost:3000/publish
+done
+```
+
+If you are using fish:
+```sh
+for i in (seq 1 10)
+  curl -X PUT -H 'Content-type: application/json' --data "{\"message\":\"SSE TEST $i\"}" http://localhost:3000/publish
+end
+```
+
+Once published, your added messages will begin appearing in the output at `http://localhost:3000`. Once the queue is empty
+and no user-published messages are left, `/sse` will return to it's standard behavior of displaying the current time.
+
 
 ## Code Overview
 
 ### `main.go`
 
 The main Go file sets up the Fiber application and handles the SSE connections. It includes the necessary configuration to send events to the client.
-
-### `index.html`
-
-The HTML file provides a simple user interface to connect to the SSE endpoint and display the received messages.
 
 ## Additional Information
 
