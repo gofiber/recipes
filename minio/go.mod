@@ -2,7 +2,7 @@ module main
 
 go 1.22
 
-require github.com/gofiber/fiber/v2 v2.52.5
+require github.com/gofiber/fiber/v2 v2.52.6
 
 require github.com/minio/minio-go/v7 v7.0.80 // indirect
 
