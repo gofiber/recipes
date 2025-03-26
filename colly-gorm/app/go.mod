@@ -6,7 +6,7 @@ require (
 	github.com/gocolly/colly v1.2.0
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/spf13/viper v1.19.0
-	gorm.io/driver/postgres v1.5.9
+	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.11
 )
 
