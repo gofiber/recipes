@@ -8,7 +8,7 @@ require (
 	github.com/gofiber/template/html/v2 v2.1.2
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/postgres v1.5.11
-	gorm.io/gorm v1.25.11
+	gorm.io/gorm v1.25.12
 )
 
 require (
