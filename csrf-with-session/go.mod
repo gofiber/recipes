@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
-	github.com/gofiber/template/html/v2 v2.1.2
+	github.com/gofiber/template/html/v2 v2.1.3
 	golang.org/x/crypto v0.31.0
 )
 
