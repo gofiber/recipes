@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -26,9 +25,5 @@ func Start(addr string) error {
 
 // ServerFunction Exported http.HandlerFunc to be deployed to as a Cloud Function
 func ServerFunction(w http.ResponseWriter, r *http.Request) {
-	err := CloudFunctionRouteToFiber(app, w, r)
-	if err != nil {
-		fmt.Fprintf(w, "err : %v", err)
-		return
-	}
+	CloudFunctionRouteToFiber(app, w, r)
 }
