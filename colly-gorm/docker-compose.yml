@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   scraper_app:
     container_name: scraper_app
@@ -15,7 +14,7 @@ services:
       - colly_db
 
   colly_db:
-    image: postgres:14.1-alpine
+    image: postgres:14-alpine
     container_name: colly_db
     ports:
       - 5435:5432

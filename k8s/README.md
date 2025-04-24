@@ -89,7 +89,7 @@ func main() {
 Here is an example `Dockerfile` for the application:
 
 ```Dockerfile
-FROM golang:1.20-alpine
+FROM golang:1.24
 
 WORKDIR /app
 
