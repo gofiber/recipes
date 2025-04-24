@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	entgo.io/ent v0.12.3
-	github.com/fatih/color v1.17.0
+	github.com/fatih/color v1.18.0
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/google/uuid v1.6.0
 	github.com/mattn/go-sqlite3 v1.14.22

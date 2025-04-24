@@ -58,7 +58,7 @@ Replace `<DB_USER>` with the value from your `.env` file.
 
 The following endpoints are available in the API:
 
-- **POST /api/auth/register**: Register a new user.
+- **POST /api/user**: Register a new user.
 - **POST /api/auth/login**: Authenticate a user and return a JWT.
 - **GET /api/user/:id**: Get a user (requires a valid JWT).
 - **PATCH /api/user/:id**: Update a user (requires a valid JWT).
@@ -68,7 +68,7 @@ The following endpoints are available in the API:
 
 1. Register a new user:
     ```bash
-    curl -X POST http://localhost:3000/api/auth/register -d '{"username":"testuser", "password":"testpassword"}' -H "Content-Type: application/json"
+    curl -X POST http://localhost:3000/api/user -d '{"username":"testuser", "password":"testpassword", "email": "test@email.com"}' -H "Content-Type: application/json"
     ```
 
 2. Login to get a JWT:
