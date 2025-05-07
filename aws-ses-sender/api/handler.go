@@ -90,11 +90,13 @@ func createOpenEventHandler(c fiber.Ctx) error {
 		// Consider email as opened and create data
 		db := config.GetDB()
 		if reqIdInt, err := strconv.Atoi(reqId); err == nil {
-			_ = db.Create(&model.Result{
+			if err := db.Create(&model.Result{
 				RequestId: uint(reqIdInt),
 				Status:    "Open",
 				Raw:       "{}",
-			}).Error
+			}).Error; err != nil {
+				log.Printf("Failed to create open event: %s", err.Error())
+			}
 		} else {
 			log.Printf("Invalid requestId: %s", reqId)
 		}
