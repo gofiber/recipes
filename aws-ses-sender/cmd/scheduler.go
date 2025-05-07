@@ -24,23 +24,25 @@ func RunScheduler(ctx context.Context) {
 			now := time.Now()
 			reqs := make([]*model.Request, 0, batchSize)
 			err := db.Raw(`
-				UPDATE email_requests
-				SET status = ?, updated_at = ?
-				WHERE id IN (
+				WITH locked_requests AS (
 					SELECT id
 					FROM email_requests
 					WHERE status = ? AND (scheduled_at <= ? OR scheduled_at IS NULL) AND deleted_at IS NULL
-					ORDER BY id
+					ORDER BY id ASC
 					LIMIT ?
 					FOR UPDATE SKIP LOCKED
 				)
-				RETURNING *;
+				UPDATE email_requests
+				SET status = ?, updated_at = ?
+				FROM locked_requests
+				WHERE email_requests.id = locked_requests.id
+				RETURNING email_requests.*;
 			`,
-				model.EmailMessageStatusProcessing,
-				now,
 				model.EmailMessageStatusCreated,
 				now,
 				batchSize,
+				model.EmailMessageStatusProcessing,
+				now,
 			).Scan(&reqs).Error
 
 			if err != nil {
