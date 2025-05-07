@@ -36,6 +36,13 @@ func main() {
 		cancel()
 	}()
 
+	// In main.go, before exit
+	defer func() {
+		if err := config.CloseDB(); err != nil {
+			log.Printf("Error closing database connection: %v", err)
+		}
+	}()
+
 	// Message Scheduler
 	go cmd.RunScheduler(ctx)
 

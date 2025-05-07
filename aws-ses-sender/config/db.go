@@ -40,3 +40,15 @@ func GetDB() *gorm.DB {
 	})
 	return dbInstance
 }
+
+// CloseDB closes the database connection
+func CloseDB() error {
+	if dbInstance == nil {
+		return nil
+	}
+	sqlDB, err := dbInstance.DB()
+	if err != nil {
+		return fmt.Errorf("failed to get database instance: %v", err)
+	}
+	return sqlDB.Close()
+}
