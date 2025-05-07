@@ -19,15 +19,18 @@ type SES struct {
 
 // NewSESClient creates an email client
 func NewSESClient(ctx context.Context) (*SES, error) {
-	AccessKeyId := config.GetEnv("AWS_ACCESS_KEY_ID")
-	SecretAccessKey := config.GetEnv("AWS_SECRET_ACCESS_KEY")
-	cfg, err := awsConfig.LoadDefaultConfig(
-		ctx,
-		awsConfig.WithRegion("ap-northeast-2"),
-		awsConfig.WithCredentialsProvider(
-			credentials.NewStaticCredentialsProvider(AccessKeyId, SecretAccessKey, ""),
-		),
-	)
+	accessKeyID := config.GetEnv("AWS_ACCESS_KEY_ID")
+	secretAccessKey := config.GetEnv("AWS_SECRET_ACCESS_KEY")
+	var cfgOpts []func(*awsConfig.LoadOptions) error
+	cfgOpts = append(cfgOpts, awsConfig.WithRegion("ap-northeast-2"))
+
+	// If accessKeyID and secretAccessKey are set, use static credentials
+	if accessKeyID != "" && secretAccessKey != "" {
+		cfgOpts = append(cfgOpts, awsConfig.WithCredentialsProvider(
+			credentials.NewStaticCredentialsProvider(accessKeyID, secretAccessKey, ""),
+		))
+	}
+	cfg, err := awsConfig.LoadDefaultConfig(ctx, cfgOpts...)
 	if err != nil {
 		return nil, err
 	}
