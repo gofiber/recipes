@@ -3,6 +3,7 @@ package aws
 import (
 	"aws-ses-sender/config"
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -40,12 +41,12 @@ func NewSESClient(ctx context.Context) (*SES, error) {
 }
 
 // SendEmail sends an email
-func (s *SES) SendEmail(ctx context.Context, reqId int, subject, body *string, receivers *[]string) (string, error) {
+func (s *SES) SendEmail(ctx context.Context, reqID int, subject, body *string, receivers []string) (string, error) {
 	sender := config.GetEnv("EMAIL_SENDER")
 	input := &sesv2.SendEmailInput{
 		FromEmailAddress: aws.String(sender),
 		Destination: &types.Destination{
-			ToAddresses: *receivers,
+			ToAddresses: receivers,
 		},
 		Content: &types.EmailContent{
 			Simple: &types.Message{
@@ -60,7 +61,7 @@ func (s *SES) SendEmail(ctx context.Context, reqId int, subject, body *string, r
 				Headers: []types.MessageHeader{
 					{
 						Name:  aws.String("X-Request-ID"),
-						Value: aws.String(strconv.Itoa(reqId)),
+						Value: aws.String(strconv.Itoa(reqID)),
 					},
 				},
 			},
@@ -69,6 +70,9 @@ func (s *SES) SendEmail(ctx context.Context, reqId int, subject, body *string, r
 	result, err := s.Client.SendEmail(ctx, input)
 	if err != nil {
 		return "", err
+	}
+	if result.MessageId == nil {
+		return "", fmt.Errorf("SES returned nil MessageId")
 	}
 	return *result.MessageId, nil
 }

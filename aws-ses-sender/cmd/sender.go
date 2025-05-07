@@ -37,7 +37,7 @@ func RunSender(ctx context.Context) {
 				int(r.ID),
 				&r.Subject,
 				&content,
-				&[]string{r.To},
+				[]string{r.To},
 			)
 			status := model.EmailMessageStatusSent
 			errMsg := ""
