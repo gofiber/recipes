@@ -6,12 +6,15 @@ import (
 
 // setV1Routes V1 Routes
 func setV1Routes(app *fiber.App) {
-	// Messages
-	app.Post("/v1/messages", createMessageHandler)
-	// Topics
-	app.Get("/v1/topics/:topicId", getResultCountHandler)
-	// Events
-	app.Get("/v1/events/open", createOpenEventHandler)
-	app.Get("/v1/events/counts/sent", getSentCountHandler)
-	app.Post("/v1/events/results", createResultEventHandler)
+	v1 := app.Group("/v1")
+	{
+		// Messages
+		v1.Post("/messages", createMessageHandler, apiKeyAuth)
+		// Topics
+		v1.Get("/topics/:topicId", getResultCountHandler, apiKeyAuth)
+		// Events
+		v1.Get("/events/open", createOpenEventHandler)
+		v1.Get("/events/counts/sent", getSentCountHandler, apiKeyAuth)
+		v1.Post("/events/results", createResultEventHandler)
+	}
 }
