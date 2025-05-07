@@ -52,7 +52,7 @@ func RunSender(ctx context.Context) {
 			db.Model(&model.Request{}).
 				Where("id = ?", r.ID).
 				Updates(model.Request{
-					MessageId: msgId,
+					MessageID: msgId,
 					Status:    status,
 					Error:     errMsg,
 				})

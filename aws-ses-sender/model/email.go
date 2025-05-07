@@ -17,14 +17,14 @@ const (
 
 type Request struct {
 	gorm.Model
-	TopicId     string     `json:"topic_id" gorm:"index;null"`
-	MessageId   string     `json:"message_id" gorm:"index;null;type:varchar(255)"`
+	TopicID     string     `json:"topic_id" gorm:"index"`
+	MessageID   string     `json:"message_id" gorm:"index;type:varchar(255);default:''"`
 	To          string     `json:"to" gorm:"not null;type:varchar(255)"`
 	Subject     string     `json:"subject" gorm:"not null;type:varchar(255)"`
 	Content     string     `json:"content" gorm:"not null;type:text"`
 	ScheduledAt *time.Time `json:"scheduled_at" gorm:"null;index;type:timestamp with time zone"`
 	Status      int        `json:"status" gorm:"default:0;index;not null;type:smallint"`
-	Error       string     `json:"error" gorm:"null;type:varchar(255)"`
+	Error       string     `json:"error" gorm:"default:'';type:varchar(255)"`
 }
 
 func (m *Request) TableName() string {

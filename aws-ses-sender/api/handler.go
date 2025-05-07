@@ -21,7 +21,7 @@ func createMessageHandler(c fiber.Ctx) error {
 	start := time.Now()
 	var reqBody struct {
 		Messages []struct {
-			TopicId     string   `json:"topicId"`
+			TopicID     string   `json:"topicId"`
 			Emails      []string `json:"emails"`
 			Subject     string   `json:"subject"`
 			Content     string   `json:"content"`
@@ -46,7 +46,7 @@ func createMessageHandler(c fiber.Ctx) error {
 		}
 		for _, email := range msg.Emails {
 			req := &model.Request{
-				TopicId:     msg.TopicId,
+				TopicID:     msg.TopicID,
 				To:          email,
 				Subject:     msg.Subject,
 				Content:     msg.Content,
@@ -113,7 +113,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	var reqBody struct {
 		Type         string `json:"Type"`
 		Message      string `json:"Message"`
-		MessageId    string `json:"MessageId"`
+		MessageID    string `json:"MessageId"`
 		SubscribeURL string `json:"SubscribeURL"`
 	}
 	if err := c.Bind().JSON(&reqBody); err != nil {
@@ -133,7 +133,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	var sesNotification struct {
 		NotificationType string `json:"notificationType"`
 		Mail             struct {
-			MessageId string `json:"messageId"`
+			MessageID string `json:"messageId"`
 			Headers   []struct {
 				Name  string `json:"name"`
 				Value string `json:"value"`
@@ -143,7 +143,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	if err := json.Unmarshal([]byte(reqBody.Message), &sesNotification); err != nil {
 		return c.JSON(fiber.Map{"message": "Non-SES notification received"})
 	}
-	if sesNotification.Mail.MessageId == "" {
+	if sesNotification.Mail.MessageID == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "SES message_id not found"})
 	}
 
