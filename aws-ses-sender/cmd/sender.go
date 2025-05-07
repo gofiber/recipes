@@ -5,6 +5,7 @@ import (
 	"aws-ses-sender/model"
 	"aws-ses-sender/pkg/aws"
 	"context"
+	"log"
 	"strconv"
 	"time"
 )
@@ -15,10 +16,13 @@ var reqChan = make(chan *model.Request, 1000)
 // It consumes the email sending requests from the channel and sends them to the AWS SES
 func RunSender(ctx context.Context) {
 	rateStr := config.GetEnv("EMAIL_RATE", "14")
-	rate, _ := strconv.Atoi(rateStr)
+	rate, errConv := strconv.Atoi(rateStr)
+	if errConv != nil || rate <= 0 {
+		log.Fatalf("invalid EMAIL_RATE: %s", rateStr)
+	}
 	sesClient, err := aws.NewSESClient(ctx)
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to create SES client: %v", err)
 	}
 
 	db := config.GetDB()
