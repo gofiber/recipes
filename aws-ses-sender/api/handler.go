@@ -10,6 +10,7 @@ import (
 	"image/png"
 	"log"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v3"
@@ -150,7 +151,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	// Find request_id from headers
 	var reqId uint
 	for _, header := range sesNotification.Mail.Headers {
-		if header.Name == "X-Request-ID" {
+		if strings.EqualFold(header.Name, "X-Request-ID") {
 			reqIdInt, _ := strconv.Atoi(header.Value)
 			reqId = uint(reqIdInt)
 			break
