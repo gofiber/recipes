@@ -2,6 +2,7 @@ package api
 
 import (
 	"aws-ses-sender/config"
+	"crypto/subtle"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -11,7 +12,7 @@ import (
 func apiKeyAuth(c fiber.Ctx) error {
 	apiKey := c.Get("x-api-key")
 	expectedAPIKey := config.GetEnv("API_KEY", "")
-	if apiKey != expectedAPIKey {
+	if expectedAPIKey == "" || subtle.ConstantTimeCompare([]byte(apiKey), []byte(expectedAPIKey)) != 1 {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"error": "Unauthorized",
 		})
