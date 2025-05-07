@@ -23,10 +23,8 @@ func GetDB() *gorm.DB {
 		user := GetEnv("DB_USER", "postgres")
 		password := GetEnv("DB_PASSWORD", "postgres")
 		dbname := GetEnv("DB_NAME", "postgres")
-
-		timezone := GetEnv("DB_TIMEZONE", "UTC")
-		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=%s",
-			host, user, password, dbname, port, timezone)
+		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
+			host, user, password, dbname, port)
 		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Error),
 		})

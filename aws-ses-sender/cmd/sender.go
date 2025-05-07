@@ -16,13 +16,13 @@ var reqChan = make(chan *model.Request, 1000)
 // It consumes the email sending requests from the channel and sends them to the AWS SES
 func RunSender(ctx context.Context) {
 	rateStr := config.GetEnv("EMAIL_RATE", "14")
-	rate, errConv := strconv.Atoi(rateStr)
-	if errConv != nil || rate <= 0 {
-		log.Fatalf("invalid EMAIL_RATE: %s", rateStr)
+	rate, err := strconv.Atoi(rateStr)
+	if err != nil {
+		log.Fatalf("Invalid EMAIL_RATE: %v", err)
 	}
 	sesClient, err := aws.NewSESClient(ctx)
 	if err != nil {
-		log.Fatalf("failed to create SES client: %v", err)
+		log.Fatalf("Failed to create SES client: %v", err)
 	}
 
 	db := config.GetDB()
@@ -32,11 +32,13 @@ func RunSender(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case req := <-reqChan:
-			go func(r *model.Request) {
+			go func(c context.Context, r *model.Request) {
 				// Add code for the open event at the end of the body
 				serverHost := config.GetEnv("SERVER_HOST", "http://localhost:3000")
 				content := r.Content
 				content += `<img src="` + serverHost + `/v1/events/open?requestId=` + strconv.Itoa(int(r.ID)) + `">`
+				ctx, cancel := context.WithTimeout(c, 10*time.Second)
+				defer cancel()
 				msgId, err := sesClient.SendEmail(
 					ctx,
 					int(r.ID),
@@ -53,11 +55,11 @@ func RunSender(ctx context.Context) {
 				db.Model(&model.Request{}).
 					Where("id = ?", r.ID).
 					Updates(model.Request{
-						MessageID: msgId,
+						MessageId: msgId,
 						Status:    status,
 						Error:     errMsg,
 					})
-			}(req)
+			}(ctx, req)
 		}
 	}
 }

@@ -41,7 +41,7 @@ func NewSESClient(ctx context.Context) (*SES, error) {
 }
 
 // SendEmail sends an email
-func (s *SES) SendEmail(ctx context.Context, reqID int, subject, body *string, receivers []string) (string, error) {
+func (s *SES) SendEmail(ctx context.Context, reqId int, subject, body *string, receivers []string) (string, error) {
 	sender := config.GetEnv("EMAIL_SENDER")
 	input := &sesv2.SendEmailInput{
 		FromEmailAddress: aws.String(sender),
@@ -61,7 +61,7 @@ func (s *SES) SendEmail(ctx context.Context, reqID int, subject, body *string, r
 				Headers: []types.MessageHeader{
 					{
 						Name:  aws.String("X-Request-ID"),
-						Value: aws.String(strconv.Itoa(reqID)),
+						Value: aws.String(strconv.Itoa(reqId)),
 					},
 				},
 			},

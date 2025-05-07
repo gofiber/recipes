@@ -22,7 +22,7 @@ func createMessageHandler(c fiber.Ctx) error {
 	start := time.Now()
 	var reqBody struct {
 		Messages []struct {
-			TopicID     string   `json:"topicId"`
+			TopicId     string   `json:"topicId"`
 			Emails      []string `json:"emails"`
 			Subject     string   `json:"subject"`
 			Content     string   `json:"content"`
@@ -37,21 +37,21 @@ func createMessageHandler(c fiber.Ctx) error {
 	reqs := make([]*model.Request, 0)
 	totCnt := 0
 	for _, msg := range reqBody.Messages {
-		var scheduledAt *time.Time
+		scheduledAt := time.Now().UTC()
 		if msg.ScheduledAt != "" {
 			if t, err := time.Parse(time.RFC3339, msg.ScheduledAt); err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid scheduledAt format"})
 			} else {
-				scheduledAt = &t
+				scheduledAt = t.UTC()
 			}
 		}
 		for _, email := range msg.Emails {
 			req := &model.Request{
-				TopicID:     msg.TopicID,
+				TopicId:     msg.TopicId,
 				To:          email,
 				Subject:     msg.Subject,
 				Content:     msg.Content,
-				ScheduledAt: scheduledAt,
+				ScheduledAt: &scheduledAt,
 				Status:      model.EmailMessageStatusCreated,
 			}
 			reqs = append(reqs, req)
@@ -83,14 +83,15 @@ func createOpenEventHandler(c fiber.Ctx) error {
 	reqId := c.Query("requestId")
 	if reqId != "" {
 		// Consider email as opened and create data
-		reqIdInt, err := strconv.Atoi(reqId)
-		if err == nil && reqIdInt > 0 {
-			db := config.GetDB()
+		db := config.GetDB()
+		if reqIdInt, err := strconv.Atoi(reqId); err == nil {
 			_ = db.Create(&model.Result{
 				RequestId: uint(reqIdInt),
 				Status:    "Open",
 				Raw:       "{}",
 			}).Error
+		} else {
+			log.Printf("Invalid requestId: %s", reqId)
 		}
 	}
 
@@ -116,7 +117,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	var reqBody struct {
 		Type         string `json:"Type"`
 		Message      string `json:"Message"`
-		MessageID    string `json:"MessageId"`
+		MessageId    string `json:"MessageId"`
 		SubscribeURL string `json:"SubscribeURL"`
 	}
 	if err := c.Bind().JSON(&reqBody); err != nil {
@@ -136,7 +137,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	var sesNotification struct {
 		NotificationType string `json:"notificationType"`
 		Mail             struct {
-			MessageID string `json:"messageId"`
+			MessageId string `json:"messageId"`
 			Headers   []struct {
 				Name  string `json:"name"`
 				Value string `json:"value"`
@@ -146,7 +147,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 	if err := json.Unmarshal([]byte(reqBody.Message), &sesNotification); err != nil {
 		return c.JSON(fiber.Map{"message": "Non-SES notification received"})
 	}
-	if sesNotification.Mail.MessageID == "" {
+	if sesNotification.Mail.MessageId == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "SES message_id not found"})
 	}
 
@@ -154,8 +155,11 @@ func createResultEventHandler(c fiber.Ctx) error {
 	var reqId uint
 	for _, header := range sesNotification.Mail.Headers {
 		if strings.EqualFold(header.Name, "X-Request-ID") {
-			reqIdInt, _ := strconv.Atoi(header.Value)
-			reqId = uint(reqIdInt)
+			if reqIdInt, err := strconv.Atoi(header.Value); err == nil {
+				reqId = uint(reqIdInt)
+			} else {
+				log.Printf("Invalid requestId: %s", header.Value)
+			}
 			break
 		}
 	}
