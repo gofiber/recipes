@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"aws-ses-sender-go/config"
+	"aws-ses-sender/config"
 	"context"
 	"strconv"
 

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"aws-ses-sender-go/config"
+	"aws-ses-sender/config"
 	"fmt"
 	"log"
 
@@ -16,7 +16,7 @@ import (
 func Run() {
 	app := fiber.New(
 		fiber.Config{
-			AppName: "aws-ses-sender-go",
+			AppName: "aws-ses-sender",
 			// JSON Encoder and Decoder(Fast JSON library)
 			JSONEncoder: jsoniter.Marshal,
 			JSONDecoder: jsoniter.Unmarshal,

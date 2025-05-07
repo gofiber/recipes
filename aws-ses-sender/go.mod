@@ -1,4 +1,4 @@
-module aws-ses-sender-go
+module aws-ses-sender
 
 go 1.23
 

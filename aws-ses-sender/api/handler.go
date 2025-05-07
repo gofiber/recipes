@@ -1,8 +1,8 @@
 package api
 
 import (
-	"aws-ses-sender-go/config"
-	"aws-ses-sender-go/model"
+	"aws-ses-sender/config"
+	"aws-ses-sender/model"
 	"bytes"
 	"encoding/json"
 	"image"

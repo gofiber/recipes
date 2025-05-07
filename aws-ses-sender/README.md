@@ -54,7 +54,7 @@ flowchart TD
 
 ## Project Structure
 ```
-aws-ses-sender-go/
+aws-ses-sender/
 ├── main.go              # Application entry point
 ├── api/                 # HTTP API related code
 │   ├── handler.go       # API handler functions
@@ -119,7 +119,7 @@ SENTRY_DSN=your_sentry_dsn
 1. Clone repository:
    ```bash
    git clone <repository_URL>
-   cd aws-ses-sender-go
+   cd aws-ses-sender
    ```
 
 2. Install dependencies:

@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"aws-ses-sender-go/config"
-	"aws-ses-sender-go/model"
-	"aws-ses-sender-go/pkg/aws"
+	"aws-ses-sender/config"
+	"aws-ses-sender/model"
+	"aws-ses-sender/pkg/aws"
 	"context"
 	"strconv"
 	"time"

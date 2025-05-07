@@ -1,7 +1,7 @@
 package model
 
 import (
-	"aws-ses-sender-go/config"
+	"aws-ses-sender/config"
 	"time"
 
 	"gorm.io/gorm"

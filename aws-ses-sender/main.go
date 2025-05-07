@@ -1,9 +1,9 @@
 package main
 
 import (
-	"aws-ses-sender-go/api"
-	"aws-ses-sender-go/cmd"
-	"aws-ses-sender-go/config"
+	"aws-ses-sender/api"
+	"aws-ses-sender/cmd"
+	"aws-ses-sender/config"
 
 	"github.com/getsentry/sentry-go"
 )
