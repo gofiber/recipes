@@ -38,7 +38,7 @@ func createMessageHandler(c fiber.Ctx) error {
 	for _, msg := range reqBody.Messages {
 		var scheduledAt *time.Time
 		if msg.ScheduledAt != "" {
-			if t, err := time.Parse(time.DateTime, msg.ScheduledAt); err != nil {
+			if t, err := time.Parse(time.RFC3339, msg.ScheduledAt); err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid scheduledAt format"})
 			} else {
 				scheduledAt = &t
