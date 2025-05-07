@@ -23,7 +23,7 @@ func NewSESClient(ctx context.Context) (*SES, error) {
 	accessKeyID := config.GetEnv("AWS_ACCESS_KEY_ID")
 	secretAccessKey := config.GetEnv("AWS_SECRET_ACCESS_KEY")
 	var cfgOpts []func(*awsConfig.LoadOptions) error
-	cfgOpts = append(cfgOpts, awsConfig.WithRegion("ap-northeast-2"))
+	cfgOpts = append(cfgOpts, awsConfig.WithRegion(config.GetEnv("AWS_REGION", "ap-northeast-2")))
 
 	// If accessKeyID and secretAccessKey are set, use static credentials
 	if accessKeyID != "" && secretAccessKey != "" {

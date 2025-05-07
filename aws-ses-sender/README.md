@@ -106,6 +106,7 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=postgres
+DB_TIMEZONE=Asia/seoul
 
 # Sending rate per second
 EMAIL_RATE=14
