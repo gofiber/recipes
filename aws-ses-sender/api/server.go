@@ -36,5 +36,10 @@ func Run(ctx context.Context) {
 	// Routes
 	setV1Routes(app)
 
-	log.Fatal(app.Listen(fmt.Sprintf(":%s", config.GetEnv("SERVER_PORT", "3000"))))
+	go func() {
+		log.Fatal(app.Listen(fmt.Sprintf(":%s", config.GetEnv("SERVER_PORT", "3000"))))
+	}()
+
+	<-ctx.Done()
+	app.Shutdown()
 }
