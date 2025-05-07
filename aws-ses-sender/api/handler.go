@@ -83,13 +83,15 @@ func createOpenEventHandler(c fiber.Ctx) error {
 	reqId := c.Query("requestId")
 	if reqId != "" {
 		// Consider email as opened and create data
-		db := config.GetDB()
-		reqIdInt, _ := strconv.Atoi(reqId)
-		_ = db.Create(&model.Result{
-			RequestId: uint(reqIdInt),
-			Status:    "Open",
-			Raw:       "{}",
-		}).Error
+		reqIdInt, err := strconv.Atoi(reqId)
+		if err == nil && reqIdInt > 0 {
+			db := config.GetDB()
+			_ = db.Create(&model.Result{
+				RequestId: uint(reqIdInt),
+				Status:    "Open",
+				Raw:       "{}",
+			}).Error
+		}
 	}
 
 	// Return a blank image
