@@ -51,6 +51,10 @@ flowchart TD
 2. Request removal from SES sandbox mode (for production)
 3. Create SNS topic and set up SES feedback notifications
 4. Grant following permissions to IAM user
+  - `ses:SendEmail`
+  - `ses:SendRawEmail`
+  - `sns:Publish` (if using SNS for delivery notifications)
+  - `sns:Subscribe` (if using SNS for delivery notifications)
 
 ## Project Structure
 ```
