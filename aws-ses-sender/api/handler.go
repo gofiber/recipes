@@ -5,10 +5,12 @@ import (
 	"aws-ses-sender/model"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
 	"log"
+	"net/mail"
 	"strconv"
 	"strings"
 	"time"
@@ -46,6 +48,9 @@ func createMessageHandler(c fiber.Ctx) error {
 			}
 		}
 		for _, email := range msg.Emails {
+			if _, err := mail.ParseAddress(email); err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("invalid email: %s", email)})
+			}
 			req := &model.Request{
 				TopicId:     msg.TopicId,
 				To:          email,
@@ -72,7 +77,7 @@ func createMessageHandler(c fiber.Ctx) error {
 
 	// Return the result
 	return c.JSON(fiber.Map{
-		"count":   len(reqBody.Messages),
+		"count":   totCnt,
 		"elapsed": time.Since(start).String(),
 	})
 }
