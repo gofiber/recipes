@@ -1,4 +1,4 @@
-FROM golang:1.23
+FROM golang:1.24 AS builder
 
 WORKDIR /usr/src/app
 
@@ -6,8 +6,15 @@ COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
 COPY . .
-RUN go build .
 
-CMD ["./aws-ses-sender-go"]
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
-EXPOSE 80
+FROM alpine:3.21
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+COPY --from=builder /usr/src/app/app .
+
+CMD ["./app"]
