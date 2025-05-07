@@ -13,10 +13,9 @@ var reqChan = make(chan *model.Request, 1000)
 
 // RunSender runs the email sender
 // It consumes the email sending requests from the channel and sends them to the AWS SES
-func RunSender() {
+func RunSender(ctx context.Context) {
 	rateStr := config.GetEnv("EMAIL_RATE", "14")
 	rate, _ := strconv.Atoi(rateStr)
-	ctx := context.Background()
 	sesClient, err := aws.NewSESClient(ctx)
 	if err != nil {
 		panic(err)

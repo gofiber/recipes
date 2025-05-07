@@ -2,6 +2,7 @@ package api
 
 import (
 	"aws-ses-sender/config"
+	"context"
 	"fmt"
 	"log"
 
@@ -13,7 +14,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-func Run() {
+func Run(ctx context.Context) {
 	app := fiber.New(
 		fiber.Config{
 			AppName: "aws-ses-sender",

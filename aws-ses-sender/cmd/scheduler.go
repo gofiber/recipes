@@ -3,6 +3,7 @@ package cmd
 import (
 	"aws-ses-sender/config"
 	"aws-ses-sender/model"
+	"context"
 	"log"
 	"strconv"
 	"time"
@@ -10,7 +11,7 @@ import (
 
 // RunScheduler runs the scheduler
 // It schedules the email sending requests to be processed by the sender
-func RunScheduler() {
+func RunScheduler(ctx context.Context) {
 	db := config.GetDB()
 	sendPerSecStr := config.GetEnv("EMAIL_RATE", "14")
 	sendPerSec, _ := strconv.Atoi(sendPerSecStr)
