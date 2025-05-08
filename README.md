@@ -21,6 +21,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [AWS Elastic Beanstalk](./aws-eb/README.md) - Deploying to AWS Elastic Beanstalk.
 - [AWS SAM](./aws-sam/README.md) - Serverless applications with AWS SAM.
 - [AWS SAM Container](./aws-sam-container/README.md) - Containerized serverless applications with AWS SAM.
+- [AWS SES Email Sender](./aws-ses-sender/README.md) - AWS SES-based Golang email delivery service. Provides email dispatch processing, status tracking, scheduled sending, and result analysis capabilities.
 - [Bootstrap](./bootstrap/README.md) - Integrating Bootstrap.
 - [Clean Architecture](./clean-architecture/README.md) - Implementing clean architecture in Go.
 - [Clean Code](./clean-code/README.md) - Implementing clean code in Go.
