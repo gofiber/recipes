@@ -172,6 +172,9 @@ func createResultEventHandler(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "SES message_id not found"})
 	}
 
+	// Log notification type for monitoring
+	log.Printf("Received %s notification from SES for message %s", sesNotification.NotificationType, sesNotification.Mail.MessageId)
+
 	// Find request_id from headers
 	var reqId uint
 	for _, header := range sesNotification.Mail.Headers {
