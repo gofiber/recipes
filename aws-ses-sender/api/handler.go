@@ -40,11 +40,17 @@ func createMessageHandler(c fiber.Ctx) error {
 	totCnt := 0
 	for _, msg := range reqBody.Messages {
 		scheduledAt := time.Now().UTC()
+
 		if msg.ScheduledAt != "" {
 			if t, err := time.Parse(time.RFC3339, msg.ScheduledAt); err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid scheduledAt format"})
 			} else {
 				scheduledAt = t.UTC()
+				// Ensure scheduled time is in the future
+				if scheduledAt.Before(time.Now().UTC()) {
+					log.Printf("Scheduled time must be in the future")
+					continue
+				}
 			}
 		}
 		for _, email := range msg.Emails {
