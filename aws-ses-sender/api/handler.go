@@ -54,8 +54,16 @@ func createMessageHandler(c fiber.Ctx) error {
 			}
 		}
 		for _, email := range msg.Emails {
+			// Validate email address
 			if _, err := mail.ParseAddress(email); err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": fmt.Sprintf("invalid email: %s", email)})
+			}
+			// Validate essential message fields
+			if strings.TrimSpace(msg.Subject) == "" {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Subject cannot be empty"})
+			}
+			if strings.TrimSpace(msg.Content) == "" {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Content cannot be empty"})
 			}
 			req := &model.Request{
 				TopicId:     msg.TopicId,
