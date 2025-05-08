@@ -8,7 +8,7 @@ description: AWS SES-based Golang email delivery service. Provides email dispatc
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/aws-ses-sender) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/aws-ses-sender)
 
-This is an AWS SES-based Golang email delivery service that extracts only the basic sending functionality from [my open source project](https://github.com/lee-lou2/aws-ses-sender-go).
+This is an AWS SES-based Golang email delivery service that extracts only the basic sending functionality from [my open-source project](https://github.com/lee-lou2/aws-ses-sender-go).
 
 ## Features
 - [x] Email sending using AWS SES
@@ -17,7 +17,7 @@ This is an AWS SES-based Golang email delivery service that extracts only the ba
 - [x] Email open tracking and result collection
 - [x] View daily sending counts and delivery results by message group
 
-### FlowChart
+## Flowchart
 
 ```mermaid
 flowchart TD
@@ -57,7 +57,7 @@ flowchart TD
   - `sns:Subscribe` (if using SNS for delivery notifications)
 
 ## Project Structure
-```
+```plaintext
 aws-ses-sender/
 ├── main.go              # Application entry point
 ├── api/                 # HTTP API related code
@@ -139,7 +139,7 @@ SENTRY_DSN=your_sentry_dsn
 ## API Endpoints
 
 ### Email Sending Request
-```
+```http
 POST /v1/messages
 ```
 
@@ -159,21 +159,21 @@ Request body example:
 ```
 
 ### View Topic Sending Statistics
-```
+```http
 GET /v1/topics/:topicId
 ```
 
 ### Email Open Tracking
-```
+```http
 GET /v1/events/open?requestId={requestId}
 ```
 
 ### View Sending Statistics
-```
+```http
 GET /v1/events/counts/sent?hours={hours}
 ```
 
 ### Receive Sending Results (AWS SNS)
-```
+```http
 POST /v1/events/results
 ```

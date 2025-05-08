@@ -152,7 +152,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 		} `json:"mail"`
 	}
 	if err := json.Unmarshal([]byte(reqBody.Message), &sesNotification); err != nil {
-		return c.JSON(fiber.Map{"message": "Non-SES notification received"})
+		return c.JSON(fiber.Map{"message": fmt.Sprintf("Non-SES notification received: %v", err)})
 	}
 	if sesNotification.Mail.MessageId == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "SES message_id not found"})
@@ -181,6 +181,7 @@ func createResultEventHandler(c fiber.Ctx) error {
 		Status:    sesNotification.NotificationType,
 		Raw:       reqBody.Message,
 	}).Error; err != nil {
+		log.Printf("Failed to save result event: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save event"})
 	}
 	return c.JSON(fiber.Map{"message": "OK"})
@@ -278,8 +279,9 @@ func getResultCountHandler(c fiber.Ctx) error {
 func getSentCountHandler(c fiber.Ctx) error {
 	// Receive hours as a query string (default 24)
 	hours, err := strconv.Atoi(c.Query("hours", "24"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	if err != nil || hours <= 0 || hours > 168 {
+		log.Printf("Invalid hours: %v", err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "hours must be 1-168"})
 	}
 
 	// Calculate the time hours before the current time

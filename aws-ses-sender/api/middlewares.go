@@ -14,7 +14,7 @@ func apiKeyAuth(c fiber.Ctx) error {
 	expectedAPIKey := config.GetEnv("API_KEY", "")
 	if expectedAPIKey == "" || subtle.ConstantTimeCompare([]byte(apiKey), []byte(expectedAPIKey)) != 1 {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"error": "Unauthorized",
+			"error": "Unauthorized: Invalid API key",
 		})
 	}
 	return c.Next()
