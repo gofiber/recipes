@@ -37,7 +37,7 @@ func NewDatabase(ctx context.Context, databaseURL string) (Database, error) {
 		slog.Info("Using in-memory database implementation")
 		return newMemoryDB(), nil
 	}
-	
+
 	if strings.HasPrefix(databaseURL, "postgres://") {
 		db, err := newPostgresDB(ctx, databaseURL)
 		if err != nil {
@@ -46,6 +46,6 @@ func NewDatabase(ctx context.Context, databaseURL string) (Database, error) {
 		slog.Info("Using PostgreSQL database implementation")
 		return db, nil
 	}
-	
+
 	return nil, fmt.Errorf("unsupported database URL scheme: %s", databaseURL)
 }

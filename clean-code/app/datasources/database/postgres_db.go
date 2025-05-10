@@ -17,7 +17,7 @@ type PostgresPool interface {
 	Close()
 }
 
-func newPostgresDB(ctx context.Context, databaseURL string) (Database, error) {
+func newPostgresDB(ctx context.Context, databaseURL string) (*postgresDB, error) {
 	// For production use set connection pool settings and validate connection with ping
 	dbpool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {

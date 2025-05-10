@@ -8,11 +8,11 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type BooksServiceMock struct {
+type MockBooksService struct {
 	mock.Mock
 }
 
-func (m *BooksServiceMock) GetBooks(ctx context.Context) ([]domain.Book, error) {
+func (m *MockBooksService) GetBooks(ctx context.Context) ([]domain.Book, error) {
 	args := m.Called(ctx)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
@@ -20,7 +20,7 @@ func (m *BooksServiceMock) GetBooks(ctx context.Context) ([]domain.Book, error) 
 	return args.Get(0).([]domain.Book), args.Error(1)
 }
 
-func (m *BooksServiceMock) SaveBook(ctx context.Context, newBook domain.Book) error {
+func (m *MockBooksService) SaveBook(ctx context.Context, newBook domain.Book) error {
 	args := m.Called(ctx, newBook)
 	return args.Error(0)
 }

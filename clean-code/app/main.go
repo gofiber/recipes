@@ -13,7 +13,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	conf := NewConfiguration()
+	conf := newConfiguration()
 	db, err := database.NewDatabase(ctx, conf.DatabaseURL)
 	if err != nil {
 		log.Fatalf("failed to create database: %v", err)

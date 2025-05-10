@@ -12,7 +12,7 @@ import (
 )
 
 func TestGetBooks(t *testing.T) {
-	mockDB := new(database.DatabaseMock)
+	mockDB := new(database.MockDatabase)
 	mockDB.On("LoadAllBooks", mock.Anything).Return([]database.Book{{Title: "Title"}}, nil)
 
 	service := NewBooksService(mockDB)
@@ -22,7 +22,7 @@ func TestGetBooks(t *testing.T) {
 }
 
 func TestGetBooks_Fails(t *testing.T) {
-	mockDB := new(database.DatabaseMock)
+	mockDB := new(database.MockDatabase)
 	mockDB.On("LoadAllBooks", mock.Anything).Return(nil, assert.AnError)
 
 	service := NewBooksService(mockDB)
@@ -31,7 +31,7 @@ func TestGetBooks_Fails(t *testing.T) {
 }
 
 func TestSaveBook(t *testing.T) {
-	mockDB := new(database.DatabaseMock)
+	mockDB := new(database.MockDatabase)
 	mockDB.On("CreateBook", mock.Anything, database.NewBook{Title: "Title"}).Return(nil)
 
 	service := NewBooksService(mockDB)
@@ -40,7 +40,7 @@ func TestSaveBook(t *testing.T) {
 }
 
 func TestSaveBook_Fails(t *testing.T) {
-	mockDB := new(database.DatabaseMock)
+	mockDB := new(database.MockDatabase)
 	mockDB.On("CreateBook", mock.Anything, database.NewBook{Title: "Title"}).Return(assert.AnError)
 
 	service := NewBooksService(mockDB)

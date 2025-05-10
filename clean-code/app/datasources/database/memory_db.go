@@ -3,7 +3,7 @@ package database
 import "context"
 
 // This is just an example and not for production use
-func newMemoryDB() Database {
+func newMemoryDB() *memoryDB {
 	return &memoryDB{
 		records:   make([]Book, 0, 10),
 		idCounter: 0,
