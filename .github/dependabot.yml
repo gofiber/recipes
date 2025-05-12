@@ -29,7 +29,7 @@ updates:
           - "github.com/valyala/fasthttp/**"
       golang-modules:
         patterns:
-          - "golang.org/x/.*"
+          - "golang.org/x/**"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
