@@ -22,7 +22,7 @@ updates:
     groups:
       fiber-modules:
         patterns:
-          - "github.com/gofiber/**"
+          - "github.com/gofiber/fiber/**"
       fasthttp-modules:
         patterns:
           - "github.com/valyala/fasthttp"
