@@ -19,6 +19,17 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    groups:
+      fiber-modules:
+        patterns:
+          - "github.com/gofiber/**"
+      fasthttp-modules:
+        patterns:
+          - "github.com/valyala/fasthttp"
+          - "github.com/valyala/fasthttp/**"
+      golang-modules:
+        patterns:
+          - "golang.org/x/.*"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
