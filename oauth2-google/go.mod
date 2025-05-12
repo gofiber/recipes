@@ -1,11 +1,11 @@
 module fiber-oauth-google
 
-go 1.18
+go 1.23.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.30.0
 )
 
 require (
