@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-// Book represents a book in the database
+// Book represents a book in the database.
 type Book struct {
 	ID    int
 	Title string
 }
 
-// NewBook represents a new book to be created to the database
+// NewBook represents a new book to be created to the database.
 type NewBook struct {
 	Title string
 }
@@ -31,11 +31,12 @@ type Database interface {
 	CloseConnections()
 }
 
-// NewDatabase creates a new Database instance
-func NewDatabase(ctx context.Context, databaseURL string) (Database, error) {
+// NewDatabase creates a new Database instance.
+func NewDatabase(ctx context.Context, databaseURL string) (*DB, error) {
 	if databaseURL == "" {
+		db := newMemoryDB()
 		slog.Info("Using in-memory database implementation")
-		return newMemoryDB(), nil
+		return &DB{impl: db}, nil
 	}
 
 	if strings.HasPrefix(databaseURL, "postgres://") {
@@ -44,8 +45,24 @@ func NewDatabase(ctx context.Context, databaseURL string) (Database, error) {
 			return nil, fmt.Errorf("failed to initialize PostgreSQL database connection: %w", err)
 		}
 		slog.Info("Using PostgreSQL database implementation")
-		return db, nil
+		return &DB{impl: db}, nil
 	}
 
 	return nil, fmt.Errorf("unsupported database URL scheme: %s", databaseURL)
+}
+
+type DB struct {
+	impl Database
+}
+
+func (db *DB) LoadAllBooks(ctx context.Context) ([]Book, error) {
+	return db.impl.LoadAllBooks(ctx)
+}
+
+func (db *DB) CreateBook(ctx context.Context, newBook NewBook) error {
+	return db.impl.CreateBook(ctx, newBook)
+}
+
+func (db *DB) CloseConnections() {
+	db.impl.CloseConnections()
 }

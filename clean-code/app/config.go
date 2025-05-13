@@ -5,13 +5,13 @@ import (
 	"os"
 )
 
-// Configuration is used to store values from environment variables
+// Configuration is used to store values from environment variables.
 type configuration struct {
 	Port        string
 	DatabaseURL string
 }
 
-// NewConfiguration reads environment variables and returns a new Configuration
+// NewConfiguration reads environment variables and returns a new Configuration.
 func newConfiguration() *configuration {
 	dbURL := getEnvOrDefault("DATABASE_URL", "")
 	if dbURL == "" {

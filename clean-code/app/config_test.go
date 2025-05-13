@@ -8,10 +8,8 @@ import (
 )
 
 func TestNewConfiguration(t *testing.T) {
-	os.Setenv("PORT", "8080")
-	os.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/dbname")
-	defer os.Unsetenv("PORT")
-	defer os.Unsetenv("DATABASE_URL")
+	t.Setenv("PORT", "8080")
+	t.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/dbname")
 
 	conf := newConfiguration()
 
@@ -20,9 +18,6 @@ func TestNewConfiguration(t *testing.T) {
 }
 
 func TestNewConfiguration_Defaults(t *testing.T) {
-	os.Unsetenv("PORT")
-	os.Unsetenv("DATABASE_URL")
-
 	conf := newConfiguration()
 
 	assert.Equal(t, "3000", conf.Port)
@@ -30,7 +25,7 @@ func TestNewConfiguration_Defaults(t *testing.T) {
 }
 
 func TestGetEnvOrDefault(t *testing.T) {
-	os.Setenv("TEST_ENV", "value")
+	t.Setenv("TEST_ENV", "value")
 	defer os.Unsetenv("TEST_ENV")
 
 	value := getEnvOrDefault("TEST_ENV", "default")

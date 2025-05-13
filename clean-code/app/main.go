@@ -16,10 +16,10 @@ func main() {
 	conf := newConfiguration()
 	db, err := database.NewDatabase(ctx, conf.DatabaseURL)
 	if err != nil {
-		log.Fatalf("failed to create database: %v", err)
+		log.Panicf("failed to create database: %v", err)
 	}
 	defer db.CloseConnections()
 
-	app := server.NewServer(ctx, &datasources.DataSources{DB: db})
-	log.Fatal(app.Listen(":" + conf.Port))
+	app := server.NewServer(&datasources.DataSources{DB: db})
+	log.Panic(app.Listen(":" + conf.Port))
 }

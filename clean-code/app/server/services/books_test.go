@@ -9,6 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGetBooks(t *testing.T) {
@@ -17,7 +18,7 @@ func TestGetBooks(t *testing.T) {
 
 	service := NewBooksService(mockDB)
 	books, err := service.GetBooks(context.Background())
-	assert.Nil(t, err)
+	require.NoError(t, err)
 	assert.Len(t, books, 1)
 }
 
@@ -27,7 +28,7 @@ func TestGetBooks_Fails(t *testing.T) {
 
 	service := NewBooksService(mockDB)
 	_, err := service.GetBooks(context.Background())
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }
 
 func TestSaveBook(t *testing.T) {
@@ -36,7 +37,7 @@ func TestSaveBook(t *testing.T) {
 
 	service := NewBooksService(mockDB)
 	err := service.SaveBook(context.Background(), domain.Book{Title: "Title"})
-	assert.Nil(t, err)
+	require.NoError(t, err)
 }
 
 func TestSaveBook_Fails(t *testing.T) {
@@ -45,5 +46,5 @@ func TestSaveBook_Fails(t *testing.T) {
 
 	service := NewBooksService(mockDB)
 	err := service.SaveBook(context.Background(), domain.Book{Title: "Title"})
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }

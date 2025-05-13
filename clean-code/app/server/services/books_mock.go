@@ -14,10 +14,11 @@ type MockBooksService struct {
 
 func (m *MockBooksService) GetBooks(ctx context.Context) ([]domain.Book, error) {
 	args := m.Called(ctx)
-	if args.Get(0) == nil {
+	books, ok := args.Get(0).([]domain.Book)
+	if !ok {
 		return nil, args.Error(1)
 	}
-	return args.Get(0).([]domain.Book), args.Error(1)
+	return books, args.Error(1)
 }
 
 func (m *MockBooksService) SaveBook(ctx context.Context, newBook domain.Book) error {

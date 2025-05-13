@@ -12,10 +12,10 @@ type MockDatabase struct {
 
 func (m *MockDatabase) LoadAllBooks(ctx context.Context) ([]Book, error) {
 	args := m.Called(ctx)
-	if args.Get(0) == nil {
-		return nil, args.Error(1)
+	if books, ok := args.Get(0).([]Book); ok {
+		return books, args.Error(1)
 	}
-	return args.Get(0).([]Book), args.Error(1)
+	return []Book{}, args.Error(1)
 }
 
 func (m *MockDatabase) CreateBook(ctx context.Context, newBook NewBook) error {
