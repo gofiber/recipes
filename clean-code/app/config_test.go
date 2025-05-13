@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,7 +25,6 @@ func TestNewConfiguration_Defaults(t *testing.T) {
 
 func TestGetEnvOrDefault(t *testing.T) {
 	t.Setenv("TEST_ENV", "value")
-	defer os.Unsetenv("TEST_ENV")
 
 	value := getEnvOrDefault("TEST_ENV", "default")
 	assert.Equal(t, "value", value)
