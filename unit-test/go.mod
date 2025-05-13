@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.10.0
 )
 
 require (
