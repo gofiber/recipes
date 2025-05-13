@@ -2,10 +2,13 @@ package database
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"strings"
 )
+
+var ErrUnsupportedDatabase = errors.New("unsupported database URL")
 
 // Book represents a book in the database.
 type Book struct {
@@ -48,7 +51,7 @@ func NewDatabase(ctx context.Context, databaseURL string) (*DB, error) {
 		return &DB{impl: db}, nil
 	}
 
-	return nil, fmt.Errorf("unsupported database URL scheme: %s", databaseURL)
+	return nil, fmt.Errorf("%w: %s", ErrUnsupportedDatabase, databaseURL)
 }
 
 type DB struct {

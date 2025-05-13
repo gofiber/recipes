@@ -28,7 +28,7 @@ func TestNewDatabase_PostgresDB(t *testing.T) {
 func TestNewDatabase_InvalidDatabaseConfiguration(t *testing.T) {
 	ctx := context.Background()
 	_, err := NewDatabase(ctx, "invalid")
-	assert.ErrorContains(t, err, "unsupported database")
+	assert.EqualError(t, err, "unsupported database URL: invalid")
 }
 
 func assertBook(t *testing.T, book Book, expectedID int, expected NewBook) {
