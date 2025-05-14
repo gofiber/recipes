@@ -7,13 +7,14 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/lib/pq v1.10.9
 	github.com/volatiletech/null/v8 v8.1.2
-	github.com/volatiletech/sqlboiler/v4 v4.16.2
-	github.com/volatiletech/strmangle v0.0.6
+	github.com/volatiletech/sqlboiler/v4 v4.19.0
+	github.com/volatiletech/strmangle v0.0.8
 )
 
 require (
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
+	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
