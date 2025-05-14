@@ -23,7 +23,10 @@ type Book struct {
 	Author string `json:"author" validate:"required"`
 }
 
-// API keys (in real life, these would be stored in a database)
+// API keys for demo purposes only
+// WARNING: In production applications:
+// - Never hardcode API keys in source code
+// - Use a secure database and only store hashed keys
 var apiKeys = map[string]apiKeyInfo{
 	"d7e123f5a2b9c4e8d6a7b2c1f5e9d3a4": {userID: "user1", userName: "Alice", group: "admin"},
 	"8f4e2d1c9b7a5f3e2d8c6b4a9f7e3d1c": {userID: "user2", userName: "Bob", group: "developer"},
