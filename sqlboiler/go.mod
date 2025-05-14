@@ -8,7 +8,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.19.0
-	github.com/volatiletech/strmangle v0.0.6
+	github.com/volatiletech/strmangle v0.0.8
 )
 
 require (
