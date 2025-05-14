@@ -19,8 +19,8 @@ type apiKeyInfo struct {
 }
 
 type Book struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
+	Title  string `json:"title" validate:"required"`
+	Author string `json:"author" validate:"required"`
 }
 
 // API keys (in real life, these would be stored in a database)
