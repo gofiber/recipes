@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"log"
+	"os"
 
 	apitally "github.com/apitally/apitally-go/fiber"
 	"github.com/go-playground/validator"
@@ -55,7 +56,7 @@ func main() {
 
 	// Monitoring and request logging with Apitally
 	apitallyConfig := &apitally.ApitallyConfig{
-		ClientId: "your-client-id",
+		ClientId: os.Getenv("APITALLY_CLIENT_ID"),
 		Env:      "dev",
 		// Enable request logging (optional)
 		RequestLoggingConfig: &apitally.RequestLoggingConfig{

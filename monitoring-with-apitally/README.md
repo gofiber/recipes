@@ -19,7 +19,7 @@ Ensure you have Golang installed.
 1. Clone the repository:
     ```sh
     git clone https://github.com/gofiber/recipes.git
-    cd recipes/rest-api-starter
+    cd recipes/monitoring-with-apitally
     ```
 
 2. Install dependencies:
@@ -27,20 +27,13 @@ Ensure you have Golang installed.
     go get
     ```
 
-3. Obtain a client ID from [Apitally](https://apitally.io/fiber) by signing up and creating a new app in the dashboard. Then paste the client ID into the `main.go` file:
-    ```go
-    apitallyConfig := &apitally.ApitallyConfig{
-        ClientId: "your-client-id",
-        Env:      "dev",
-        // ...
-    }
-    ```
+3. Obtain a client ID from [Apitally](https://apitally.io/fiber) by signing up and creating a new app in the dashboard.
 
 ## Running the application
 
 1. Start the application:
     ```sh
-    go run main.go
+    APITALLY_CLIENT_ID=your-client-id go run main.go
     ```
 
 2. Make requests to the API:
