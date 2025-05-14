@@ -8,7 +8,9 @@ description: A simple REST API with monitoring and request logging using Apitall
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/monitoring-with-apitally) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/monitoring-with-apitally)
 
-This project showcases a simple REST API built with the Fiber framework in Go, featuring monitoring and request logging via [Apitally](https://apitally.io/fiber).
+This project showcases a simple REST API built with the Fiber framework in Go, featuring monitoring and request logging via Apitally.
+
+[Apitally](https://apitally.io/fiber) is a lightweight monitoring and analytics tool that helps developers track API usage, performance, and errors with minimal setup.
 
 ## Prerequisites
 
