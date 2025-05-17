@@ -17,11 +17,11 @@ type PostgresPool interface {
 	Close()
 }
 
-func newPostgresDB(ctx context.Context, databaseURL string) (Database, error) {
+func newPostgresDB(ctx context.Context, databaseURL string) (*postgresDB, error) {
 	// For production use set connection pool settings and validate connection with ping
 	dbpool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {
-		return nil, fmt.Errorf("unable to create connection pool: %v", err)
+		return nil, fmt.Errorf("unable to create connection pool: %w", err)
 	}
 	return &postgresDB{
 		pool: dbpool,
@@ -32,7 +32,7 @@ type postgresDB struct {
 	pool PostgresPool
 }
 
-// LoadAllBooks loads all books from the database
+// LoadAllBooks loads all books from the database.
 func (db *postgresDB) LoadAllBooks(ctx context.Context) ([]Book, error) {
 	rows, err := db.pool.Query(ctx, "SELECT id, title FROM books")
 	if err != nil {
@@ -47,7 +47,7 @@ func (db *postgresDB) LoadAllBooks(ctx context.Context) ([]Book, error) {
 	return books, nil
 }
 
-// CreateBook creates a new book in the database
+// CreateBook creates a new book in the database.
 func (db *postgresDB) CreateBook(ctx context.Context, newBook NewBook) error {
 	_, err := db.pool.Exec(ctx, "INSERT INTO books (title) VALUES ($1)", newBook.Title)
 	if err != nil {
@@ -56,7 +56,7 @@ func (db *postgresDB) CreateBook(ctx context.Context, newBook NewBook) error {
 	return nil
 }
 
-// CloseConnections closes the database connection pool
+// CloseConnections closes the database connection pool.
 func (db *postgresDB) CloseConnections() {
 	db.pool.Close()
 }
