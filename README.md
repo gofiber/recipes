@@ -60,6 +60,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Memgraph](./memgraph/README.md) - Using Memgraph.
 - [MinIO](./minio/README.md) - A simple application for uploading and downloading files from MinIO.
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
+- [Monitoring with Apitally](./monitoring-with-apitally/README.md) - A simple REST API with monitoring and request logging using Apitally.
 - [Multiple Ports](./multiple-ports/README.md) - Running an application on multiple ports.
 - [MySQL](./mysql/README.md) - Connecting to a MySQL database.
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
