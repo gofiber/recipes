@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/gofiber/contrib/swagger v1.2.1
+	github.com/gofiber/contrib/swagger v1.3.0
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/swaggo/swag v1.16.4
 	gorm.io/driver/postgres v1.5.11
