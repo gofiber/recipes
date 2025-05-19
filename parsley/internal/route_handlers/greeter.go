@@ -21,13 +21,11 @@ func (h *greeterRouteHandler) Register(app *fiber.App) {
 
 // HandleSayHelloRequest Handles "GET /say-hello" requests.
 func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
+
 	name := ctx.Query("name")
 
 	politeFlag := ctx.Query("polite", defaultPoliteFlag)
-	polite, err := strconv.ParseBool(politeFlag)
-	if err != nil {
-		polite = true
-	}
+	polite, _ := strconv.ParseBool(politeFlag)
 
 	msg := h.greeter.SayHello(name, polite)
 	return ctx.Status(fiber.StatusOK).Send([]byte(msg))
