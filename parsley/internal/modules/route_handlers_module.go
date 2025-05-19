@@ -1,8 +1,7 @@
 package modules
 
 import (
-	"parsley-app/internal/route_handlers"
-
+	"github.com/gofiber/recipes/parsley-app/internal/route_handlers"
 	"github.com/matzefriedrich/parsley/pkg/features"
 	"github.com/matzefriedrich/parsley/pkg/registration"
 	"github.com/matzefriedrich/parsley/pkg/types"

@@ -3,9 +3,8 @@ package route_handlers
 import (
 	"strconv"
 
-	"parsley-app/internal/services"
-
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/recipes/parsley-app/internal/services"
 )
 
 type greeterRouteHandler struct {
@@ -25,7 +24,10 @@ func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
 	name := ctx.Query("name")
 
 	politeFlag := ctx.Query("polite", defaultPoliteFlag)
-	polite, _ := strconv.ParseBool(politeFlag)
+	polite, err := strconv.ParseBool(politeFlag)
+	if err != nil {
+		polite = true
+	}
 
 	msg := h.greeter.SayHello(name, polite)
 	return ctx.Status(fiber.StatusOK).Send([]byte(msg))

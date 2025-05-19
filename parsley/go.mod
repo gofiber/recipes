@@ -1,4 +1,4 @@
-module parsley-app
+module github.com/gofiber/recipes/parsley-app
 
 go 1.23.0
 
