@@ -28,7 +28,7 @@ In this example, we use [Parsley](https://github.com/matzefriedrich/parsley) to:
 ### Key features
 
 * **Modular configuration:** Services are registered in modules, allowing for a clean separation of concerns.
-* **Automatic dependency injection:** Constructor-based dependency injection wire services together.
+* **Automatic dependency injection:** Constructor-based dependency injection wires services together.
 * **Simplified route management:** Route handlers are registered and managed via the DI container, making it easy to extend and maintain.
 
 
@@ -36,8 +36,7 @@ In this example, we use [Parsley](https://github.com/matzefriedrich/parsley) to:
 
 * The `main` function bootstraps the application using Parsley’s `RunParsleyApplication` function.
 * Modules define how services (such as the Fiber app and route handlers) are registered and configured.
-* Route handlers are implemented as services that receive their dependencies (like the `Greeter` service) via constructor injection.
-The `Greeter` service is a simple example of how services can be injected and used within route handlers to handle requests.
+* Route handlers are implemented as services that receive their dependencies (like the `Greeter` service) via constructor injection. The `Greeter` service is a simple example of how services can be injected and used within route handlers to handle requests.
 
 
 ## The recipe - step by step
@@ -57,18 +56,18 @@ package main
 import (
     "context"
 
-    "parsley-app/internal"
-    "parsley-app/internal/modules"
+    "github.com/gofiber/recipes/parsley-app/internal"
+    "github.com/gofiber/recipes/parsley-app/internal/modules"
 
     "github.com/matzefriedrich/parsley/pkg/bootstrap"
 )
 
 func main() {
 
-    context := context.Background()
+    ctx := context.Background()
 
     // Runs a Fiber instance as a Parsley-enabled app
-    bootstrap.RunParsleyApplication(context, internal.NewApp,
+    bootstrap.RunParsleyApplication(ctx, internal.NewApp,
         modules.ConfigureFiber,
         modules.ConfigureGreeter)
 }
@@ -148,7 +147,7 @@ The `Greeter` service is registered by the `ConfigureGreeter` service registrati
 package modules
 
 import (
-    "parsley-app/internal/services"
+    "github.com/gofiber/recipes/parsley-app/internal/services"
 
     "github.com/matzefriedrich/parsley/pkg/types"
 )
@@ -172,7 +171,7 @@ package route_handlers
 import (
     "strconv"
 
-    "parsley-app/internal/services"
+    "github.com/gofiber/recipes/parsley-app/internal/services"
 
     "github.com/gofiber/fiber/v2"
 )
@@ -218,7 +217,7 @@ To start the application, execute:
 go run ./cmd/main.go
 ```
 
-Once running, you can test the `say-hello` endpoint via the browser, or from the terminal using `curl`.
+Once running, you can test the `say-hello` endpoint via the browser, or from the terminal using `curl`. For this recipe, the default listening port is `5502`:
 
 ```sh
 curl http://localhost:5502/say-hello?name=YourName&polite=true
