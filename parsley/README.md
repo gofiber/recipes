@@ -55,22 +55,22 @@ The main entry point of the application is in the `cmd/main.go`.
 package main
 
 import (
-	"context"
+    "context"
 
-	"parsley-app/internal"
-	"parsley-app/internal/modules"
+    "parsley-app/internal"
+    "parsley-app/internal/modules"
 
-	"github.com/matzefriedrich/parsley/pkg/bootstrap"
+    "github.com/matzefriedrich/parsley/pkg/bootstrap"
 )
 
 func main() {
 
-	context := context.Background()
+    context := context.Background()
 
-	// Runs a Fiber instance as a Parsley-enabled app
-	bootstrap.RunParsleyApplication(context, internal.NewApp,
-		modules.ConfigureFiber,
-		modules.ConfigureGreeter)
+    // Runs a Fiber instance as a Parsley-enabled app
+    bootstrap.RunParsleyApplication(context, internal.NewApp,
+        modules.ConfigureFiber,
+        modules.ConfigureGreeter)
 }
 ```
 
@@ -87,27 +87,27 @@ The `ConfigureFiber` function sets up the Fiber application and registers it as 
 package modules
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/matzefriedrich/parsley/pkg/registration"
-	"github.com/matzefriedrich/parsley/pkg/types"
+    "github.com/gofiber/fiber/v2"
+    "github.com/matzefriedrich/parsley/pkg/registration"
+    "github.com/matzefriedrich/parsley/pkg/types"
 )
 
 var _ types.ModuleFunc = ConfigureFiber
 
 func ConfigureFiber(registry types.ServiceRegistry) error {
-	registration.RegisterInstance(registry, fiber.Config{
-		AppName:   "parsley-app-recipe",
-		Immutable: true,
-	})
+    registration.RegisterInstance(registry, fiber.Config{
+        AppName:   "parsley-app-recipe",
+        Immutable: true,
+    })
 
-	registry.Register(newFiber, types.LifetimeSingleton)
-	registry.RegisterModule(RegisterRouteHandlers)
+    registry.Register(newFiber, types.LifetimeSingleton)
+    registry.RegisterModule(RegisterRouteHandlers)
 
-	return nil
+    return nil
 }
 
 func newFiber(config fiber.Config) *fiber.App {
-	return fiber.New(config)
+    return fiber.New(config)
 }
 
 ```
@@ -125,20 +125,20 @@ package services
 import "fmt"
 
 type Greeter interface {
-	SayHello(name string, polite bool) string
+    SayHello(name string, polite bool) string
 }
 
 type greeter struct{}
 
 func (g *greeter) SayHello(name string, polite bool) string {
-	if polite {
-		return fmt.Sprintf("Good day, %s!\n", name)
-	}
-	return fmt.Sprintf("Hi, %s\n", name)
+    if polite {
+        return fmt.Sprintf("Good day, %s!\n", name)
+    }
+    return fmt.Sprintf("Hi, %s\n", name)
 }
 
 func NewGreeter() Greeter {
-	return &greeter{}
+    return &greeter{}
 }
 ```
 
@@ -148,14 +148,14 @@ The `Greeter` service is registered by the `ConfigureGreeter` service registrati
 package modules
 
 import (
-	"parsley-app/internal/services"
+    "parsley-app/internal/services"
 
-	"github.com/matzefriedrich/parsley/pkg/types"
+    "github.com/matzefriedrich/parsley/pkg/types"
 )
 
 func ConfigureGreeter(registry types.ServiceRegistry) error {
-	registry.Register(services.NewGreeterFactory, types.LifetimeTransient)
-	return nil
+    registry.Register(services.NewGreeterFactory, types.LifetimeTransient)
+    return nil
 }
 ```
 
@@ -170,40 +170,40 @@ Route handlers in this example are services that implement the `RouteHandler` in
 package route_handlers
 
 import (
-	"strconv"
+    "strconv"
 
-	"parsley-app/internal/services"
+    "parsley-app/internal/services"
 
-	"github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2"
 )
 
 type greeterRouteHandler struct {
-	greeter services.Greeter
+    greeter services.Greeter
 }
 
 const defaultPoliteFlag = "true"
 
 func (h *greeterRouteHandler) Register(app *fiber.App) {
-	app.Get("/say-hello", h.HandleSayHelloRequest)
+    app.Get("/say-hello", h.HandleSayHelloRequest)
 }
 
 func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
 
-	name := ctx.Query("name")
+    name := ctx.Query("name")
 
-	politeFlag := ctx.Query("polite", defaultPoliteFlag)
-	polite, _ := strconv.ParseBool(politeFlag)
+    politeFlag := ctx.Query("polite", defaultPoliteFlag)
+    polite, _ := strconv.ParseBool(politeFlag)
 
-	msg := h.greeter.SayHello(name, polite)
-	return ctx.Status(fiber.StatusOK).Send([]byte(msg))
+    msg := h.greeter.SayHello(name, polite)
+    return ctx.Status(fiber.StatusOK).Send([]byte(msg))
 }
 
 var _ RouteHandler = &greeterRouteHandler{}
 
 func NewGreeterRouteHandler(greeter services.Greeter) RouteHandler {
-	return &greeterRouteHandler{
-		greeter: greeter,
-	}
+    return &greeterRouteHandler{
+        greeter: greeter,
+    }
 }
 ```
 
