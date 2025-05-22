@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
-	github.com/matzefriedrich/parsley v0.8.3
+	github.com/matzefriedrich/parsley v1.0.12
 )
 
 require (
