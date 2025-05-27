@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	"parsley-app/internal/route_handlers"
+	"github.com/gofiber/recipes/parsley-app/internal/route_handlers"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/matzefriedrich/parsley/pkg/bootstrap"
