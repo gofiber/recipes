@@ -57,6 +57,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [I18n](./i18n/README.md) - Internationalization support.
 - [JWT](./jwt/README.md) - Using JSON Web Tokens (JWT) for authentication.
 - [Kubernetes](./k8s/README.md) - Deploying applications to Kubernetes.
+- [Local Development with Testcontainers](./local-development-testcontainers/README.md) - Local development with Testcontainers.
 - [Memgraph](./memgraph/README.md) - Using Memgraph.
 - [MinIO](./minio/README.md) - A simple application for uploading and downloading files from MinIO.
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
