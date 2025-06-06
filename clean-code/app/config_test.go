@@ -1,37 +1,30 @@
 package main
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewConfiguration(t *testing.T) {
-	os.Setenv("PORT", "8080")
-	os.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/dbname")
-	defer os.Unsetenv("PORT")
-	defer os.Unsetenv("DATABASE_URL")
+	t.Setenv("PORT", "8080")
+	t.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/dbname")
 
-	conf := NewConfiguration()
+	conf := newConfiguration()
 
 	assert.Equal(t, "8080", conf.Port)
 	assert.Equal(t, "postgres://user:pass@localhost:5432/dbname", conf.DatabaseURL)
 }
 
 func TestNewConfiguration_Defaults(t *testing.T) {
-	os.Unsetenv("PORT")
-	os.Unsetenv("DATABASE_URL")
-
-	conf := NewConfiguration()
+	conf := newConfiguration()
 
 	assert.Equal(t, "3000", conf.Port)
 	assert.Equal(t, "", conf.DatabaseURL)
 }
 
 func TestGetEnvOrDefault(t *testing.T) {
-	os.Setenv("TEST_ENV", "value")
-	defer os.Unsetenv("TEST_ENV")
+	t.Setenv("TEST_ENV", "value")
 
 	value := getEnvOrDefault("TEST_ENV", "default")
 	assert.Equal(t, "value", value)
