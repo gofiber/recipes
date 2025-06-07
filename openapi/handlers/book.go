@@ -112,7 +112,9 @@ func DeleteBook(ctx context.Context, params *struct {
 		return nil, err
 	}
 
-	db.Delete(&book)
+	if err := db.Delete(&book).Error; err != nil {
+		return nil, err
+	}
 
 	return &EmptyResponse{}, nil
 }

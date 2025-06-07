@@ -22,12 +22,12 @@ var (
 
 // Connect creates a connection to database
 func Connect() (err error) {
-	port, err := strconv.Atoi(port)
+	portInt, err := strconv.Atoi(port)
 	if err != nil {
 		return err
 	}
 
-	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%d sslmode=disable", user, password, host, db, port)
+	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%d sslmode=disable", user, password, host, db, portInt)
 	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return err
