@@ -1,8 +1,7 @@
 package modules
 
 import (
-	"parsley-app/internal/services"
-
+	"github.com/gofiber/recipes/parsley-app/internal/services"
 	"github.com/matzefriedrich/parsley/pkg/types"
 )
 
