@@ -82,7 +82,7 @@ func Login(c *fiber.Ctx) error {
 		userModel, err = getUserByUsername(identity)
 	}
 
-	const dummyHash = "$2a$10$N9qo8uLOickgx2ZMRZo5i.uEoE9Eh5bVJ2mquHgGjxvGFyWqZ7K7C"
+	const dummyHash = "$2a$10$7zFqzDbD3RrlkMTczbXG9OWZ0FLOXjIxXzSZ.QZxkVXjXcx7QZQiC" // => Hashed " "
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
