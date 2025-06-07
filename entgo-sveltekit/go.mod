@@ -5,7 +5,7 @@ go 1.23.0
 require (
 	entgo.io/ent v0.14.4
 	github.com/fatih/color v1.18.0
-	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v2 v2.52.7
 	github.com/google/uuid v1.6.0
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/stretchr/testify v1.10.0
