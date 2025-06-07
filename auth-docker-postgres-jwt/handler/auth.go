@@ -82,10 +82,12 @@ func Login(c *fiber.Ctx) error {
 		userModel, err = getUserByUsername(identity)
 	}
 
+	const dummyHash = "$2a$10$N9qo8uLOickgx2ZMRZo5i.uEoE9Eh5bVJ2mquHgGjxvGFyWqZ7K7C"
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
 	} else if userModel == nil {
-		CheckPasswordHash(pass, "")
+		CheckPasswordHash(pass, dummyHash)
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid identity or password", "data": err})
 	} else {
 		ud = UserData{
