@@ -64,6 +64,7 @@ Here is a minimal example of adding huma to a existing Fiber codebase:
 ```go
 import (
    ...
+   "github.com/gofiber/fiber/v2"
    "github.com/danielgtaylor/huma/v2"
    "github.com/danielgtaylor/huma/v2/adapters/humafiber"
 )
