@@ -57,8 +57,9 @@ func GetUser(c *fiber.Ctx) error {
 // CreateUser new user
 func CreateUser(c *fiber.Ctx) error {
 	type NewUser struct {
-		Username string `json:"username"`
-		Email    string `json:"email"`
+		Username string `json:"username" validate:"required,max=50"`
+		Email    string `json:"email" validate:"required,email,max=50"`
+		Password string `json:"password" validate:"required,min=6"`
 	}
 
 	db := database.DB
@@ -70,6 +71,10 @@ func CreateUser(c *fiber.Ctx) error {
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body", "errors": err.Error()})
+	}
+
+	if len(user.Password) > 72 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body", "errors": "Password too long"})
 	}
 
 	hash, err := hashPassword(user.Password)
