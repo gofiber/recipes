@@ -32,7 +32,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
-- [Email Verification](./email-verification/README.md) - Email verification service with code generation and validation.
+- [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
 - [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
 - [Envoy External Authorization](./envoy-extauthz/README.md) - External authorization with Envoy.
@@ -66,6 +66,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
 - [OAuth2](./oauth2/README.md) - Implementing OAuth2 authentication.
 - [Google OAuth2](./oauth2-google/README.md) - Implementing Google OAuth2 authentication.
+- [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
