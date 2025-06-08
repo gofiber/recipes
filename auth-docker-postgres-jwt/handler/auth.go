@@ -87,7 +87,10 @@ func Login(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
 	} else if userModel == nil {
+
+		// Always perform a hash check, even if the user doesn't exist, to prevent timing attacks
 		CheckPasswordHash(pass, dummyHash)
+
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid identity or password", "data": err})
 	} else {
 		ud = UserData{
