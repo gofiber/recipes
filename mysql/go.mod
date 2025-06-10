@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v2 v2.52.8
 )
 
 require (

@@ -2,7 +2,7 @@ module main
 
 go 1.23.0
 
-require github.com/gofiber/fiber/v2 v2.52.6
+require github.com/gofiber/fiber/v2 v2.52.8
 
 require (
 	github.com/minio/crc64nvme v1.0.1 // indirect
@@ -26,8 +26,8 @@ require (
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.62.0 // indirect
-	golang.org/x/crypto v0.38.0 // indirect
+	golang.org/x/crypto v0.39.0 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/text v0.26.0 // indirect
 )
