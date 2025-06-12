@@ -1,9 +1,9 @@
 github.com/andybalholm/brotli v1.1.1 h1:PR2pgnyFznKEugtsUo0xLdDop5SKXd5Qf5ysW+7XdTA=
 github.com/andybalholm/brotli v1.1.1/go.mod h1:05ib4cKhjx3OQYUY22hTVd34Bc8upXjOLL2rKwwZBoA=
-github.com/apitally/apitally-go v0.6.0 h1:r8PwjAgxtHccaXml065npY+yoXHmN2na2LbSC9fX72Q=
-github.com/apitally/apitally-go v0.6.0/go.mod h1:5nxehsTcKFlNHGUR4f/qWuCfCC6cK46ks59vuVVtsAE=
-github.com/apitally/apitally-go/fiber v0.6.0 h1:2VKqgXxUPETY09xTW+tE1stxAAJWtYDlv06nWM9z4qU=
-github.com/apitally/apitally-go/fiber v0.6.0/go.mod h1:lx3USCBYkZqbIJmuS/WBVyEByvJs3XhLuhcH0MsLEDI=
+github.com/apitally/apitally-go v0.6.1 h1:A2UBrpqxFchnbTf+x8ZsIhCSs9KH3P9/dfNu0YMNpn8=
+github.com/apitally/apitally-go v0.6.1/go.mod h1:5nxehsTcKFlNHGUR4f/qWuCfCC6cK46ks59vuVVtsAE=
+github.com/apitally/apitally-go/fiber v0.6.1 h1:1gPSz0t+GlHohqbVhlPSjIJ79Clsb8Npz3CP5rQ29sI=
+github.com/apitally/apitally-go/fiber v0.6.1/go.mod h1:t9zWBGvbfUEGGK5kh2tgnYCTYWvtu5lbHRkst6hKTJk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
