@@ -3,9 +3,9 @@ module fiber-gorm
 go 1.23.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.6
-	gorm.io/driver/sqlite v1.5.7
-	gorm.io/gorm v1.26.1
+	github.com/gofiber/fiber/v2 v2.52.8
+	gorm.io/driver/sqlite v1.6.0
+	gorm.io/gorm v1.30.0
 )
 
 require (
@@ -22,5 +22,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.62.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/text v0.26.0 // indirect
 )
