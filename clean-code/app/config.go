@@ -5,19 +5,17 @@ import (
 	"os"
 )
 
-// Configuration is used to store values from environment variables
-type Configuration struct {
+type configuration struct {
 	Port        string
 	DatabaseURL string
 }
 
-// NewConfiguration reads environment variables and returns a new Configuration
-func NewConfiguration() *Configuration {
+func newConfiguration() *configuration {
 	dbURL := getEnvOrDefault("DATABASE_URL", "")
 	if dbURL == "" {
 		slog.Warn("DATABASE_URL is not set")
 	}
-	return &Configuration{
+	return &configuration{
 		Port:        getEnvOrDefault("PORT", "3000"),
 		DatabaseURL: dbURL,
 	}

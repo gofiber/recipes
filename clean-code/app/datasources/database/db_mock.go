@@ -6,22 +6,22 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type DatabaseMock struct {
+type MockDatabase struct {
 	mock.Mock
 }
 
-func (m *DatabaseMock) LoadAllBooks(ctx context.Context) ([]Book, error) {
+func (m *MockDatabase) LoadAllBooks(ctx context.Context) ([]Book, error) {
 	args := m.Called(ctx)
-	if args.Get(0) == nil {
-		return nil, args.Error(1)
+	if books, ok := args.Get(0).([]Book); ok {
+		return books, args.Error(1)
 	}
-	return args.Get(0).([]Book), args.Error(1)
+	return []Book{}, args.Error(1)
 }
 
-func (m *DatabaseMock) CreateBook(ctx context.Context, newBook NewBook) error {
+func (m *MockDatabase) CreateBook(ctx context.Context, newBook NewBook) error {
 	args := m.Called(ctx, newBook)
 	return args.Error(0)
 }
 
-func (m *DatabaseMock) CloseConnections() {
+func (m *MockDatabase) CloseConnections() {
 }

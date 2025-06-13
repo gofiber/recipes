@@ -6,11 +6,12 @@ import (
 
 	"github.com/pashagolub/pgxmock/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestPostgresDB_GetBooks(t *testing.T) {
 	mockPool, err := pgxmock.NewPool()
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	mockPool.ExpectQuery("SELECT id, title FROM books").
 		WillReturnRows(pgxmock.NewRows([]string{"id", "title"}).
@@ -20,16 +21,16 @@ func TestPostgresDB_GetBooks(t *testing.T) {
 		pool: mockPool,
 	}
 	result, err := db.LoadAllBooks(context.Background())
-	assert.Nil(t, err)
-	assert.Equal(t, 1, len(result))
+	require.NoError(t, err)
+	assert.Len(t, result, 1)
 	assertBook(t, result[0], 1, NewBook{Title: "book1"})
 
-	assert.Nil(t, mockPool.ExpectationsWereMet())
+	require.NoError(t, mockPool.ExpectationsWereMet())
 }
 
 func TestPostgresDB_GetBooks_Fail(t *testing.T) {
 	mockPool, err := pgxmock.NewPool()
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	mockPool.ExpectQuery("SELECT id, title FROM books").
 		WillReturnError(assert.AnError)
@@ -39,14 +40,14 @@ func TestPostgresDB_GetBooks_Fail(t *testing.T) {
 	}
 	result, err := db.LoadAllBooks(context.Background())
 	assert.Nil(t, result)
-	assert.ErrorContains(t, err, "failed to query books table")
+	require.ErrorContains(t, err, "failed to query books table")
 
-	assert.Nil(t, mockPool.ExpectationsWereMet())
+	require.NoError(t, mockPool.ExpectationsWereMet())
 }
 
 func TestPostgresDB_CreateBook(t *testing.T) {
 	mockPool, err := pgxmock.NewPool()
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	mockPool.ExpectExec("INSERT INTO books").
 		WithArgs("book1").
@@ -56,14 +57,14 @@ func TestPostgresDB_CreateBook(t *testing.T) {
 		pool: mockPool,
 	}
 	err = db.CreateBook(context.Background(), NewBook{Title: "book1"})
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
-	assert.Nil(t, mockPool.ExpectationsWereMet())
+	require.NoError(t, mockPool.ExpectationsWereMet())
 }
 
 func TestPostgresDB_CreateBook_Fail(t *testing.T) {
 	mockPool, err := pgxmock.NewPool()
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	mockPool.ExpectExec("INSERT INTO books").
 		WithArgs("book1").
@@ -73,7 +74,7 @@ func TestPostgresDB_CreateBook_Fail(t *testing.T) {
 		pool: mockPool,
 	}
 	err = db.CreateBook(context.Background(), NewBook{Title: "book1"})
-	assert.ErrorContains(t, err, "failed to insert book")
+	require.ErrorContains(t, err, "failed to insert book")
 
-	assert.Nil(t, mockPool.ExpectationsWereMet())
+	require.NoError(t, mockPool.ExpectationsWereMet())
 }
