@@ -14,8 +14,8 @@ github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWE
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
-github.com/matzefriedrich/parsley v1.0.12 h1:W1fU77+w86d1g9bhRS+2aGZayJIqxFuEHM9jHV05ofU=
-github.com/matzefriedrich/parsley v1.0.12/go.mod h1:dphuivszz/gUobbZHpI3nkAP71gSTtIl7jcZsYPRNjc=
+github.com/matzefriedrich/parsley v1.0.14 h1:Z5wVuCnV3WBXN8PfRtboEI/7nmGxIcic1z09mMB4R3o=
+github.com/matzefriedrich/parsley v1.0.14/go.mod h1:rTtlRujW1GBKtiOrhU69Xh8Ek34UlD8+tINhKvNMods=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
