@@ -3,7 +3,7 @@ module docker-mariadb-clean-arch
 go 1.23.0
 
 require (
-	github.com/go-sql-driver/mysql v1.8.1
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gofiber/contrib/jwt v1.1.2
 	github.com/gofiber/fiber/v2 v2.52.8
 	github.com/golang-jwt/jwt/v5 v5.2.2
