@@ -5,7 +5,7 @@ go 1.23.0
 require (
 	cloud.google.com/go/firestore v1.18.0
 	github.com/gofiber/fiber/v2 v2.52.8
-	google.golang.org/api v0.237.0
+	google.golang.org/api v0.238.0
 )
 
 require (
