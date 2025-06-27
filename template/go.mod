@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.8
-	github.com/gofiber/template/django/v3 v3.1.13
+	github.com/gofiber/template/django/v3 v3.1.14
 )
 
 require (
