@@ -40,12 +40,12 @@ func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
 		hashedAPIKey := sha256.Sum256([]byte(apiKey))
 		if subtle.ConstantTimeCompare(hashedAPIKey[:], hashedKey[:]) == 1 {
 			// Set the consumer for Apitally
-			consumer := apitally.ApitallyConsumer{
+			consumer := apitally.Consumer{
 				Identifier: info.userID,
 				Name:       info.userName,
 				Group:      info.group,
 			}
-			c.Locals("ApitallyConsumer", consumer)
+			apitally.SetConsumer(c, consumer)
 			return true, nil
 		}
 	}
@@ -58,21 +58,14 @@ func main() {
 	validate := validator.New()
 
 	// Monitoring and request logging with Apitally
-	apitallyConfig := &apitally.ApitallyConfig{
-		ClientId: os.Getenv("APITALLY_CLIENT_ID"),
-		Env:      "dev",
-		// Enable request logging (optional)
-		RequestLoggingConfig: &apitally.RequestLoggingConfig{
-			Enabled:            true,
-			LogQueryParams:     true,
-			LogRequestHeaders:  true,
-			LogRequestBody:     true,
-			LogResponseHeaders: true,
-			LogResponseBody:    true,
-			LogPanic:           true,
-		},
-	}
-	app.Use(apitally.ApitallyMiddleware(app, apitallyConfig))
+	cfg := apitally.NewConfig(os.Getenv("APITALLY_CLIENT_ID"))
+	cfg.Env = "dev"
+	cfg.RequestLogging.Enabled = true
+	cfg.RequestLogging.LogRequestHeaders = true
+	cfg.RequestLogging.LogRequestBody = true
+	cfg.RequestLogging.LogResponseBody = true
+
+	app.Use(apitally.Middleware(app, cfg))
 
 	// API key authentication
 	app.Use(keyauth.New(keyauth.Config{
