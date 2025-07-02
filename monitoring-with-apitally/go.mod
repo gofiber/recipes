@@ -3,7 +3,7 @@ module main
 go 1.24
 
 require (
-	github.com/apitally/apitally-go/fiber v0.7.0
+	github.com/apitally/apitally-go/fiber v0.8.0
 	github.com/gofiber/fiber/v2 v2.52.8
 )
 
@@ -11,7 +11,7 @@ require gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
-	github.com/apitally/apitally-go v0.7.0 // indirect
+	github.com/apitally/apitally-go v0.8.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
