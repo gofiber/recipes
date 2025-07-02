@@ -3,7 +3,7 @@ module local-development/testcontainers
 go 1.24.1
 
 require (
-	github.com/go-playground/validator/v10 v10.26.0
+	github.com/go-playground/validator/v10 v10.27.0
 	github.com/gofiber/contrib/testcontainers v0.1.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4.0.20250527180322-557095b0947d
 	github.com/golang-jwt/jwt/v5 v5.2.2
