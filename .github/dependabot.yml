@@ -30,6 +30,36 @@ updates:
       golang-modules:
         patterns:
           - "golang.org/x/**"
+      gorm-modules:
+        patterns:
+          - "gorm.io/**"
+      postgres-modules:
+        patterns:
+          - "github.com/jackc/pgx/**"
+          - "github.com/lib/pq"
+      mysql-modules:
+        patterns:
+          - "github.com/go-sql-driver/mysql"
+      mongodb-modules:
+        patterns:
+          - "go.mongodb.org/**"
+      redis-modules:
+        patterns:
+          - "github.com/go-redis/**"
+      jwt-modules:
+        patterns:
+          - "github.com/golang-jwt/jwt/**"
+          - "github.com/gofiber/contrib/jwt"
+      entgo-modules:
+        patterns:
+          - "entgo.io/**"
+      google-cloud-modules:
+        patterns:
+          - "cloud.google.com/**"
+          - "firebase.google.com/**"
+      aws-modules:
+        patterns:
+          - "github.com/aws/**"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
@@ -38,6 +68,28 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    groups:
+      svelte-modules:
+        patterns:
+          - "svelte"
+          - "@sveltejs/**"
+      tailwind-modules:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+      typescript-modules:
+        patterns:
+          - "typescript"
+          - "tslib"
+          - "@typescript-eslint/*"
+      react-modules:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+          - "react-scripts"
+          - "@types/react*"
+          - "@testing-library/*"
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
     directories:
