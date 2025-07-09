@@ -60,6 +60,33 @@ updates:
       aws-modules:
         patterns:
           - "github.com/aws/**"
+      grpc-modules:
+        patterns:
+          - "google.golang.org/grpc"
+          - "google.golang.org/grpc/**"
+      opentelemetry-modules:
+        patterns:
+          - "go.opentelemetry.io/**"
+          - "github.com/GoogleCloudPlatform/opentelemetry-operations-go/**"
+      logging-modules:
+        patterns:
+          - "go.uber.org/zap/**"
+          - "github.com/sirupsen/logrus"
+          - "github.com/sirupsen/logrus/**"
+      spf13-modules:
+        patterns:
+          - "github.com/spf13/**"
+      gorilla-modules:
+        patterns:
+          - "github.com/gorilla/**"
+      validator-modules:
+        patterns:
+          - "github.com/go-playground/validator"
+          - "github.com/go-playground/validator/**"
+      testing-modules:
+        patterns:
+          - "github.com/stretchr/testify/**"
+          - "github.com/golang/mock/**"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
@@ -90,6 +117,20 @@ updates:
           - "react-scripts"
           - "@types/react*"
           - "@testing-library/*"
+      eslint-modules:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "eslint-plugin*"
+          - "eslint-config*"
+      prettier-modules:
+        patterns:
+          - "prettier"
+          - "prettier-*"
+      bundler-modules:
+        patterns:
+          - "vite"
+          - "parcel"
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
     directories:
