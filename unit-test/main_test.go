@@ -55,7 +55,7 @@ func TestIndexRoute(t *testing.T) {
 
 		// Perform the request plain with the app.
 		// The -1 disables request latency.
-		res, err := app.Test(req, -1)
+		res, err := app.Test(req, fiber.TestConfig{Timeout: -1})
 
 		// verify that no error occured, that is not expected
 		assert.Equalf(t, test.expectedError, err != nil, test.description)

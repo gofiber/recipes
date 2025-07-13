@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/django/v3"
 )
 
@@ -20,14 +20,14 @@ func main() {
 		Views: engine,
 	})
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		// Render with and extends
 		return c.Render("index", fiber.Map{
 			"Title": "Hello, World!",
 		})
 	})
 
-	app.Get("/embed", func(c *fiber.Ctx) error {
+	app.Get("/embed", func(c fiber.Ctx) error {
 		// Render index within layouts/main
 		return c.Render("embed", fiber.Map{
 			"Title": "Hello, World!",

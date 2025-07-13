@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/gofiber/contrib/websocket"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Add more data to this type if needed
@@ -62,9 +62,9 @@ func runHub() {
 func main() {
 	app := fiber.New()
 
-	app.Static("/", "./home.html")
+	app.Get("/*", static.New("./home.html"))
 
-	app.Use(func(c *fiber.Ctx) error {
+	app.Use(func(c fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(c) { // Returns true if the client requested upgrade to the WebSocket protocol
 			return c.Next()
 		}

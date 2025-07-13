@@ -185,7 +185,7 @@ func (q authorQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Autho
 
 	queries.SetLimit(q.Query, 1)
 
-	err := q.Bind(ctx, exec, o)
+	err := q.ViewBind(ctx, exec, o)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
@@ -200,7 +200,7 @@ func (q authorQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Autho
 func (q authorQuery) All(ctx context.Context, exec boil.ContextExecutor) (AuthorSlice, error) {
 	var o []*Author
 
-	err := q.Bind(ctx, exec, &o)
+	err := q.ViewBind(ctx, exec, &o)
 	if err != nil {
 		return nil, errors.Wrap(err, "models: failed to assign all query results to Author slice")
 	}
@@ -322,7 +322,7 @@ func (authorL) LoadPosts(ctx context.Context, e boil.ContextExecutor, singular b
 	}
 
 	var resultSlice []*Post
-	if err = queries.Bind(results, &resultSlice); err != nil {
+	if err = queries.ViewBind(results, &resultSlice); err != nil {
 		return errors.Wrap(err, "failed to bind eager loaded slice post")
 	}
 
@@ -439,7 +439,7 @@ func FindAuthor(ctx context.Context, exec boil.ContextExecutor, iD int, selectCo
 
 	q := queries.Raw(query, iD)
 
-	err := q.Bind(ctx, exec, authorObj)
+	err := q.ViewBind(ctx, exec, authorObj)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
@@ -875,7 +875,7 @@ func (o *AuthorSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) 
 
 	q := queries.Raw(sql, args...)
 
-	err := q.Bind(ctx, exec, &slice)
+	err := q.ViewBind(ctx, exec, &slice)
 	if err != nil {
 		return errors.Wrap(err, "models: unable to reload all in AuthorSlice")
 	}

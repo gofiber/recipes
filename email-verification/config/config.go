@@ -14,10 +14,10 @@ type Config struct {
 
 func GetConfig() *Config {
 	return &Config{
-		SMTPHost:       "smtp.gmail.com",
-		SMTPPort:       587,
-		SMTPUser:       "tahasfhga@gmail.com",
-		SMTPPassword:   "bakkcmkakpfxwuef",
-		CodeExpiration: time.Minute * 1,
+		SMTPHost:        "smtp.gmail.com",
+		SMTPPort:        587,
+		SMTPUser:        "tahasfhga@gmail.com",
+		SMTPPassword:    "bakkcmkakpfxwuef",
+		CodeIdleTimeout: time.Minute * 1,
 	}
 }

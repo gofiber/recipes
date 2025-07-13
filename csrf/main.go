@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/html/v2"
 	"main/routes"
 )
@@ -23,7 +23,7 @@ func main() {
 		// ### EVIL SERVER ###
 		// Fiber instance
 		app := fiber.New(fiber.Config{Views: engine})
-		app.Get("/", func(c *fiber.Ctx) error {
+		app.Get("/", func(c fiber.Ctx) error {
 			// Render index - start with views directory
 			return c.Render("views/layouts/main", fiber.Map{
 				"Title": "Hello, World!",
@@ -38,7 +38,7 @@ func main() {
 	// ### NORMAL SERVER ###
 	// Fiber instance
 	app := fiber.New(fiber.Config{Views: engine})
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		// Render index - start with views directory
 		return c.Render("views/layouts/main", fiber.Map{
 			"Title": "Hello, World!",

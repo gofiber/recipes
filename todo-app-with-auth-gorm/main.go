@@ -9,8 +9,8 @@ import (
 	"numtostr/gotodo/config/database"
 	"numtostr/gotodo/utils"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 )
 
 func main() {

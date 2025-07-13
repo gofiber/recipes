@@ -3,17 +3,17 @@ package user
 import (
 	"context"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // If user does not exist, do not allow one to access the API.
-func (h *UserHandler) checkIfUserExistsMiddleware(c *fiber.Ctx) error {
+func (h *UserHandler) checkIfUserExistsMiddleware(c fiber.Ctx) error {
 	// Create a new customized context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Fetch parameter.
-	targetedUserID, err := c.ParamsInt("userID")
+	targetedUserID, err := fiber.Params[int](c, "userID")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",

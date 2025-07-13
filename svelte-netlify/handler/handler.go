@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cache"
 )
 
 type response struct {
@@ -22,13 +22,13 @@ type response struct {
 // CacheRequest caches the request for subsequent use
 func CacheRequest(exp time.Duration) fiber.Handler {
 	return cache.New(cache.Config{
-		Expiration:   exp,
+		IdleTimeout:  exp,
 		CacheControl: true,
 	})
 }
 
 // GeoLocation fetches the details of the IP from a public http API
-func GeoLocation(c *fiber.Ctx) error {
+func GeoLocation(c fiber.Ctx) error {
 	ip := c.Params("ip")
 	res, _ := http.Get("http://ip-api.com/json/" + ip)
 	body, _ := io.ReadAll(res.Body)

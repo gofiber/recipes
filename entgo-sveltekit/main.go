@@ -6,10 +6,10 @@ import (
 	"app/handler"
 	"app/template"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+
 )
 
 const (
@@ -40,8 +40,8 @@ func main() {
 
 	// Middleware
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "*",
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"*"},
 	}))
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
@@ -60,10 +60,10 @@ func main() {
 	todo.Delete("/delete/:id", todoHandler.DeleteTodoByID)
 
 	// Serve static files
-	app.All("/*", filesystem.New(filesystem.Config{
-		Root:         template.Dist(),
+	app.All("/*", static.New("", static.Config{
+		FS:           os.DirFS(template.Dist()),
 		NotFoundFile: "index.html",
-		Index:        "index.html",
+		IndexNames:   []string{"index.html"},
 	}))
 
 	// Start the server

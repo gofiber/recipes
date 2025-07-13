@@ -5,11 +5,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/csrf"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/fiber/v2/middleware/session"
-	"github.com/gofiber/fiber/v2/utils"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/csrf"
+	"github.com/gofiber/fiber/v3/middleware/recover"
+	"github.com/gofiber/fiber/v3/middleware/session"
+	"github.com/gofiber/fiber/v3/utils"
 )
 
 // region struct definitions
@@ -42,13 +42,13 @@ func init() {
 // Should be done AFTER session middleware.
 var csrfProtection = csrf.New(csrf.Config{
 	// only to control the switch whether csrf is activated or not
-	Next: func(c *fiber.Ctx) bool {
+	Next: func(c fiber.Ctx) bool {
 		return csrfActivated
 	},
 	KeyLookup:      "form:_csrf",
 	CookieName:     "csrf_",
 	CookieSameSite: "Strict",
-	Expiration:     1 * time.Hour,
+	IdleTimeout:    1 * time.Hour,
 	KeyGenerator:   utils.UUID,
 	ContextKey:     "token",
 })
@@ -70,7 +70,7 @@ func RegisterRoutes(app *fiber.App) {
 
 	app.Use(recover.New())
 
-	app.Get("/", requireLogin, csrfProtection, func(c *fiber.Ctx) error {
+	app.Get("/", requireLogin, csrfProtection, func(c fiber.Ctx) error {
 		currSession, err := sessionStore.Get(c)
 		if err != nil {
 			return err
@@ -90,17 +90,17 @@ func RegisterRoutes(app *fiber.App) {
 		return c.Render("views/home", fiber.Map{
 			"username":  username,
 			"balance":   accounts[username],
-			"csrfToken": c.Locals("token"),
+			"csrfToken": keyauth.TokenFromContext(c),
 		})
 	})
 
-	app.Get("/login", func(c *fiber.Ctx) error {
+	app.Get("/login", func(c fiber.Ctx) error {
 		return c.Render("views/login", fiber.Map{})
 	})
 
-	app.Post("/login", func(c *fiber.Ctx) error {
+	app.Post("/login", func(c fiber.Ctx) error {
 		user := &User{}
-		err := c.BodyParser(user)
+		err := c.Bind().Body(user)
 		if err != nil {
 			return err
 		}
@@ -130,14 +130,14 @@ func RegisterRoutes(app *fiber.App) {
 		}
 		currSession.Set("User", fiber.Map{"Name": user.Username})
 
-		return c.Redirect("/")
+		return c.Redirect().To("/")
 	})
 
 	// Funds transfer with HTTP POST request.
 	// This is safer than using a GET request, but is still vulnerable to some attack vectors.
-	app.Post("/transfer", requireLogin, csrfProtection, func(c *fiber.Ctx) error {
+	app.Post("/transfer", requireLogin, csrfProtection, func(c fiber.Ctx) error {
 		transfer := &TransferItem{}
-		err := c.BodyParser(transfer)
+		err := c.Bind().Body(transfer)
 		if err != nil {
 			return err
 		}
@@ -181,12 +181,12 @@ func RegisterRoutes(app *fiber.App) {
 		fmt.Printf("New account balances:\n%+v \n", accounts)
 		// Successfully transferred funds.
 		// Redirect the sessionUser back to the home page.
-		return c.Redirect("/")
+		return c.Redirect().To("/")
 	})
 }
 
 // Create a helper function to require login for some routes.
-func requireLogin(c *fiber.Ctx) error {
+func requireLogin(c fiber.Ctx) error {
 	currSession, err := sessionStore.Get(c)
 	if err != nil {
 		return err
@@ -197,7 +197,7 @@ func requireLogin(c *fiber.Ctx) error {
 	if user == nil {
 		// This request is from a user that is not logged in.
 		// Send them to the login page.
-		return c.Redirect("/login")
+		return c.Redirect().To("/login")
 	}
 
 	// If we got this far, the request is from a logged-in user.

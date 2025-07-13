@@ -23,7 +23,7 @@ func Generate(payload *TokenPayload) string {
 	}
 
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"exp": time.Now().Add(v).Unix(),
+		"exp": time.Now().Add([]string{v).Unix()},
 		"ID":  payload.ID,
 	})
 

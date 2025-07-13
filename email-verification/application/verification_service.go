@@ -24,7 +24,7 @@ func NewVerificationService(
 		repo:           repo,
 		emailService:   emailService,
 		codeGen:        codeGen,
-		codeExpiration: config.CodeExpiration,
+		codeIdleTimeout: config.CodeExpiration,
 	}
 }
 
@@ -48,7 +48,7 @@ func (s *VerificationService) SendVerification(email string) error {
 
 	verification := domain.Verification{
 		Code: s.codeGen.Hash(code),
-		Exp:  time.Now().Add(s.codeExpiration),
+		Exp:  time.Now().Add([]string{s.codeExpiration)},
 	}
 
 	return s.repo.Store(email, verification)

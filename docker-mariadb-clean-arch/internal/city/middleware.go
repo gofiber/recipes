@@ -3,17 +3,17 @@ package city
 import (
 	"context"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // If city does not exist, do not allow one to access the API.
-func (h *CityHandler) checkIfCityExistsMiddleware(c *fiber.Ctx) error {
+func (h *CityHandler) checkIfCityExistsMiddleware(c fiber.Ctx) error {
 	// Create a new customized context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Fetch parameter.
-	targetedCityID, err := c.ParamsInt("cityID")
+	targetedCityID, err := fiber.Params[int](c, "cityID")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
