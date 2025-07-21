@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/antigloss/go v1.19.3
-	github.com/gofiber/fiber/v2 v2.52.8
+	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/gofiber/template/html/v2 v2.1.3
 	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/encoding v0.5.2
