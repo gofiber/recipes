@@ -97,10 +97,10 @@ func main() {
 	sessConfig := session.Config{
 		IdleTimeout:     sessionIdleTimeout,
 		AbsoluteTimeout: sessionAbsoluteTimeout,
-		KeyLookup:       "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
+		Extractor:       session.FromCookie("__Host-session"), // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:    true,
 		CookieHTTPOnly:  true,
-		CookieSameSite:  "Lax",
+		CookieSameSite:  fiber.CookieSameSiteLaxMode,
 	}
 
 	sessMW, store := session.NewWithStore(sessConfig)
@@ -135,11 +135,11 @@ func main() {
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
 		Session:        store,
-		KeyLookup:      "form:csrf",   // In this example, we will be using a hidden input field to store the CSRF token
-		CookieName:     "__Host-csrf", // Recommended to use the __Host- prefix when serving the app over TLS
-		CookieSameSite: "Lax",         // Recommended to set this to Lax or Strict
-		CookieSecure:   true,          // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,          // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
+		Extractor:      csrf.FromForm("csrf"),       // In this example, we will be using a hidden input field to store the CSRF token
+		CookieName:     "__Host-csrf",               // Recommended to use the __Host- prefix when serving the app over TLS
+		CookieSameSite: fiber.CookieSameSiteLaxMode, // Recommended to set this to Lax or Strict
+		CookieSecure:   true,                        // Recommended to set to true when serving the app over TLS
+		CookieHTTPOnly: true,                        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ErrorHandler:   csrfErrorHandler,
 		IdleTimeout:    30 * time.Minute,
 	}
@@ -154,17 +154,17 @@ func main() {
 	})
 
 	// Route for the login page
-	app.Get("/login", func(c fiber.Ctx) error {
+	app.Get("/login", csrfMiddleware, func(c fiber.Ctx) error {
 		csrfToken := csrf.TokenFromContext(c)
 
 		return c.Render("login", fiber.Map{
 			"Title": "Login",
 			"csrf":  csrfToken,
 		})
-	}, csrfMiddleware)
+	})
 
 	// Route for processing the login
-	app.Post("/login", func(c fiber.Ctx) error {
+	app.Post("/login", csrfMiddleware, func(c fiber.Ctx) error {
 		// Retrieve the submitted form data
 		username := c.FormValue("username")
 		password := c.FormValue("password")
@@ -201,7 +201,7 @@ func main() {
 
 		// Redirect to the protected route
 		return c.Redirect().To("/protected")
-	}, csrfMiddleware)
+	})
 
 	// Route for logging out
 	app.Get("/logout", func(c fiber.Ctx) error {
@@ -221,7 +221,7 @@ func main() {
 	})
 
 	// Route for the protected content
-	app.Get("/protected", func(c fiber.Ctx) error {
+	app.Get("/protected", csrfMiddleware, func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session := session.FromContext(c)
 		if session == nil {
@@ -240,10 +240,10 @@ func main() {
 			"Title": "Protected",
 			"csrf":  csrfToken,
 		})
-	}, csrfMiddleware)
+	})
 
 	// Route for processing the protected form
-	app.Post("/protected", func(c fiber.Ctx) error {
+	app.Post("/protected", csrfMiddleware, func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session := session.FromContext(c)
 		if session == nil {
@@ -266,7 +266,7 @@ func main() {
 			"csrf":    csrfToken,
 			"message": message,
 		})
-	}, csrfMiddleware)
+	})
 
 	certFile := "cert.pem"
 	keyFile := "key.pem"
@@ -292,7 +292,9 @@ func main() {
 		panic(err)
 	}
 
-	app.Listener(ln)
+	if err := app.Listener(ln); err != nil {
+		panic(err)
+	}
 }
 
 // generateSelfSignedCert generates a self-signed certificate and key
