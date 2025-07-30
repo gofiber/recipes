@@ -33,6 +33,7 @@ This project provides a starting point for building a web application with user 
     DB_USER=example_user
     DB_PASSWORD=example_password
     DB_NAME=example_db
+    DB_HOST=localhost
     SECRET=example_secret
     ```
 
