@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.37.1
 	github.com/aws/aws-sdk-go-v2/config v1.30.2
 	github.com/aws/aws-sdk-go-v2/credentials v1.18.2
-	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.48.1
+	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.49.0
 	github.com/getsentry/sentry-go v0.34.1
 	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 	github.com/joho/godotenv v1.5.1
