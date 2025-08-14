@@ -1,5 +1,5 @@
 # Get Go image from DockerHub.
-FROM golang:1.24 AS api
+FROM golang:1.25 AS api
 
 # Set working directory.
 WORKDIR /compiler
