@@ -3,11 +3,11 @@ package handlers
 import (
 	"oauth2/models"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // HTMLPages will render and return "public" pages
-func HTMLPages(c *fiber.Ctx) error {
+func HTMLPages(c fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering HtmlPages; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting HtmlPages")
 
@@ -23,7 +23,7 @@ func HTMLPages(c *fiber.Ctx) error {
 	case "/welcome.html":
 		sessData, err := models.MySessionStore.Get(c)
 		if err != nil {
-			return c.Redirect("/errpage.html", fiber.StatusInternalServerError)
+			return c.Redirect().To("/errpage.html", fiber.StatusInternalServerError)
 		}
 
 		return c.Render("welcome", fiber.Map{

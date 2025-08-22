@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -16,9 +16,9 @@ func main() {
 
 	// serve Single Page application on "/web"
 	// assume static file at dist folder
-	app.Static("/web", "dist")
+	app.Get("/web*", static.New("dist"))
 
-	app.Get("/web/*", func(ctx *fiber.Ctx) error {
+	app.Get("/web/*", func(ctx fiber.Ctx) error {
 		return ctx.SendFile("./dist/index.html")
 	})
 

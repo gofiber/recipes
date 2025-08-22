@@ -1,13 +1,20 @@
 module main
 
-go 1.24
+go 1.25.0
 
 require (
 	github.com/apitally/apitally-go/fiber v0.8.1
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 )
 
-require gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+require (
+	github.com/gofiber/fiber/v2 v2.51.0 // indirect
+	github.com/gofiber/schema v1.6.0 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-beta.13 // indirect
+	github.com/philhofer/fwd v1.2.0 // indirect
+	github.com/tinylib/msgp v1.3.0 // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+)
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
@@ -22,7 +29,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect

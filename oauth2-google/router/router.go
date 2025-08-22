@@ -3,8 +3,8 @@ package router
 import (
 	"fiber-oauth-google/handler"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 )
 
 // Routes for fiber

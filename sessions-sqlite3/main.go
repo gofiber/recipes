@@ -7,8 +7,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/session"
 	"github.com/gofiber/storage/sqlite3"
 	"github.com/gofiber/template/html/v2"
 
@@ -62,10 +62,8 @@ func main() {
 	})
 
 	store := session.New(session.Config{
-		Storage:    storage,
-		Expiration: 5 * time.Minute,
-		KeyLookup:  "cookie:myapp_session",
-	})
+		Storage:     storage,
+		IdleTimeout: 5 * time.Minute})
 
 	// Create a new engine
 	engine := html.New("./views", ".html")
@@ -76,16 +74,16 @@ func main() {
 	})
 
 	// Render index page
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.Render("index", fiber.Map{})
 	})
 
 	// Handle login API
-	app.Post("/api/login", func(c *fiber.Ctx) error {
+	app.Post("/api/login", func(c fiber.Ctx) error {
 		req := struct {
 			UID string `json:"uid"`
 		}{}
-		if err := c.BodyParser(&req); err != nil {
+		if err := c.Bind().Body(&req); err != nil {
 			log.Println(err)
 		}
 
@@ -106,7 +104,7 @@ func main() {
 			// Save session data
 			s.Set("uid", uid)
 			s.Set("sid", sid)
-			s.Set("ip", c.Context().RemoteIP().String())
+			s.Set("ip", c.RequestCtx().RemoteIP().String())
 			s.Set("login", time.Unix(time.Now().Unix(), 0).UTC().String())
 			s.Set("ua", string(c.Request().Header.UserAgent()))
 
@@ -131,11 +129,11 @@ func main() {
 	})
 
 	// Handle logout API
-	app.Post("/api/logout", func(c *fiber.Ctx) error {
+	app.Post("/api/logout", func(c fiber.Ctx) error {
 		req := struct {
 			SID string `json:"sid"`
 		}{}
-		if err := c.BodyParser(&req); err != nil {
+		if err := c.Bind().Body(&req); err != nil {
 			log.Println(err)
 		}
 
@@ -170,7 +168,7 @@ func main() {
 	})
 
 	// Handle account API
-	app.Get("/api/account", func(c *fiber.Ctx) error {
+	app.Get("/api/account", func(c fiber.Ctx) error {
 		// Get current session
 		s, _ := store.Get(c)
 

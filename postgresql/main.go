@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	_ "github.com/lib/pq"
 )
 
@@ -60,7 +60,7 @@ func main() {
 	app := fiber.New()
 
 	// Get all records from postgreSQL
-	app.Get("/employee", func(c *fiber.Ctx) error {
+	app.Get("/employee", func(c fiber.Ctx) error {
 		// Select all Employee(s) from database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
@@ -83,12 +83,12 @@ func main() {
 	})
 
 	// Add record into postgreSQL
-	app.Post("/employee", func(c *fiber.Ctx) error {
+	app.Post("/employee", func(c fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 
 		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
+		if err := c.Bind().Body(u); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 
@@ -106,12 +106,12 @@ func main() {
 	})
 
 	// Update record into postgreSQL
-	app.Put("/employee", func(c *fiber.Ctx) error {
+	app.Put("/employee", func(c fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 
 		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
+		if err := c.Bind().Body(u); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 
@@ -129,12 +129,12 @@ func main() {
 	})
 
 	// Delete record from postgreSQL
-	app.Delete("/employee", func(c *fiber.Ctx) error {
+	app.Delete("/employee", func(c fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 
 		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
+		if err := c.Bind().Body(u); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 

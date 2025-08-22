@@ -149,7 +149,7 @@ func (q schemaMigrationQuery) One(ctx context.Context, exec boil.ContextExecutor
 
 	queries.SetLimit(q.Query, 1)
 
-	err := q.Bind(ctx, exec, o)
+	err := q.ViewBind(ctx, exec, o)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
@@ -164,7 +164,7 @@ func (q schemaMigrationQuery) One(ctx context.Context, exec boil.ContextExecutor
 func (q schemaMigrationQuery) All(ctx context.Context, exec boil.ContextExecutor) (SchemaMigrationSlice, error) {
 	var o []*SchemaMigration
 
-	err := q.Bind(ctx, exec, &o)
+	err := q.ViewBind(ctx, exec, &o)
 	if err != nil {
 		return nil, errors.Wrap(err, "models: failed to assign all query results to SchemaMigration slice")
 	}
@@ -229,7 +229,7 @@ func FindSchemaMigration(ctx context.Context, exec boil.ContextExecutor, version
 
 	q := queries.Raw(query, version)
 
-	err := q.Bind(ctx, exec, schemaMigrationObj)
+	err := q.ViewBind(ctx, exec, schemaMigrationObj)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows
@@ -665,7 +665,7 @@ func (o *SchemaMigrationSlice) ReloadAll(ctx context.Context, exec boil.ContextE
 
 	q := queries.Raw(sql, args...)
 
-	err := q.Bind(ctx, exec, &slice)
+	err := q.ViewBind(ctx, exec, &slice)
 	if err != nil {
 		return errors.Wrap(err, "models: unable to reload all in SchemaMigrationSlice")
 	}

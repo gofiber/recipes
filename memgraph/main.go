@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/neo4j/neo4j-go-driver/neo4j" // Memgraph is compatible with Neo4j GO driver, and you can use it to connect to Memgraph
 )
 
@@ -131,7 +131,7 @@ func main() {
 	app := fiber.New()
 
 	// Get developer called Andy and technologies he loves, http://localhost:3000/developer/Andy
-	app.Get("/developer/:name", func(c *fiber.Ctx) error {
+	app.Get("/developer/:name", func(c fiber.Ctx) error {
 		name := c.Params("name")
 		query := fmt.Sprintf(`MATCH (dev:Developer {name:'%s'})-[loves:LOVES]->(tech:Technology) RETURN dev, loves, tech `, name)
 
@@ -185,7 +185,7 @@ func main() {
 	})
 
 	// Get whole graph, including all nodes, and edges, http://localhost:3000/graph
-	app.Get("/graph", func(c *fiber.Ctx) error {
+	app.Get("/graph", func(c fiber.Ctx) error {
 		query := `MATCH (dev)-[loves]->(tech) RETURN dev, loves, tech`
 
 		result, err := executeQuery(driver, query)
