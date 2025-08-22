@@ -3,8 +3,8 @@ package app
 import (
 	"net/http"
 
-	"github.com/gofiber/fiber/v2"
-	adaptor "github.com/gofiber/fiber/v2/middleware/adaptor"
+	"github.com/gofiber/fiber/v3"
+	adaptor "github.com/gofiber/fiber/v3/middleware/adaptor"
 )
 
 // CloudFunctionRouteToFiber route cloud function http.Handler to *fiber.App

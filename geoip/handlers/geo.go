@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/valyala/fasthttp"
 )
 
@@ -14,7 +14,7 @@ func GEO() fiber.Handler {
 	client := fasthttp.Client{}
 
 	// Return handler
-	return func(c *fiber.Ctx) error {
+	return func(c fiber.Ctx) error {
 		// Get domain from query string, else default to remote IP
 		ip := c.Query("ip", c.IP())
 

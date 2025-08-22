@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	app := fiber.New()
 
 	// Static file server
-	app.Static("/", "./files")
+	app.Get("/*", static.New("./files"))
 	// => http://localhost:3000/hello.txt
 	// => http://localhost:3000/gopher.gif
 

@@ -5,12 +5,12 @@ import (
 	"strconv"
 
 	jwtware "github.com/gofiber/contrib/jwt"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
 
 // JWT error message.
-func jwtError(c *fiber.Ctx, err error) error {
+func jwtError(c fiber.Ctx, err error) error {
 	if err.Error() == "Missing or malformed JWT" {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "error",
@@ -34,7 +34,7 @@ func JWTMiddleware() fiber.Handler {
 }
 
 // Gets user data (their ID) from the JWT middleware. Should be executed after calling 'JWTMiddleware()'.
-func GetDataFromJWT(c *fiber.Ctx) error {
+func GetDataFromJWT(c fiber.Ctx) error {
 	// Get userID from the previous route.
 	jwtData := c.Locals("user").(*jwt.Token)
 	claims := jwtData.Claims.(jwt.MapClaims)

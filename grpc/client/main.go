@@ -10,8 +10,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/gofiber/recipes/fiber-grpc/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -29,7 +29,7 @@ func main() {
 
 	app.Use(logger.New())
 
-	app.Get("/add/:a/:b", func(c *fiber.Ctx) error {
+	app.Get("/add/:a/:b", func(c fiber.Ctx) error {
 		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -43,7 +43,7 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: int64(a), B: int64(b)}
-		if res, err := client.Add(context.Background(), req); err == nil {
+		if res, err := client.Add([]string{context.Background()}, req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})
@@ -53,7 +53,7 @@ func main() {
 		})
 	})
 
-	app.Get("/mult/:a/:b", func(c *fiber.Ctx) error {
+	app.Get("/mult/:a/:b", func(c fiber.Ctx) error {
 		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
