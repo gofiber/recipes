@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/storage/minio"
 )
 
@@ -41,7 +41,7 @@ func main() {
 	app := fiber.New()
 
 	// Define the route to handle file uploads
-	app.Post("/upload", func(c *fiber.Ctx) error {
+	app.Post("/upload", func(c fiber.Ctx) error {
 		// Check file size before processing
 		if c.Request().Header.ContentLength() > maxFileSize {
 			return c.Status(http.StatusRequestEntityTooLarge).JSON(fiber.Map{
@@ -101,7 +101,7 @@ func main() {
 
 		// Upload the file to MinIO
 		uploadInfo, err := store.Conn().PutObject(
-			c.Context(),
+			c.RequestCtx(),
 			minio.ConfigDefault.Bucket,           // Bucket name
 			filename,                             // File name in the MinIO bucket
 			file,                                 // File data to upload
@@ -134,7 +134,7 @@ func main() {
 	})
 
 	// Define the route to retrieve files by filename
-	app.Get("/file/:filename", func(c *fiber.Ctx) error {
+	app.Get("/file/:filename", func(c fiber.Ctx) error {
 		// Get the filename from the URL parameter
 		filename := c.Params("filename")
 
@@ -146,7 +146,7 @@ func main() {
 		}
 
 		// Check if the file exists in the MinIO bucket
-		_, err := store.Conn().StatObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		_, err := store.Conn().StatObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusNotFound).JSON(fiber.Map{
 				"message": "file not found",
@@ -154,7 +154,7 @@ func main() {
 		}
 
 		// Retrieve the file from MinIO
-		object, err := store.Conn().GetObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		object, err := store.Conn().GetObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "error retrieving file",

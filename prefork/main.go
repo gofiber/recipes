@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -21,21 +21,19 @@ func main() {
 	}
 
 	// Fiber instance
-	app := fiber.New(fiber.Config{
-		Prefork: true,
-	})
+	app := fiber.New(fiber.Config{})
 
 	// Routes
 	app.Get("/", hello)
 
 	// Start server
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":3000", fiber.ListenConfig{EnablePrefork: true}))
 
 	// Run the following command to see all processes sharing port 3000:
 	// sudo lsof -i -P -n | grep LISTEN
 }
 
 // Handler
-func hello(c *fiber.Ctx) error {
+func hello(c fiber.Ctx) error {
 	return c.SendString("Hello, World!")
 }

@@ -5,13 +5,14 @@ import (
 	"log"
 
 	"ent-mysql/database"
-	"github.com/gofiber/fiber/v2"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 var ctx = context.Background()
 
-func GetBook(c *fiber.Ctx) error {
-	id, _ := c.ParamsInt("id")
+func GetBook(c fiber.Ctx) error {
+	id, _ := fiber.Params[int](c, "id"), nil
 	b, err := database.DBConn.Book.
 		Get(ctx, id)
 	if b == nil {
@@ -24,7 +25,7 @@ func GetBook(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(b)
 }
 
-func GetAllBook(c *fiber.Ctx) error {
+func GetAllBook(c fiber.Ctx) error {
 	b, err := database.DBConn.Book.
 		Query().All(ctx)
 	if err != nil {
@@ -34,7 +35,7 @@ func GetAllBook(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(b)
 }
 
-func CreateBook(c *fiber.Ctx) error {
+func CreateBook(c fiber.Ctx) error {
 	title := c.Query("title")
 	author := c.Query("author")
 	if title == "" || author == "" {
@@ -52,8 +53,8 @@ func CreateBook(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(b)
 }
 
-func DeleteBook(c *fiber.Ctx) error {
-	id, _ := c.ParamsInt("id")
+func DeleteBook(c fiber.Ctx) error {
+	id, _ := fiber.Params[int](c, "id"), nil
 	err := database.DBConn.Book.
 		DeleteOneID(id).
 		Exec(ctx)
@@ -64,10 +65,10 @@ func DeleteBook(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(nil)
 }
 
-func UpdateBook(c *fiber.Ctx) error {
+func UpdateBook(c fiber.Ctx) error {
 	title := c.Query("title")
 	author := c.Query("author")
-	id, _ := c.ParamsInt("id")
+	id, _ := fiber.Params[int](c, "id"), nil
 	if title == "" || author == "" {
 		return c.Status(fiber.StatusBadRequest).JSON("Not enough data for updating")
 	}

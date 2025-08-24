@@ -7,14 +7,14 @@ import (
 	"log"
 	"os"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"golang.org/x/crypto/pkcs12"
 )
 
 func initFiberApp() *fiber.App {
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("This page is being served over TLS using a PKCS12 store type!")
 	})
 

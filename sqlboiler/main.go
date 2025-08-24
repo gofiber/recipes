@@ -6,7 +6,7 @@ import (
 	"fiber-sqlboiler/api/route"
 	"fiber-sqlboiler/database"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func init() {

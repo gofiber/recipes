@@ -18,9 +18,7 @@ import (
 )
 
 func main() {
-	cfg := fiber.Config{
-		ErrorHandler: utils.ErrorHandler,
-	}
+	cfg := fiber.Config{ErrorHandler: utils.ErrorHandler}
 
 	appConfig, err := config.ConfigureApp(cfg)
 	if err != nil {

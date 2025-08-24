@@ -3,7 +3,7 @@ package route_handlers
 import (
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/recipes/parsley-app/internal/services"
 )
 
@@ -19,7 +19,7 @@ func (h *greeterRouteHandler) Register(app *fiber.App) {
 }
 
 // HandleSayHelloRequest Handles "GET /say-hello" requests.
-func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
+func (h *greeterRouteHandler) HandleSayHelloRequest(ctx fiber.Ctx) error {
 
 	name := ctx.Query("name")
 

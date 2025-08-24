@@ -12,7 +12,7 @@ import (
 	"app/entity/enttest"
 	"app/handler"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 
