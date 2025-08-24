@@ -13,7 +13,7 @@ func (h *CityHandler) checkIfCityExistsMiddleware(c fiber.Ctx) error {
 	defer cancel()
 
 	// Fetch parameter.
-	targetedCityID, err := fiber.Params[int](c, "cityID")
+	targetedCityID, err := fiber.Params[int](c, "cityID"), nil
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",

@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	"github.com/gofiber/fiber/v3/middleware/static"
+
 	"github.com/gofiber/fiber/v3"
 )
 

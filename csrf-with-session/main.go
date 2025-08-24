@@ -86,12 +86,13 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		IdleTimeout:    30 * time.Minute, // Expire sessions after 30 minutes of inactivity // Recommended to use the __Host- prefix when serving the app over TLS
+		IdleTimeout:    30 * time.Minute,                     // Expire sessions after 30 minutes of inactivity
+		Extractor:      session.FromCookie("__Host-session"), // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 		CookieSameSite: "Lax",
 	}
-	store := session.New(sessConfig)
+	store := session.NewStore(sessConfig)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c fiber.Ctx, err error) error {
@@ -127,7 +128,6 @@ func main() {
 		CookieSameSite: "Lax",                 // Recommended to set this to Lax or Strict
 		CookieSecure:   true,                  // Recommended to set to true when serving the app over TLS
 		CookieHTTPOnly: true,                  // Recommended, otherwise if using JS framework recomend: false and Extractor: csrf.FromHeader("X-CSRF-Token")
-		ContextKey:     "csrf",
 		ErrorHandler:   csrfErrorHandler,
 		IdleTimeout:    30 * time.Minute,
 	}
@@ -143,7 +143,7 @@ func main() {
 
 	// Route for the login page
 	app.Get("/login", csrfMiddleware, func(c fiber.Ctx) error {
-		csrfToken, ok := csrf.TokenFromContext(c).(string)
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -171,7 +171,7 @@ func main() {
 
 		if bcrypt.CompareHashAndPassword([]byte(checkPassword), []byte(password)) != nil {
 			// Authentication failed
-			csrfToken, ok := csrf.TokenFromContext(c).(string)
+			csrfToken, ok := csrf.TokenFromContext(c), true
 			if !ok {
 				return c.SendStatus(fiber.StatusInternalServerError)
 			}
@@ -231,7 +231,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c).(string)
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -256,7 +256,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c).(string)
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}

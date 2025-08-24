@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofiber/fiber/v3/middleware/static"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/html/v2"
 

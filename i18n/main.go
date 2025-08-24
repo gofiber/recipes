@@ -31,9 +31,7 @@ func main() {
 	engine.Reload(true) // Optional. Default: false
 
 	// After you created your engine, you can pass it to Fiber's Views Engine
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New(fiber.Config{Views: engine})
 
 	// Render template.
 	app.Get("/", func(c fiber.Ctx) error {

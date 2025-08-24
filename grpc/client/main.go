@@ -43,7 +43,7 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: int64(a), B: int64(b)}
-		if res, err := client.Add([]string{context.Background()}, req); err == nil {
+		if res, err := client.Add(context.Background(), req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})

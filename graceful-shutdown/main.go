@@ -14,9 +14,7 @@ import (
 const idleTimeout = 5 * time.Second
 
 func main() {
-	app := fiber.New(fiber.Config{
-		IdleTimeout: idleTimeout,
-	})
+	app := fiber.New(fiber.Config{IdleTimeout: idleTimeout})
 
 	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("Hello world!")

@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/gofiber/fiber/v3/middleware/static"
+
 	"github.com/gofiber/recipes/template-asset-bundling/handlers"
 
 	"github.com/gofiber/fiber/v3"

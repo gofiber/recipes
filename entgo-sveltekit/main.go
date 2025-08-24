@@ -5,6 +5,7 @@ import (
 	"app/fixtures"
 	"app/handler"
 	"app/template"
+	"os"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
@@ -33,9 +34,7 @@ func main() {
 	defer client.Close()
 
 	// Create Fiber app
-	app := fiber.New(fiber.Config{
-		AppName: appName,
-	})
+	app := fiber.New(fiber.Config{AppName: appName})
 	defer app.Shutdown()
 
 	// Middleware

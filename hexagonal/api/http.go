@@ -2,6 +2,7 @@ package api
 
 import (
 	"catalog/domain"
+
 	"github.com/gofiber/fiber/v3"
 )
 

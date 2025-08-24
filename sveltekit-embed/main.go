@@ -2,6 +2,7 @@ package main
 
 import (
 	"app/template"
+	"os"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
@@ -17,9 +18,7 @@ const (
 
 func main() {
 	// Create new Fiber Instance
-	app := fiber.New(fiber.Config{
-		AppName: appName,
-	})
+	app := fiber.New(fiber.Config{AppName: appName})
 	defer app.Shutdown()
 
 	// Middleware

@@ -61,17 +61,17 @@ func main() {
 		ConnMaxLifetime: 1 * time.Second,
 	})
 
-	store := session.New(session.Config{
+	store := session.NewStore(session.Config{
 		Storage:     storage,
-		IdleTimeout: 5 * time.Minute})
+		IdleTimeout: 5 * time.Minute,
+		Extractor:   session.FromCookie("myapp_session"),
+	})
 
 	// Create a new engine
 	engine := html.New("./views", ".html")
 
 	// Pass the engine to the Views
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New(fiber.Config{Views: engine})
 
 	// Render index page
 	app.Get("/", func(c fiber.Ctx) error {

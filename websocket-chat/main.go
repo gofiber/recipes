@@ -5,6 +5,8 @@ import (
 	"log"
 	"sync"
 
+	"github.com/gofiber/fiber/v3/middleware/static"
+
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v3"
 )

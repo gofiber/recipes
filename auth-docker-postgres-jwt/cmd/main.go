@@ -12,7 +12,6 @@ import (
 
 func main() {
 	app := fiber.New(fiber.Config{
-		EnablePrefork: true,
 		CaseSensitive: true,
 		StrictRouting: true,
 		ServerHeader:  "Fiber",
@@ -23,5 +22,5 @@ func main() {
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":3000", fiber.ListenConfig{EnablePrefork: true}))
 }

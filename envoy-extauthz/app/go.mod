@@ -1,8 +1,8 @@
 module envoyapp
 
-go 1.23.0
+go 1.25.0
 
-require github.com/gofiber/fiber/v2 v2.52.9
+require github.com/gofiber/fiber/v3 v3.0.0-beta.5.0.00010101000000-323d2c85c4a1
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect

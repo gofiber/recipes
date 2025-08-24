@@ -299,14 +299,14 @@ func _AddService_Add_Handler(srv interface{}, ctx context.Context, dec func(inte
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AddServiceServer).Add([]string{ctx}, in)
+		return srv.(AddServiceServer).Add(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
 		FullMethod: "/proto.AddService/Add",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddServiceServer).Add([]string{ctx}, req.(*Request))
+		return srv.(AddServiceServer).Add(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }

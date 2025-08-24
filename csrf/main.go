@@ -8,9 +8,10 @@ import (
 	"net/http"
 	"os"
 
+	"main/routes"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/html/v2"
-	"main/routes"
 )
 
 //go:embed views/*

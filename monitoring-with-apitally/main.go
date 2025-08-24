@@ -69,7 +69,7 @@ func main() {
 
 	// API key authentication
 	app.Use(keyauth.New(keyauth.Config{
-		Extractor: csrf.FromHeader("Authorization"),
+		Extractor: keyauth.FromAuthHeader("Authorization", "Bearer"),
 		Validator: validateAPIKey,
 	}))
 

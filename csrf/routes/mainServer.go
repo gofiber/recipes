@@ -28,7 +28,7 @@ type TransferItem struct {
 
 // endregion
 var (
-	sessionStore  = session.New()
+	sessionStore  = session.NewStore()
 	csrfActivated = true
 )
 
@@ -48,9 +48,8 @@ var csrfProtection = csrf.New(csrf.Config{
 	Extractor:      csrf.FromForm("_csrf"),
 	CookieName:     "csrf_",
 	CookieSameSite: "Strict",
-	Expiration:     1 * time.Hour,
+	IdleTimeout:    1 * time.Hour,
 	KeyGenerator:   utils.UUID,
-	ContextKey:     "token",
 })
 
 // RegisterRoutes registers the routes and middlewares necessary for the server

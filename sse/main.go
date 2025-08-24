@@ -82,7 +82,7 @@ func main() {
 		c.Set("Connection", "keep-alive")
 		c.Set("Transfer-Encoding", "chunked")
 
-		c.Status(fiber.StatusOK).SetBodyStreamWriter(fasthttp.StreamWriter(func(w *bufio.Writer) {
+		c.Status(fiber.StatusOK).Context().SetBodyStreamWriter(fasthttp.StreamWriter(func(w *bufio.Writer) {
 			fmt.Println("WRITER")
 			var i int
 			for {

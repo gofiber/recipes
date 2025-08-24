@@ -17,9 +17,7 @@ func main() {
 	database.Connect()
 	database.Migrate(&dal.User{}, &dal.Todo{})
 
-	app := fiber.New(fiber.Config{
-		ErrorHandler: utils.ErrorHandler,
-	})
+	app := fiber.New(fiber.Config{ErrorHandler: utils.ErrorHandler})
 
 	app.Use(logger.New())
 

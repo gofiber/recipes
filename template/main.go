@@ -16,9 +16,7 @@ func main() {
 	// engine := html.NewFileSystem(http.Dir("./views", ".django"))
 
 	// Pass the engine to the Views
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New(fiber.Config{Views: engine})
 
 	app.Get("/", func(c fiber.Ctx) error {
 		// Render with and extends

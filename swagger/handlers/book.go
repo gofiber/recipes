@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gofiber/fiber/v3"
 	"swagger/database"
 	"swagger/models"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 // ResponseHTTP represents response body of this API

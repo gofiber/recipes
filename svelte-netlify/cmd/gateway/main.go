@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/gofiber/fiber/v3/middleware/static"
+
 	"github.com/amalshaji/fiber-netlify/adapter"
 	"github.com/amalshaji/fiber-netlify/handler"
 	"github.com/aws/aws-lambda-go/events"
