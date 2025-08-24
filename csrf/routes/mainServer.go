@@ -89,7 +89,7 @@ func RegisterRoutes(app *fiber.App) {
 		return c.Render("views/home", fiber.Map{
 			"username":  username,
 			"balance":   accounts[username],
-			"csrfToken": keyauth.TokenFromContext(c),
+			"csrfToken": csrf.TokenFromContext(c),
 		})
 	})
 
