@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	cloud.google.com/go/firestore v1.18.0
-	github.com/gofiber/fiber/v3 v3.0.0-beta.5
+	github.com/gofiber/fiber/v3 v3.0.0-beta.5.0.20250824113156-64a711307367
 	google.golang.org/api v0.244.0
 )
 
@@ -30,7 +30,7 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect
-	github.com/gofiber/utils/v2 v2.0.0-beta.13 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.1 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.6 // indirect

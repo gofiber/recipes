@@ -2,7 +2,7 @@ module main
 
 go 1.25.0
 
-require github.com/gofiber/fiber/v3 v3.0.0-beta.5.0.20250823172527-323d2c85c4a1
+require github.com/gofiber/fiber/v3 v3.0.0-beta.5.0.20250824113156-64a711307367
 
 require (
 	github.com/gofiber/schema v1.6.0 // indirect

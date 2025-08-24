@@ -14,10 +14,10 @@ import (
 func main() {
 	// Fiber instance
 	app := fiber.New(fiber.Config{
-		// ErrorHandler: func(c fiber.Ctx, err error) error {
-		// 	c.Status(fiber.StatusInternalServerError)
-		// 	return c.SendString(err.Error())
-		// },
+		//	ErrorHandler: func(c fiber.Ctx, err error) error {
+		//		c.Status(fiber.StatusInternalServerError)
+		//		return c.SendString(err.Error())
+		//	},
 	})
 
 	// Middleware

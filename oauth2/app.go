@@ -66,7 +66,6 @@ func main() {
 
 		// instantiate the application
 		app = fiber.New(fiber.Config{
-			// run in a single thread
 			ServerHeader:     "OAUTH2 tester",  // name the server
 			DisableKeepalive: false,            // <-- must keep alive to have web sockets working
 			JSONEncoder:      json.Marshal,     // use a better JSON library

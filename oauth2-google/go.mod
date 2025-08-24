@@ -3,7 +3,7 @@ module fiber-oauth-google
 go 1.25.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.0.0-beta.5
+	github.com/gofiber/fiber/v3 v3.0.0-beta.5.0.20250824113156-64a711307367
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.30.0
 )
@@ -12,7 +12,7 @@ require (
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect
-	github.com/gofiber/utils/v2 v2.0.0-beta.13 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
