@@ -7,7 +7,7 @@ type service struct {
 }
 
 // NewProductService a service struct that attaches to a repository via the Repository interface
-func NewProductService(productRepo domain.Repository) *service {
+func NewProductService(productRepo domain.Repository) domain.Service {
 	return &service{productRepo: productRepo}
 }
 
