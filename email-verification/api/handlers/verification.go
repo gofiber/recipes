@@ -3,7 +3,7 @@ package handlers
 import (
 	"email-verification/application"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type VerificationHandler struct {
@@ -14,7 +14,7 @@ func NewVerificationHandler(service *application.VerificationService) *Verificat
 	return &VerificationHandler{verificationService: service}
 }
 
-func (h *VerificationHandler) SendVerification(c *fiber.Ctx) error {
+func (h *VerificationHandler) SendVerification(c fiber.Ctx) error {
 	email := c.Params("email")
 	if err := h.verificationService.SendVerification(email); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -24,7 +24,7 @@ func (h *VerificationHandler) SendVerification(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Verification code sent"})
 }
 
-func (h *VerificationHandler) CheckVerification(c *fiber.Ctx) error {
+func (h *VerificationHandler) CheckVerification(c fiber.Ctx) error {
 	email := c.Params("email")
 	code := c.Params("code")
 

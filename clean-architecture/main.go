@@ -9,8 +9,8 @@ import (
 	"clean-architecture/api/routes"
 	"clean-architecture/pkg/book"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -27,7 +27,7 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New())
-	app.Get("/", func(ctx *fiber.Ctx) error {
+	app.Get("/", func(ctx fiber.Ctx) error {
 		return ctx.Send([]byte("Welcome to the clean-architecture mongo book shop!"))
 	})
 	api := app.Group("/api")

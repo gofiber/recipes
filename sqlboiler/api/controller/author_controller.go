@@ -7,11 +7,11 @@ import (
 	"fiber-sqlboiler/database"
 	"fiber-sqlboiler/models"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
-func GetAuthors(c *fiber.Ctx) error {
+func GetAuthors(c fiber.Ctx) error {
 	authors, err := models.Authors().All(context.Background(), database.DB)
 	if err != nil {
 		return c.Status(500).JSON(err.Error())
@@ -19,7 +19,7 @@ func GetAuthors(c *fiber.Ctx) error {
 	return c.Status(200).JSON(authors)
 }
 
-func GetAuthor(c *fiber.Ctx) error {
+func GetAuthor(c fiber.Ctx) error {
 	id := c.Params("id")
 	authorId, err := strconv.Atoi(id)
 	if err != nil {
@@ -32,9 +32,9 @@ func GetAuthor(c *fiber.Ctx) error {
 	return c.Status(200).JSON(author)
 }
 
-func NewAuthor(c *fiber.Ctx) error {
+func NewAuthor(c fiber.Ctx) error {
 	author := models.Author{}
-	if err := c.BodyParser(&author); err != nil {
+	if err := c.Bind().Body(&author); err != nil {
 		return c.Status(500).JSON(err.Error())
 	}
 	if err := author.Insert(context.Background(), database.DB, boil.Infer()); err != nil {
@@ -43,7 +43,7 @@ func NewAuthor(c *fiber.Ctx) error {
 	return c.Status(200).JSON(author)
 }
 
-func DeleteAuthor(c *fiber.Ctx) error {
+func DeleteAuthor(c fiber.Ctx) error {
 	id := c.Params("id")
 	authorId, err := strconv.Atoi(id)
 	if err != nil {
@@ -59,7 +59,7 @@ func DeleteAuthor(c *fiber.Ctx) error {
 	return c.SendStatus(200)
 }
 
-func UpdateAuthor(c *fiber.Ctx) error {
+func UpdateAuthor(c fiber.Ctx) error {
 	id := c.Params("id")
 	authorId, err := strconv.Atoi(id)
 	if err != nil {
@@ -67,7 +67,7 @@ func UpdateAuthor(c *fiber.Ctx) error {
 	}
 
 	newAuthor := models.Author{}
-	if err := c.BodyParser(&newAuthor); err != nil {
+	if err := c.Bind().Body(&newAuthor); err != nil {
 		return c.Status(500).JSON(err.Error())
 	}
 

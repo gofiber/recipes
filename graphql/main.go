@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/graphql-go/graphql"
 )
 
@@ -32,9 +32,9 @@ func main() {
 	app := fiber.New()
 
 	// curl 'http://localhost:9090/?query=query%7Bhello%7D'
-	app.Get("/", func(ctx *fiber.Ctx) error {
+	app.Get("/", func(ctx fiber.Ctx) error {
 		var input Input
-		if err := ctx.QueryParser(&input); err != nil {
+		if err := ctx.Bind().Query(&input); err != nil {
 			return ctx.
 				Status(fiber.StatusInternalServerError).
 				SendString("Cannot parse query parameters: " + err.Error())
@@ -52,9 +52,9 @@ func main() {
 	})
 
 	// curl 'http://localhost:9090/' --header 'content-type: application/json' --data-raw '{"query":"query{hello}"}'
-	app.Post("/", func(ctx *fiber.Ctx) error {
+	app.Post("/", func(ctx fiber.Ctx) error {
 		var input Input
-		if err := ctx.BodyParser(&input); err != nil {
+		if err := ctx.Bind().Body(&input); err != nil {
 			return ctx.
 				Status(fiber.StatusInternalServerError).
 				SendString("Cannot parse body: " + err.Error())
