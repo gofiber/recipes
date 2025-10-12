@@ -126,7 +126,7 @@ func main() {
 		log.Println(res)
 
 		// Return Employee in JSON format
-		return c.Status(201).JSON(u)
+		return c.Status(http.StatusCreated).JSON(u)
 	})
 
 	// Delete record from postgreSQL

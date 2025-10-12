@@ -82,7 +82,7 @@ func main() {
             return c.SendString(result.Record().Values[0].(string))
         }
 
-        return c.SendStatus(500)
+        return c.SendStatus(http.StatusInternalServerError)
     })
 
     // Start server

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"gorm-mysql/database"
 	"gorm-mysql/routes"
@@ -27,8 +28,8 @@ func main() {
 
 	app.Use(cors.New())
 
-	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
+	app.Use(c.SendStatus(http.StatusNotFound)) error {
+		return c.SendStatus(http.StatusNotFound) // => 404 "Not Found"
 	})
 
 	log.Fatal(app.Listen(":3000"))

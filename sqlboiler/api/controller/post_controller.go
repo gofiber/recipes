@@ -57,7 +57,7 @@ func DeletePost(c *fiber.Ctx) error {
 	if _, err := post.Delete(context.Background(), database.DB); err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(err.Error())
 	}
-	return c.SendStatus(200)
+	return c.SendStatus(http.StatusOK)
 }
 
 func UpdatePost(c *fiber.Ctx) error {

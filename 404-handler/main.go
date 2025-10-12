@@ -6,6 +6,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,7 +20,7 @@ func main() {
 
 	// 404 Handler
 	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
+		return c.SendStatus(http.StatusNotFound) // => 404 "Not Found"
 	})
 
 	// Start server

@@ -147,7 +147,7 @@ func main() {
 		createdRecord.Decode(createdEmployee)
 
 		// return the created Employee in JSON format
-		return c.Status(201).JSON(createdEmployee)
+		return c.Status(http.StatusCreated).JSON(createdEmployee)
 	})
 
 	// Update an employee record in MongoDB
@@ -157,7 +157,7 @@ func main() {
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		employee := new(Employee)
@@ -182,9 +182,9 @@ func main() {
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(404)
+				return c.SendStatus(http.StatusNotFound)
 			}
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		// return the updated employee
@@ -200,23 +200,23 @@ func main() {
 		)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
 		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
 		if err != nil {
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		// the employee might not exist
 		if result.DeletedCount < 1 {
-			return c.SendStatus(404)
+			return c.SendStatus(http.StatusNotFound)
 		}
 
 		// the record was deleted
-		return c.SendStatus(204)
+		return c.SendStatus(http.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":3000"))

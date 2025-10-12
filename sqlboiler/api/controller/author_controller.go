@@ -57,7 +57,7 @@ func DeleteAuthor(c *fiber.Ctx) error {
 	if _, err := author.Delete(context.Background(), database.DB); err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(err.Error())
 	}
-	return c.SendStatus(200)
+	return c.SendStatus(http.StatusOK)
 }
 
 func UpdateAuthor(c *fiber.Ctx) error {
