@@ -91,7 +91,7 @@ func (s *AuthService) generateAccessToken(user *models.User) (string, error) {
 
 	// Create the JWT claims
 	claims := jwt.MapClaims{
-		"sub":      user.Id,      // subject (user ID)
+		"sub":      user.ID,      // subject (user ID)
 		"username": user.Username,         // custom claim
 		"email":    user.Email,            // custom claim
 		"exp":      expirationTime.Unix(), // expiration time
@@ -158,7 +158,7 @@ func (s *AuthService) LoginWithRefresh(email, password string, refreshTokenTTL t
 	}
 
 	// Create a refresh token
-	token, err := s.refreshTokenRepo.CreateRefreshToken(user.Id, refreshTokenTTL)
+	token, err := s.refreshTokenRepo.CreateRefreshToken(user.ID, refreshTokenTTL)
 	if err != nil {
 		return "", "", err
 	}

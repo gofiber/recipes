@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"os"
+
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 )
@@ -8,7 +10,7 @@ import (
 // Protected protect routes
 func Protected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
+		SigningKey: jwtware.SigningKey{Key: os.Getenv("SECRET")},
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			status := fiber.StatusUnauthorized
 			message := "Invalid or expired JWT"

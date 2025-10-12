@@ -1,10 +1,8 @@
 package handlers
 
 import (
-	"strconv"
-
-	"auth-jwt-gorm/database"
 	"auth-jwt-gorm/models"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
@@ -29,27 +27,24 @@ func hashPassword(password string) (string, error) {
 }
 
 func validToken(t *jwt.Token, id string) bool {
-	n, err := strconv.Atoi(id)
-	if err != nil {
+	claims, ok := t.Claims.(jwt.MapClaims)
+	if !ok {
 		return false
 	}
-	claims := t.Claims.(jwt.MapClaims)
-	uid := int(claims["user_id"].(float64))
-	return uid == n
-}
-
-func getUserByID(id string) (*models.User, error) {
-	db := database.DB
-	var user models.User
-	if err := db.First(&user, id).Error; err != nil {
-		return nil, err
+	sub, ok := claims["sub"].(string)
+	if !ok {
+		return false
 	}
-	return &user, nil
+	return sub == id
 }
 
 // GetUser get a user
 func (uh *UserHandler) GetUser(c *fiber.Ctx) error {
-	user, err := uh.userRepo.GetUserByID(c.Params("id"))
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+	user, err := uh.userRepo.GetUserByID(uint(id))
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"status":  "error",
@@ -75,11 +70,11 @@ func (uh *UserHandler) CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	if _, err := uh.userRepo.GetUserByEmail(user.Email); err != nil {
+	if _, err := uh.userRepo.GetUserByEmail(user.Email); err == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "User already exists",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 
@@ -124,8 +119,13 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	id := c.Params("id")
-	if !validToken(c.Locals("user").(*jwt.Token), id) {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	tok, ok := c.Locals("user").(*jwt.Token)
+	if !ok || !validToken(tok, string(id)) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -133,7 +133,7 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	user, err := getUserByID(id)
+	user, err := uh.userRepo.GetUserByID(uint(id))
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"status":  "error",
@@ -143,28 +143,24 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 	}
 
 	user.Names = input.Names
-	database.DB.Save(user)
+	updatedUser, err := uh.userRepo.UpdateUser(uint(id), *user)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  "error",
+			"message": "User update failed",
+			"data":    nil,
+		})
+	}
 
 	return c.JSON(fiber.Map{
 		"status":  "success",
 		"message": "User successfully updated",
-		"data":    user,
+		"data":    updatedUser,
 	})
 }
 
 // DeleteUser delete user
 func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
-	var input struct {
-		Password string `json:"password"`
-	}
-	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Review your input",
-			"data":    err,
-		})
-	}
-
 	id := c.Params("id")
 	if !validToken(c.Locals("user").(*jwt.Token), id) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -174,8 +170,7 @@ func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
 		})
 	}
 
-	
-	 err := uh.userRepo.DeleteUser(id)
+	err := uh.userRepo.DeleteUser(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"status":  "error",

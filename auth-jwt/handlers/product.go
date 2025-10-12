@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"auth-jwt-gorm/database"
 	"auth-jwt-gorm/models"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,8 +20,15 @@ func NewProductHandler(productRepo *models.ProductRepository) *ProductHandler {
 
 // GetAllProducts query all products
 func (ph *ProductHandler) GetAllProducts(c *fiber.Ctx) error {
-	var products []models.Product
-	database.DB.Find(&products)
+	products, err := ph.productRepo.GetAll()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Failed to retrieve products",
+			"data":    err,
+		})
+	}
+
 	return c.JSON(fiber.Map{
 		"status":  "success",
 		"message": "All products",

@@ -57,7 +57,7 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on login request",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 	token, err := ah.authService.Login(input.Email, input.Password)
@@ -67,14 +67,14 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"status":  "error",
 				"message": "Invalid credentials",
-				"data":    err,
+				"data":    nil,
 			})
 		} else {
 
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"status":  "error",
 				"message": "Internal Server Error",
-				"data":    err,
+				"data":    nil,
 			})
 		}
 	}
@@ -118,21 +118,22 @@ func (ah *AuthHandler) Register(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on register request",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 
 	user, err := ah.authService.Register(input.Email, input.Username, input.Password)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Error on registering user",
-			"data":    err,
-		})
+		if errors.Is(err, services.ErrEmailInUse) {
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+				"status":  "error",
+				"message": "Email already in use",
+				"data":    nil,
+			})
+		}
 	}
 
 	newUser := RegisterResponse{
-		Id:       user.Id,
 		Email:    user.Email,
 		Username: user.Username,
 	}
@@ -150,7 +151,7 @@ func (ah *AuthHandler) RefreshToken(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid request payload",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 	token, err := ah.authService.RefreshAccessToken(input.RefreshToken)
@@ -159,13 +160,13 @@ func (ah *AuthHandler) RefreshToken(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"status":  "error",
 				"message": "Invalid or expired refresh token",
-				"data":    err,
+				"data":    nil,
 			})
 		} else {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"status":  "error",
 				"message": "Internal server error",
-				"data":    err,
+				"data":    nil,
 			})
 		}
 	}

@@ -22,7 +22,17 @@ func SetupRoutes(app *fiber.App) {
 	// Auth
 	userRepo := models.NewUserRepository(database.DB)
 	refreshTokenRepo := models.NewRefreshTokenRepository(database.DB)
-	authService := services.NewAuthService(userRepo, refreshTokenRepo, os.Getenv("JWT_SECRET"), 15*time.Minute)
+	jwtSecret := os.Getenv("SECRET")
+	if jwtSecret == "" {
+		panic("SECRET environment variable is required")
+	}
+	accessTTL := 15 * time.Minute
+	if ttlEnv := os.Getenv("ACCESS_TOKEN_TTL_MINUTES"); ttlEnv != "" {
+		if ttl, err := time.ParseDuration(ttlEnv + "m"); err == nil {
+			accessTTL = ttl
+		}
+	}
+	authService := services.NewAuthService(userRepo, refreshTokenRepo, jwtSecret, accessTTL)
 	authHandler := handlers.NewAuthHandler(authService)
 
 	auth := api.Group("/auth")
@@ -35,7 +45,6 @@ func SetupRoutes(app *fiber.App) {
 	userHandler := handlers.NewUserHandler(userRepo)
 	user := api.Group("/users")
 	user.Get("/:id", middleware.Protected(), userHandler.GetUser)
-	user.Post("/", middleware.Protected(), userHandler.CreateUser)
 	user.Patch("/:id", middleware.Protected(), userHandler.UpdateUser)
 	user.Delete("/:id", middleware.Protected(), userHandler.DeleteUser)
 

@@ -1,14 +1,12 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 // Product struct
 type Product struct {
 	gorm.Model
-	Id          uuid.UUID `gorm:"primaryKey" json:"id"`
 	Title       string    `gorm:"not null" json:"title"`
 	Description string    `gorm:"not null" json:"description"`
 	Amount      int       `gorm:"not null" json:"amount"`
@@ -24,7 +22,6 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 }
 
 func (r *ProductRepository) Create(product *Product) error {
-	product.Id = uuid.New()
 	return r.db.Create(product).Error
 }
 

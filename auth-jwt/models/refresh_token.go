@@ -9,11 +9,10 @@ import (
 
 // RefreshToken represents a refresh token in the system
 type RefreshToken struct {
-	Id        string `gorm:"primaryKey" json:"id"`
-	UserId    string `gorm:"not null" json:"user_id"`
-	Token     string    `gorm:"not null" json:"token"`
+	gorm.Model
+	UserId    uint    `gorm:"not null" json:"user_id"`
+	Token     string    `gorm:"uniqueIndex;not null" json:"token"`
 	ExpiresAt time.Time `gorm:"not null" json:"expires_at"`
-	CreatedAt time.Time `gorm:"not null" json:"created_at"`
 	Revoked   bool      `gorm:"not null" json:"revoked"`
 }
 
@@ -28,12 +27,11 @@ func NewRefreshTokenRepository(db *gorm.DB) *RefreshTokenRepository {
 }
 
 // CreateRefreshToken creates a new refresh token for a user
-func (r *RefreshTokenRepository) CreateRefreshToken(userId string, ttl time.Duration) (*RefreshToken, error) {
+func (r *RefreshTokenRepository) CreateRefreshToken(userId uint, ttl time.Duration) (*RefreshToken, error) {
 	token := &RefreshToken{
-		Id:        uuid.New().String(),
+		Token:     uuid.New().String(),
 		UserId:    userId,
 		ExpiresAt: time.Now().Add(ttl),
-		CreatedAt: time.Now(),
 		Revoked:   false,
 	}
 	if err := r.db.Create(token).Error; err != nil {
