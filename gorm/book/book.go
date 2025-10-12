@@ -2,6 +2,7 @@ package book
 
 import (
 	"fiber-gorm/database"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -46,7 +47,7 @@ func DeleteBook(c *fiber.Ctx) error {
 	var book Book
 	db.First(&book, id)
 	if book.Title == "" {
-		return c.Status(http.StatusInternalServerError).SendString("No Book Found with ID")
+        return c.Status(http.StatusNotFound).SendString("No Book Found with ID")
 	}
 	db.Delete(&book)
 	return c.SendString("Book Successfully deleted")

@@ -52,7 +52,7 @@ func GetUser(c *fiber.Ctx) error {
 	if user.Username == "" {
 		return c.Status(http.StatusNotFound).JSON(fiber.Map{"status": "error", "message": "No user found with ID", "data": nil})
 	}
-	
+
 	return c.JSON(fiber.Map{"status": "success", "message": "User found", "data": user})
 }
 
@@ -67,7 +67,7 @@ func CreateUser(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(model.User)
 	if err := c.BodyParser(user); err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Review your input", "errors": err.Error()})
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Review your input", "errors": err.Error()})
 	}
 
 	validate := validator.New()
@@ -104,13 +104,13 @@ func UpdateUser(c *fiber.Ctx) error {
 	}
 	var uui UpdateUserInput
 	if err := c.BodyParser(&uui); err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Review your input", "errors": err.Error()})
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Review your input", "errors": err.Error()})
 	}
 	id := c.Params("id")
 	token := c.Locals("user").(*jwt.Token)
 
 	if !validToken(token, id) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+		return c.Status(http.StatusForbidden).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
 	}
 
 	db := database.DB
@@ -136,11 +136,11 @@ func DeleteUser(c *fiber.Ctx) error {
 	token := c.Locals("user").(*jwt.Token)
 
 	if !validToken(token, id) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+		return c.Status(http.StatusForbidden).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
 	}
 
 	if !validUser(id, pi.Password) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
 	}
 
 	db := database.DB

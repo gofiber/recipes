@@ -64,7 +64,7 @@ func CreateUser(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(model.User)
 	if err := c.BodyParser(user); err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
 	}
 
 	hash, err := hashPassword(user.Password)
@@ -92,13 +92,13 @@ func UpdateUser(c *fiber.Ctx) error {
 	}
 	var uui UpdateUserInput
 	if err := c.BodyParser(&uui); err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
 	}
 	id := c.Params("id")
 	token := c.Locals("user").(*jwt.Token)
 
 	if !validToken(token, id) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+		return c.Status(http.StatusForbidden).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
 	}
 
 	db := database.DB
@@ -124,11 +124,11 @@ func DeleteUser(c *fiber.Ctx) error {
 	token := c.Locals("user").(*jwt.Token)
 
 	if !validToken(token, id) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+		return c.Status(http.StatusForbidden).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
 	}
 
 	if !validUser(id, pi.Password) {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
+		return c.Status(http.StatusForbidden).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
 	}
 
 	db := database.DB

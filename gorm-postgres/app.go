@@ -27,7 +27,7 @@ func main() {
 
 	app.Use(cors.New())
 
-	app.Use(c.SendStatus(http.StatusNotFound)) error {
+	app.Use(func(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusNotFound) // => 404 "Not Found"
 	})
 
