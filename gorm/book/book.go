@@ -46,7 +46,7 @@ func DeleteBook(c *fiber.Ctx) error {
 	var book Book
 	db.First(&book, id)
 	if book.Title == "" {
-		return c.Status(500).SendString("No Book Found with ID")
+		return c.Status(http.StatusInternalServerError).SendString("No Book Found with ID")
 	}
 	db.Delete(&book)
 	return c.SendString("Book Successfully deleted")

@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
@@ -64,7 +65,7 @@ func main() {
 		// Select all Employee(s) from database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 		defer rows.Close()
 		result := Employees{}
@@ -89,7 +90,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Insert Employee into database
@@ -112,7 +113,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Update Employee into database
@@ -135,7 +136,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Delete Employee from database

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"fiber-colly-gorm/internals/consts"
 	"fiber-colly-gorm/internals/services/database"
@@ -34,7 +35,7 @@ func main() {
 	}))
 
 	micro.Get("/healthchecker", func(c *fiber.Ctx) error {
-		return c.Status(200).JSON(fiber.Map{
+		return c.Status(http.StatusOK).JSON(fiber.Map{
 			"status":  "success",
 			"message": "Welcome to Golang, Fiber, and Colly",
 		})
@@ -42,7 +43,7 @@ func main() {
 
 	scrape.Get("quotes", func(c *fiber.Ctx) error {
 		go scrapers.Quotes()
-		return c.Status(200).JSON(fiber.Map{
+		return c.Status(http.StatusOK).JSON(fiber.Map{
 			"status":  "success",
 			"message": "Start scraping quotes.toscrape.com ...",
 		})
@@ -50,7 +51,7 @@ func main() {
 
 	scrape.Get("coursera", func(c *fiber.Ctx) error {
 		go scrapers.CourseraCourses()
-		return c.Status(200).JSON(fiber.Map{
+		return c.Status(http.StatusOK).JSON(fiber.Map{
 			"status":  "success",
 			"message": "Start scraping courses details from coursera.org...",
 		})

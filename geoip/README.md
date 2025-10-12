@@ -71,7 +71,7 @@ func main() {
         parsedIP := net.ParseIP(ip)
         record, err := db.City(parsedIP)
         if err != nil {
-            return c.Status(500).SendString(err.Error())
+            return c.Status(http.StatusInternalServerError).SendString(err.Error())
         }
         return c.JSON(record)
     })
