@@ -5,12 +5,13 @@ import (
 
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Protected protect routes
 func Protected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: os.Getenv("SECRET")},
+		SigningKey: jwtware.SigningKey{JWTAlg: jwt.SigningMethodHS256.Name, Key: os.Getenv("SECRET")},
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			status := fiber.StatusUnauthorized
 			message := "Invalid or expired JWT"
