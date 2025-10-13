@@ -56,7 +56,7 @@ func (r *UserRepository) GetUserByID(id uint) (*User, error) {
 	return &user, nil
 }
 
-func (r *UserRepository) DeleteUser(id string) (error){
+func (r *UserRepository) DeleteUser(id uint) error {
 	var user User
 	if err := r.db.Where("id = ?", id).Delete(&user).Error; err != nil {
 		return err

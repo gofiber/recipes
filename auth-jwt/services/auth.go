@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"gorm.io/gorm"
 )
 
 var (
@@ -49,6 +50,10 @@ func (s *AuthService) Register(email, username, password string) (*models.User, 
 	if err == nil {
 		return nil, ErrEmailInUse
 	}
+	// Return database errors; only proceed if user not found
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, err
+	}
 
 	// Hash the password
 	hashedPassword, err := HashPassword(password)
@@ -61,27 +66,6 @@ func (s *AuthService) Register(email, username, password string) (*models.User, 
 		return nil, err
 	}
 	return user, nil
-}
-
-// Login authenticates a user and returns an access token
-func (s *AuthService) Login(email, password string) (string, error) {
-	// Get the user from the database
-	user, err := s.userRepo.GetUserByEmail(email)
-	if err != nil {
-		return "", ErrInvalidCredentials
-	}
-
-	// Verify the password
-	if err := VerifyPassword(user.Password, password); err != nil {
-		return "", ErrInvalidCredentials
-	}
-	// Generate an access token
-	accessToken, err := s.generateAccessToken(user)
-	if err != nil {
-		return "", err
-	}
-
-	return accessToken, nil
 }
 
 // generateAccessToken creates a new JWT access token
@@ -135,8 +119,6 @@ func (s *AuthService) ValidateToken(tokenString string) (jwt.MapClaims, error) {
 
 	return nil, ErrInvalidToken
 }
-
-// auth/service.go (existing methods)
 
 // LoginWithRefresh authenticates a user and returns both access and refresh tokens
 func (s *AuthService) LoginWithRefresh(email, password string, refreshTokenTTL time.Duration) (accessToken string, refreshToken string, err error) {

@@ -27,7 +27,8 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 type RefreshRequest struct {
@@ -60,7 +61,8 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 			"data":    nil,
 		})
 	}
-	token, err := ah.authService.Login(input.Email, input.Password)
+	// Authenticate the user
+	refreshToken, accessToken, err := ah.authService.LoginWithRefresh(input.Email, input.Password, time.Duration(30*24*time.Hour))
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidCredentials) {
 
@@ -81,13 +83,13 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 
 	c.Cookie(&fiber.Cookie{
 		Name:     "jwt",
-		Value:    token,
+		Value:    accessToken,
 		Expires:  time.Now().Add(time.Hour * 72),
 		HTTPOnly: true,
 	})
 
 	// Return the token
-	response := LoginResponse{Token: token}
+	response := LoginResponse{AccessToken: accessToken, RefreshToken: refreshToken}
 
 	return c.JSON(fiber.Map{
 		"status":  "success",
@@ -121,7 +123,6 @@ func (ah *AuthHandler) Register(c *fiber.Ctx) error {
 			"data":    nil,
 		})
 	}
-
 	user, err := ah.authService.Register(input.Email, input.Username, input.Password)
 	if err != nil {
 		if errors.Is(err, services.ErrEmailInUse) {
@@ -131,6 +132,11 @@ func (ah *AuthHandler) Register(c *fiber.Ctx) error {
 				"data":    nil,
 			})
 		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Error on registering user",
+			"data":    nil,
+		})
 	}
 
 	newUser := RegisterResponse{

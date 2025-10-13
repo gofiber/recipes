@@ -125,7 +125,7 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 	}
 
 	tok, ok := c.Locals("user").(*jwt.Token)
-	if !ok || !validToken(tok, string(id)) {
+	if !ok || !validToken(tok, strconv.Itoa(id)) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -161,8 +161,13 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 
 // DeleteUser delete user
 func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
-	id := c.Params("id")
-	if !validToken(c.Locals("user").(*jwt.Token), id) {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	tok, ok := c.Locals("user").(*jwt.Token)
+	if !ok || !validToken(tok, strconv.Itoa(id)) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -170,7 +175,7 @@ func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
 		})
 	}
 
-	err := uh.userRepo.DeleteUser(id)
+	err = uh.userRepo.DeleteUser(uint(id))
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"status":  "error",
