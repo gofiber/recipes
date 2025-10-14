@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -67,13 +68,13 @@ func main() {
 	app.Get("/employee", func(c *fiber.Ctx) error {
 		cursor, err := mg.Db.Collection("employees").Find(c.Context(), bson.D{})
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 		defer cursor.Close(c.Context())
 
 		var employees []Employee
 		if err := cursor.All(c.Context(), &employees); err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 		return c.JSON(employees)
 	})
@@ -83,16 +84,16 @@ func main() {
 	app.Get("/employee/:id", func(c *fiber.Ctx) error {
 		id, err := primitive.ObjectIDFromHex(c.Params("id"))
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		var employee Employee
 		err = mg.Db.Collection("employees").FindOne(c.Context(), bson.M{"_id": id}).Decode(&employee)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(404)
+				return c.SendStatus(http.StatusNotFound)
 			}
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		return c.JSON(employee)
@@ -103,17 +104,21 @@ func main() {
 	app.Post("/employee", func(c *fiber.Ctx) error {
 		var employee Employee
 		if err := c.BodyParser(&employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		employee.ID = ""
 		result, err := mg.Db.Collection("employees").InsertOne(c.Context(), employee)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		employee.ID = result.InsertedID.(primitive.ObjectID).Hex()
-		return c.Status(201).JSON(employee)
+		insertedID, ok := result.InsertedID.(primitive.ObjectID)
+		if !ok {
+			return c.Status(http.StatusInternalServerError).SendString("Failed to convert inserted ID to ObjectID")
+		}
+		employee.ID = insertedID.Hex()
+		return c.Status(http.StatusCreated).JSON(employee)
 	})
 
 	// Update an employee record in MongoDB
@@ -121,12 +126,12 @@ func main() {
 	app.Put("/employee/:id", func(c *fiber.Ctx) error {
 		id, err := primitive.ObjectIDFromHex(c.Params("id"))
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		var employee Employee
 		if err := c.BodyParser(&employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		update := bson.M{"$set": bson.M{
@@ -138,9 +143,9 @@ func main() {
 		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), bson.M{"_id": id}, update).Err()
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(404)
+				return c.SendStatus(http.StatusFound)
 			}
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		employee.ID = c.Params("id")
@@ -152,19 +157,19 @@ func main() {
 	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
 		id, err := primitive.ObjectIDFromHex(c.Params("id"))
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), bson.M{"_id": id})
 		if err != nil {
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		if result.DeletedCount == 0 {
-			return c.SendStatus(404)
+			return c.SendStatus(http.StatusFound)
 		}
 
-		return c.SendStatus(204)
+		return c.SendStatus(http.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":3000"))
