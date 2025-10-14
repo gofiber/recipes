@@ -45,21 +45,9 @@ func Connect() error {
 		return err
 	}
 
-	defer func() {
-		if err := client.Disconnect(context.TODO()); err != nil {
-			panic(err)
-		}
-	}()
-
-	db := client.Database(dbName)
-
-	if err != nil {
-		return err
-	}
-
 	mg = MongoInstance{
 		Client: client,
-		Db:     db,
+		Db:     client.Database(dbName),
 	}
 
 	return nil
@@ -77,144 +65,105 @@ func main() {
 	// Get all employee records from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/find/
 	app.Get("/employee", func(c *fiber.Ctx) error {
-		// get all records as a cursor
-		query := bson.D{{}}
-		cursor, err := mg.Db.Collection("employees").Find(c.Context(), query)
+		cursor, err := mg.Db.Collection("employees").Find(c.Context(), bson.D{})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
+		defer cursor.Close(c.Context())
 
-		var employees []Employee = make([]Employee, 0)
-
-		// iterate the cursor and decode each item into an Employee
+		var employees []Employee
 		if err := cursor.All(c.Context(), &employees); err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		// return employees list in JSON format
 		return c.JSON(employees)
 	})
 
 	// Get once employee records from MongoDB
 	// Docs: https://www.mongodb.com/blog/post/quick-start-golang--mongodb--how-to-read-documents
 	app.Get("/employee/:id", func(c *fiber.Ctx) error {
-		// get id by params
-		params := c.Params("id")
-
-		_id, err := primitive.ObjectIDFromHex(params)
-		if err != nil {
-			return c.Status(500).SendString(err.Error())
-		}
-
-		filter := bson.D{{Key: "_id", Value: _id}}
-
-		var result Employee
-
-		if err := mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
-			return c.Status(500).SendString("Something went wrong.")
-		}
-
-		return c.Status(fiber.StatusOK).JSON(result)
-	})
-
-	// Insert a new employee into MongoDB
-	// Docs: https://docs.mongodb.com/manual/reference/command/insert/
-	app.Post("/employee", func(c *fiber.Ctx) error {
-		collection := mg.Db.Collection("employees")
-
-		// New Employee struct
-		employee := new(Employee)
-		// Parse body into struct
-		if err := c.BodyParser(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
-
-		// force MongoDB to always set its own generated ObjectIDs
-		employee.ID = ""
-
-		// insert the record
-		insertionResult, err := collection.InsertOne(c.Context(), employee)
-		if err != nil {
-			return c.Status(500).SendString(err.Error())
-		}
-
-		// get the just inserted record in order to return it as response
-		filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
-		createdRecord := collection.FindOne(c.Context(), filter)
-
-		// decode the Mongo record into Employee
-		createdEmployee := &Employee{}
-		createdRecord.Decode(createdEmployee)
-
-		// return the created Employee in JSON format
-		return c.Status(201).JSON(createdEmployee)
-	})
-
-	// Update an employee record in MongoDB
-	// Docs: https://docs.mongodb.com/manual/reference/command/findAndModify/
-	app.Put("/employee/:id", func(c *fiber.Ctx) error {
-		idParam := c.Params("id")
-		employeeID, err := primitive.ObjectIDFromHex(idParam)
-		// the provided ID might be invalid ObjectID
+		id, err := primitive.ObjectIDFromHex(c.Params("id"))
 		if err != nil {
 			return c.SendStatus(400)
 		}
 
-		employee := new(Employee)
-		// Parse body into struct
-		if err := c.BodyParser(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
-
-		// Find the employee and update its data
-		query := bson.D{{Key: "_id", Value: employeeID}}
-		update := bson.D{
-			{
-				Key: "$set",
-				Value: bson.D{
-					{Key: "name", Value: employee.Name},
-					{Key: "age", Value: employee.Age},
-					{Key: "salary", Value: employee.Salary},
-				},
-			},
-		}
-		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), query, update).Err()
+		var employee Employee
+		err = mg.Db.Collection("employees").FindOne(c.Context(), bson.M{"_id": id}).Decode(&employee)
 		if err != nil {
-			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
 				return c.SendStatus(404)
 			}
 			return c.SendStatus(500)
 		}
 
-		// return the updated employee
-		employee.ID = idParam
-		return c.Status(200).JSON(employee)
+		return c.JSON(employee)
+	})
+
+	// Insert a new employee into MongoDB
+	// Docs: https://docs.mongodb.com/manual/reference/command/insert/
+	app.Post("/employee", func(c *fiber.Ctx) error {
+		var employee Employee
+		if err := c.BodyParser(&employee); err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
+
+		employee.ID = ""
+		result, err := mg.Db.Collection("employees").InsertOne(c.Context(), employee)
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+
+		employee.ID = result.InsertedID.(primitive.ObjectID).Hex()
+		return c.Status(201).JSON(employee)
+	})
+
+	// Update an employee record in MongoDB
+	// Docs: https://docs.mongodb.com/manual/reference/command/findAndModify/
+	app.Put("/employee/:id", func(c *fiber.Ctx) error {
+		id, err := primitive.ObjectIDFromHex(c.Params("id"))
+		if err != nil {
+			return c.SendStatus(400)
+		}
+
+		var employee Employee
+		if err := c.BodyParser(&employee); err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
+
+		update := bson.M{"$set": bson.M{
+			"name":   employee.Name,
+			"age":    employee.Age,
+			"salary": employee.Salary,
+		}}
+
+		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), bson.M{"_id": id}, update).Err()
+		if err != nil {
+			if err == mongo.ErrNoDocuments {
+				return c.SendStatus(404)
+			}
+			return c.SendStatus(500)
+		}
+
+		employee.ID = c.Params("id")
+		return c.JSON(employee)
 	})
 
 	// Delete an employee from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/delete/
 	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
-		employeeID, err := primitive.ObjectIDFromHex(
-			c.Params("id"),
-		)
-		// the provided ID might be invalid ObjectID
+		id, err := primitive.ObjectIDFromHex(c.Params("id"))
 		if err != nil {
 			return c.SendStatus(400)
 		}
 
-		// find and delete the employee with the given ID
-		query := bson.D{{Key: "_id", Value: employeeID}}
-		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
+		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), bson.M{"_id": id})
 		if err != nil {
 			return c.SendStatus(500)
 		}
 
-		// the employee might not exist
-		if result.DeletedCount < 1 {
+		if result.DeletedCount == 0 {
 			return c.SendStatus(404)
 		}
 
-		// the record was deleted
 		return c.SendStatus(204)
 	})
 
