@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
@@ -17,8 +18,6 @@ var db *sql.DB
 
 // Database settings
 const (
-	host     = "localhost"
-	port     = 5432 // Default port
 	user     = "root"
 	password = "password"
 	dbname   = "fiber_demo"
@@ -32,10 +31,7 @@ type Employee struct {
 	Age    int     `json:"age"`
 }
 
-// Employees struct
-type Employees struct {
-	Employees []Employee `json:"employees"`
-}
+
 
 // Connect function
 func Connect() error {
@@ -60,96 +56,86 @@ func main() {
 	// Create a Fiber app
 	app := fiber.New()
 
-	// Get all records from MySQL
 	app.Get("/employee", func(c *fiber.Ctx) error {
-		// Get Employee list from database
-		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
+		rows, err := db.Query("SELECT id, name, salary, age FROM employees ORDER BY id")
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 		defer rows.Close()
-		result := Employees{}
 
+		var employees []Employee
 		for rows.Next() {
-			employee := Employee{}
-			if err := rows.Scan(&employee.ID, &employee.Name, &employee.Salary, &employee.Age); err != nil {
-				return err // Exit if we get an error
+			var emp Employee
+			if err := rows.Scan(&emp.ID, &emp.Name, &emp.Salary, &emp.Age); err != nil {
+				return c.Status(http.StatusInternalServerError).SendString(err.Error())
 			}
-
-			// Append Employee to Employees
-			result.Employees = append(result.Employees, employee)
+			employees = append(employees, emp)
 		}
-		// Return Employees in JSON format
-		return c.JSON(result)
+		return c.JSON(employees)
 	})
 
-	// Add record into MySQL
+	app.Get("/employee/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		var emp Employee
+		err := db.QueryRow("SELECT id, name, salary, age FROM employees WHERE id = ?", id).Scan(&emp.ID, &emp.Name, &emp.Salary, &emp.Age)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return c.SendStatus(http.StatusNotFound)
+			}
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
+		return c.JSON(emp)
+	})
+
 	app.Post("/employee", func(c *fiber.Ctx) error {
-		// New Employee struct
-		u := new(Employee)
-
-		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+		var emp Employee
+		if err := c.BodyParser(&emp); err != nil {
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
-		// Insert Employee into database
-		res, err := db.Query("INSERT INTO employees (NAME, SALARY, AGE) VALUES (?, ?, ?)", u.Name, u.Salary, u.Age)
+		result, err := db.Exec("INSERT INTO employees (name, salary, age) VALUES (?, ?, ?)", emp.Name, emp.Salary, emp.Age)
 		if err != nil {
-			return err
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		// Print result
-		log.Println(res)
-
-		// Return Employee in JSON format
-		return c.JSON(u)
+		id, _ := result.LastInsertId()
+		emp.ID = int(id)
+		return c.Status(http.StatusCreated).JSON(emp)
 	})
 
-	// Update record into MySQL
-	app.Put("/employee", func(c *fiber.Ctx) error {
-		// New Employee struct
-		u := new(Employee)
-
-		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+	app.Put("/employee/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		var emp Employee
+		if err := c.BodyParser(&emp); err != nil {
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
-		// Update Employee record in database
-		res, err := db.Query("UPDATE employees SET name=?,salary=?,age=? WHERE id=?", u.Name, u.Salary, u.Age, u.ID)
+		result, err := db.Exec("UPDATE employees SET name=?, salary=?, age=? WHERE id=?", emp.Name, emp.Salary, emp.Age, id)
 		if err != nil {
-			return err
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		// Print result
-		log.Println(res)
+		rowsAffected, _ := result.RowsAffected()
+		if rowsAffected == 0 {
+			return c.SendStatus(http.StatusNotFound)
+		}
 
-		// Return Employee in JSON format
-		return c.Status(201).JSON(u)
+		return c.JSON(emp)
 	})
 
-	// Delete record from MySQL
-	app.Delete("/employee", func(c *fiber.Ctx) error {
-		// New Employee struct
-		u := new(Employee)
-
-		// Parse body into struct
-		if err := c.BodyParser(u); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
-
-		// Delete Employee from database
-		res, err := db.Query("DELETE FROM employees WHERE id = ?", u.ID)
+	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		result, err := db.Exec("DELETE FROM employees WHERE id = ?", id)
 		if err != nil {
-			return err
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		// Print result
-		log.Println(res)
+		rowsAffected, _ := result.RowsAffected()
+		if rowsAffected == 0 {
+			return c.SendStatus(http.StatusNotFound)
+		}
 
-		// Return Employee in JSON format
-		return c.JSON("Deleted")
+		return c.SendStatus(http.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":3000"))
