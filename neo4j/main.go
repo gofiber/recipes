@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/neo4j/neo4j-go-driver/neo4j"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 // Movie represent the movie schema
@@ -16,17 +16,9 @@ type Movie struct {
 	Director string `json:"director" db:"director"`
 }
 
-var driver neo4j.Driver
-
-func ConnectToDB() error {
-	var err error
-	driver, err = neo4j.NewDriver("bolt://localhost:7687", neo4j.BasicAuth("neo4j", "password", ""),
-		func(conf *neo4j.Config) { conf.Encrypted = false })
-	return err
-}
-
 func main() {
-	if err := ConnectToDB(); err != nil {
+	driver, err := neo4j.NewDriver("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "password", ""))
+	if err != nil {
 		log.Fatal(err)
 	}
 	defer driver.Close()
@@ -39,10 +31,7 @@ func main() {
 			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
-		session, err := driver.Session(neo4j.AccessModeWrite)
-		if err != nil {
-			return c.Status(http.StatusInternalServerError).SendString(err.Error())
-		}
+		session := driver.NewSession(neo4j.SessionConfig{DatabaseName: "movies", AccessMode: neo4j.AccessModeWrite})
 		defer session.Close()
 
 		query := `CREATE (n:Movie {title: $title, tagline: $tagline, released: $released, director: $director})`
@@ -64,20 +53,17 @@ func main() {
 	app.Get("/movie/:title", func(c *fiber.Ctx) error {
 		title := c.Params("title")
 
-		session, err := driver.Session(neo4j.AccessModeRead)
-		if err != nil {
-			return c.Status(http.StatusInternalServerError).SendString(err.Error())
-		}
+		session := driver.NewSession(neo4j.SessionConfig{DatabaseName: "movies", AccessMode: neo4j.AccessModeRead})
 		defer session.Close()
 
 		query := `MATCH (n:Movie {title: $title}) RETURN n.title, n.tagline, n.released, n.director`
-		result, err := session.Run(query, map[string]interface{}{"title": title})
+		result, err := session.Run(query, map[string]any{"title": title})
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
 		if result.Next() {
-			values := result.Record().Values()
+			values := result.Record().Values
 			movie := Movie{
 				Title:    values[0].(string),
 				Tagline:  values[1].(string),
