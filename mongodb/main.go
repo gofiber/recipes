@@ -143,7 +143,7 @@ func main() {
 		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), bson.M{"_id": id}, update).Err()
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(http.StatusFound)
+				return c.SendStatus(http.StatusNotFound)
 			}
 			return c.SendStatus(http.StatusInternalServerError)
 		}
@@ -166,7 +166,7 @@ func main() {
 		}
 
 		if result.DeletedCount == 0 {
-			return c.SendStatus(http.StatusFound)
+			return c.SendStatus(http.StatusNotFound)
 		}
 
 		return c.SendStatus(http.StatusNoContent)
