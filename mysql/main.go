@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
@@ -30,8 +31,6 @@ type Employee struct {
 	Salary float64 `json:"salary"`
 	Age    int     `json:"age"`
 }
-
-
 
 // Connect function
 func Connect() error {
@@ -71,6 +70,9 @@ func main() {
 			}
 			employees = append(employees, emp)
 		}
+		if err := rows.Err(); err != nil {
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
 		return c.JSON(employees)
 	})
 
@@ -84,6 +86,7 @@ func main() {
 			}
 			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
+
 		return c.JSON(emp)
 	})
 
@@ -100,11 +103,16 @@ func main() {
 
 		id, _ := result.LastInsertId()
 		emp.ID = int(id)
+
 		return c.Status(http.StatusCreated).JSON(emp)
 	})
 
 	app.Put("/employee/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
+		idParam := c.Params("id")
+		id, err := strconv.Atoi(idParam)
+		if err != nil {
+			return c.Status(http.StatusBadRequest).SendString("invalid employee id")
+		}
 		var emp Employee
 		if err := c.BodyParser(&emp); err != nil {
 			return c.Status(http.StatusBadRequest).SendString(err.Error())
@@ -124,7 +132,11 @@ func main() {
 	})
 
 	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
+		idParam := c.Params("id")
+		id, err := strconv.Atoi(idParam)
+		if err != nil {
+			return c.Status(http.StatusBadRequest).SendString("invalid employee id")
+		}
 		result, err := db.Exec("DELETE FROM employees WHERE id = ?", id)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).SendString(err.Error())
