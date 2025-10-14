@@ -77,9 +77,13 @@ func main() {
 	})
 
 	app.Get("/employee/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
+		idParam := c.Params("id")
+		id, err := strconv.Atoi(idParam)
+		if err != nil {
+			return c.Status(http.StatusBadRequest).SendString("invalid employee id")
+		}
 		var emp Employee
-		err := db.QueryRow("SELECT id, name, salary, age FROM employees WHERE id = ?", id).Scan(&emp.ID, &emp.Name, &emp.Salary, &emp.Age)
+		err = db.QueryRow("SELECT id, name, salary, age FROM employees WHERE id = ?", id).Scan(&emp.ID, &emp.Name, &emp.Salary, &emp.Age)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				return c.SendStatus(http.StatusNotFound)
