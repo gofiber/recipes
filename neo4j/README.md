@@ -22,21 +22,24 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/gofiber/recipes.git
-    cd recipes/neo4j
-    ```
+
+   ```sh
+   git clone https://github.com/gofiber/recipes.git
+   cd recipes/neo4j
+   ```
 
 2. Install dependencies:
-    ```sh
-    go get
-    ```
+
+   ```sh
+   go get
+   ```
 
 3. Set up your Neo4j database and update the connection string in the code.
 
 ## Running the Application
 
 1. Start the application:
+
     ```sh
     go run main.go
     ```
@@ -50,42 +53,33 @@ package main
 
 import (
     "log"
+    "net/http"  
     "github.com/gofiber/fiber/v2"
     "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 func main() {
-    // Neo4j connection
-    uri := "neo4j://localhost:7687"
-    username := "neo4j"
-    password := "password"
-    driver, err := neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""))
+    driver, err := neo4j.NewDriver("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "password", ""))
     if err != nil {
         log.Fatal(err)
     }
-    defer driver.Close()
-
-    // Fiber instance
+    defer driver.Close()    
     app := fiber.New()
 
-    // Routes
     app.Get("/", func(c *fiber.Ctx) error {
         session := driver.NewSession(neo4j.SessionConfig{})
-        defer session.Close()
-
+        defer session.Close()   
         result, err := session.Run("RETURN 'Hello, World!'", nil)
         if err != nil {
-            return err
-        }
-
+            return c.Status(http.StatusInternalServerError).SendString(err.Error())
+        }   
         if result.Next() {
             return c.SendString(result.Record().Values[0].(string))
         }
 
-        return c.SendStatus(500)
+        return c.SendStatus(http.StatusInternalServerError)
     })
 
-    // Start server
     log.Fatal(app.Listen(":3000"))
 }
 ```
