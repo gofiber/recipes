@@ -72,7 +72,10 @@ func main() {
 			}
 			return c.JSON(movie)
 		}
-
+		if err = result.Err(); err != nil {
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
+		
 		return c.SendStatus(http.StatusNotFound)
 	})
 
