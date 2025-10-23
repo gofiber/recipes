@@ -73,6 +73,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
+- [Seenode](./seenode/README.md) - Deploying to Seenode cloud platform.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
