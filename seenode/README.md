@@ -21,12 +21,14 @@ Ensure you have the following installed:
 ## Setup
 
 1. Clone the repository:
+    
     ```sh
     git clone https://github.com/gofiber/recipes.git
     cd recipes/seenode
     ```
 
 2. Install dependencies:
+    
     ```sh
     go get
     ```
@@ -41,6 +43,7 @@ Ensure you have the following installed:
     - **Start Command**: `./app`
 
 5. Deploy the application:
+    
     ```sh
     git add .
     git commit -m "Deploy to Seenode"
@@ -60,6 +63,7 @@ package main
 
 import (
     "fmt"
+    "log"
     "os"
     "github.com/gofiber/fiber/v2"
 )
@@ -73,10 +77,12 @@ func main() {
 
     port := os.Getenv("PORT")
     if port == "" {
-        port = "80"
+        port = "8080"
     }
     
-    app.Listen(fmt.Sprintf(":%s", port))
+    if err := app.Listen(fmt.Sprintf(":%s", port)); err != nil {
+        log.Fatalf("failed to start server: %v", err)
+    }
 }
 ```
 
