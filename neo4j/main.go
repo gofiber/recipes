@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"strconv"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/neo4j/neo4j-go-driver/neo4j"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 // Movie represent the movie schema
@@ -17,74 +16,67 @@ type Movie struct {
 	Director string `json:"director" db:"director"`
 }
 
-// ConnectToDB makes a connection with the database
-func ConnectToDB() (neo4j.Session, neo4j.Driver, error) {
-	// define driver, session and result vars
-	var (
-		driver  neo4j.Driver
-		session neo4j.Session
-		err     error
-	)
-	// initialize driver to connect to localhost with ID and password
-	if driver, err = neo4j.NewDriver("bolt://localhost:7687", neo4j.BasicAuth("mdfaizan7", "mdfaizan7", ""),
-		func(conf *neo4j.Config) { conf.Encrypted = false }); err != nil {
-		return nil, nil, err
-	}
-	// Open a new session with write access
-	if session, err = driver.Session(neo4j.AccessModeWrite); err != nil {
-		return nil, nil, err
-	}
-	return session, driver, nil
-}
-
 func main() {
-	// connect to database
-	session, _, err := ConnectToDB()
+	driver, err := neo4j.NewDriver("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "password", ""))
 	if err != nil {
-		fmt.Print(err)
-		session.Close()
+		log.Fatal(err)
 	}
-	defer session.Close()
+	defer driver.Close()
 
-	// Create a Fiber app
 	app := fiber.New()
 
 	app.Post("/movie", func(c *fiber.Ctx) error {
-		movie := new(Movie)
-		if err := c.BodyParser(movie); err != nil {
-			return c.Status(400).SendString(err.Error())
+		var movie Movie
+		if err := c.BodyParser(&movie); err != nil {
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
-		query := fmt.Sprintf(`CREATE (n:Movie {title:'%s', tagline:'%s', released:'%d', director:'%s' })`,
-			movie.Title, movie.Tagline, movie.Released, movie.Director)
+		session := driver.NewSession(neo4j.SessionConfig{DatabaseName: "movies", AccessMode: neo4j.AccessModeWrite})
+		defer session.Close()
 
-		_, err := session.Run(query, nil)
+		query := `CREATE (n:Movie {title: $title, tagline: $tagline, released: $released, director: $director})`
+		params := map[string]any{
+			"title":    movie.Title,
+			"tagline":  movie.Tagline,
+			"released": movie.Released,
+			"director": movie.Director,
+		}
+
+		_, err = session.Run(query, params)
 		if err != nil {
-			return err
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		return c.SendString("Movie successfully created")
+		return c.Status(http.StatusCreated).JSON(movie)
 	})
 
 	app.Get("/movie/:title", func(c *fiber.Ctx) error {
 		title := c.Params("title")
-		query := fmt.Sprintf(`MATCH (n:Movie {title:'%s'}) RETURN n.title, n.tagline, n.released, n.director`, title)
 
-		result, err := session.Run(query, nil)
+		session := driver.NewSession(neo4j.SessionConfig{DatabaseName: "movies", AccessMode: neo4j.AccessModeRead})
+		defer session.Close()
+
+		query := `MATCH (n:Movie {title: $title}) RETURN n.title, n.tagline, n.released, n.director`
+		result, err := session.Run(query, map[string]any{"title": title})
 		if err != nil {
-			return err
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
-		res := &Movie{}
-		for result.Next() {
-			record := result.Record()
-			res.Title = record.GetByIndex(0).(string)
-			res.Tagline = record.GetByIndex(1).(string)
-			res.Released, _ = strconv.ParseInt(record.GetByIndex(2).(string), 10, 64)
-			res.Director = record.GetByIndex(3).(string)
+		if result.Next() {
+			values := result.Record().Values
+			movie := Movie{
+				Title:    values[0].(string),
+				Tagline:  values[1].(string),
+				Released: values[2].(int64),
+				Director: values[3].(string),
+			}
+			return c.JSON(movie)
 		}
-
-		return c.JSON(res)
+		if err = result.Err(); err != nil {
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
+		
+		return c.SendStatus(http.StatusNotFound)
 	})
 
 	log.Fatal(app.Listen(":3000"))
