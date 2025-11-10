@@ -90,4 +90,4 @@ func main() {
 
 - [Fiber Documentation](https://docs.gofiber.io)
 - [Seenode Documentation](https://seenode.com/docs/frameworks/go/fiber/)
-- [Seenode Dashboard](https://cloud.seenode.com)
+- [Seenode](https://seenode.com)
