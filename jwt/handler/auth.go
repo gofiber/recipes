@@ -3,18 +3,18 @@ package handler
 import (
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
 
 // Login get user and password
-func Login(c *fiber.Ctx) error {
+func Login(c fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`
 		Password string `json:"password"`
 	}
 	var input LoginInput
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.Bind().Body(&input); err != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 	identity := input.Identity

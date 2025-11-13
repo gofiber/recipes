@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 )
 
 func main() {
@@ -12,13 +12,13 @@ func main() {
 
 	app.Use(logger.New())
 
-	app.Get("/health", func(ctx *fiber.Ctx) error {
+	app.Get("/health", func(ctx fiber.Ctx) error {
 		return ctx.SendString("Healthy")
 	})
 
 	api := app.Group("/api")
 
-	api.Get("/resource", func(ctx *fiber.Ctx) error {
+	api.Get("/resource", func(ctx fiber.Ctx) error {
 		return ctx.SendString("Some Resource API")
 	})
 

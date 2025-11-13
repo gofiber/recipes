@@ -5,11 +5,11 @@ import (
 
 	"numtostr/gotodo/utils/jwt"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Auth is the authentication middleware
-func Auth(c *fiber.Ctx) error {
+func Auth(c fiber.Ctx) error {
 	h := c.Get("Authorization")
 
 	if h == "" {

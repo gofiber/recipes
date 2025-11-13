@@ -7,11 +7,11 @@ import (
 	"fiber-sqlboiler/database"
 	"fiber-sqlboiler/models"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
-func GetPosts(c *fiber.Ctx) error {
+func GetPosts(c fiber.Ctx) error {
 	posts, err := models.Posts().All(context.Background(), database.DB)
 	if err != nil {
 		return c.Status(500).JSON(err.Error())
@@ -19,7 +19,7 @@ func GetPosts(c *fiber.Ctx) error {
 	return c.Status(200).JSON(posts)
 }
 
-func GetPost(c *fiber.Ctx) error {
+func GetPost(c fiber.Ctx) error {
 	id := c.Params("id")
 	postId, err := strconv.Atoi(id)
 	if err != nil {
@@ -32,9 +32,9 @@ func GetPost(c *fiber.Ctx) error {
 	return c.Status(200).JSON(post)
 }
 
-func NewPost(c *fiber.Ctx) error {
+func NewPost(c fiber.Ctx) error {
 	post := models.Post{}
-	if err := c.BodyParser(&post); err != nil {
+	if err := c.Bind().Body(&post); err != nil {
 		return c.Status(500).JSON(err.Error())
 	}
 	if err := post.Insert(context.Background(), database.DB, boil.Infer()); err != nil {
@@ -43,7 +43,7 @@ func NewPost(c *fiber.Ctx) error {
 	return c.Status(200).JSON(post)
 }
 
-func DeletePost(c *fiber.Ctx) error {
+func DeletePost(c fiber.Ctx) error {
 	id := c.Params("id")
 	postId, err := strconv.Atoi(id)
 	if err != nil {
@@ -59,7 +59,7 @@ func DeletePost(c *fiber.Ctx) error {
 	return c.SendStatus(200)
 }
 
-func UpdatePost(c *fiber.Ctx) error {
+func UpdatePost(c fiber.Ctx) error {
 	id := c.Params("id")
 	postId, err := strconv.Atoi(id)
 	if err != nil {
@@ -67,7 +67,7 @@ func UpdatePost(c *fiber.Ctx) error {
 	}
 
 	newPost := models.Post{}
-	if err := c.BodyParser(&newPost); err != nil {
+	if err := c.Bind().Body(&newPost); err != nil {
 		return c.Status(500).JSON(err.Error())
 	}
 

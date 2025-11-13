@@ -5,12 +5,12 @@ import (
 
 	"oauth2/models"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/session"
 )
 
 // OAUTHRedirect performs the GitHub OAUTH2 login sequence and stored the token in a session variable
-func OAUTHRedirect(ctx *fiber.Ctx) error {
+func OAUTHRedirect(ctx fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering OAUTHRedirect; original URL: %v", ctx.OriginalURL())
 	defer models.SYSLOG.Trace("exiting OAUTHRedirect")
 
@@ -61,16 +61,16 @@ func OAUTHRedirect(ctx *fiber.Ctx) error {
 			models.SYSLOG.Errorf("session saving exception %v", err)
 		}
 		models.SYSLOG.Tracef("redirecting to /welcome.html?access_token=%v", t.AccessToken)
-		//		return ctx.Redirect("/welcome.html?access_token="+t.AccessToken, fiber.StatusFound)
-		return ctx.Redirect("/welcome.html", fiber.StatusFound)
+		//		return ctx.Redirect().To("/welcome.html?access_token="+t.AccessToken, fiber.StatusFound)
+		return ctx.Redirect().To("/welcome.html", fiber.StatusFound)
 	}
 
 	models.SYSLOG.Tracef("redirecting to /")
-	return ctx.Redirect("/", fiber.StatusTemporaryRedirect)
+	return ctx.Redirect().To("/", fiber.StatusTemporaryRedirect)
 }
 
 // OAUTHProtected processes access attempts; if the session stored token is NULL then it sends to start page
-func OAUTHProtected(c *fiber.Ctx) error {
+func OAUTHProtected(c fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering OAUTHProtected; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting OAUTHProtected")
 
@@ -97,21 +97,21 @@ func OAUTHProtected(c *fiber.Ctx) error {
 	if tk == nil {
 		sessData.Destroy()
 		models.SYSLOG.Tracef("token is NULL")
-		return c.Redirect("/index.html", fiber.StatusTemporaryRedirect)
+		return c.Redirect().To("/index.html", fiber.StatusTemporaryRedirect)
 	}
 
 	return c.Next()
 }
 
 // OAUTHGETHandler displays a "secure" page
-func OAUTHGETHandler(c *fiber.Ctx) error {
+func OAUTHGETHandler(c fiber.Ctx) error {
 	models.SYSLOG.Trace("entering OAUTHGETHandler")
 	defer models.SYSLOG.Trace("exiting OAUTHGETHandler")
 	return c.Render("protected", fiber.Map{})
 }
 
 // OAUTHDisconnect performs disconnection - session is destroyed and
-func OAUTHDisconnect(c *fiber.Ctx) error {
+func OAUTHDisconnect(c fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering OAUTHDisconnect; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting OAUTHDisconnect")
 	sessData, err := models.MySessionStore.Get(c)
@@ -136,5 +136,5 @@ func OAUTHDisconnect(c *fiber.Ctx) error {
 
 	sessData.Destroy()
 
-	return c.Redirect("/index.html", fiber.StatusTemporaryRedirect)
+	return c.Redirect().To("/index.html", fiber.StatusTemporaryRedirect)
 }

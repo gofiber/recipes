@@ -3,7 +3,7 @@ package handler
 import (
 	"app/entity"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 )
 
@@ -21,8 +21,8 @@ func NewTodoHandler(client *entity.Client) *TodoHandler {
 // GetAllTodos retrieves all todo items.
 //
 // [GET] /todos
-func (th *TodoHandler) GetAllTodos(c *fiber.Ctx) error {
-	todos, err := th.Client.Todo.Query().All(c.UserContext())
+func (th *TodoHandler) GetAllTodos(c fiber.Ctx) error {
+	todos, err := th.Client.Todo.Query().All(c)
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to retrieve todos")
 	}
@@ -32,13 +32,13 @@ func (th *TodoHandler) GetAllTodos(c *fiber.Ctx) error {
 // GetTodoByID retrieves a specific todo item.
 //
 // [GET] /todo/get/:id
-func (th *TodoHandler) GetTodoByID(c *fiber.Ctx) error {
+func (th *TodoHandler) GetTodoByID(c fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid ID"})
 	}
 
-	todo, err := th.Client.Todo.Get(c.UserContext(), id)
+	todo, err := th.Client.Todo.Get(c, id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}
@@ -49,10 +49,10 @@ func (th *TodoHandler) GetTodoByID(c *fiber.Ctx) error {
 // CreateTodo adds a new todo item.
 //
 // POST /todo/create
-func (th *TodoHandler) CreateTodo(c *fiber.Ctx) error {
+func (th *TodoHandler) CreateTodo(c fiber.Ctx) error {
 	todo := new(entity.Todo)
 
-	if err := c.BodyParser(todo); err != nil {
+	if err := c.Bind().Body(todo); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body"})
 	}
 	if todo.ID == uuid.Nil {
@@ -64,7 +64,7 @@ func (th *TodoHandler) CreateTodo(c *fiber.Ctx) error {
 		SetID(todo.ID).
 		SetContent(todo.Content).
 		SetCompleted(todo.Completed).
-		Save(c.UserContext())
+		Save(c)
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to create todo")
 	}
@@ -74,25 +74,25 @@ func (th *TodoHandler) CreateTodo(c *fiber.Ctx) error {
 // UpdateTodoByID updates a specific todo item by ID.
 //
 // PUT /todo/update/:id
-func (th *TodoHandler) UpdateTodoByID(c *fiber.Ctx) error {
+func (th *TodoHandler) UpdateTodoByID(c fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid ID"})
 	}
 	data := new(entity.Todo)
 
-	if err := c.BodyParser(data); err != nil {
+	if err := c.Bind().Body(data); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body"})
 	}
 
-	todo, err := th.Client.Todo.Get(c.UserContext(), id)
+	todo, err := th.Client.Todo.Get(c, id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}
 	updatedTodo, err := todo.Update().
 		SetContent(data.Content).
 		SetCompleted(data.Completed).
-		Save(c.UserContext())
+		Save(c)
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to update todo")
 	}
@@ -102,13 +102,13 @@ func (th *TodoHandler) UpdateTodoByID(c *fiber.Ctx) error {
 // DeleteTodoByID deletes a specific todo item by ID.
 //
 // DELETE /todo/delete/:id
-func (th *TodoHandler) DeleteTodoByID(c *fiber.Ctx) error {
+func (th *TodoHandler) DeleteTodoByID(c fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid ID"})
 	}
 
-	err = th.Client.Todo.DeleteOneID(id).Exec(c.UserContext())
+	err = th.Client.Todo.DeleteOneID(id).Exec(c)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}
