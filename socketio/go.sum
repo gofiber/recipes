@@ -4,8 +4,8 @@ github.com/clipperhouse/uax29/v2 v2.2.0 h1:ChwIKnQN3kcZteTXMgb1wztSgaU+ZemkgWdoh
 github.com/clipperhouse/uax29/v2 v2.2.0/go.mod h1:EFJ2TJMRUaplDxHKj1qAEhCtQPW2tJSwu5BF98AuoVM=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/fasthttp/websocket v1.5.10 h1:bc7NIGyrg1L6sd5pRzCIbXpro54SZLEluZCu0rOpcN4=
-github.com/fasthttp/websocket v1.5.10/go.mod h1:BwHeuXGWzCW1/BIKUKD3+qfCl+cTdsHu/f243NcAI/Q=
+github.com/fasthttp/websocket v1.5.12 h1:e4RGPpWW2HTbL3zV0Y/t7g0ub294LkiuXXUuTOUInlE=
+github.com/fasthttp/websocket v1.5.12/go.mod h1:I+liyL7/4moHojiOgUOIKEWm9EIxHqxZChS+aMFltyg=
 github.com/gofiber/contrib/socketio v1.1.6 h1:i4Kh/dN8Xae8qJeB2HM5F4INfo7JNcSUUNcseLIrrNU=
 github.com/gofiber/contrib/socketio v1.1.6/go.mod h1:aMhbzrumdTNwhF/gpOqHolDwOoG8X3bIAVOv0uXmdFg=
 github.com/gofiber/contrib/websocket v1.3.4 h1:tWeBdbJ8q0WFQXariLN4dBIbGH9KBU75s0s7YXplOSg=

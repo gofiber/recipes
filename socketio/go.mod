@@ -11,7 +11,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.2.0 // indirect
-	github.com/fasthttp/websocket v1.5.10 // indirect
+	github.com/fasthttp/websocket v1.5.12 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.1 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
