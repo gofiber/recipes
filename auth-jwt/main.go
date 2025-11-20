@@ -3,9 +3,8 @@ package main
 import (
 	"log"
 
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/router"
-
+	"auth-jwt-gorm/database"
+	"auth-jwt-gorm/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
