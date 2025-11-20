@@ -85,6 +85,9 @@ updates:
       ebitengine-modules:
           patterns:
               - "github.com/ebitengine/**"
+      klauspost-modules:
+          patterns:
+              - "github.com/klauspost/**"
       tklauser-modules:
           patterns:
               - "github.com/tklauser/**"
