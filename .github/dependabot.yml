@@ -5,7 +5,7 @@ version: 2
 
 updates:
   - package-ecosystem: "github-actions"
-    open-pull-requests-limit: 60
+    open-pull-requests-limit: 15
     directory: "/"
     labels:
       - "🤖 Dependencies"
@@ -30,6 +30,10 @@ updates:
         patterns:
           - "github.com/valyala/fasthttp"
           - "github.com/valyala/fasthttp/**"
+      mimetype-modules:
+        patterns:
+          - "github.com/gabriel-vasile/mimetype"
+          - "github.com/gabriel-vasile/mimetype/**"
       golang-modules:
         patterns:
           - "golang.org/x/**"
@@ -67,6 +71,12 @@ updates:
         patterns:
           - "google.golang.org/grpc"
           - "google.golang.org/grpc/**"
+      google-modules:
+        patterns:
+          - "google.golang.org/api"
+          - "google.golang.org/api/**"
+          - "google.golang.org/protobuf"
+          - "google.golang.org/protobuf/**"
       opentelemetry-modules:
         patterns:
           - "go.opentelemetry.io/**"
@@ -83,14 +93,14 @@ updates:
           - "github.com/mattn/go-isatty"
           - "github.com/mattn/go-runewidth"
       ebitengine-modules:
-          patterns:
-              - "github.com/ebitengine/**"
+        patterns:
+          - "github.com/ebitengine/**"
       klauspost-modules:
-          patterns:
-              - "github.com/klauspost/**"
+        patterns:
+          - "github.com/klauspost/**"
       tklauser-modules:
-          patterns:
-              - "github.com/tklauser/**"
+        patterns:
+          - "github.com/tklauser/**"
       spf13-modules:
         patterns:
           - "github.com/spf13/**"
