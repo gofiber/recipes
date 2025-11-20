@@ -2,7 +2,7 @@ module main
 
 go 1.24.0
 
-require github.com/gofiber/fiber/v2 v2.52.9
+require github.com/gofiber/fiber/v2 v2.52.10
 
 require (
 	github.com/minio/crc64nvme v1.0.2 // indirect

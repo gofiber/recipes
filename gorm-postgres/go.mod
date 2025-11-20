@@ -3,7 +3,7 @@ module gorm-postgres
 go 1.24.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/zeimedee/go-postgres v0.0.0-20210622135935-cc5834be70dd
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.1

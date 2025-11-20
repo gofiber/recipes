@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/apitally/apitally-go/fiber v0.8.1
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 )
 
 require gopkg.in/go-playground/assert.v1 v1.2.1 // indirect

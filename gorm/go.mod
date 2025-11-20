@@ -3,7 +3,7 @@ module fiber-gorm
 go 1.24.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.31.1
 )
