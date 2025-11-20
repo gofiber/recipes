@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/jackc/pgx/v5 v5.7.6
-	github.com/pashagolub/pgxmock/v4 v4.8.0
+	github.com/pashagolub/pgxmock/v4 v4.9.0
 	github.com/stretchr/testify v1.11.1
 )
 
