@@ -1,6 +1,6 @@
 module github.com/amalshaji/fiber-netlify
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/aws/aws-lambda-go v1.49.0
@@ -21,5 +21,5 @@ require (
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/tinylib/msgp v1.2.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 )

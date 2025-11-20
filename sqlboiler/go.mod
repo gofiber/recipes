@@ -1,6 +1,6 @@
 module fiber-sqlboiler
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/friendsofgo/errors v0.9.2
@@ -25,6 +25,6 @@ require (
 	github.com/valyala/fasthttp v1.64.0 // indirect
 	github.com/volatiletech/inflect v0.0.1 // indirect
 	github.com/volatiletech/randomize v0.0.1 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 )
