@@ -79,9 +79,21 @@ updates:
       mattn-modules:
         patterns:
           - "github.com/mattn/go-sqlite*"
+          - "github.com/mattn/go-colorable"
+          - "github.com/mattn/go-isatty"
+          - "github.com/mattn/go-runewidth"
+      ebitengine-modules:
+          patterns:
+              - "github.com/ebitengine/**"
+      tklauser-modules:
+          patterns:
+              - "github.com/tklauser/**"
       spf13-modules:
         patterns:
           - "github.com/spf13/**"
+      rivo-modules:
+        patterns:
+          - "github.com/rivo/**"
       gorilla-modules:
         patterns:
           - "github.com/gorilla/**"
