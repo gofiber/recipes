@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	entgo.io/ent v0.14.5
 	github.com/go-sql-driver/mysql v1.9.3
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 )
 
 require (

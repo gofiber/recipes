@@ -3,7 +3,7 @@ module main
 go 1.24.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/gofiber/template/mustache/v2 v2.0.14
 )
 

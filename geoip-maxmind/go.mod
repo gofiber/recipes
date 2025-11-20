@@ -3,7 +3,7 @@ module geoip-maxmind
 go 1.24.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/oschwald/maxminddb-golang v1.12.0
 )
 
