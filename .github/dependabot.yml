@@ -26,6 +26,18 @@ updates:
       fiber-modules:
         patterns:
           - "github.com/gofiber/fiber/**"
+      fiber-contrib-modules:
+        patterns:
+          - "github.com/gofiber/contrib/**"
+      fiber-utils-modules:
+        patterns:
+          - "github.com/gofiber/utils/**"
+      fiber-storage-modules:
+        patterns:
+          - "github.com/gofiber/storage/**"
+      fiber-template-modules:
+        patterns:
+          - "github.com/gofiber/template/**"
       fasthttp-modules:
         patterns:
           - "github.com/valyala/fasthttp"
