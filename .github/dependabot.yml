@@ -94,6 +94,9 @@ updates:
       rivo-modules:
         patterns:
           - "github.com/rivo/**"
+      tinylib-modules:
+        patterns:
+          - "github.com/tinylib/**"
       gorilla-modules:
         patterns:
           - "github.com/gorilla/**"
