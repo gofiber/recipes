@@ -5,14 +5,17 @@ version: 2
 
 updates:
   - package-ecosystem: "github-actions"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 60
     directory: "/"
     labels:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 60
+    allow:
+      # Allow both direct and indirect updates for all packages.
+      - dependency-type: "all"
     directories:
       - "**/*"
     labels:
@@ -73,6 +76,9 @@ updates:
           - "go.uber.org/zap/**"
           - "github.com/sirupsen/logrus"
           - "github.com/sirupsen/logrus/**"
+      mattn-modules:
+        patterns:
+          - "github.com/mattn/go-sqlite*"
       spf13-modules:
         patterns:
           - "github.com/spf13/**"
@@ -83,9 +89,12 @@ updates:
         patterns:
           - "github.com/go-playground/validator"
           - "github.com/go-playground/validator/**"
+      testcontainers-modules:
+        patterns:
+          - "github.com/testcontainers/**"
       testing-modules:
         patterns:
-          - "github.com/stretchr/testify/**"
+          - "github.com/stretchr/**"
           - "github.com/golang/mock/**"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
