@@ -116,6 +116,9 @@ updates:
       spf13-modules:
         patterns:
           - "github.com/spf13/**"
+      philhofer-modules:
+        patterns:
+          - "github.com/philhofer/**"
       rivo-modules:
         patterns:
           - "github.com/rivo/**"
@@ -136,6 +139,36 @@ updates:
         patterns:
           - "github.com/stretchr/**"
           - "github.com/golang/mock/**"
+      clipperhouse-modules:
+        patterns:
+          - "github.com/clipperhouse/**"
+      snappy-modules:
+        patterns:
+          - "github.com/golang/snappy"
+      cel-modules:
+        patterns:
+          - "cel.dev/**"
+      googleapis-modules:
+        patterns:
+          - "github.com/googleapis/**"
+      envoyproxy-modules:
+        patterns:
+          - "github.com/envoyproxy/**"
+      hashicorp-modules:
+        patterns:
+          - "github.com/hashicorp/**"
+      atlas-modules:
+        patterns:
+          - "ariga.io/**"
+      openapi-modules:
+        patterns:
+          - "github.com/go-openapi/**"
+      google-go-modules:
+        patterns:
+          - "github.com/google/**"
+      go-cty-modules:
+        patterns:
+          - "github.com/zclconf/**"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
