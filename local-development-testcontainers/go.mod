@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/contrib/testcontainers v0.1.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4.0.20250527180322-557095b0947d
 	github.com/golang-jwt/jwt/v5 v5.3.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/testcontainers/testcontainers-go v0.38.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.38.0
 	golang.org/x/crypto v0.45.0
@@ -34,7 +34,7 @@ require (
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/ebitengine/purego v0.8.4 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fxamacker/cbor/v2 v2.8.0 // indirect
+	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -42,7 +42,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/gofiber/schema v1.4.0 // indirect
-	github.com/gofiber/utils/v2 v2.0.0-beta.8 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 // indirect
