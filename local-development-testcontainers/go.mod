@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/contrib/testcontainers v0.1.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4.0.20250527180322-557095b0947d
 	github.com/golang-jwt/jwt/v5 v5.3.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/testcontainers/testcontainers-go v0.38.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.38.0
 	golang.org/x/crypto v0.40.0
