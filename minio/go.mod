@@ -8,7 +8,7 @@ require (
 	github.com/minio/crc64nvme v1.0.2 // indirect
 	github.com/minio/minio-go/v7 v7.0.95 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
-	github.com/tinylib/msgp v1.3.0 // indirect
+	github.com/tinylib/msgp v1.5.0 // indirect
 )
 
 require (
