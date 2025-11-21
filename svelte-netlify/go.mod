@@ -4,10 +4,10 @@ go 1.25.0
 
 require (
 	github.com/aws/aws-lambda-go v1.50.0
-	github.com/awslabs/aws-lambda-go-api-proxy v0.16.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/gofiber/utils v1.1.0
-	github.com/valyala/fasthttp v1.64.0
+	github.com/valyala/fasthttp v1.68.0
 )
 
 require (
