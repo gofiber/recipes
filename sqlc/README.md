@@ -78,7 +78,7 @@ y
 # Go 1.25 and above:
 $ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
-# Go 1.24 and below:
+# Legacy Go versions (<1.25):
 go get github.com/sqlc-dev/sqlc/cmd/sqlc
 ```
 ###### 2. Create a configuration file
