@@ -23,6 +23,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.19 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.64.0 // indirect
+	github.com/valyala/fasthttp v1.68.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 )
