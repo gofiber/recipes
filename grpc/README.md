@@ -12,7 +12,7 @@ A sample program to showcase fiber as a client to a gRPC server.
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.25 or higher
 - Go modules
 
 ## Setup

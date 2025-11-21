@@ -75,10 +75,10 @@ y
 #### 4. Use sqlc
 ###### 1. Install
 ```bash
-# Go 1.17 and above:
+# Go 1.25 and above:
 $ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
-# Go 1.16 and below:
+# Go 1.24 and below:
 go get github.com/sqlc-dev/sqlc/cmd/sqlc
 ```
 ###### 2. Create a configuration file
