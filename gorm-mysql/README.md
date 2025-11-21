@@ -12,7 +12,7 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.25 or higher
 - MySQL database
 - Go modules
 
