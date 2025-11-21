@@ -4,8 +4,10 @@ github.com/apitally/apitally-go v0.8.1 h1:6m7rJK8rs+BIPc6IRhi3JCJ/jiOGqvlqpKWlci
 github.com/apitally/apitally-go v0.8.1/go.mod h1:5nxehsTcKFlNHGUR4f/qWuCfCC6cK46ks59vuVVtsAE=
 github.com/apitally/apitally-go/fiber v0.8.1 h1:KUZlzNly1NHQlFRg10vVon/NGI4xjmDP4PVOYyLrB8I=
 github.com/apitally/apitally-go/fiber v0.8.1/go.mod h1:cVDd52mfuXskVxx8VWQy/yqdH+IyYODP8c27osARVjA=
-github.com/clipperhouse/uax29/v2 v2.2.0 h1:ChwIKnQN3kcZteTXMgb1wztSgaU+ZemkgWdohwgs8tY=
-github.com/clipperhouse/uax29/v2 v2.2.0/go.mod h1:EFJ2TJMRUaplDxHKj1qAEhCtQPW2tJSwu5BF98AuoVM=
+github.com/clipperhouse/stringish v0.1.1 h1:+NSqMOr3GR6k1FdRhhnXrLfztGzuG+VuFDfatpWHKCs=
+github.com/clipperhouse/stringish v0.1.1/go.mod h1:v/WhFtE1q0ovMta2+m+UbpZ+2/HEXNWYXQgCt4hdOzA=
+github.com/clipperhouse/uax29/v2 v2.3.0 h1:SNdx9DVUqMoBuBoW3iLOj4FQv3dN5mDtuqwuhIGpJy4=
+github.com/clipperhouse/uax29/v2 v2.3.0/go.mod h1:Wn1g7MK6OoeDT0vL+Q0SQLDz/KpfsVRgg6W7ihQeh4g=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fatih/color v1.16.0 h1:zmkK9Ngbjj+K0yRhTVONQh1p/HknKYSlNT+vZCzyokM=
