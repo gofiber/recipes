@@ -1,10 +1,10 @@
 module github.com/gofiber/recipes/parsley-app
 
-go 1.25.0
+go 1.25.3
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.10
-	github.com/matzefriedrich/parsley v1.1.1
+	github.com/matzefriedrich/parsley v1.3.0
 )
 
 require (
