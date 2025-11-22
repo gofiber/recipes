@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -81,14 +82,14 @@ func main() {
 		query := bson.D{{}}
 		cursor, err := mg.Db.Collection("employees").Find(c.Context(), query)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
 		var employees []Employee = make([]Employee, 0)
 
 		// iterate the cursor and decode each item into an Employee
 		if err := cursor.All(c.Context(), &employees); err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 		// return employees list in JSON format
 		return c.JSON(employees)
@@ -102,7 +103,7 @@ func main() {
 
 		_id, err := primitive.ObjectIDFromHex(params)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
 		filter := bson.D{{Key: "_id", Value: _id}}
@@ -110,7 +111,7 @@ func main() {
 		var result Employee
 
 		if err := mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
-			return c.Status(500).SendString("Something went wrong.")
+			return c.Status(http.StatusInternalServerError).SendString("Something went wrong.")
 		}
 
 		return c.Status(fiber.StatusOK).JSON(result)
@@ -125,7 +126,7 @@ func main() {
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.BodyParser(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		// force MongoDB to always set its own generated ObjectIDs
@@ -134,7 +135,7 @@ func main() {
 		// insert the record
 		insertionResult, err := collection.InsertOne(c.Context(), employee)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
 
 		// get the just inserted record in order to return it as response
@@ -146,7 +147,7 @@ func main() {
 		createdRecord.Decode(createdEmployee)
 
 		// return the created Employee in JSON format
-		return c.Status(201).JSON(createdEmployee)
+		return c.Status(http.StatusCreated).JSON(createdEmployee)
 	})
 
 	// Update an employee record in MongoDB
@@ -156,13 +157,13 @@ func main() {
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.BodyParser(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Find the employee and update its data
@@ -181,14 +182,14 @@ func main() {
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(404)
+				return c.SendStatus(http.StatusNotFound)
 			}
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		// return the updated employee
 		employee.ID = idParam
-		return c.Status(200).JSON(employee)
+		return c.Status(http.StatusOK).JSON(employee)
 	})
 
 	// Delete an employee from MongoDB
@@ -199,23 +200,23 @@ func main() {
 		)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(http.StatusBadRequest)
 		}
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
 		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
 		if err != nil {
-			return c.SendStatus(500)
+			return c.SendStatus(http.StatusInternalServerError)
 		}
 
 		// the employee might not exist
 		if result.DeletedCount < 1 {
-			return c.SendStatus(404)
+			return c.SendStatus(http.StatusNotFound)
 		}
 
 		// the record was deleted
-		return c.SendStatus(204)
+		return c.SendStatus(http.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":3000"))
