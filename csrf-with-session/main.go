@@ -143,7 +143,7 @@ func main() {
 
 	// Route for the login page
 	app.Get("/login", csrfMiddleware, func(c fiber.Ctx) error {
-		csrfToken, ok := csrf.TokenFromContext(c), true, true
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -171,7 +171,7 @@ func main() {
 
 		if bcrypt.CompareHashAndPassword([]byte(checkPassword), []byte(password)) != nil {
 			// Authentication failed
-			csrfToken, ok := csrf.TokenFromContext(c), true, true
+			csrfToken, ok := csrf.TokenFromContext(c), true
 			if !ok {
 				return c.SendStatus(fiber.StatusInternalServerError)
 			}
@@ -231,7 +231,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c), true, true
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -256,7 +256,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c), true, true
+		csrfToken, ok := csrf.TokenFromContext(c), true
 		if !ok {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
