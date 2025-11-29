@@ -6,7 +6,7 @@ description: A Todo application with authentication using GORM and Postgres.
 
 # Todo App with Auth using GORM and Testcontainers
 
-[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/todo-app-testcontainers-postgres) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github.com/gofiber/recipes/tree/master/todo-app-testcontainers-postgres)
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/local-development-testcontainers) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/local-development-testcontainers)
 
 This project demonstrates a Todo application with authentication using GORM and Testcontainers.
 
