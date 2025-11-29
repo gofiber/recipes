@@ -4,12 +4,18 @@ go 1.25.0
 
 require (
 	github.com/apitally/apitally-go/fiber v0.8.2
-	github.com/gofiber/fiber/v2 v2.52.10
+	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 )
 
 require (
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
+	github.com/gofiber/fiber/v2 v2.51.0 // indirect
+	github.com/gofiber/schema v1.6.0 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.2 // indirect
+	github.com/philhofer/fwd v1.2.0 // indirect
+	github.com/tinylib/msgp v1.5.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
 

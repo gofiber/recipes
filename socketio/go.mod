@@ -3,9 +3,9 @@ module main
 go 1.25.0
 
 require (
-	github.com/gofiber/contrib/socketio v1.1.6
-	github.com/gofiber/contrib/websocket v1.3.4
-	github.com/gofiber/fiber/v2 v2.52.10
+	github.com/gofiber/contrib/v3/socketio v1.0.0-rc.1
+	github.com/gofiber/contrib/v3/websocket v1.0.0-rc.1
+	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 )
 
 require (

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gofiber/contrib/testcontainers"
+	"github.com/gofiber/contrib/v3/testcontainers"
 	"github.com/gofiber/fiber/v3"
 	tc "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"

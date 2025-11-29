@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/neo4j/neo4j-go-driver/neo4j"
 )
 
@@ -49,9 +49,9 @@ func main() {
 	// Create a Fiber app
 	app := fiber.New()
 
-	app.Post("/movie", func(c *fiber.Ctx) error {
+	app.Post("/movie", func(c fiber.Ctx) error {
 		movie := new(Movie)
-		if err := c.BodyParser(movie); err != nil {
+		if err := c.Bind().Body(movie); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 
@@ -66,7 +66,7 @@ func main() {
 		return c.SendString("Movie successfully created")
 	})
 
-	app.Get("/movie/:title", func(c *fiber.Ctx) error {
+	app.Get("/movie/:title", func(c fiber.Ctx) error {
 		title := c.Params("title")
 		query := fmt.Sprintf(`MATCH (n:Movie {title:'%s'}) RETURN n.title, n.tagline, n.released, n.director`, title)
 

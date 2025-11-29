@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/cloudflare/tableflip"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 const version = "v0.0.1"
@@ -36,7 +36,7 @@ func main() {
 	defer ln.Close()
 
 	app := fiber.New()
-	app.Get("/version", func(c *fiber.Ctx) error {
+	app.Get("/version", func(c fiber.Ctx) error {
 		log.Println(version)
 		return c.SendString(version)
 	})

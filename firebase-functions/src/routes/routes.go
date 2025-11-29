@@ -4,7 +4,7 @@ import (
 	"example.com/GofiberFirebaseBoilerplate/src/database"
 	"example.com/GofiberFirebaseBoilerplate/src/repositories"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Routes struct {
@@ -20,6 +20,6 @@ func (self *Routes) Setup(app *fiber.App) {
 	app.Post("message", self.insertMessage)
 }
 
-func (self *Routes) insertMessage(c *fiber.Ctx) error {
+func (self *Routes) insertMessage(c fiber.Ctx) error {
 	return c.SendString("ok")
 }

@@ -9,12 +9,12 @@ import (
 	"numtostr/gotodo/utils/jwt"
 	"numtostr/gotodo/utils/password"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"gorm.io/gorm"
 )
 
 // Login service logs in a user
-func Login(ctx *fiber.Ctx) error {
+func Login(ctx fiber.Ctx) error {
 	b := new(types.LoginDTO)
 
 	if err := utils.ParseBodyAndValidate(ctx, b); err != nil {
@@ -46,7 +46,7 @@ func Login(ctx *fiber.Ctx) error {
 }
 
 // Signup service creates a user
-func Signup(ctx *fiber.Ctx) error {
+func Signup(ctx fiber.Ctx) error {
 	b := new(types.SignupDTO)
 
 	if err := utils.ParseBodyAndValidate(ctx, b); err != nil {

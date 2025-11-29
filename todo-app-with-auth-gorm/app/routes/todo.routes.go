@@ -4,7 +4,7 @@ import (
 	"numtostr/gotodo/app/services"
 	"numtostr/gotodo/utils/middleware"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // TodoRoutes contains all routes relative to /todo
