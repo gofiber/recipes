@@ -56,10 +56,11 @@ Here is an example `main.go` file for the Fiber application with GORM and Postgr
 package main
 
 import (
-    "log"
-    "github.com/gofiber/fiber/v2"
-    "gorm.io/driver/postgres"
-    "gorm.io/gorm"
+    "log"  
+    "net/http"  
+    "github.com/gofiber/fiber/v2"  
+    "gorm.io/driver/postgres"  
+    "gorm.io/gorm"  
 )
 
 type User struct {
@@ -86,7 +87,7 @@ func main() {
     app.Post("/users", func(c *fiber.Ctx) error {
         user := new(User)
         if err := c.BodyParser(user); err != nil {
-            return c.Status(400).SendString(err.Error())
+            return c.Status(http.StatusBadRequest).SendString(err.Error())
         }
         db.Create(user)
         return c.JSON(user)
