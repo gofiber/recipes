@@ -230,3 +230,5 @@ func isAlphaNumericOrSpecial(char rune) bool {
 		return false
 	}
 }
+
+// fiber:context-methods migrated

@@ -115,3 +115,5 @@ func (th *TodoHandler) DeleteTodoByID(c fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Todo item deleted"})
 }
+
+// fiber:context-methods migrated

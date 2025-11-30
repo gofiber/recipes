@@ -27,7 +27,7 @@ func main() {
 	app.Get("/", handlers.Render())
 
 	// Serve static assets
-	app.Get("/*", static.New("./public", fiber.static.Config{
+	app.Get("/*", static.New("./public", static.Config{
 		Compress: true,
 	}))
 

@@ -62,23 +62,14 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 		}
 		models.SYSLOG.Tracef("redirecting to /welcome.html?access_token=%v", t.AccessToken)
 		//		return ctx.Redirect("/welcome.html?access_token="+t.AccessToken, fiber.StatusFound)
-		return func() {
-			__fiberRedirectTarget := "/welcome.html"
-			__fiberRedirectStatus := fiber.StatusFound
-			return ctx.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
-		}()
+		return ctx.Redirect().Status(fiber.StatusFound).To("/welcome.html")
 	}
 
 	models.SYSLOG.Tracef("redirecting to /")
-	return func() {
-		__fiberRedirectTarget := "/"
-		__fiberRedirectStatus := fiber.StatusTemporaryRedirect
-		return ctx.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
-
-		// OAUTHProtected processes access attempts; if the session stored token is NULL then it sends to start page
-	}()
+	return ctx.Redirect().Status(fiber.StatusTemporaryRedirect).To("/")
 }
 
+// OAUTHProtected processes access attempts; if the session stored token is NULL then it sends to start page
 func OAUTHProtected(c fiber.Ctx) error {
 	models.SYSLOG.Tracef("entering OAUTHProtected; original URL: %v", c.OriginalURL())
 	defer models.SYSLOG.Trace("exiting OAUTHProtected")
@@ -106,11 +97,7 @@ func OAUTHProtected(c fiber.Ctx) error {
 	if tk == nil {
 		sessData.Destroy()
 		models.SYSLOG.Tracef("token is NULL")
-		return func() {
-			__fiberRedirectTarget := "/index.html"
-			__fiberRedirectStatus := fiber.StatusTemporaryRedirect
-			return c.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
-		}()
+		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 	}
 
 	return c.Next()
@@ -149,9 +136,5 @@ func OAUTHDisconnect(c fiber.Ctx) error {
 
 	sessData.Destroy()
 
-	return func() {
-		__fiberRedirectTarget := "/index.html"
-		__fiberRedirectStatus := fiber.StatusTemporaryRedirect
-		return c.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
-	}()
+	return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 }

@@ -52,3 +52,5 @@ func main() {
 	// Start server
 	log.Fatal(app.Listen(":3000"))
 }
+
+// fiber:context-methods migrated

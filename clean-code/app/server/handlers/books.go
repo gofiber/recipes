@@ -48,3 +48,5 @@ func sendError(c fiber.Ctx, code int, message string) error {
 		Error: message,
 	})
 }
+
+// fiber:context-methods migrated

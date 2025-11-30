@@ -22,3 +22,5 @@ func Callback(c fiber.Ctx) error {
 	email := auth.GetEmail(token.AccessToken)
 	return c.Status(200).JSON(fiber.Map{"email": email, "login": true})
 }
+
+// fiber:context-methods migrated

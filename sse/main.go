@@ -141,3 +141,5 @@ func main() {
 	// Start server
 	log.Fatal(app.Listen(":" + appPort))
 }
+
+// fiber:context-methods migrated

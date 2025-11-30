@@ -28,15 +28,10 @@ func SetupRoutes(app *fiber.App) {
 
 	// add a standard redirect to the index page
 	app.Get("/", func(c fiber.Ctx) error {
-		return func() {
-			__fiberRedirectTarget := "/index.html"
-			__fiberRedirectStatus := fiber.StatusTemporaryRedirect
-			return c.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
-
-			// return pages from their templates
-		}()
+		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 	})
 
+	// return pages from their templates
 	app.Get("/:template", handlers.HTMLPages)
 
 	// perform logout - in fact only the local session is destroyed
