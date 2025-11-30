@@ -31,5 +31,9 @@ func ResolveURL(c fiber.Ctx) error {
 	defer rInr.Close()
 	_ = rInr.Incr(database.Ctx, "counter")
 	// redirect to original URL
-	return c.Redirect().To(value, 301)
+	return func() {
+		__fiberRedirectTarget := value
+		__fiberRedirectStatus := 301
+		return c.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
+	}()
 }

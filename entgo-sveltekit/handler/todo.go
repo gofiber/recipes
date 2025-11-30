@@ -22,7 +22,7 @@ func NewTodoHandler(client *entity.Client) *TodoHandler {
 //
 // [GET] /todos
 func (th *TodoHandler) GetAllTodos(c fiber.Ctx) error {
-	todos, err := th.Client.Todo.Query().All(c.RequestCtx())
+	todos, err := th.Client.Todo.Query().All(c.Context())
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to retrieve todos")
 	}
@@ -38,7 +38,7 @@ func (th *TodoHandler) GetTodoByID(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid ID"})
 	}
 
-	todo, err := th.Client.Todo.Get(c.RequestCtx(), id)
+	todo, err := th.Client.Todo.Get(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}
@@ -64,7 +64,7 @@ func (th *TodoHandler) CreateTodo(c fiber.Ctx) error {
 		SetID(todo.ID).
 		SetContent(todo.Content).
 		SetCompleted(todo.Completed).
-		Save(c.RequestCtx())
+		Save(c.Context())
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to create todo")
 	}
@@ -85,14 +85,14 @@ func (th *TodoHandler) UpdateTodoByID(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body"})
 	}
 
-	todo, err := th.Client.Todo.Get(c.RequestCtx(), id)
+	todo, err := th.Client.Todo.Get(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}
 	updatedTodo, err := todo.Update().
 		SetContent(data.Content).
 		SetCompleted(data.Completed).
-		Save(c.RequestCtx())
+		Save(c.Context())
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, "Failed to update todo")
 	}
@@ -108,7 +108,7 @@ func (th *TodoHandler) DeleteTodoByID(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid ID"})
 	}
 
-	err = th.Client.Todo.DeleteOneID(id).Exec(c.RequestCtx())
+	err = th.Client.Todo.DeleteOneID(id).Exec(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Todo item not found"})
 	}

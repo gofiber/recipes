@@ -13,7 +13,7 @@ func (h *UserHandler) checkIfUserExistsMiddleware(c fiber.Ctx) error {
 	defer cancel()
 
 	// Fetch parameter.
-	targetedUserID, err := fiber.Params[int](c, "userID"), nil
+	targetedUserID, err := fiber.Params[int](c, "userID"), error(nil)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",

@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	apitally "github.com/apitally/apitally-go/fiber"
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v3"
@@ -69,7 +71,7 @@ func main() {
 
 	// API key authentication
 	app.Use(keyauth.New(keyauth.Config{
-		Extractor: keyauth.FromAuthHeader("Authorization", "Bearer"),
+		Extractor: extractors.FromAuthHeader("Bearer"),
 		Validator: validateAPIKey,
 	}))
 

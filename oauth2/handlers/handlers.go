@@ -23,7 +23,11 @@ func HTMLPages(c fiber.Ctx) error {
 	case "/welcome.html":
 		sessData, err := models.MySessionStore.Get(c)
 		if err != nil {
-			return c.Redirect().To("/errpage.html", fiber.StatusInternalServerError)
+			return func() {
+				__fiberRedirectTarget := "/errpage.html"
+				__fiberRedirectStatus := fiber.StatusInternalServerError
+				return c.Redirect().Status(__fiberRedirectStatus).To(__fiberRedirectTarget)
+			}()
 		}
 
 		return c.Render("welcome", fiber.Map{

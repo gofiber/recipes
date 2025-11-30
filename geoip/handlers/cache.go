@@ -10,7 +10,7 @@ import (
 // Cache will return a caching middleware
 func Cache(exp time.Duration) fiber.Handler {
 	return cache.New(cache.Config{
-		Expiration:   exp,
-		CacheControl: true,
+		Expiration:          exp,
+		DisableCacheControl: false,
 	})
 }

@@ -63,7 +63,7 @@ func (h *CityHandler) getCity(c fiber.Ctx) error {
 	defer cancel()
 
 	// Fetch parameter.
-	targetedCityID, err := fiber.Params[int](c, "cityID"), nil
+	targetedCityID, err := fiber.Params[int](c, "cityID"), error(nil)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",

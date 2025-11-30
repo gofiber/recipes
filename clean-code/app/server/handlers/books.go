@@ -12,7 +12,7 @@ import (
 // GetBooks returns a handler function that retrieves all books.
 func GetBooks(service services.BooksService) fiber.Handler {
 	return func(c fiber.Ctx) error {
-		books, err := service.GetBooks(c.RequestCtx())
+		books, err := service.GetBooks(c.Context())
 		if err != nil {
 			slog.Error("GetBooks failed", "error", err)
 			return sendError(c, fiber.StatusInternalServerError, "internal error")
@@ -34,7 +34,7 @@ func AddBook(service services.BooksService) fiber.Handler {
 		}
 		// For production use add proper validation here.
 
-		err := service.SaveBook(c.RequestCtx(), book)
+		err := service.SaveBook(c.Context(), book)
 		if err != nil {
 			slog.Error("AddBook failed", "error", err)
 			return sendError(c, fiber.StatusInternalServerError, "internal error")

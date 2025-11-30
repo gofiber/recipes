@@ -22,8 +22,8 @@ type response struct {
 // CacheRequest caches the request for subsequent use
 func CacheRequest(exp time.Duration) fiber.Handler {
 	return cache.New(cache.Config{
-		Expiration:   exp,
-		CacheControl: true,
+		Expiration:          exp,
+		DisableCacheControl: false,
 	})
 }
 

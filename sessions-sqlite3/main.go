@@ -7,6 +7,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/session"
 	"github.com/gofiber/storage/sqlite3"
@@ -64,7 +66,7 @@ func main() {
 	store := session.NewStore(session.Config{
 		Storage:     storage,
 		IdleTimeout: 5 * time.Minute,
-		Extractor:   session.FromCookie("myapp_session"),
+		Extractor:   extractors.FromCookie("myapp_session"),
 	})
 
 	// Create a new engine

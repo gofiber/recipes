@@ -12,6 +12,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/csrf"
 	"github.com/gofiber/fiber/v3/middleware/session"
@@ -86,8 +88,8 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		IdleTimeout:    30 * time.Minute,                     // Expire sessions after 30 minutes of inactivity
-		Extractor:      session.FromCookie("__Host-session"), // Recommended to use the __Host- prefix when serving the app over TLS
+		IdleTimeout:    30 * time.Minute,                        // Expire sessions after 30 minutes of inactivity
+		Extractor:      extractors.FromCookie("__Host-session"), // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 		CookieSameSite: "Lax",
@@ -123,11 +125,11 @@ func main() {
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
 		Session:        store,
-		Extractor:      csrf.FromForm("csrf"), // In this example, we will be using a hidden input field to store the CSRF token
-		CookieName:     "__Host-csrf",         // Recommended to use the __Host- prefix when serving the app over TLS
-		CookieSameSite: "Lax",                 // Recommended to set this to Lax or Strict
-		CookieSecure:   true,                  // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,                  // Recommended, otherwise if using JS framework recomend: false and Extractor: csrf.FromHeader("X-CSRF-Token")
+		Extractor:      extractors.FromForm("csrf"), // In this example, we will be using a hidden input field to store the CSRF token
+		CookieName:     "__Host-csrf",               // Recommended to use the __Host- prefix when serving the app over TLS
+		CookieSameSite: "Lax",                       // Recommended to set this to Lax or Strict
+		CookieSecure:   true,                        // Recommended to set to true when serving the app over TLS
+		CookieHTTPOnly: true,                        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
 		ErrorHandler:   csrfErrorHandler,
 		IdleTimeout:    30 * time.Minute,
 	}

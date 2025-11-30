@@ -5,6 +5,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/csrf"
 	"github.com/gofiber/fiber/v3/middleware/recover"
@@ -45,7 +47,7 @@ var csrfProtection = csrf.New(csrf.Config{
 	Next: func(c fiber.Ctx) bool {
 		return csrfActivated
 	},
-	Extractor:      csrf.FromForm("_csrf"),
+	Extractor:      extractors.FromForm("_csrf"),
 	CookieName:     "csrf_",
 	CookieSameSite: "Strict",
 	IdleTimeout:    1 * time.Hour,

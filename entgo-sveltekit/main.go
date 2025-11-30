@@ -60,9 +60,10 @@ func main() {
 
 	// Serve static files
 	app.All("/*", static.New("", static.Config{
-		FS:           os.DirFS(template.Dist()),
-		NotFoundFile: "index.html",
-		IndexNames:   []string{"index.html"},
+		FS: os.DirFS(template.Dist()),
+		// TODO: Migrate to NotFoundHandler (fiber.Handler) - NotFoundFile is deprecated
+		// NotFoundFile: "index.html",
+		IndexNames: []string{"index.html"},
 	}))
 
 	// Start the server
