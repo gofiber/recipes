@@ -21,7 +21,7 @@ This project provides a starting point for deploying a Go Fiber application to V
 - [Vercel CLI](https://vercel.com/download)
 - A folder named [public](public) with one or more static files to be served
 > [!CAUTION]
-> If you don't have a `public` folder, Vercel will serve all files in project, even the source code.
+> If you don't have a `public` folder, Vercel will serve all files from your project root, which can expose sensitive files like your source code.
 
 ## Project Structure
 
