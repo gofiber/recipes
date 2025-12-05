@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/BurntSushi/toml"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/html/v2"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
@@ -31,12 +31,10 @@ func main() {
 	engine.Reload(true) // Optional. Default: false
 
 	// After you created your engine, you can pass it to Fiber's Views Engine
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New(fiber.Config{Views: engine})
 
 	// Render template.
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		lang := c.Query("lang")            // parse language from query
 		accept := c.Get("Accept-Language") // or, parse language from header
 

@@ -11,9 +11,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/contrib/socketio"
-	"github.com/gofiber/contrib/websocket"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/contrib/v3/socketio"
+	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/fiber/v3"
 )
 
 // MessageObject Basic chat message object
@@ -31,7 +31,7 @@ func main() {
 	app := fiber.New()
 
 	// Setup the middleware to retrieve the data sent in first GET request
-	app.Use(func(c *fiber.Ctx) error {
+	app.Use(func(c fiber.Ctx) error {
 		// IsWebSocketUpgrade returns true if the client
 		// requested upgrade to the WebSocket protocol.
 		if websocket.IsWebSocketUpgrade(c) {

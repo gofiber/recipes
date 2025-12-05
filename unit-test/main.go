@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func Setup() *fiber.App {
 	// Register the index route with a simple
 	// "OK" response. It should return status
 	// code 200
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("OK")
 	})
 

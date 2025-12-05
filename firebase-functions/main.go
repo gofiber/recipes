@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"example.com/GofiberFirebaseBoilerplate/src"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 var app *fiber.App
