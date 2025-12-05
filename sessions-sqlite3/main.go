@@ -11,7 +11,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/session"
-	"github.com/gofiber/storage/sqlite3"
+	"github.com/gofiber/storage/sqlite3/v2"
 	"github.com/gofiber/template/html/v2"
 
 	_ "github.com/mattn/go-sqlite3"

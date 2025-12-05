@@ -24,6 +24,7 @@ func main() {
 				"error":   err.Error(),
 			})
 		}
+		defer resp.Release() // Important: Manual cleanup required
 
 		defer resp.Body.Close()
 		if resp.StatusCode != http.StatusOK {

@@ -129,7 +129,7 @@ func main() {
 		CookieName:     "__Host-csrf",               // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSameSite: "Lax",                       // Recommended to set this to Lax or Strict
 		CookieSecure:   true,                        // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,                        // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
+		CookieHTTPOnly: true,                        // Recommended, otherwise if using JS framework recomend: false and Extractor: extractors.FromHeader("X-CSRF-Token")
 		ErrorHandler:   csrfErrorHandler,
 		IdleTimeout:    30 * time.Minute,
 	}
@@ -190,6 +190,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		if err := session.Reset(); err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -209,6 +210,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 
 		// Revoke users authentication
 		if err := session.Destroy(); err != nil {
@@ -226,6 +228,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {
@@ -251,6 +254,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {

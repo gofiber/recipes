@@ -4,6 +4,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	jwtware "github.com/gofiber/contrib/v3/jwt"
 	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
@@ -29,7 +31,7 @@ func JWTMiddleware() fiber.Handler {
 	return jwtware.New(jwtware.Config{
 		ErrorHandler: jwtError,
 		SigningKey:   jwtware.SigningKey{Key: []byte(os.Getenv("JWT_SECRET"))},
-		TokenLookup:  "cookie:jwt",
+		Extractor:    extractors.FromCookie("jwt"),
 	})
 }
 

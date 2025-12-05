@@ -3,7 +3,7 @@ package routes
 import (
 	"swagger/handlers"
 
-	swagger "github.com/gofiber/contrib/v3/swaggo"
+	swagger "github.com/gofiber/contrib/v3/swaggerui"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/logger"
