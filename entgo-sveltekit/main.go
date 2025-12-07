@@ -1,16 +1,15 @@
 package main
 
 import (
-	"app/config/database"
-	"app/fixtures"
-	"app/handler"
-	"app/template"
-	"os"
-
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/gofiber/fiber/v3/middleware/static"
+
+	"app/config/database"
+	"app/fixtures"
+	"app/handler"
+	"app/template"
 )
 
 const (
@@ -60,7 +59,7 @@ func main() {
 
 	// Serve static files
 	app.All("/*", static.New("", static.Config{
-		FS: os.DirFS(template.Dist()),
+		FS: template.Dist(),
 		// TODO: Migrate to NotFoundHandler (fiber.Handler) - NotFoundFile is deprecated
 		// NotFoundFile: "index.html",
 		IndexNames: []string{"index.html"},
