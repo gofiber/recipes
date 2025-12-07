@@ -34,7 +34,7 @@ func main() {
 	app.Use(keyauth.New(keyauth.Config{
 		SuccessHandler: successHandler,
 		ErrorHandler:   errHandler,
-		// TODO: migrate // TODO: migrate KeyLookup: strings.Join([]string{authSrc, authName}, ":")
+		// TODO: migrate KeyLookup: strings.Join([]string{authSrc, authName}, ":")
 		Validator: validator,
 	}))
 

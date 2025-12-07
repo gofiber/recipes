@@ -1,4 +1,4 @@
-FROM golang:1.25.5
+FROM golang:1.25.4
 RUN apt update && apt upgrade -y && apt install -y git
 
 WORKDIR /go/src/app

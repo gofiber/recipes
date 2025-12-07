@@ -76,7 +76,6 @@ func RegisterRoutes(app *fiber.App) {
 		if err != nil {
 			return err
 		}
-		defer currSession.Release() // Important: Manual cleanup required
 		sessionUser := currSession.Get("User").(fiber.Map)
 		// release the currSession
 		err = currSession.Save()
@@ -151,7 +150,6 @@ func RegisterRoutes(app *fiber.App) {
 		if err != nil {
 			return err
 		}
-		defer currSession.Release() // Important: Manual cleanup required
 		sessionUser := currSession.Get("User").(fiber.Map)
 		// release the currSession
 		err = currSession.Save()
@@ -194,7 +192,6 @@ func requireLogin(c fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	defer currSession.Release() // Important: Manual cleanup required
 	user := currSession.Get("User")
 	defer currSession.Save()
 

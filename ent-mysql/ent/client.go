@@ -278,7 +278,6 @@ func (c *BookClient) GetX(ctx context.Context, id int) *Book {
 	if err != nil {
 		panic(err)
 	}
-	defer obj.Release() // Important: Manual cleanup required
 	return obj
 }
 

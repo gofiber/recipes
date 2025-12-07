@@ -190,7 +190,6 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		defer session.Release() // Important: Manual cleanup required
 		if err := session.Reset(); err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -210,7 +209,6 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		defer session.Release() // Important: Manual cleanup required
 
 		// Revoke users authentication
 		if err := session.Destroy(); err != nil {
@@ -228,7 +226,6 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {
@@ -254,7 +251,6 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {

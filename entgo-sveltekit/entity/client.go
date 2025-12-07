@@ -279,7 +279,6 @@ func (c *TodoClient) GetX(ctx context.Context, id uuid.UUID) *Todo {
 	if err != nil {
 		panic(err)
 	}
-	defer obj.Release() // Important: Manual cleanup required
 	return obj
 }
 
