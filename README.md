@@ -19,7 +19,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Auth + JWT](./auth-jwt/README.md) - Simple JWT authentication.
 - [Autocert](./autocert/README.md) - Automatic TLS certificate management.
 - [AWS Elastic Beanstalk](./aws-eb/README.md) - Deploying to AWS Elastic Beanstalk.
-- [AWS SAM](./aws-sam/README.md) - Serverless applications with AWS SAM.
 - [AWS SAM Container](./aws-sam-container/README.md) - Containerized serverless applications with AWS SAM.
 - [AWS SES Email Sender](./aws-ses-sender/README.md) - AWS SES-based Golang email delivery service. Provides email dispatch processing, status tracking, scheduled sending, and result analysis capabilities.
 - [Bootstrap](./bootstrap/README.md) - Integrating Bootstrap.
@@ -57,17 +56,15 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [I18n](./i18n/README.md) - Internationalization support.
 - [JWT](./jwt/README.md) - Using JSON Web Tokens (JWT) for authentication.
 - [Kubernetes](./k8s/README.md) - Deploying applications to Kubernetes.
-- [Local Development with Testcontainers](./local-development-testcontainers/README.md) - Local development with Testcontainers.
+- [Todo App + Auth + GORM + Testcontainers](./local-development-testcontainers/README.md) - A Todo application with authentication using GORM and Postgres.
 - [Memgraph](./memgraph/README.md) - Using Memgraph.
 - [MinIO](./minio/README.md) - A simple application for uploading and downloading files from MinIO.
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
-- [Monitoring with Apitally](./monitoring-with-apitally/README.md) - A simple REST API with monitoring and request logging using Apitally.
 - [Multiple Ports](./multiple-ports/README.md) - Running an application on multiple ports.
 - [MySQL](./mysql/README.md) - Connecting to a MySQL database.
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
 - [OAuth2](./oauth2/README.md) - Implementing OAuth2 authentication.
 - [Google OAuth2](./oauth2-google/README.md) - Implementing Google OAuth2 authentication.
-- [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
