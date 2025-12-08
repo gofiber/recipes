@@ -94,6 +94,7 @@ func main() {
 
 		// Get or create session
 		s, _ := store.Get(c)
+		defer s.Release() // Important: Manual cleanup required
 
 		// If this is a new session
 		if s.Fresh() {
@@ -141,6 +142,7 @@ func main() {
 
 		// Get current session
 		s, _ := store.Get(c)
+		defer s.Release() // Important: Manual cleanup required
 
 		// Check session ID
 		if len(req.SID) > 0 {
@@ -173,6 +175,7 @@ func main() {
 	app.Get("/api/account", func(c fiber.Ctx) error {
 		// Get current session
 		s, _ := store.Get(c)
+		defer s.Release() // Important: Manual cleanup required
 
 		// If there is a valid session
 		if len(s.Keys()) > 0 {
