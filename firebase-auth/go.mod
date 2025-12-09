@@ -49,25 +49,25 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.68.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/contrib/detectors/gcp v1.38.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.63.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.63.0 // indirect
-	go.opentelemetry.io/otel v1.38.0 // indirect
-	go.opentelemetry.io/otel/metric v1.38.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.38.0 // indirect
-	go.opentelemetry.io/otel/sdk/metric v1.38.0 // indirect
-	go.opentelemetry.io/otel/trace v1.38.0 // indirect
+	go.opentelemetry.io/contrib/detectors/gcp v1.39.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.64.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.64.0 // indirect
+	go.opentelemetry.io/otel v1.39.0 // indirect
+	go.opentelemetry.io/otel/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.39.0 // indirect
+	go.opentelemetry.io/otel/sdk/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.39.0 // indirect
 	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/oauth2 v0.33.0 // indirect
 	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20251111163417-95abcf5c77ba // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251111163417-95abcf5c77ba // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251124214823-79d6a2a48846 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/grpc v1.77.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 )
