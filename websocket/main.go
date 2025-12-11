@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
@@ -21,7 +22,7 @@ func main() {
 			c.Locals("Host", "Localhost:3000")
 			return c.Next()
 		}
-		return c.Status(403).SendString("Request origin not allowed")
+		return c.Status(http.StatusForbidden).SendString("Request origin not allowed")
 	})
 
 	// Upgraded websocket request

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -52,7 +53,7 @@ func main() {
 	app.Post("/movie", func(c *fiber.Ctx) error {
 		movie := new(Movie)
 		if err := c.BodyParser(movie); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(http.StatusBadRequest).SendString(err.Error())
 		}
 
 		query := fmt.Sprintf(`CREATE (n:Movie {title:'%s', tagline:'%s', released:'%d', director:'%s' })`,
