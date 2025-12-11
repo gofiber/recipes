@@ -9,7 +9,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	app.Use(Timer())
 
 	// Routes
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		time.Sleep(2 * time.Second) // Sleep 2 seconds
 		return c.SendString("That took a while 😞")
 	})
@@ -31,7 +31,7 @@ func main() {
 
 // Timer will measure how long it takes before a response is returned
 func Timer() fiber.Handler {
-	return func(c *fiber.Ctx) error {
+	return func(c fiber.Ctx) error {
 		// start timer
 		start := time.Now()
 		// next routes

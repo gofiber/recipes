@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/zeimedee/go-postgres/database"
 	"github.com/zeimedee/go-postgres/routes"
 )
@@ -26,7 +26,7 @@ func main() {
 
 	app.Use(cors.New())
 
-	app.Use(func(c *fiber.Ctx) error {
+	app.Use(func(c fiber.Ctx) error {
 		return c.SendStatus(404) // => 404 "Not Found"
 	})
 

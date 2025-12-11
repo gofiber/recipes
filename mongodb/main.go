@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // MongoInstance contains the Mongo client and database objects
@@ -76,10 +76,10 @@ func main() {
 
 	// Get all employee records from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/find/
-	app.Get("/employee", func(c *fiber.Ctx) error {
+	app.Get("/employee", func(c fiber.Ctx) error {
 		// get all records as a cursor
 		query := bson.D{{}}
-		cursor, err := mg.Db.Collection("employees").Find(c.Context(), query)
+		cursor, err := mg.Db.Collection("employees").Find(c.RequestCtx(), query)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -87,7 +87,7 @@ func main() {
 		var employees []Employee = make([]Employee, 0)
 
 		// iterate the cursor and decode each item into an Employee
-		if err := cursor.All(c.Context(), &employees); err != nil {
+		if err := cursor.All(c.RequestCtx(), &employees); err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 		// return employees list in JSON format
@@ -96,7 +96,7 @@ func main() {
 
 	// Get once employee records from MongoDB
 	// Docs: https://www.mongodb.com/blog/post/quick-start-golang--mongodb--how-to-read-documents
-	app.Get("/employee/:id", func(c *fiber.Ctx) error {
+	app.Get("/employee/:id", func(c fiber.Ctx) error {
 		// get id by params
 		params := c.Params("id")
 
@@ -109,7 +109,7 @@ func main() {
 
 		var result Employee
 
-		if err := mg.Db.Collection("employees").FindOne(c.Context(), filter).Decode(&result); err != nil {
+		if err := mg.Db.Collection("employees").FindOne(c.RequestCtx(), filter).Decode(&result); err != nil {
 			return c.Status(500).SendString("Something went wrong.")
 		}
 
@@ -118,13 +118,13 @@ func main() {
 
 	// Insert a new employee into MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/insert/
-	app.Post("/employee", func(c *fiber.Ctx) error {
+	app.Post("/employee", func(c fiber.Ctx) error {
 		collection := mg.Db.Collection("employees")
 
 		// New Employee struct
 		employee := new(Employee)
 		// Parse body into struct
-		if err := c.BodyParser(employee); err != nil {
+		if err := c.Bind().Body(employee); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 
@@ -132,14 +132,14 @@ func main() {
 		employee.ID = ""
 
 		// insert the record
-		insertionResult, err := collection.InsertOne(c.Context(), employee)
+		insertionResult, err := collection.InsertOne(c.RequestCtx(), employee)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 
 		// get the just inserted record in order to return it as response
 		filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
-		createdRecord := collection.FindOne(c.Context(), filter)
+		createdRecord := collection.FindOne(c.RequestCtx(), filter)
 
 		// decode the Mongo record into Employee
 		createdEmployee := &Employee{}
@@ -151,7 +151,7 @@ func main() {
 
 	// Update an employee record in MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/findAndModify/
-	app.Put("/employee/:id", func(c *fiber.Ctx) error {
+	app.Put("/employee/:id", func(c fiber.Ctx) error {
 		idParam := c.Params("id")
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
 		// the provided ID might be invalid ObjectID
@@ -161,7 +161,7 @@ func main() {
 
 		employee := new(Employee)
 		// Parse body into struct
-		if err := c.BodyParser(employee); err != nil {
+		if err := c.Bind().Body(employee); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 
@@ -177,7 +177,7 @@ func main() {
 				},
 			},
 		}
-		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), query, update).Err()
+		err = mg.Db.Collection("employees").FindOneAndUpdate(c.RequestCtx(), query, update).Err()
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
@@ -193,7 +193,7 @@ func main() {
 
 	// Delete an employee from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/delete/
-	app.Delete("/employee/:id", func(c *fiber.Ctx) error {
+	app.Delete("/employee/:id", func(c fiber.Ctx) error {
 		employeeID, err := primitive.ObjectIDFromHex(
 			c.Params("id"),
 		)
@@ -204,7 +204,7 @@ func main() {
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
-		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), &query)
+		result, err := mg.Db.Collection("employees").DeleteOne(c.RequestCtx(), &query)
 		if err != nil {
 			return c.SendStatus(500)
 		}
@@ -220,3 +220,5 @@ func main() {
 
 	log.Fatal(app.Listen(":3000"))
 }
+
+// fiber:context-methods migrated

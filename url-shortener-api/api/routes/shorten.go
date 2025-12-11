@@ -9,7 +9,7 @@ import (
 	"github.com/amalshaji/stoyle/helpers"
 	"github.com/asaskevich/govalidator"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 )
 
@@ -28,10 +28,10 @@ type response struct {
 }
 
 // ShortenURL ...
-func ShortenURL(c *fiber.Ctx) error {
+func ShortenURL(c fiber.Ctx) error {
 	// check for the incoming request body
 	body := new(request)
-	if err := c.BodyParser(&body); err != nil {
+	if err := c.Bind().Body(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "cannot parse JSON",
 		})

@@ -2,11 +2,10 @@ package main
 
 import (
 	"log"
-	"strings"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/keyauth"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/keyauth"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 )
 
 const (
@@ -35,19 +34,18 @@ func main() {
 	app.Use(keyauth.New(keyauth.Config{
 		SuccessHandler: successHandler,
 		ErrorHandler:   errHandler,
-		KeyLookup:      strings.Join([]string{authSrc, authName}, ":"),
-		Validator:      validator,
-		ContextKey:     authKey,
+		// TODO: migrate // TODO: migrate // TODO: migrate KeyLookup: strings.Join([]string{authSrc, authName}, ":")
+		Validator: validator,
 	}))
 
 	log.Fatal(app.Listen(":1337"))
 }
 
-func successHandler(ctx *fiber.Ctx) error {
+func successHandler(ctx fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusOK)
 }
 
-func errHandler(ctx *fiber.Ctx, err error) error {
+func errHandler(ctx fiber.Ctx, err error) error {
 	ctx.Status(fiber.StatusForbidden)
 
 	if err == errMissing {
@@ -57,7 +55,7 @@ func errHandler(ctx *fiber.Ctx, err error) error {
 	return ctx.JSON(errInvalid)
 }
 
-func validator(ctx *fiber.Ctx, s string) (bool, error) {
+func validator(ctx fiber.Ctx, s string) (bool, error) {
 	if s == "" {
 		return false, errMissing
 	}

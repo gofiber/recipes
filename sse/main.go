@@ -8,8 +8,8 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/valyala/fasthttp"
 )
 
@@ -49,11 +49,11 @@ func main() {
 
 	// CORS for external resources
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "Cache-Control",
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"Cache-Control"},
 	}))
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		c.Response().Header.SetContentType(fiber.MIMETextHTMLCharsetUTF8)
 
 		tpl, err := template.New("index").Parse(index)
@@ -76,13 +76,13 @@ func main() {
 		return c.Status(fiber.StatusOK).Send(buf.Bytes())
 	})
 
-	app.Get("/sse", func(c *fiber.Ctx) error {
+	app.Get("/sse", func(c fiber.Ctx) error {
 		c.Set("Content-Type", "text/event-stream")
 		c.Set("Cache-Control", "no-cache")
 		c.Set("Connection", "keep-alive")
 		c.Set("Transfer-Encoding", "chunked")
 
-		c.Status(fiber.StatusOK).Context().SetBodyStreamWriter(fasthttp.StreamWriter(func(w *bufio.Writer) {
+		c.Status(fiber.StatusOK).RequestCtx().SetBodyStreamWriter(fasthttp.StreamWriter(func(w *bufio.Writer) {
 			fmt.Println("WRITER")
 			var i int
 			for {
@@ -122,14 +122,14 @@ func main() {
 	// Publish endpoint adds messages to the queue that will be sent to the client
 	// via the `/sse` endpoint in FIFO order. If there are no messages in the queue
 	// then the current time will be sent to the client instead.
-	app.Put("/publish", func(c *fiber.Ctx) error {
+	app.Put("/publish", func(c fiber.Ctx) error {
 		type Message struct {
 			Message string `json:"message"`
 		}
 
 		payload := new(Message)
 
-		if err := c.BodyParser(payload); err != nil {
+		if err := c.Bind().Body(payload); err != nil {
 			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
@@ -141,3 +141,5 @@ func main() {
 	// Start server
 	log.Fatal(app.Listen(":" + appPort))
 }
+
+// fiber:context-methods migrated

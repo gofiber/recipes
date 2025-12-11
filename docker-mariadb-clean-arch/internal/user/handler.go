@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Represents our handler with our use-case / service.
@@ -29,7 +29,7 @@ func NewUserHandler(userRoute fiber.Router, us UserService) {
 }
 
 // Gets all users.
-func (h *UserHandler) getUsers(c *fiber.Ctx) error {
+func (h *UserHandler) getUsers(c fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -51,13 +51,13 @@ func (h *UserHandler) getUsers(c *fiber.Ctx) error {
 }
 
 // Gets a single user.
-func (h *UserHandler) getUser(c *fiber.Ctx) error {
+func (h *UserHandler) getUser(c fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Fetch parameter.
-	targetedUserID, err := c.ParamsInt("userID")
+	targetedUserID, err := fiber.Params[int](c, "userID"), error(nil)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
@@ -82,7 +82,7 @@ func (h *UserHandler) getUser(c *fiber.Ctx) error {
 }
 
 // Creates a single user.
-func (h *UserHandler) createUser(c *fiber.Ctx) error {
+func (h *UserHandler) createUser(c fiber.Ctx) error {
 	// Initialize variables.
 	user := &User{}
 
@@ -91,7 +91,7 @@ func (h *UserHandler) createUser(c *fiber.Ctx) error {
 	defer cancel()
 
 	// Parse request body.
-	if err := c.BodyParser(user); err != nil {
+	if err := c.Bind().Body(user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
@@ -115,7 +115,7 @@ func (h *UserHandler) createUser(c *fiber.Ctx) error {
 }
 
 // Updates a single user.
-func (h *UserHandler) updateUser(c *fiber.Ctx) error {
+func (h *UserHandler) updateUser(c fiber.Ctx) error {
 	// Initialize variables.
 	user := &User{}
 	targetedUserID := c.Locals("userID").(int)
@@ -125,7 +125,7 @@ func (h *UserHandler) updateUser(c *fiber.Ctx) error {
 	defer cancel()
 
 	// Parse request body.
-	if err := c.BodyParser(user); err != nil {
+	if err := c.Bind().Body(user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
@@ -149,7 +149,7 @@ func (h *UserHandler) updateUser(c *fiber.Ctx) error {
 }
 
 // Deletes a single user.
-func (h *UserHandler) deleteUser(c *fiber.Ctx) error {
+func (h *UserHandler) deleteUser(c fiber.Ctx) error {
 	// Initialize previous user ID.
 	targetedUserID := c.Locals("userID").(int)
 

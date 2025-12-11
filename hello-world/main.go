@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -22,6 +22,6 @@ func main() {
 }
 
 // Handler
-func hello(c *fiber.Ctx) error {
+func hello(c fiber.Ctx) error {
 	return c.SendString("Hello, World 👋!")
 }

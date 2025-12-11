@@ -1,20 +1,20 @@
 package routes
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/zeimedee/go-postgres/database"
 	"github.com/zeimedee/go-postgres/models"
 )
 
 // Hello
-func Hello(c *fiber.Ctx) error {
+func Hello(c fiber.Ctx) error {
 	return c.SendString("fiber")
 }
 
 // AddBook
-func AddBook(c *fiber.Ctx) error {
+func AddBook(c fiber.Ctx) error {
 	book := new(models.Book)
-	if err := c.BodyParser(book); err != nil {
+	if err := c.Bind().Body(book); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 
@@ -24,7 +24,7 @@ func AddBook(c *fiber.Ctx) error {
 }
 
 // AllBooks
-func AllBooks(c *fiber.Ctx) error {
+func AllBooks(c fiber.Ctx) error {
 	books := []models.Book{}
 	database.DB.Db.Find(&books)
 
@@ -32,10 +32,10 @@ func AllBooks(c *fiber.Ctx) error {
 }
 
 // Book
-func Book(c *fiber.Ctx) error {
+func Book(c fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
+	if err := c.Bind().Body(title); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 	database.DB.Db.Where("title = ?", title.Title).Find(&book)
@@ -43,10 +43,10 @@ func Book(c *fiber.Ctx) error {
 }
 
 // Update
-func Update(c *fiber.Ctx) error {
+func Update(c fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
+	if err := c.Bind().Body(title); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 
@@ -56,10 +56,10 @@ func Update(c *fiber.Ctx) error {
 }
 
 // Delete
-func Delete(c *fiber.Ctx) error {
+func Delete(c fiber.Ctx) error {
 	book := []models.Book{}
 	title := new(models.Book)
-	if err := c.BodyParser(title); err != nil {
+	if err := c.Bind().Body(title); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 	database.DB.Db.Where("title = ?", title.Title).Delete(&book)

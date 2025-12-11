@@ -6,7 +6,7 @@ import (
 	"fiber-sqlc/api/route"
 	"fiber-sqlc/database"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func init() {
