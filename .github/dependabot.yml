@@ -32,6 +32,7 @@ updates:
       fiber-utils-modules:
         patterns:
           - "github.com/gofiber/utils/**"
+          - "github.com/gofiber/utils"
       fiber-storage-modules:
         patterns:
           - "github.com/gofiber/storage/**"
