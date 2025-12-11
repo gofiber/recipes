@@ -10,7 +10,7 @@ require (
 require (
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
-	github.com/gofiber/fiber/v2 v2.51.0 // indirect
+	github.com/gofiber/fiber/v2 v2.52.9 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.0-rc.4 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
