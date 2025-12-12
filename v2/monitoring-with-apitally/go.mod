@@ -3,7 +3,7 @@ module main
 go 1.25.0
 
 require (
-	github.com/apitally/apitally-go/fiber v0.8.2
+	github.com/apitally/apitally-go/fiber v0.9.0
 	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 )
 
