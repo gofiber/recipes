@@ -63,17 +63,18 @@ func main() {
 		ConnMaxLifetime: 1 * time.Second,
 	})
 
-	store := session.NewStore(session.Config{
-		Storage:     storage,
-		IdleTimeout: 5 * time.Minute,
-		Extractor:   extractors.FromCookie("myapp_session"),
-	})
-
 	// Create a new engine
 	engine := html.New("./views", ".html")
 
 	// Pass the engine to the Views
 	app := fiber.New(fiber.Config{Views: engine})
+
+	// Use session middleware (recommended pattern)
+	app.Use(session.New(session.Config{
+		Storage:     storage,
+		IdleTimeout: 5 * time.Minute,
+		Extractor:   extractors.FromCookie("myapp_session"),
+	}))
 
 	// Render index page
 	app.Get("/", func(c fiber.Ctx) error {
@@ -92,40 +93,48 @@ func main() {
 		// For semplicity I used directly the user ID passed by the front-end
 		// you should instead check email/password here and then get your user ID.
 
-		// Get or create session
-		s, _ := store.Get(c)
-		defer s.Release() // Important: Manual cleanup required
+		// Get session from context (automatically managed)
+		s := session.FromContext(c)
 
-		// If this is a new session
-		if s.Fresh() {
-			// Get session ID
-			sid := s.ID()
+		// Get user ID from request
+		uid := req.UID
 
-			// Get user ID
-			uid := req.UID
-
-			// Save session data
-			s.Set("uid", uid)
-			s.Set("sid", sid)
-			s.Set("ip", c.RequestCtx().RemoteIP().String())
-			s.Set("login", time.Unix(time.Now().Unix(), 0).UTC().String())
-			s.Set("ua", string(c.Request().Header.UserAgent()))
-
-			err := s.Save()
-			if err != nil {
-				log.Println(err)
+		// Check if already logged in as a different user
+		if existingUID := s.Get("uid"); existingUID != nil {
+			if existingUID.(string) == uid {
+				// Already logged in as this user, just return success
+				return c.JSON(fiber.Map{"status": "already logged in"})
 			}
+			// Trying to login as different user - require logout first
+			return c.Status(400).JSON(fiber.Map{"error": "Please logout first"})
+		}
 
-			// Save user reference
-			stmt, err := db.Prepare(`UPDATE sessions SET u = ? WHERE k = ?`)
-			if err != nil {
-				log.Println(err)
-			}
+		// Important: Regenerate session ID to prevent session fixation
+		// This changes the session ID while preserving existing data (like cart items)
+		if err := s.Regenerate(); err != nil {
+			log.Println(err)
+			return c.Status(500).JSON(fiber.Map{"error": "Session error"})
+		}
 
-			_, err = stmt.Exec(uid, sid)
-			if err != nil {
-				log.Println(err)
-			}
+		// Get new session ID after regeneration
+		sid := s.ID()
+
+		// Save session data (automatically saved when handler returns)
+		s.Set("uid", uid)
+		s.Set("sid", sid)
+		s.Set("ip", c.RequestCtx().RemoteIP().String())
+		s.Set("login", time.Unix(time.Now().Unix(), 0).UTC().String())
+		s.Set("ua", string(c.Request().Header.UserAgent()))
+
+		// Save user reference
+		stmt, err := db.Prepare(`UPDATE sessions SET u = ? WHERE k = ?`)
+		if err != nil {
+			log.Println(err)
+		}
+
+		_, err = stmt.Exec(uid, sid)
+		if err != nil {
+			log.Println(err)
 		}
 
 		return c.JSON(nil)
@@ -140,14 +149,13 @@ func main() {
 			log.Println(err)
 		}
 
-		// Get current session
-		s, _ := store.Get(c)
-		defer s.Release() // Important: Manual cleanup required
+		// Get current session from context (automatically managed)
+		s := session.FromContext(c)
 
 		// Check session ID
 		if len(req.SID) > 0 {
-			// Get requested session
-			data, err := store.Storage.Get(req.SID)
+			// Get requested session from storage
+			data, err := storage.Get(req.SID)
 			if err != nil {
 				log.Println(err)
 			}
@@ -160,12 +168,15 @@ func main() {
 			}
 
 			// If it belongs to current user destroy requested session
-			if s.Get("uid").(string) == dm["uid"] {
-				store.Storage.Delete(req.SID)
+			if s.Get("uid") != nil && s.Get("uid").(string) == dm["uid"] {
+				storage.Delete(req.SID)
 			}
 		} else {
-			// Destroy current session
-			s.Destroy()
+			// Reset clears all data and generates new session ID
+			if err := s.Reset(); err != nil {
+				log.Println(err)
+				return c.Status(500).JSON(fiber.Map{"error": "Session error"})
+			}
 		}
 
 		return c.JSON(nil)
@@ -173,9 +184,8 @@ func main() {
 
 	// Handle account API
 	app.Get("/api/account", func(c fiber.Ctx) error {
-		// Get current session
-		s, _ := store.Get(c)
-		defer s.Release() // Important: Manual cleanup required
+		// Get current session from context (automatically managed)
+		s := session.FromContext(c)
 
 		// If there is a valid session
 		if len(s.Keys()) > 0 {
@@ -250,5 +260,3 @@ func main() {
 
 	log.Fatal(app.Listen(":3000"))
 }
-
-// fiber:context-methods migrated
