@@ -10,7 +10,7 @@ require (
 require (
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
-	github.com/ebitengine/purego v0.8.2 // indirect
+	github.com/ebitengine/purego v0.9.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gofiber/fiber/v2 v2.52.10 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect
