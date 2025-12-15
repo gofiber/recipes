@@ -3,7 +3,7 @@ module numtostr/gotodo
 go 1.25.0
 
 require (
-	github.com/go-playground/validator/v10 v10.28.0
+	github.com/go-playground/validator/v10 v10.29.0
 	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	golang.org/x/crypto v0.45.0
