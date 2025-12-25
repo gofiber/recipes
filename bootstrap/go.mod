@@ -3,7 +3,7 @@ module github.com/kooroshh/fiber-boostrap
 go 1.25.0
 
 require (
-	github.com/go-playground/validator/v10 v10.30.0
+	github.com/go-playground/validator/v10 v10.30.1
 	github.com/gofiber/contrib/v3/monitor v1.0.0-rc.1
 	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 	github.com/gofiber/template/html/v2 v2.1.3
