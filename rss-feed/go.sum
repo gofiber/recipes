@@ -22,8 +22,8 @@ github.com/gofiber/template/mustache/v2 v2.0.14 h1:RGqae+0cAAdii0HzR1dW/vwf/C21f
 github.com/gofiber/template/mustache/v2 v2.0.14/go.mod h1:Va19KnQUMj6XwX6VP9qRyA4tkafQ7tjghoUtzoToO9Y=
 github.com/gofiber/utils v1.2.0 h1:NCaqd+Efg3khhN++eeUUTyBz+byIxAsmIjpl8kKOMIc=
 github.com/gofiber/utils v1.2.0/go.mod h1:poZpsnhBykfnY1Mc0KeEa6mSHrS3dV0+oBWyeQmb2e0=
-github.com/gofiber/utils/v2 v2.0.0-rc.4 h1:CDjwPwtwwj1OTIf6v3iRk+D2wcdjUzwk91Ghu2TMNbE=
-github.com/gofiber/utils/v2 v2.0.0-rc.4/go.mod h1:gXins5o7up+BQFiubmO8aUJc/+Mhd7EKXIiAK5GBomI=
+github.com/gofiber/utils/v2 v2.0.0-rc.5 h1:zosaA+j2jm9yhjuxGkFGWxILH8iL0iCoVYT6U/Qgej8=
+github.com/gofiber/utils/v2 v2.0.0-rc.5/go.mod h1:8PuWXERC3IoTmoD2Fp/X7amJntq928Fa2yTHI5Orj2M=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.18.2 h1:iiPHWW0YrcFgpBYhsA6D1+fqHssJscY/Tm/y2Uqnapk=
