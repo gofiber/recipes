@@ -12,8 +12,8 @@ github.com/gofiber/fiber/v3 v3.0.0-rc.3 h1:h0KXuRHbivSslIpoHD1R/XjUsjcGwt+2vK0av
 github.com/gofiber/fiber/v3 v3.0.0-rc.3/go.mod h1:LNBPuS/rGoUFlOyy03fXsWAeWfdGoT1QytwjRVNSVWo=
 github.com/gofiber/schema v1.6.0 h1:rAgVDFwhndtC+hgV7Vu5ItQCn7eC2mBA4Eu1/ZTiEYY=
 github.com/gofiber/schema v1.6.0/go.mod h1:WNZWpQx8LlPSK7ZaX0OqOh+nQo/eW2OevsXs1VZfs/s=
-github.com/gofiber/utils/v2 v2.0.0-rc.4 h1:CDjwPwtwwj1OTIf6v3iRk+D2wcdjUzwk91Ghu2TMNbE=
-github.com/gofiber/utils/v2 v2.0.0-rc.4/go.mod h1:gXins5o7up+BQFiubmO8aUJc/+Mhd7EKXIiAK5GBomI=
+github.com/gofiber/utils/v2 v2.0.0-rc.5 h1:zosaA+j2jm9yhjuxGkFGWxILH8iL0iCoVYT6U/Qgej8=
+github.com/gofiber/utils/v2 v2.0.0-rc.5/go.mod h1:8PuWXERC3IoTmoD2Fp/X7amJntq928Fa2yTHI5Orj2M=
 github.com/golang/protobuf v1.5.4 h1:i7eJL8qZTpSEXOPTxNKhASYpMn+8e5Q6AdndVa1dWek=
 github.com/golang/protobuf v1.5.4/go.mod h1:lnTiLA8Wa4RWRcIUkrtSVa5nRhsEGBg48fD6rSs7xps=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
