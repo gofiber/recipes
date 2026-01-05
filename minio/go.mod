@@ -11,7 +11,7 @@ require (
 	github.com/minio/crc64nvme v1.1.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.97 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
-	github.com/tinylib/msgp v1.6.2 // indirect
+	github.com/tinylib/msgp v1.6.3 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
