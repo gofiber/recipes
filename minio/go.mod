@@ -6,7 +6,7 @@ require github.com/gofiber/fiber/v3 v3.0.0-rc.3
 
 require (
 	github.com/gofiber/schema v1.6.0 // indirect
-	github.com/gofiber/utils/v2 v2.0.0-rc.4 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.5 // indirect
 	github.com/klauspost/crc32 v1.3.0 // indirect
 	github.com/minio/crc64nvme v1.1.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.97 // indirect
