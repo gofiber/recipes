@@ -6,12 +6,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/gofiber/fiber/v3/extractors"
-
 	apitally "github.com/apitally/apitally-go/fiber"
 	"github.com/go-playground/validator"
-	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/fiber/v3/middleware/keyauth"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/keyauth"
 )
 
 type apiKeyInfo struct {
@@ -35,7 +33,7 @@ var apiKeys = map[string]apiKeyInfo{
 	"3a9b8c7d6e5f4a2b1c9d8e7f6a5b4c3d": {userID: "user3", userName: "Charlie", group: "reader"},
 }
 
-func validateAPIKey(c fiber.Ctx, key string) (bool, error) {
+func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
 	hashedKey := sha256.Sum256([]byte(key))
 
 	for apiKey, info := range apiKeys {
@@ -71,12 +69,13 @@ func main() {
 
 	// API key authentication
 	app.Use(keyauth.New(keyauth.Config{
-		Extractor: extractors.FromAuthHeader("Bearer"),
-		Validator: validateAPIKey,
+		KeyLookup:  "header:Authorization",
+		AuthScheme: "Bearer",
+		Validator:  validateAPIKey,
 	}))
 
 	// Routes
-	app.Get("/v1/books", func(c fiber.Ctx) error {
+	app.Get("/v1/books", func(c *fiber.Ctx) error {
 		books := []Book{
 			{Title: "The Go Programming Language", Author: "Alan A. A. Donovan"},
 			{Title: "Clean Code", Author: "Robert C. Martin"},
@@ -84,10 +83,10 @@ func main() {
 		return c.JSON(books)
 	})
 
-	app.Post("/v1/books", func(c fiber.Ctx) error {
+	app.Post("/v1/books", func(c *fiber.Ctx) error {
 		// Parse and validate the request body
 		var req Book
-		if err := c.Bind().Body(&req); err != nil {
+		if err := c.BodyParser(&req); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 		if err := validate.Struct(req); err != nil {
