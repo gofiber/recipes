@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -23,7 +23,7 @@ func NewAuthHandler(authRoute fiber.Router) {
 }
 
 // Signs in a user and gives them a JWT.
-func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
+func (h *AuthHandler) signInUser(c fiber.Ctx) error {
 	// Create a struct so the request body can be mapped here.
 	type loginRequest struct {
 		Username string `json:"username"`
@@ -39,7 +39,7 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 
 	// Get request body.
 	request := &loginRequest{}
-	if err := c.BodyParser(request); err != nil {
+	if err := c.Bind().Body(request); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
@@ -91,7 +91,7 @@ func (h *AuthHandler) signInUser(c *fiber.Ctx) error {
 }
 
 // Logs out user and removes their JWT.
-func (h *AuthHandler) signOutUser(c *fiber.Ctx) error {
+func (h *AuthHandler) signOutUser(c fiber.Ctx) error {
 	c.Cookie(&fiber.Cookie{
 		Name:     "jwt",
 		Value:    "loggedOut",
@@ -108,7 +108,7 @@ func (h *AuthHandler) signOutUser(c *fiber.Ctx) error {
 }
 
 // A single private route that only logged in users can access.
-func (h *AuthHandler) privateRoute(c *fiber.Ctx) error {
+func (h *AuthHandler) privateRoute(c fiber.Ctx) error {
 	// Give form to our output response.
 	type jwtResponse struct {
 		UserID interface{} `json:"uid"`

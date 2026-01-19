@@ -67,8 +67,8 @@ import (
     "fmt"
     "log"
 
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/contrib/websocket"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/contrib/v3/websocket"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package route
 import (
 	"fiber-sqlboiler/api/controller"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func SetupRoutes(app *fiber.App) {

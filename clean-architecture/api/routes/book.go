@@ -4,7 +4,7 @@ import (
 	"clean-architecture/api/handlers"
 	"clean-architecture/pkg/book"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // BookRouter is the Router for GoFiber App

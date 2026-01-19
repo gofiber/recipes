@@ -12,7 +12,7 @@ This example demonstrates how to create a simple chatroom using WebSockets. The 
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.25 or higher
 - Go modules
 
 ## Setup

@@ -18,7 +18,7 @@ The default table schema only stores session data and expiry, making it difficul
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.25 or higher
 - Go modules
 
 ## Setup

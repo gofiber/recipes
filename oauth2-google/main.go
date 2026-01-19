@@ -6,7 +6,7 @@ import (
 	"fiber-oauth-google/config"
 	"fiber-oauth-google/router"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/joho/godotenv"
 )
 

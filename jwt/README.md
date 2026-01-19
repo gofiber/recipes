@@ -12,7 +12,7 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.25 or higher
 - Go modules
 
 ## Setup

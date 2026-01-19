@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 var app *fiber.App
@@ -13,17 +13,17 @@ var app *fiber.App
 func init() {
 	app = fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("Health check ✅")
 	})
 
 	group := app.Group("api")
 
-	group.Get("/hello", func(c *fiber.Ctx) error {
+	group.Get("/hello", func(c fiber.Ctx) error {
 		return c.SendString("Hello World 🚀")
 	})
 
-	group.Get("/ola", func(c *fiber.Ctx) error {
+	group.Get("/ola", func(c fiber.Ctx) error {
 		return c.SendString("Olá Mundo 🚀")
 	})
 }

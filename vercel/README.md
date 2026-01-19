@@ -19,6 +19,10 @@ This project provides a starting point for deploying a Go Fiber application to V
 - [Go](https://golang.org/dl/) 1.18 or higher
 - [Git](https://git-scm.com/downloads)
 - [Vercel CLI](https://vercel.com/download)
+- A folder named `public` with one or more static files to be served
+
+> [!CAUTION]
+> If you don't have a `public` folder, Vercel will serve all files from your project root, which can expose sensitive files like your source code.
 
 ## Project Structure
 

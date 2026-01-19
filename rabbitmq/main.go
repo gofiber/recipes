@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -30,7 +30,7 @@ func main() {
 	)
 
 	// Add route.
-	app.Get("/send", func(c *fiber.Ctx) error {
+	app.Get("/send", func(c fiber.Ctx) error {
 		// Checking, if query is empty.
 		if c.Query("msg") == "" {
 			log.Println("Missing 'msg' query parameter")

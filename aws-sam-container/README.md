@@ -97,7 +97,7 @@ This command grants permission to all principals (*) to invoke your Lambda funct
 
 ### Golang installation
 
-Please ensure Go 1.x (where 'x' is the latest version) is installed as per the instructions on the official golang website: https://golang.org/doc/install
+Please ensure Go 1.25 (or newer in the Go 1.x series) is installed as per the instructions on the official golang website: https://golang.org/doc/install
 
 A quickstart way would be to use Homebrew, chocolatey or your linux package manager.
 

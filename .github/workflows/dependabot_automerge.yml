@@ -1,6 +1,7 @@
 name: Dependabot auto-merge
 on:
-  pull_request
+  workflow_dispatch:
+  pull_request_target:
 
 permissions:
   contents: write
@@ -28,7 +29,7 @@ jobs:
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v2.4.0
+        uses: dependabot/fetch-metadata@v2.5.0
         with:
           github-token: "${{ secrets.PR_TOKEN }}"
       - name: Enable auto-merge for Dependabot PRs

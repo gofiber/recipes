@@ -3,11 +3,11 @@ package routes
 import (
 	"github.com/amalshaji/stoyle/database"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // ResolveURL ...
-func ResolveURL(c *fiber.Ctx) error {
+func ResolveURL(c fiber.Ctx) error {
 	// get the short from the url
 	url := c.Params("url")
 	// query the db to find the original URL, if a match is found
@@ -31,5 +31,5 @@ func ResolveURL(c *fiber.Ctx) error {
 	defer rInr.Close()
 	_ = rInr.Incr(database.Ctx, "counter")
 	// redirect to original URL
-	return c.Redirect(value, 301)
+	return c.Redirect().Status(301).To(value)
 }

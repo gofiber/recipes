@@ -72,7 +72,7 @@ y
 #### 4. Use sqlboiler
 ###### 1. Install
 ```bash
-# Go 1.16 and above:
+# Go 1.25 and above:
 $ go install github.com/volatiletech/sqlboiler/v4@latest
 $ go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@latest
 ```
