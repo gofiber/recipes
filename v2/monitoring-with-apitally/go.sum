@@ -2,8 +2,8 @@ github.com/andybalholm/brotli v1.2.0 h1:ukwgCxwYrmACq68yiUqwIWnGY0cTPox/M94sVwTo
 github.com/andybalholm/brotli v1.2.0/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
 github.com/apitally/apitally-go v0.10.0 h1:0MmSWr2cU4QbMaIJCQQ6svhe6fDSZBoDW5SOMQmhDGg=
 github.com/apitally/apitally-go v0.10.0/go.mod h1:7WKE1/L8s3i4qPmh7RWV+lg+0KFNCYieTNVe4yZh9ik=
-github.com/apitally/apitally-go/fiber v0.9.0 h1:wdvEAf5dBC41AOUO66MefS8gkiTL6lMW512aaSBFkq4=
-github.com/apitally/apitally-go/fiber v0.9.0/go.mod h1:3SMT+Tc5YyANb5m3on9UjBfHfoqt6kCcyNSw+tdMVAM=
+github.com/apitally/apitally-go/fiber v0.10.0 h1:zmQHHaNxqgB9iOYv93lbt4Jd4vkEOW7MeUEdD+PAHfk=
+github.com/apitally/apitally-go/fiber v0.10.0/go.mod h1:DwYswAw26X+73ere4X5xjCBb98piN13qWwFIQ6oL2I4=
 github.com/clipperhouse/stringish v0.1.1 h1:+NSqMOr3GR6k1FdRhhnXrLfztGzuG+VuFDfatpWHKCs=
 github.com/clipperhouse/stringish v0.1.1/go.mod h1:v/WhFtE1q0ovMta2+m+UbpZ+2/HEXNWYXQgCt4hdOzA=
 github.com/clipperhouse/uax29/v2 v2.3.1 h1:RjM8gnVbFbgI67SBekIC7ihFpyXwRPYWXn9BZActHbw=
