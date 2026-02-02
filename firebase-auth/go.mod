@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/gofiber/fiber/v3 v3.0.0-rc.3
+	github.com/gofiber/fiber/v3 v3.0.0
 	github.com/joho/godotenv v1.5.1
 	github.com/sacsand/gofiber-firebaseauth v1.4.3
 	google.golang.org/api v0.264.0
