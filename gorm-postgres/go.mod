@@ -13,7 +13,7 @@ require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.4.0 // indirect
-	github.com/gofiber/fiber/v2 v2.52.10 // indirect
+	github.com/gofiber/fiber/v2 v2.52.11 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.0-rc.6 // indirect
 	github.com/google/uuid v1.6.0 // indirect
