@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/apitally/apitally-go/fiber v0.10.1
-	github.com/gofiber/fiber/v2 v2.52.10
+	github.com/gofiber/fiber/v2 v2.52.11
 )
 
 require (
