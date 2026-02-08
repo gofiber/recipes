@@ -12,8 +12,8 @@ importers:
         specifier: ^1.7.5
         version: 1.7.5
       '@skeletonlabs/skeleton':
-        specifier: ^2.10.3
-        version: 2.10.3(svelte@5.50.0)
+        specifier: ^4.12.0
+        version: 4.12.0(tailwindcss@4.1.18)
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
         version: 3.0.10(@sveltejs/kit@2.50.2(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.50.0)(vite@7.3.1(yaml@2.8.2)))(svelte@5.50.0)(typescript@5.9.3)(vite@7.3.1(yaml@2.8.2)))
@@ -440,10 +440,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@skeletonlabs/skeleton@2.10.3':
-    resolution: {integrity: sha512-O1RecF68zEVvZl3GgRS4emqWMUIQLHvTOFoqGOw/2OXCPE06IxUQrHQf2hnxCPxtGZNXY2YX8UNV38l+eH8GNQ==}
+  '@skeletonlabs/skeleton@4.12.0':
+    resolution: {integrity: sha512-5Zch+aAarrWQaWEtjdb/jlaT5Q2H4Lt6pCl8utvrkKGGlXfAWd2yjzho75E1nxdbsS9F2q+5ipewlbrtmGYB8Q==}
     peerDependencies:
-      svelte: ^3.56.0 || ^4.0.0 || ^5.0.0
+      tailwindcss: ^4.0.0
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -717,9 +717,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esm-env@1.0.0:
-    resolution: {integrity: sha512-Cf6VksWPsTuW01vU9Mk/3vRue91Zevka5SjyNf3nEpokFRuqt/KjUQoGAwq9qMmhpLTHmXzSIrFRw8zxWzmFBA==}
 
   esm-env@1.2.2:
     resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
@@ -1398,10 +1395,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
-  '@skeletonlabs/skeleton@2.10.3(svelte@5.50.0)':
+  '@skeletonlabs/skeleton@4.12.0(tailwindcss@4.1.18)':
     dependencies:
-      esm-env: 1.0.0
-      svelte: 5.50.0
+      tailwindcss: 4.1.18
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -1745,8 +1741,6 @@ snapshots:
       optionator: 0.9.4
     transitivePeerDependencies:
       - supports-color
-
-  esm-env@1.0.0: {}
 
   esm-env@1.2.2: {}
 
