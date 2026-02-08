@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@floating-ui/dom':
-        specifier: ^1.6.12
-        version: 1.6.12
+        specifier: ^1.7.5
+        version: 1.7.5
       '@skeletonlabs/skeleton':
         specifier: ^2.10.3
         version: 2.10.3(svelte@5.50.0)
@@ -45,8 +45,8 @@ importers:
         specifier: ^3.14.0
         version: 3.14.0(eslint@10.0.0)(svelte@5.50.0)
       highlight.js:
-        specifier: ^11.10.0
-        version: 11.10.0
+        specifier: ^11.11.1
+        version: 11.11.1
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -263,14 +263,14 @@ packages:
     resolution: {integrity: sha512-bIZEUzOI1jkhviX2cp5vNyXQc6olzb2ohewQubuYlMXZ2Q/XjBO0x0XhGPvc9fjSIiUN0vw+0hq53BJ4eQSJKQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@floating-ui/core@1.6.4':
-    resolution: {integrity: sha512-a4IowK4QkXl4SCWTGUR0INAfEOX3wtsYw3rKK5InQEHMGObkR8Xk44qYQD9P4r6HHw0iIfK6GUKECmY8sTkqRA==}
+  '@floating-ui/core@1.7.4':
+    resolution: {integrity: sha512-C3HlIdsBxszvm5McXlB8PeOEWfBhcGBTZGkGlWc2U0KFY5IwG5OQEuQ8rq52DZmcHDlPLd+YFBK+cZcytwIFWg==}
 
-  '@floating-ui/dom@1.6.12':
-    resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
+  '@floating-ui/dom@1.7.5':
+    resolution: {integrity: sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==}
 
-  '@floating-ui/utils@0.2.8':
-    resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+  '@floating-ui/utils@0.2.10':
+    resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -800,8 +800,8 @@ packages:
     resolution: {integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ==}
     engines: {node: '>=18'}
 
-  highlight.js@11.10.0:
-    resolution: {integrity: sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ==}
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
 
   ignore@5.3.2:
@@ -1274,16 +1274,16 @@ snapshots:
       '@eslint/core': 1.1.0
       levn: 0.4.1
 
-  '@floating-ui/core@1.6.4':
+  '@floating-ui/core@1.7.4':
     dependencies:
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/dom@1.6.12':
+  '@floating-ui/dom@1.7.5':
     dependencies:
-      '@floating-ui/core': 1.6.4
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/core': 1.7.4
+      '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/utils@0.2.8': {}
+  '@floating-ui/utils@0.2.10': {}
 
   '@humanfs/core@0.19.1': {}
 
@@ -1815,7 +1815,7 @@ snapshots:
 
   globals@16.5.0: {}
 
-  highlight.js@11.10.0: {}
+  highlight.js@11.11.1: {}
 
   ignore@5.3.2: {}
 
