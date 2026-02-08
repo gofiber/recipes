@@ -10,8 +10,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/cbroglie/mustache v1.4.0 // indirect
-	github.com/clipperhouse/stringish v0.1.1 // indirect
-	github.com/clipperhouse/uax29/v2 v2.5.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.52.11 // indirect
 	github.com/gofiber/schema v1.7.0 // indirect
 	github.com/gofiber/template v1.8.3 // indirect
