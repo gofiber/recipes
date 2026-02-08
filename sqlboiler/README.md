@@ -73,8 +73,8 @@ y
 ###### 1. Install
 ```bash
 # Go 1.25 and above:
-$ go install github.com/volatiletech/sqlboiler/v4@latest
-$ go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@latest
+$ go install github.com/aarondl/sqlboiler/v4@latest
+$ go install github.com/aarondl/sqlboiler/v4/drivers/sqlboiler-psql@latest
 ```
 ###### 2. Create a configuration file
 > ###### 🎯 The configuration file should be named sqlboiler.toml
