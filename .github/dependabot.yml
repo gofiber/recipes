@@ -99,6 +99,9 @@ updates:
           - "go.uber.org/zap/**"
           - "github.com/sirupsen/logrus"
           - "github.com/sirupsen/logrus/**"
+      go-logr-modules:
+        patterns:
+          - "github.com/go-logr/**"
       mattn-modules:
         patterns:
           - "github.com/mattn/go-sqlite*"
@@ -170,6 +173,18 @@ updates:
       go-cty-modules:
         patterns:
           - "github.com/zclconf/**"
+      godotenv-modules:
+        patterns:
+          - "github.com/joho/godotenv"
+      gorm-legacy-modules:
+        patterns:
+          - "github.com/jinzhu/**"
+      protobuf-legacy-modules:
+        patterns:
+          - "github.com/golang/protobuf"
+      fasthttp-core-modules:
+        patterns:
+          - "github.com/valyala/bytebufferpool"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     directories:
@@ -183,10 +198,16 @@ updates:
         patterns:
           - "svelte"
           - "@sveltejs/**"
+          - "svelte-check"
       tailwind-modules:
         patterns:
           - "tailwindcss"
           - "@tailwindcss/*"
+      postcss-modules:
+        patterns:
+          - "postcss"
+          - "postcss-*"
+          - "autoprefixer"
       typescript-modules:
         patterns:
           - "typescript"
