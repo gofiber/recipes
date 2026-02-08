@@ -32,7 +32,13 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Set up your Neo4j database and update the connection string in the code.
+3. Set up your Neo4j database and export connection settings:
+
+    ```sh
+    export NEO4J_URI=neo4j://localhost:7687
+    export NEO4J_USER=neo4j
+    export NEO4J_PASSWORD=password
+    ```
 
 ## Running the Application
 
@@ -49,44 +55,51 @@ Here is an example of how to connect to a Neo4j database in a Fiber application:
 package main
 
 import (
-    "log"
-    "github.com/gofiber/fiber/v2"
-    "github.com/neo4j/neo4j-go-driver/v5/neo4j"
+	"context"
+	"log"
+	"os"
+
+	"github.com/gofiber/fiber/v3"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 func main() {
-    // Neo4j connection
-    uri := "neo4j://localhost:7687"
-    username := "neo4j"
-    password := "password"
-    driver, err := neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""))
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer driver.Close()
+	uri := os.Getenv("NEO4J_URI")
+	user := os.Getenv("NEO4J_USER")
+	pass := os.Getenv("NEO4J_PASSWORD")
 
-    // Fiber instance
-    app := fiber.New()
+	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, pass, ""))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer driver.Close(context.Background())
 
-    // Routes
-    app.Get("/", func(c *fiber.Ctx) error {
-        session := driver.NewSession(neo4j.SessionConfig{})
-        defer session.Close()
+	app := fiber.New()
 
-        result, err := session.Run("RETURN 'Hello, World!'", nil)
-        if err != nil {
-            return err
-        }
+	app.Get("/", func(c fiber.Ctx) error {
+		ctx := context.Background()
+		session := driver.NewSession(ctx, neo4j.SessionConfig{
+			DatabaseName: "movies",
+			AccessMode:   neo4j.AccessModeRead,
+		})
+		defer session.Close(ctx)
 
-        if result.Next() {
-            return c.SendString(result.Record().Values[0].(string))
-        }
+		result, err := session.Run(ctx, "RETURN 'Hello, World!' AS message", nil)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
 
-        return c.SendStatus(fiber.StatusInternalServerError)
-    })
+		if result.Next(ctx) {
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": result.Record().AsMap()["message"]})
+		}
+		if result.Err() != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": result.Err().Error()})
+		}
 
-    // Start server
-    log.Fatal(app.Listen(":3000"))
+		return c.SendStatus(fiber.StatusNotFound)
+	})
+
+	log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -94,4 +107,4 @@ func main() {
 
 - [Fiber Documentation](https://docs.gofiber.io)
 - [Neo4j Documentation](https://neo4j.com/docs/)
-- [Neo4j Go Driver Documentation](https://pkg.go.dev/github.com/neo4j/neo4j-go-driver)
+- [Neo4j Go Driver Documentation](https://pkg.go.dev/github.com/neo4j/neo4j-go-driver/v5/neo4j)
