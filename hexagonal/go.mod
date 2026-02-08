@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/gofiber/fiber/v3 v3.0.0
 	github.com/pkg/errors v0.9.1
-	go.mongodb.org/mongo-driver v1.17.8
+	go.mongodb.org/mongo-driver v1.17.9
 	gopkg.in/yaml.v2 v2.4.0
 )
 
