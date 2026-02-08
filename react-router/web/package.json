@@ -24,7 +24,7 @@
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^22.9.0",
+    "@types/node": "^25.2.2",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.1.9"
