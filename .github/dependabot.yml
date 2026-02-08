@@ -211,6 +211,9 @@ updates:
           - "github.com/valyala/bytebufferpool"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
+    allow:
+      # pnpm transitive update jobs can fail; keep version updates to direct deps.
+      - dependency-type: "direct"
     directories:
       - "**/*"
     labels:
