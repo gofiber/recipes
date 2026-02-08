@@ -27,7 +27,7 @@ func main() {
 	app.Use(cors.New())
 
 	app.Use(func(c fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
+		return c.SendStatus(fiber.StatusNotFound) // => 404 "Not Found"
 	})
 
 	log.Fatal(app.Listen(":3000"))

@@ -86,7 +86,7 @@ func main() {
     app.Post("/users", func(c *fiber.Ctx) error {
         user := new(User)
         if err := c.BodyParser(user); err != nil {
-            return c.Status(400).SendString(err.Error())
+            return c.Status(fiber.StatusBadRequest).SendString(err.Error())
         }
         db.Create(user)
         return c.JSON(user)

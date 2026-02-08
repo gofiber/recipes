@@ -64,7 +64,7 @@ func main() {
 		// Select all Employee(s) from database
 		rows, err := db.Query("SELECT id, name, salary, age FROM employees order by id")
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 		defer rows.Close()
 		result := Employees{}
@@ -89,7 +89,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.Bind().Body(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Insert Employee into database
@@ -112,7 +112,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.Bind().Body(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Update Employee into database
@@ -125,7 +125,7 @@ func main() {
 		log.Println(res)
 
 		// Return Employee in JSON format
-		return c.Status(201).JSON(u)
+		return c.Status(fiber.StatusCreated).JSON(u)
 	})
 
 	// Delete record from postgreSQL
@@ -135,7 +135,7 @@ func main() {
 
 		// Parse body into struct
 		if err := c.Bind().Body(u); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Delete Employee from database

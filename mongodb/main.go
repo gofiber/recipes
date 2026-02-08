@@ -81,14 +81,14 @@ func main() {
 		query := bson.D{{}}
 		cursor, err := mg.Db.Collection("employees").Find(c.RequestCtx(), query)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 
 		var employees []Employee = make([]Employee, 0)
 
 		// iterate the cursor and decode each item into an Employee
 		if err := cursor.All(c.RequestCtx(), &employees); err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 		// return employees list in JSON format
 		return c.JSON(employees)
@@ -102,7 +102,7 @@ func main() {
 
 		_id, err := primitive.ObjectIDFromHex(params)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 
 		filter := bson.D{{Key: "_id", Value: _id}}
@@ -110,7 +110,7 @@ func main() {
 		var result Employee
 
 		if err := mg.Db.Collection("employees").FindOne(c.RequestCtx(), filter).Decode(&result); err != nil {
-			return c.Status(500).SendString("Something went wrong.")
+			return c.Status(fiber.StatusInternalServerError).SendString("Something went wrong.")
 		}
 
 		return c.Status(fiber.StatusOK).JSON(result)
@@ -125,7 +125,7 @@ func main() {
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.Bind().Body(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
 		// force MongoDB to always set its own generated ObjectIDs
@@ -134,7 +134,7 @@ func main() {
 		// insert the record
 		insertionResult, err := collection.InsertOne(c.RequestCtx(), employee)
 		if err != nil {
-			return c.Status(500).SendString(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 
 		// get the just inserted record in order to return it as response
@@ -146,7 +146,7 @@ func main() {
 		createdRecord.Decode(createdEmployee)
 
 		// return the created Employee in JSON format
-		return c.Status(201).JSON(createdEmployee)
+		return c.Status(fiber.StatusCreated).JSON(createdEmployee)
 	})
 
 	// Update an employee record in MongoDB
@@ -156,13 +156,13 @@ func main() {
 		employeeID, err := primitive.ObjectIDFromHex(idParam)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
 		employee := new(Employee)
 		// Parse body into struct
 		if err := c.Bind().Body(employee); err != nil {
-			return c.Status(400).SendString(err.Error())
+			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 		}
 
 		// Find the employee and update its data
@@ -181,14 +181,14 @@ func main() {
 		if err != nil {
 			// ErrNoDocuments means that the filter did not match any documents in the collection
 			if err == mongo.ErrNoDocuments {
-				return c.SendStatus(404)
+				return c.SendStatus(fiber.StatusNotFound)
 			}
-			return c.SendStatus(500)
+			return c.SendStatus(fiber.StatusInternalServerError)
 		}
 
 		// return the updated employee
 		employee.ID = idParam
-		return c.Status(200).JSON(employee)
+		return c.Status(fiber.StatusOK).JSON(employee)
 	})
 
 	// Delete an employee from MongoDB
@@ -199,23 +199,23 @@ func main() {
 		)
 		// the provided ID might be invalid ObjectID
 		if err != nil {
-			return c.SendStatus(400)
+			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
 		// find and delete the employee with the given ID
 		query := bson.D{{Key: "_id", Value: employeeID}}
 		result, err := mg.Db.Collection("employees").DeleteOne(c.RequestCtx(), &query)
 		if err != nil {
-			return c.SendStatus(500)
+			return c.SendStatus(fiber.StatusInternalServerError)
 		}
 
 		// the employee might not exist
 		if result.DeletedCount < 1 {
-			return c.SendStatus(404)
+			return c.SendStatus(fiber.StatusNotFound)
 		}
 
 		// the record was deleted
-		return c.SendStatus(204)
+		return c.SendStatus(fiber.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":3000"))

@@ -42,7 +42,7 @@ func GeoIP(c fiber.Ctx) error {
 	// Check IP address format
 	ip := net.ParseIP(ipAddr)
 	if ip == nil {
-		return c.Status(400).JSON(map[string]string{"status": "error", "message": "Invalid IP address"})
+		return c.Status(fiber.StatusBadRequest).JSON(map[string]string{"status": "error", "message": "Invalid IP address"})
 	}
 
 	// Perform lookup

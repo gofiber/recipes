@@ -18,5 +18,5 @@ func About(c fiber.Ctx) error {
 
 // NoutFound renders the 404 view
 func NotFound(c fiber.Ctx) error {
-	return c.Status(404).Render("404", nil)
+	return c.Status(fiber.StatusNotFound).Render("404", nil)
 }
