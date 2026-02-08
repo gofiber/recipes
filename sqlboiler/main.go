@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fiber-sqlboiler/api/route"
-	"fiber-sqlboiler/database"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"fiber-sqlboiler/api/route"
+	"fiber-sqlboiler/database"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 func init() {

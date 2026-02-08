@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
 	// Fiber instance
 	app := fiber.New()
 
-	app.Post("/", func(c *fiber.Ctx) error {
+	app.Post("/", func(c fiber.Ctx) error {
 		// Parse the multipart form:
 		form, err := c.MultipartForm()
 		if err != nil {
@@ -34,7 +34,6 @@ func main() {
 
 			// Save the files to disk:
 			err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
-
 			// Check for errors
 			if err != nil {
 				return err

@@ -2,22 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 const idleTimeout = 5 * time.Second
 
 func main() {
-	app := fiber.New(fiber.Config{
-		IdleTimeout: idleTimeout,
-	})
+	app := fiber.New(fiber.Config{IdleTimeout: idleTimeout})
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("Hello world!")
 	})
 

@@ -1,17 +1,17 @@
 package main
 
 import (
-	"app/database"
-	"app/router"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	// "github.com/gofiber/fiber/v2/middleware/cors"
+	"app/database"
+	"app/router"
+
+	"github.com/gofiber/fiber/v3"
+	// "github.com/gofiber/fiber/v3/middleware/cors"
 )
 
 func main() {
 	app := fiber.New(fiber.Config{
-		Prefork:       true,
 		CaseSensitive: true,
 		StrictRouting: true,
 		ServerHeader:  "Fiber",
@@ -22,5 +22,5 @@ func main() {
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":3000", fiber.ListenConfig{EnablePrefork: true}))
 }

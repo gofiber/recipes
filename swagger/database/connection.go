@@ -34,7 +34,6 @@ func Connect() (err error) {
 	}
 
 	sqlDB, err := DBConn.DB()
-
 	if err != nil {
 		return err
 	}

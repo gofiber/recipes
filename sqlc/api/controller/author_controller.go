@@ -2,15 +2,16 @@ package controller
 
 import (
 	"context"
-	"fiber-sqlc/database"
-	"fiber-sqlc/database/sqlc"
 	"strconv"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"fiber-sqlc/database"
+	"fiber-sqlc/database/sqlc"
+
+	"github.com/gofiber/fiber/v3"
 )
 
-func GetAuthors(c *fiber.Ctx) error {
+func GetAuthors(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -22,7 +23,7 @@ func GetAuthors(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(authors)
 }
 
-func GetAuthor(c *fiber.Ctx) error {
+func GetAuthor(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -40,12 +41,12 @@ func GetAuthor(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(author)
 }
 
-func NewAuthor(c *fiber.Ctx) error {
+func NewAuthor(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
 	var author sqlc.NewAuthorParams
-	if err := c.BodyParser(&author); err != nil {
+	if err := c.Bind().Body(&author); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 
@@ -57,7 +58,7 @@ func NewAuthor(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(newAuthor)
 }
 
-func DeleteAuthor(c *fiber.Ctx) error {
+func DeleteAuthor(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -75,7 +76,7 @@ func DeleteAuthor(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).SendString("Author successfully deleted")
 }
 
-func UpdateAuthor(c *fiber.Ctx) error {
+func UpdateAuthor(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -87,7 +88,7 @@ func UpdateAuthor(c *fiber.Ctx) error {
 
 	var author sqlc.UpdateAuthorParams
 	author.ID = int32(authorId)
-	if err := c.BodyParser(&author); err != nil {
+	if err := c.Bind().Body(&author); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 

@@ -1,4 +1,12 @@
+---
+title: I18n
+keywords: [i18n, go-i18n, internationalization]
+description: Internationalization support.
+---
+
 # Fiber with i18n
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/i18n) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/i18n)
 
 This is a quick example of how to use [nicksnyder/go-i18n](https://github.com/nicksnyder/go-i18n) package to translate your Fiber application into multiple languages.
 

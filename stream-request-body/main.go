@@ -4,7 +4,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -18,8 +18,8 @@ func main() {
 
 	// You can test the route by using cURL:
 	// curl -X POST --data-binary @/path/to/large/file localhost:3000
-	app.Post("/", func(c *fiber.Ctx) error {
-		reader := c.Context().RequestBodyStream()
+	app.Post("/", func(c fiber.Ctx) error {
+		reader := c.RequestCtx().RequestBodyStream()
 		// Read 1MiB at a time
 		buffer := make([]byte, 0, 1024*1024)
 		for {
@@ -52,3 +52,5 @@ func main() {
 	// Start server
 	log.Fatal(app.Listen(":3000"))
 }
+
+// fiber:context-methods migrated

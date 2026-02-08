@@ -2,8 +2,9 @@ package database
 
 import (
 	"fmt"
-	"numtostr/gotodo/config"
 	"time"
+
+	"numtostr/gotodo/config"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -19,7 +20,6 @@ func Connect() {
 		NowFunc: func() time.Time { return time.Now().Local() },
 		Logger:  logger.Default.LogMode(logger.Info),
 	})
-
 	if err != nil {
 		fmt.Println("[DATABASE]::CONNECTION_ERROR")
 		panic(err)

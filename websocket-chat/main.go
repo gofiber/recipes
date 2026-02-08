@@ -5,8 +5,10 @@ import (
 	"log"
 	"sync"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/contrib/websocket"
+	"github.com/gofiber/fiber/v3/middleware/static"
+
+	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Add more data to this type if needed
@@ -15,10 +17,12 @@ type client struct {
 	mu        sync.Mutex
 }
 
-var clients = make(map[*websocket.Conn]*client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
-var register = make(chan *websocket.Conn)
-var broadcast = make(chan string)
-var unregister = make(chan *websocket.Conn)
+var (
+	clients    = make(map[*websocket.Conn]*client) // Note: although large maps with pointer-like types (e.g. strings) as keys are slow, using pointers themselves as keys is acceptable and fast
+	register   = make(chan *websocket.Conn)
+	broadcast  = make(chan string)
+	unregister = make(chan *websocket.Conn)
+)
 
 func runHub() {
 	for {
@@ -60,9 +64,9 @@ func runHub() {
 func main() {
 	app := fiber.New()
 
-	app.Static("/", "./home.html")
+	app.Get("/*", static.New("./home.html"))
 
-	app.Use(func(c *fiber.Ctx) error {
+	app.Use(func(c fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(c) { // Returns true if the client requested upgrade to the WebSocket protocol
 			return c.Next()
 		}

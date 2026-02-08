@@ -2,9 +2,10 @@ package city
 
 import (
 	"context"
+
 	"docker-mariadb-clean-arch/internal/auth"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // We will inject our dependency - the service - here.
@@ -34,7 +35,7 @@ func NewCityHandler(cityRoute fiber.Router, cs CityService) {
 }
 
 // Handler to get all cities.
-func (h *CityHandler) getCities(c *fiber.Ctx) error {
+func (h *CityHandler) getCities(c fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -56,13 +57,13 @@ func (h *CityHandler) getCities(c *fiber.Ctx) error {
 }
 
 // Get one city.
-func (h *CityHandler) getCity(c *fiber.Ctx) error {
+func (h *CityHandler) getCity(c fiber.Ctx) error {
 	// Create cancellable context.
 	customContext, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Fetch parameter.
-	targetedCityID, err := c.ParamsInt("cityID")
+	targetedCityID, err := fiber.Params[int](c, "cityID"), error(nil)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
@@ -87,7 +88,7 @@ func (h *CityHandler) getCity(c *fiber.Ctx) error {
 }
 
 // Creates a single city.
-func (h *CityHandler) createCity(c *fiber.Ctx) error {
+func (h *CityHandler) createCity(c fiber.Ctx) error {
 	// Initialize variables.
 	city := &City{}
 	currentUserID := c.Locals("currentUser").(int)
@@ -97,7 +98,7 @@ func (h *CityHandler) createCity(c *fiber.Ctx) error {
 	defer cancel()
 
 	// Parse request body.
-	if err := c.BodyParser(city); err != nil {
+	if err := c.Bind().Body(city); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
@@ -121,7 +122,7 @@ func (h *CityHandler) createCity(c *fiber.Ctx) error {
 }
 
 // Updates a single city.
-func (h *CityHandler) updateCity(c *fiber.Ctx) error {
+func (h *CityHandler) updateCity(c fiber.Ctx) error {
 	// Initialize variables.
 	city := &City{}
 	currentUserID := c.Locals("currentUser").(int)
@@ -132,7 +133,7 @@ func (h *CityHandler) updateCity(c *fiber.Ctx) error {
 	defer cancel()
 
 	// Parse request body.
-	if err := c.BodyParser(city); err != nil {
+	if err := c.Bind().Body(city); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
 			"status":  "fail",
 			"message": err.Error(),
@@ -156,7 +157,7 @@ func (h *CityHandler) updateCity(c *fiber.Ctx) error {
 }
 
 // Deletes a single city.
-func (h *CityHandler) deleteCity(c *fiber.Ctx) error {
+func (h *CityHandler) deleteCity(c fiber.Ctx) error {
 	// Initialize previous city ID.
 	targetedCityID := c.Locals("cityID").(int)
 

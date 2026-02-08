@@ -1,4 +1,12 @@
-## Simple Fiber Proxy Server
+---
+title: Dummy JSON Proxy
+keywords: [dummyjson, proxy, json, server]
+description: Proxying dummy JSON data.
+---
+
+# Simple Fiber Proxy Server
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/dummyjson) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/dummyjson)
 
 This is a basic Go application using the Fiber framework to create a web server. The server listens on port 3000 and has a single route (`GET /`) that fetches data from an external URL (`https://dummyjson.com/products/1`) and forwards it to the client.
 

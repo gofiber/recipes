@@ -2,15 +2,16 @@ package controller
 
 import (
 	"context"
-	"fiber-sqlc/database"
-	"fiber-sqlc/database/sqlc"
 	"strconv"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"fiber-sqlc/database"
+	"fiber-sqlc/database/sqlc"
+
+	"github.com/gofiber/fiber/v3"
 )
 
-func GetPosts(c *fiber.Ctx) error {
+func GetPosts(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -22,7 +23,7 @@ func GetPosts(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(posts)
 }
 
-func GetPost(c *fiber.Ctx) error {
+func GetPost(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -40,12 +41,12 @@ func GetPost(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(post)
 }
 
-func NewPost(c *fiber.Ctx) error {
+func NewPost(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
 	var post sqlc.NewPostParams
-	if err := c.BodyParser(&post); err != nil {
+	if err := c.Bind().Body(&post); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 
@@ -57,7 +58,7 @@ func NewPost(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(newPost)
 }
 
-func DeletePost(c *fiber.Ctx) error {
+func DeletePost(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -74,7 +75,7 @@ func DeletePost(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).SendString("Post deleted")
 }
 
-func UpdatePost(c *fiber.Ctx) error {
+func UpdatePost(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancle()
 
@@ -85,7 +86,7 @@ func UpdatePost(c *fiber.Ctx) error {
 	}
 
 	var post sqlc.UpdatePostParams
-	if err := c.BodyParser(&post); err != nil {
+	if err := c.Bind().Body(&post); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 

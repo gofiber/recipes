@@ -22,7 +22,7 @@ To use the available scripts, you need to have Node.js and Npm (or Pnpm) install
    ```bash
    npm install
    ```
-   or 
+   or
    ```bash
    pnpm install
    ```
@@ -30,7 +30,7 @@ To use the available scripts, you need to have Node.js and Npm (or Pnpm) install
     ```bash
     npm run (code)
     ```
-    or 
+    or
     ```bash
     pnpm run (code)
     ```

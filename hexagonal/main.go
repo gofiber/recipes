@@ -5,13 +5,13 @@ import (
 	"catalog/config"
 	"catalog/repository"
 	"catalog/service"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
+
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 )
 
 func main() {
-
 	conf, _ := config.NewConfig("./config/config.yaml")
 	repo, _ := repository.NewMongoRepository(conf.Database.URL, conf.Database.DB, conf.Database.Timeout)
 	service := service.NewProductService(repo)
@@ -29,5 +29,4 @@ func main() {
 	r.Get("/products", handler.GetAll)
 	r.Put("/products", handler.Put)
 	r.Listen(":8080")
-
 }

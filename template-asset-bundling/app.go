@@ -2,18 +2,18 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"os"
+	"path/filepath"
+
+	"github.com/gofiber/fiber/v3/middleware/static"
 
 	"github.com/gofiber/recipes/template-asset-bundling/handlers"
 
-	"log"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 	"github.com/gofiber/template/html/v2"
-
-	"path/filepath"
 )
 
 func main() {
@@ -51,7 +51,7 @@ func main() {
 	app.Get("/about", handlers.About)
 
 	// Setup static files
-	app.Static("/public", "./public")
+	app.Get("/public*", static.New("./public"))
 
 	// Handle not founds
 	app.Use(handlers.NotFound)

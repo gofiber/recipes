@@ -9,7 +9,7 @@ import (
 	"github.com/amalshaji/stoyle/helpers"
 	"github.com/asaskevich/govalidator"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 )
 
@@ -28,10 +28,10 @@ type response struct {
 }
 
 // ShortenURL ...
-func ShortenURL(c *fiber.Ctx) error {
+func ShortenURL(c fiber.Ctx) error {
 	// check for the incoming request body
 	body := new(request)
-	if err := c.BodyParser(&body); err != nil {
+	if err := c.Bind().Body(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "cannot parse JSON",
 		})
@@ -47,7 +47,7 @@ func ShortenURL(c *fiber.Ctx) error {
 	_, err := r2.Get(database.Ctx, c.IP()).Result()
 
 	if err == redis.Nil {
-		_ = r2.Set(database.Ctx, c.IP(), os.Getenv("API_QUOTA"), 30*60*time.Second).Err() //change the rate_limit_reset here, change `30` to your number
+		_ = r2.Set(database.Ctx, c.IP(), os.Getenv("API_QUOTA"), 30*60*time.Second).Err() // change the rate_limit_reset here, change `30` to your number
 	} else {
 		val, _ := r2.Get(database.Ctx, c.IP()).Result()
 		valInt, _ := strconv.Atoi(val)

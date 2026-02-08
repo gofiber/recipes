@@ -1,5 +1,11 @@
-
+---
+title: Firebase Functions
+keywords: [firebase, functions, deployment, gcloud, cloud]
+description: Using Firebase Functions.
+---
 # Deploying GoFiber Application to Firebase Functions
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/firebase-functions) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/firebase-functions)
 
 Welcome to this step-by-step guide on deploying a GoFiber application to Firebase Functions. If you’re looking to leverage the power of GoFiber, a fast and lightweight web framework for Go, and host your application on Firebase, you’re in the right place. In this tutorial, we’ll walk through the process of setting up your GoFiber app to run seamlessly on Firebase Functions.
 
@@ -199,82 +205,18 @@ In `functions.go`, convert Google Cloud Function requests to Fiber and route the
 package app
 
 import (
- "bytes"
- "context"
- "fmt"
- "io"
- "log"
- "net"
- "net/http"
- "strings"
+	"net/http"
 
- "github.com/gofiber/fiber/v2"
- "github.com/valyala/fasthttp/fasthttputil"
+	"github.com/gofiber/fiber/v2"
+	adaptor "github.com/gofiber/fiber/v2/middleware/adaptor"
 )
 
 // CloudFunctionRouteToFiber route cloud function http.Handler to *fiber.App
 // Internally, google calls the function with the /execute base URL
-func CloudFunctionRouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request) error {
- return RouteToFiber(fiberApp, w, r, "/execute")
+func CloudFunctionRouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request) {
+	adaptor.FiberApp(fiberApp)(w, r)
 }
 
-// RouteToFiber route http.Handler to *fiber.App
-func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, rootURL ...string) error {
- ln := fasthttputil.NewInmemoryListener()
- defer ln.Close()
-
- // Copy request
- body, err := io.ReadAll(r.Body)
- if err != nil {
-  return err
- }
-
- url := fmt.Sprintf("%s://%s%s", "http", "0.0.0.0", r.RequestURI)
- if len(rootURL) > 0 {
-  url = strings.Replace(url, rootURL[0], "", -1)
- }
-
- proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
-
- if err != nil {
-  return err
- }
-
- proxyReq.Header = r.Header
-
- // Create http client
- client := http.Client{
-  Transport: &http.Transport{
-   DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
-    return ln.Dial()
-   },
-  },
- }
-
- // Serve request to internal HTTP client
- go func() {
-  log.Fatal(fiberApp.Listener(ln))
- }()
-
- // Call internal Fiber API
- response, err := client.Do(proxyReq)
- if err != nil {
-  return err
- }
-
- // Copy response and headers
- for k, values := range response.Header {
-  for _, v := range values {
-   w.Header().Set(k, v)
-  }
- }
- w.WriteHeader(response.StatusCode)
-
- io.Copy(w, response.Body)
- response.Body.Close()
-
- return nil
-}
 ```
 
 ## Main Application Entry
@@ -308,13 +250,9 @@ func Start(addr string) error {
  return app.Listen(addr)
 }
 
-// MyCloudFunction Exported http.HandlerFunc to be deployed to as a Cloud Function
-func MyCloudFunction(w http.ResponseWriter, r *http.Request) {
- err := CloudFunctionRouteToFiber(app, w, r)
- if err != nil {
-  fmt.Fprintf(w, "err : %v", err)
-  return
- }
+// ServerFunction Exported http.HandlerFunc to be deployed to as a Cloud Function
+func ServerFunction(w http.ResponseWriter, r *http.Request) {
+	CloudFunctionRouteToFiber(app, w, r)
 }
 ```
 

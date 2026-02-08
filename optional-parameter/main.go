@@ -8,11 +8,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-
 	// user list
 	users := [...]string{"Alice", "Bob", "Charlie", "David"}
 
@@ -20,10 +19,10 @@ func main() {
 	app := fiber.New()
 
 	// Route to profile
-	app.Get("/:id?", func(c *fiber.Ctx) error {
+	app.Get("/:id?", func(c fiber.Ctx) error {
 		id, err := strconv.Atoi(c.Params("id")) // transform id to array index
 		if err != nil || id < 0 || id >= len(users) {
-			return c.SendStatus(404) // invalid parameter returns 404
+			return c.SendStatus(fiber.StatusNotFound) // invalid parameter returns 404
 		}
 		return c.SendString("Hello, " + users[id] + "!") // custom hello message to user with the id
 	})

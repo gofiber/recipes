@@ -1,17 +1,18 @@
 package handler
 
 import (
-	"app/config"
-	"app/database"
-	"app/model"
 	"errors"
 	"log"
 	"net/mail"
 	"time"
 
+	"app/config"
+	"app/database"
+	"app/model"
+
 	"gorm.io/gorm"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -53,7 +54,7 @@ func valid(email string) bool {
 }
 
 // Login get user and password
-func Login(c *fiber.Ctx) error {
+func Login(c fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`
 		Password string `json:"password"`
@@ -67,7 +68,7 @@ func Login(c *fiber.Ctx) error {
 	input := new(LoginInput)
 	var ud UserData
 
-	if err := c.BodyParser(input); err != nil {
+	if err := c.Bind().Body(input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "errors": err.Error()})
 	}
 
@@ -80,11 +81,16 @@ func Login(c *fiber.Ctx) error {
 	} else {
 		userModel, err = getUserByUsername(identity)
 	}
-	
+
+	const dummyHash = "$2a$10$7zFqzDbD3RrlkMTczbXG9OWZ0FLOXjIxXzSZ.QZxkVXjXcx7QZQiC" // => Hashed " "
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
 	} else if userModel == nil {
-		CheckPasswordHash(pass, "")
+
+		// Always perform a hash check, even if the user doesn't exist, to prevent timing attacks
+		CheckPasswordHash(pass, dummyHash)
+
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid identity or password", "data": err})
 	} else {
 		ud = UserData{

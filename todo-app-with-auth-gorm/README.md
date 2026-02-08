@@ -1,20 +1,46 @@
-# Prerequisite
+---
+title: Todo App + Auth + GORM
+keywords: [todo app, gorm, authentication]
+description: A Todo application with authentication using GORM.
+---
 
-1. Make sure you have the following installed outside the current project directory and available in your `GOPATH`
-    - golang
-    - [air](https://github.com/cosmtrek/air) for hot reloading
-    - [godotenv](https://github.com/joho/godotenv) for loading `.env` file
+# Todo App with Auth using GORM
 
-# Installation
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/todo-app-with-auth-gorm) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/todo-app-with-auth-gorm)
 
-1. Clone this repo
-2. Run `go get`
+This project demonstrates a Todo application with authentication using GORM.
 
-# Running
+## Prerequisites
 
-1. Type `air` in the command line
+Ensure you have the following installed and available in your `GOPATH`:
 
-# Environment Variables
+- Golang
+- [Air](https://github.com/air-verse/air) for hot reloading
+- [Godotenv](https://github.com/joho/godotenv) for loading `.env` file
+
+## Installation
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/gofiber/recipes.git
+    cd recipes/todo-app-with-auth-gorm
+    ```
+
+2. Install dependencies:
+    ```sh
+    go get
+    ```
+
+## Running the Application
+
+1. Start the application:
+    ```sh
+    air
+    ```
+
+## Environment Variables
+
+Create a `.env` file in the root directory and add the following variables:
 
 ```shell
 # PORT returns the server listening port

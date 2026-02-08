@@ -12,6 +12,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofiber/fiber/v3/extractors"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/csrf"
 	"github.com/gofiber/fiber/v3/middleware/session"
@@ -46,7 +48,7 @@ func main() {
 	// See the following for more details:
 	// https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 	//
-	// It's recommended to use the "github.com/gofiber/fiber/v2/middleware/helmet"
+	// It's recommended to use the "github.com/gofiber/fiber/v3/middleware/helmet"
 	// middleware to set headers to help prevent attacks such as XSS, man-in-the-middle,
 	// protocol downgrade, cookie hijacking, SSL stripping, clickjacking, etc.
 
@@ -86,13 +88,13 @@ func main() {
 
 	// Initialize a session store
 	sessConfig := session.Config{
-		Expiration:     30 * time.Minute,        // Expire sessions after 30 minutes of inactivity
-		KeyLookup:      "cookie:__Host-session", // Recommended to use the __Host- prefix when serving the app over TLS
+		IdleTimeout:    30 * time.Minute,                        // Expire sessions after 30 minutes of inactivity
+		Extractor:      extractors.FromCookie("__Host-session"), // Recommended to use the __Host- prefix when serving the app over TLS
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 		CookieSameSite: "Lax",
 	}
-	store := session.New(sessConfig)
+	store := session.NewStore(sessConfig)
 
 	// CSRF Error handler
 	csrfErrorHandler := func(c fiber.Ctx, err error) error {
@@ -123,13 +125,13 @@ func main() {
 	// Configure the CSRF middleware
 	csrfConfig := csrf.Config{
 		Session:        store,
-		KeyLookup:      "form:csrf",   // In this example, we will be using a hidden input field to store the CSRF token
-		CookieName:     "__Host-csrf", // Recommended to use the __Host- prefix when serving the app over TLS
-		CookieSameSite: "Lax",         // Recommended to set this to Lax or Strict
-		CookieSecure:   true,          // Recommended to set to true when serving the app over TLS
-		CookieHTTPOnly: true,          // Recommended, otherwise if using JS framework recomend: false and KeyLookup: "header:X-CSRF-Token"
+		Extractor:      extractors.FromForm("csrf"), // In this example, we will be using a hidden input field to store the CSRF token
+		CookieName:     "__Host-csrf",               // Recommended to use the __Host- prefix when serving the app over TLS
+		CookieSameSite: "Lax",                       // Recommended to set this to Lax or Strict
+		CookieSecure:   true,                        // Recommended to set to true when serving the app over TLS
+		CookieHTTPOnly: true,                        // Recommended, otherwise if using JS framework recomend: false and Extractor: extractors.FromHeader("X-CSRF-Token")
 		ErrorHandler:   csrfErrorHandler,
-		Expiration:     30 * time.Minute,
+		IdleTimeout:    30 * time.Minute,
 	}
 	csrfMiddleware := csrf.New(csrfConfig)
 
@@ -142,8 +144,11 @@ func main() {
 	})
 
 	// Route for the login page
-	app.Get("/login", func(c fiber.Ctx) error {
-		csrfToken := csrf.TokenFromContext(c)
+	app.Get("/login", csrfMiddleware, func(c fiber.Ctx) error {
+		csrfToken, ok := csrf.TokenFromContext(c), true
+		if !ok {
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
 
 		return c.Render("login", fiber.Map{
 			"Title": "Login",
@@ -152,7 +157,7 @@ func main() {
 	}, csrfMiddleware)
 
 	// Route for processing the login
-	app.Post("/login", func(c fiber.Ctx) error {
+	app.Post("/login", csrfMiddleware, func(c fiber.Ctx) error {
 		// Retrieve the submitted form data
 		username := c.FormValue("username")
 		password := c.FormValue("password")
@@ -168,7 +173,10 @@ func main() {
 
 		if bcrypt.CompareHashAndPassword([]byte(checkPassword), []byte(password)) != nil {
 			// Authentication failed
-			csrfToken := csrf.TokenFromContext(c)
+			csrfToken, ok := csrf.TokenFromContext(c), true
+			if !ok {
+				return c.SendStatus(fiber.StatusInternalServerError)
+			}
 
 			return c.Render("login", fiber.Map{
 				"Title": "Login",
@@ -182,6 +190,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		if err := session.Reset(); err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -192,7 +201,7 @@ func main() {
 
 		// Redirect to the protected route
 		return c.Redirect().To("/protected")
-	}, csrfMiddleware)
+	})
 
 	// Route for logging out
 	app.Get("/logout", func(c fiber.Ctx) error {
@@ -201,6 +210,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 
 		// Revoke users authentication
 		if err := session.Destroy(); err != nil {
@@ -212,12 +222,13 @@ func main() {
 	})
 
 	// Route for the protected content
-	app.Get("/protected", func(c fiber.Ctx) error {
+	app.Get("/protected", csrfMiddleware, func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session, err := store.Get(c)
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {
@@ -225,7 +236,10 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken := csrf.TokenFromContext(c)
+		csrfToken, ok := csrf.TokenFromContext(c), true
+		if !ok {
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
 
 		return c.Render("protected", fiber.Map{
 			"Title": "Protected",
@@ -234,12 +248,13 @@ func main() {
 	}, csrfMiddleware)
 
 	// Route for processing the protected form
-	app.Post("/protected", func(c fiber.Ctx) error {
+	app.Post("/protected", csrfMiddleware, func(c fiber.Ctx) error {
 		// Check if the user is logged in
 		session, err := store.Get(c)
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
+		defer session.Release() // Important: Manual cleanup required
 		loggedIn, _ := session.Get("loggedIn").(bool)
 
 		if !loggedIn {
@@ -247,7 +262,10 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken := csrf.TokenFromContext(c)
+		csrfToken, ok := csrf.TokenFromContext(c), true
+		if !ok {
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
 
 		// Retrieve the submitted form data
 		message := c.FormValue("message")

@@ -1,4 +1,12 @@
-# Fiber and Memgraph 
+---
+title: Memgraph
+keywords: [memgraph, graph, database]
+description: Using Memgraph.
+---
+
+# Fiber and Memgraph
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/memgraph) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/memgraph)
 
 This is a cookbook recipe for setting up Fiber backend and Memgraph database. 🚀
 
@@ -13,7 +21,7 @@ go get -u github.com/gofiber/fiber/v2
 go get github.com/neo4j/neo4j-go-driver/v5
 ```
 
-## Run Memgraph 
+## Run Memgraph
 
 The easiest way to run Memgraph is to use Docker.
 Once docker is installed on your machine, you can run Memgraph with the following command:
@@ -28,10 +36,10 @@ After you have installed all the prerequisites, you can run the recipe with the 
 
 ```
 cd memgraph
-go run ./main.go   
+go run ./main.go
 ```
 
-This will do the following: 
+This will do the following:
 
 1. Connect Fiber backend to Memgraph database
 2. Generate mock data to populate the database

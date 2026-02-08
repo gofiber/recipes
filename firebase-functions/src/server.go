@@ -3,7 +3,7 @@ package src
 import (
 	"example.com/GofiberFirebaseBoilerplate/src/routes"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func CreateServer() *fiber.App {
@@ -14,7 +14,7 @@ func CreateServer() *fiber.App {
 		AppName:      "Gofiber Firebase Boilerplate " + version,
 	})
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		return c.SendString("Gofiber Firebase Boilerplate " + version)
 	})
 

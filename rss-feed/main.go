@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/mustache/v2"
 )
 
@@ -15,7 +15,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("/rss", func(c *fiber.Ctx) error {
+	app.Get("/rss", func(c fiber.Ctx) error {
 		// Set Content-Type to application/rss+xml
 		c.Type("rss")
 

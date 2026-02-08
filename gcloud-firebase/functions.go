@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/valyala/fasthttp/fasthttputil"
 )
 
@@ -37,7 +37,6 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 	}
 
 	proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
-
 	if err != nil {
 		return err
 	}

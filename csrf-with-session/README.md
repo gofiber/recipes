@@ -1,4 +1,12 @@
+---
+title: CSRF + Session
+keywords: [csrf, security, hacking, vulnerability, session]
+description: Cross-Site Request Forgery (CSRF) protection with session management.
+---
+
 # CSRF-with-session Example
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/csrf-with-session) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/csrf-with-session)
 
 Example GoFiber web app using Cross Site Request Forgery (CSRF) middleware with session.
 
@@ -107,7 +115,7 @@ Sessions are stored in memory for this example, but you can use any session stor
 
 ### Note on pre-sessions
 
-GoFiber's CSRF middleware will automatically create a session if one does not exist. That means that we always have pre-sessions when using the CSRF middleware. In this example we set a session variable `loggedIn` 
+GoFiber's CSRF middleware will automatically create a session if one does not exist. That means that we always have pre-sessions when using the CSRF middleware. In this example we set a session variable `loggedIn`
 to `true` when the user logs in, in order to distinguish between logged in and logged out users.
 
 

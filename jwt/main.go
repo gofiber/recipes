@@ -1,12 +1,13 @@
 package main
 
 import (
-	"api-fiber-gorm/database"
-	"api-fiber-gorm/router"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"api-fiber-gorm/database"
+	"api-fiber-gorm/router"
+
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/joho/godotenv"
 )
 

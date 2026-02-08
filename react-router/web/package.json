@@ -12,21 +12,21 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.0",
     "react-scripts": "5.0.1",
     "typescript": "^5.0.0",
-    "web-vitals": "^3.3.2"
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.10",
-    "@testing-library/react": "^12.1.5",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.0.0",
-    "@types/jest": "^29.5.2",
-    "@types/node": "^20.5.7",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.2.2",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.1.9"
   },
   "eslintConfig": {

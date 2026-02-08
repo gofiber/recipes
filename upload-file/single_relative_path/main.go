@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -16,17 +16,17 @@ func main() {
 	app := fiber.New()
 
 	// Routes
-	app.Post("/", func(c *fiber.Ctx) error {
+	app.Post("/", func(c fiber.Ctx) error {
 		// Get first file from form field "document":
 		file, err := c.FormFile("document")
 		if err != nil {
 			return err
 		}
-		//Save file inside uploads folder under current working directory:
+		// Save file inside uploads folder under current working directory:
 		return c.SaveFile(file, fmt.Sprintf("./uploads/%s", file.Filename))
 	})
 
-	app.Post("/temp", func(c *fiber.Ctx) error {
+	app.Post("/temp", func(c fiber.Ctx) error {
 		// Get first file from form field "document":
 		file, err := c.FormFile("document")
 		if err != nil {

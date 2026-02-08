@@ -3,19 +3,19 @@ package middleware
 import (
 	"api-fiber-gorm/config"
 
-	"github.com/gofiber/fiber/v2"
-	jwtware "github.com/gofiber/contrib/jwt"
+	jwtware "github.com/gofiber/contrib/v3/jwt"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Protected protect routes
 func Protected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte(config.Config("SECRET"))},
+		SigningKey:   jwtware.SigningKey{Key: []byte(config.Config("SECRET"))},
 		ErrorHandler: jwtError,
 	})
 }
 
-func jwtError(c *fiber.Ctx, err error) error {
+func jwtError(c fiber.Ctx, err error) error {
 	if err.Error() == "Missing or malformed JWT" {
 		return c.Status(fiber.StatusBadRequest).
 			JSON(fiber.Map{"status": "error", "message": "Missing or malformed JWT", "data": nil})

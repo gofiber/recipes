@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fiber-gorm/book"
-	"fiber-gorm/database"
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"fiber-gorm/book"
+	"fiber-gorm/database"
+
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

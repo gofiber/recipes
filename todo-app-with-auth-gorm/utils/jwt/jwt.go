@@ -3,8 +3,9 @@ package jwt
 import (
 	"errors"
 	"fmt"
-	"numtostr/gotodo/config"
 	"time"
+
+	"numtostr/gotodo/config"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -17,7 +18,6 @@ type TokenPayload struct {
 // Generate generates the jwt token based on payload
 func Generate(payload *TokenPayload) string {
 	v, err := time.ParseDuration(config.TOKENEXP)
-
 	if err != nil {
 		panic("Invalid time duration. Should be time.ParseDuration string")
 	}
@@ -28,7 +28,6 @@ func Generate(payload *TokenPayload) string {
 	})
 
 	token, err := t.SignedString([]byte(config.TOKENKEY))
-
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +54,6 @@ func parse(token string) (*jwt.Token, error) {
 // Verify verifies the jwt token against the secret
 func Verify(token string) (*TokenPayload, error) {
 	parsed, err := parse(token)
-
 	if err != nil {
 		return nil, err
 	}

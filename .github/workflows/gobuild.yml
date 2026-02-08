@@ -12,23 +12,23 @@ on:
       - '*'
     paths-ignore:
       - "**.md"
+  workflow_dispatch:
 
 jobs:
   builds:
     strategy:
       matrix:
         go-version:
-          - oldstable
-          - stable
+          - "1.25.x"
     runs-on: ubuntu-latest
     steps:
       - name: Fetch Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Fetch all history so diffs can be performed
 
       - name: Setup Go
-        uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe # v4.1.0
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
           go-version: ${{ matrix.go-version }}
           cache: true

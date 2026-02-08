@@ -25,7 +25,7 @@ Thumbs.db
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
 
 # Go workspace file
 go.work
@@ -36,3 +36,5 @@ go.work
 # Ignore certificates in csrf-with-session example
 csrf-with-session/cert.pem
 csrf-with-session/key.pem
+# IDE files
+.idea/

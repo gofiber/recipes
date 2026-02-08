@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
+
 	"validation/config"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -17,7 +18,7 @@ func main() {
 	// Use Cors
 	app.Use(cors.New())
 
-	app.Get("/test", func(ctx *fiber.Ctx) error {
+	app.Get("/test", func(ctx fiber.Ctx) error {
 		type User struct {
 			ID        uint   `validate:"required,omitempty"`
 			Firstname string `validate:"required"`
