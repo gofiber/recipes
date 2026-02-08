@@ -8,7 +8,7 @@ import (
 	"fiber-sqlboiler/models"
 
 	"github.com/gofiber/fiber/v3"
-	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/aarondl/sqlboiler/v4/boil"
 )
 
 func GetPosts(c fiber.Ctx) error {

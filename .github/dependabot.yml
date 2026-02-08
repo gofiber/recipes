@@ -38,7 +38,12 @@ updates:
           - "github.com/gofiber/storage/**"
       fiber-template-modules:
         patterns:
+          - "github.com/gofiber/template"
           - "github.com/gofiber/template/**"
+      fiber-schema-modules:
+        patterns:
+          - "github.com/gofiber/schema"
+          - "github.com/gofiber/schema/**"
       fasthttp-modules:
         patterns:
           - "github.com/valyala/fasthttp"
@@ -56,6 +61,9 @@ updates:
       postgres-modules:
         patterns:
           - "github.com/jackc/pgx/**"
+          - "github.com/jackc/pgpassfile"
+          - "github.com/jackc/pgservicefile"
+          - "github.com/jackc/puddle/**"
           - "github.com/lib/pq"
       mysql-modules:
         patterns:
@@ -80,6 +88,9 @@ updates:
       aws-modules:
         patterns:
           - "github.com/aws/**"
+      awslabs-modules:
+        patterns:
+          - "github.com/awslabs/**"
       grpc-modules:
         patterns:
           - "google.golang.org/grpc"
@@ -88,6 +99,8 @@ updates:
         patterns:
           - "google.golang.org/api"
           - "google.golang.org/api/**"
+          - "google.golang.org/genproto"
+          - "google.golang.org/genproto/**"
           - "google.golang.org/protobuf"
           - "google.golang.org/protobuf/**"
       opentelemetry-modules:
@@ -134,8 +147,19 @@ updates:
           - "github.com/gorilla/**"
       validator-modules:
         patterns:
+          - "github.com/go-playground/**"
+          - "github.com/leodido/go-urn"
           - "github.com/go-playground/validator"
           - "github.com/go-playground/validator/**"
+      brotli-modules:
+        patterns:
+          - "github.com/andybalholm/brotli"
+      xxhash-modules:
+        patterns:
+          - "github.com/cespare/xxhash/**"
+      yaml-modules:
+        patterns:
+          - "gopkg.in/yaml.v3"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"

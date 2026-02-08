@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/friendsofgo/errors"
-	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/aarondl/sqlboiler/v4/boil"
 	"github.com/volatiletech/strmangle"
 )
 
