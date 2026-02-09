@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.25.5
+ARG GO_VERSION=1.25.0
 FROM golang:${GO_VERSION}-alpine AS build
 
 # Set destination for COPY
@@ -11,7 +11,7 @@ COPY container_src/go.mod container_src/go.sum ./
 RUN go mod download
 
 # Copy container source code
-COPY container_src/*.go ./
+COPY container_src/ ./
 
 # Build with optimizations
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
