@@ -1,0 +1,35 @@
+{
+  "name": "containers",
+  "description": "Build a Container-enabled Worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.2",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.63.0"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.1.0",
+    "hono": "^4.11.9"
+  },
+  "cloudflare": {
+    "label": "Containers Starter",
+    "products": [
+      "Workers",
+      "Durable Objects",
+      "Containers"
+    ],
+    "categories": [],
+    "docs_url": "https://developers.cloudflare.com/containers/",
+    "preview_image_url": "https://imagedelivery.net/_yJ02hpOMj_EnGvsU2aygw/5aba1fb7-b937-46fd-fa67-138221082200/public",
+    "icon_urls": [
+      "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/5ca0ca32-e897-4699-d4c1-6b680512f000/public"
+    ]
+  }
+}
