@@ -8,8 +8,8 @@
     "clean": "rm -rf ./public/assets"
   },
   "devDependencies": {
-    "parcel": "2.13.0",
-    "postcss": "8.4.49",
-    "tailwindcss": "3.4.15"
+    "parcel": "2.16.4",
+    "postcss": "8.5.6",
+    "tailwindcss": "4.1.18"
   }
 }

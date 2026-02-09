@@ -1,12 +1,12 @@
 package main
 
 import (
-	"app/template"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/static"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"app/template"
 )
 
 const (
@@ -17,24 +17,23 @@ const (
 
 func main() {
 	// Create new Fiber Instance
-	app := fiber.New(fiber.Config{
-		AppName: appName,
-	})
+	app := fiber.New(fiber.Config{AppName: appName})
 	defer app.Shutdown()
 
 	// Middleware
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "*",
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"*"},
 	}))
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 	// Serve static files
-	app.All("/*", filesystem.New(filesystem.Config{
-		Root:         template.Dist(),
-		NotFoundFile: "index.html",
-		Index:        "index.html",
+	app.All("/*", static.New("", static.Config{
+		FS: template.Dist(),
+		// TODO: Migrate to NotFoundHandler (fiber.Handler) - NotFoundFile is deprecated
+		// NotFoundFile: "index.html",
+		IndexNames: []string{"index.html"},
 	}))
 
 	// Start the server

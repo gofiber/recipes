@@ -11,7 +11,7 @@ import (
 	"os"
 
 	firebase "firebase.google.com/go"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/joho/godotenv"
 	gofiberfirebaseauth "github.com/sacsand/gofiber-firebaseauth"
 	"google.golang.org/api/option"
@@ -68,25 +68,25 @@ func main() {
 *
  */
 
-func hello(c *fiber.Ctx) error {
+func hello(c fiber.Ctx) error {
 	return c.SendString("Hello, World 👋!")
 }
 
-func salut(c *fiber.Ctx) error {
+func salut(c fiber.Ctx) error {
 	return c.SendString("Salut, World 👋!")
 }
 
-func ciao(c *fiber.Ctx) error {
+func ciao(c fiber.Ctx) error {
 	return c.SendString("Ciao, World 👋! ")
 }
 
-func ayubowan(c *fiber.Ctx) error {
+func ayubowan(c fiber.Ctx) error {
 	// Get authenticated user from context.
 	claims := c.Locals("user")
 	fmt.Println(claims)
 	return c.SendString("Ayubowan👋! ")
 }
 
-func salanthe(c *fiber.Ctx) error {
+func salanthe(c fiber.Ctx) error {
 	return c.SendString("Salanthe👋! ")
 }

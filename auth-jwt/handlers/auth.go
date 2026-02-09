@@ -6,7 +6,7 @@ import (
 
 	"auth-jwt-gorm/services"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type RegisterRequest struct {
@@ -52,9 +52,9 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 }
 
 // Login get user and password
-func (ah *AuthHandler) Login(c *fiber.Ctx) error {
+func (ah *AuthHandler) Login(c fiber.Ctx) error {
 	var input LoginRequest
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.Bind().Body(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on login request",
@@ -62,7 +62,7 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 		})
 	}
 	// Authenticate the user
-	refreshToken, accessToken, err := ah.authService.LoginWithRefresh(input.Email, input.Password, time.Duration(30*24*time.Hour))
+	accessToken, refreshToken, err := ah.authService.LoginWithRefresh(input.Email, input.Password, 30*24*time.Hour)
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidCredentials) {
 
@@ -98,7 +98,7 @@ func (ah *AuthHandler) Login(c *fiber.Ctx) error {
 	})
 }
 
-func (ah *AuthHandler) Logout(c *fiber.Ctx) error {
+func (ah *AuthHandler) Logout(c fiber.Ctx) error {
 	// Clear cookie
 	c.Cookie(&fiber.Cookie{
 		Name:     "jwt",
@@ -114,9 +114,9 @@ func (ah *AuthHandler) Logout(c *fiber.Ctx) error {
 	})
 }
 
-func (ah *AuthHandler) Register(c *fiber.Ctx) error {
+func (ah *AuthHandler) Register(c fiber.Ctx) error {
 	var input RegisterRequest
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.Bind().Body(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on register request",
@@ -151,9 +151,9 @@ func (ah *AuthHandler) Register(c *fiber.Ctx) error {
 	})
 }
 
-func (ah *AuthHandler) RefreshToken(c *fiber.Ctx) error {
+func (ah *AuthHandler) RefreshToken(c fiber.Ctx) error {
 	var input RefreshRequest
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.Bind().Body(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid request payload",

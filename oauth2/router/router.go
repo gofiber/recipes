@@ -4,19 +4,19 @@ import (
 	"oauth2/handlers"
 	"oauth2/middleware"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 )
 
 // SetupRoutes prepares required routes
 func SetupRoutes(app *fiber.App) {
 	app.Use(cors.New(cors.Config{
 		// attempt to mitigate CORS issues - pay attention to last /
-		AllowOrigins: "http://localhost:8080, http://localhost:8080/, https://api.github.com/user, https://api.github.com/user/,", //
-		AllowHeaders: "Origin, Content-Type, Accept",
-		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+		AllowOrigins: []string{"http://localhost:8080", "http://localhost:8080/", "https://api.github.com/user", "https://api.github.com/user/", ""}, //
+		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
+		AllowMethods: []string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		Next:         nil,
 	}))
 
@@ -27,8 +27,8 @@ func SetupRoutes(app *fiber.App) {
 	app.Use(recover.New())
 
 	// add a standard redirect to the index page
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Redirect("/index.html", fiber.StatusTemporaryRedirect)
+	app.Get("/", func(c fiber.Ctx) error {
+		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 	})
 
 	// return pages from their templates

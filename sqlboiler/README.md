@@ -8,7 +8,7 @@ description: Using Sqlboiler ORM.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/sqlboiler) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/sqlboiler)
 
-> #### 🎯 [Fiber](https://github.com/gofiber/fiber) + [Sqlboiler](https://github.com/volatiletech/sqlboiler) Example
+> #### 🎯 [Fiber](https://github.com/gofiber/fiber) + [Sqlboiler](https://github.com/aarondl/sqlboiler) Example
 
 ## 👀 Usage
 #### 1. Run Postgres
@@ -72,9 +72,9 @@ y
 #### 4. Use sqlboiler
 ###### 1. Install
 ```bash
-# Go 1.16 and above:
-$ go install github.com/volatiletech/sqlboiler/v4@latest
-$ go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@latest
+# Go 1.25 and above:
+$ go install github.com/aarondl/sqlboiler/v4@latest
+$ go install github.com/aarondl/sqlboiler/v4/drivers/sqlboiler-psql@latest
 ```
 ###### 2. Create a configuration file
 > ###### 🎯 The configuration file should be named sqlboiler.toml

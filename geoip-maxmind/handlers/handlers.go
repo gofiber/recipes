@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/oschwald/maxminddb-golang"
 )
 
@@ -36,13 +36,13 @@ func init() {
 }
 
 // GeoIP is a handler for IP address lookups
-func GeoIP(c *fiber.Ctx) error {
+func GeoIP(c fiber.Ctx) error {
 	ipAddr := c.Params("ip", c.IP())
 
 	// Check IP address format
 	ip := net.ParseIP(ipAddr)
 	if ip == nil {
-		return c.Status(400).JSON(map[string]string{"status": "error", "message": "Invalid IP address"})
+		return c.Status(fiber.StatusBadRequest).JSON(map[string]string{"status": "error", "message": "Invalid IP address"})
 	}
 
 	// Perform lookup

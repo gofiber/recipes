@@ -3,6 +3,7 @@ package services
 import (
 	"auth-jwt-gorm/models"
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -75,11 +76,11 @@ func (s *AuthService) generateAccessToken(user *models.User) (string, error) {
 
 	// Create the JWT claims
 	claims := jwt.MapClaims{
-		"sub":      user.ID,      // subject (user ID)
-		"username": user.Username,         // custom claim
-		"email":    user.Email,            // custom claim
-		"exp":      expirationTime.Unix(), // expiration time
-		"iat":      time.Now().Unix(),     // issued at time
+		"sub":      strconv.FormatUint(uint64(user.ID), 10), // subject (user ID)
+		"username": user.Username,                           // custom claim
+		"email":    user.Email,                              // custom claim
+		"exp":      expirationTime.Unix(),                   // expiration time
+		"iat":      time.Now().Unix(),                       // issued at time
 	}
 
 	// Create the token with claims

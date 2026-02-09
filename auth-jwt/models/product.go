@@ -7,11 +7,10 @@ import (
 // Product struct
 type Product struct {
 	gorm.Model
-	Title       string    `gorm:"not null" json:"title"`
-	Description string    `gorm:"not null" json:"description"`
-	Amount      int       `gorm:"not null" json:"amount"`
+	Title       string `gorm:"not null" json:"title"`
+	Description string `gorm:"not null" json:"description"`
+	Amount      int    `gorm:"not null" json:"amount"`
 }
-
 
 type ProductRepository struct {
 	db *gorm.DB
@@ -34,14 +33,13 @@ func (r *ProductRepository) GetAll() ([]Product, error) {
 func (r *ProductRepository) GetById(id string) (*Product, error) {
 	var product Product
 	err := r.db.First(&product, "id = ?", id).Error
-	return &product, err	
+	return &product, err
 }
 
 func (r *ProductRepository) Update(product *Product) error {
 	return r.db.Save(product).Error
-}	
+}
 
 func (r *ProductRepository) Delete(id string) error {
 	return r.db.Delete(&Product{}, "id = ?", id).Error
 }
-

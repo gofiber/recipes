@@ -1,6 +1,6 @@
 package misc
 
-import "github.com/gofiber/fiber/v2"
+import "github.com/gofiber/fiber/v3"
 
 // Create a handler. Leave this empty, as we have no domains nor use-cases.
 type MiscHandler struct{}
@@ -14,7 +14,7 @@ func NewMiscHandler(miscRoute fiber.Router) {
 }
 
 // Check for the health of the API.
-func (h *MiscHandler) healthCheck(c *fiber.Ctx) error {
+func (h *MiscHandler) healthCheck(c fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"status":  "success",
 		"message": "Hello World!",

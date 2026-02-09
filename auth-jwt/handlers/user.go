@@ -4,7 +4,7 @@ import (
 	"auth-jwt-gorm/models"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -39,7 +39,7 @@ func validToken(t *jwt.Token, id string) bool {
 }
 
 // GetUser get a user
-func (uh *UserHandler) GetUser(c *fiber.Ctx) error {
+func (uh *UserHandler) GetUser(c fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return err
@@ -60,9 +60,9 @@ func (uh *UserHandler) GetUser(c *fiber.Ctx) error {
 }
 
 // CreateUser new user
-func (uh *UserHandler) CreateUser(c *fiber.Ctx) error {
+func (uh *UserHandler) CreateUser(c fiber.Ctx) error {
 	var user models.User
-	if err := c.BodyParser(&user); err != nil {
+	if err := c.Bind().Body(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Review your input",
@@ -83,7 +83,7 @@ func (uh *UserHandler) CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Couldn't hash password",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 
@@ -92,7 +92,7 @@ func (uh *UserHandler) CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Couldn't create user",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 
@@ -107,11 +107,11 @@ func (uh *UserHandler) CreateUser(c *fiber.Ctx) error {
 }
 
 // UpdateUser update user
-func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
+func (uh *UserHandler) UpdateUser(c fiber.Ctx) error {
 	var input struct {
 		Names string `json:"names"`
 	}
-	if err := c.BodyParser(&input); err != nil {
+	if err := c.Bind().Body(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Review your input",
@@ -160,7 +160,7 @@ func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
 }
 
 // DeleteUser delete user
-func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
+func (uh *UserHandler) DeleteUser(c fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return err

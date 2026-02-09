@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -18,8 +18,8 @@ func main() {
 	app.Get("/hello", hello)
 
 	// 404 Handler
-	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
+	app.Use(func(c fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusNotFound) // => 404 "Not Found"
 	})
 
 	// Start server
@@ -27,6 +27,6 @@ func main() {
 }
 
 // Handler
-func hello(c *fiber.Ctx) error {
+func hello(c fiber.Ctx) error {
 	return c.SendString("I made a ☕ for you!")
 }

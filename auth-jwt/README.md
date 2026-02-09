@@ -66,14 +66,13 @@ The following endpoints are available in the API:
 - **POST /api/auth/login**: Authenticate a user and return a JWT.
 - **POST /api/auth/logout**: Logout a user and revoke their JWT.
 - **POST /api/auth/refresh-token**: Refreshes a user token and return a JWT.
-- **GET /api/user/:id**: Get a user (requires a valid JWT).
-- **POST /api/user**: Create a new user.
-- **PATCH /api/user/:id**: Update a user (requires a valid JWT).
-- **DELETE /api/user/:id**: Delete a user (requires a valid JWT).
-- **GET /api/product**: Get all products.
-- **GET /api/product/:id**: Get a product.
-- **POST /api/product**: Create a new product (requires a valid JWT).
-- **DELETE /api/product/:id**: Delete a product (requires a valid JWT).
+- **GET /api/users/:id**: Get a user (requires a valid JWT).
+- **PATCH /api/users/:id**: Update a user (requires a valid JWT).
+- **DELETE /api/users/:id**: Delete a user (requires a valid JWT).
+- **GET /api/products**: Get all products.
+- **GET /api/products/:id**: Get a product.
+- **POST /api/products**: Create a new product (requires a valid JWT).
+- **DELETE /api/products/:id**: Delete a product (requires a valid JWT).
 
 ## Example Usage
 
@@ -84,12 +83,12 @@ The following endpoints are available in the API:
 
 2. Login to get a JWT:
     ```bash
-    curl -X POST http://localhost:3000/api/auth/login -d '{"username":"testuser", "password":"testpassword"}' -H "Content-Type: application/json"
+    curl -X POST http://localhost:3000/api/auth/login -d '{"email":"test@example.com", "password":"testpassword"}' -H "Content-Type: application/json"
     ```
 
 3. Access a protected route:
     ```bash
-    curl -H "Authorization: Bearer <JWT>" http://localhost:3000/api/user/1
+    curl -H "Authorization: Bearer <JWT>" http://localhost:3000/api/users/1
     ```
 
 Replace `<JWT>` with the token received from the login endpoint.

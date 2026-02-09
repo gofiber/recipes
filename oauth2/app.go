@@ -15,8 +15,8 @@ import (
 	"oauth2/router"
 
 	"github.com/antigloss/go/logger"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/session"
 	"github.com/gofiber/template/html/v2"
 	"github.com/segmentio/encoding/json"
 )
@@ -32,7 +32,7 @@ func main() {
 
 	models.ClientID = config.Config("CLIENT_ID")
 	models.ClientSecret = config.Config("CLIENT_SECRET")
-	models.MySessionStore = session.New(session.Config{
+	models.MySessionStore = session.NewStore(session.Config{
 		CookieSecure: true,
 	})
 
@@ -66,12 +66,11 @@ func main() {
 
 		// instantiate the application
 		app = fiber.New(fiber.Config{
-			Prefork:          false,            // run in a single thread
 			ServerHeader:     "OAUTH2 tester",  // name the server
 			DisableKeepalive: false,            // <-- must keep alive to have web sockets working
 			JSONEncoder:      json.Marshal,     // use a better JSON library
 			ReadTimeout:      time.Second * 20, // set a timeout to be able to shutdown the application
-			Views:            engine,           // declare templating engine
+			Views:            engine,           // declare templating engine,
 		})
 
 		// prepare routes
@@ -83,7 +82,7 @@ func main() {
 
 	// run server in a separate goroutine
 	go func() {
-		if err := app.Listen(":8080"); err != nil {
+		if err := app.Listen(":8080", fiber.ListenConfig{EnablePrefork: false}); err != nil {
 			models.SYSLOG.Fatal(err)
 		}
 	}()

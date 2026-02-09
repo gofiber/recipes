@@ -6,8 +6,8 @@ import (
 	"gorm-mysql/database"
 	"gorm-mysql/routes"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 )
 
 func setUpRoutes(app *fiber.App) {
@@ -27,8 +27,8 @@ func main() {
 
 	app.Use(cors.New())
 
-	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
+	app.Use(func(c fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusNotFound) // => 404 "Not Found"
 	})
 
 	log.Fatal(app.Listen(":3000"))

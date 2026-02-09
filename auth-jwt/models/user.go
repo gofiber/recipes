@@ -2,6 +2,7 @@ package models
 
 import (
 	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -26,9 +27,9 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 // CreateUser adds a new user to the database
 func (r *UserRepository) CreateUser(email, username, passwordHash string) (*User, error) {
 	user := &User{
-		Email:     email,
-		Username:  username,
-		Password:  passwordHash,
+		Email:    email,
+		Username: username,
+		Password: passwordHash,
 	}
 
 	if err := r.db.Create(user).Error; err != nil {
@@ -64,7 +65,7 @@ func (r *UserRepository) DeleteUser(id uint) error {
 	return nil
 }
 
-func (r *UserRepository) UpdateUser(id uint,updateUser User) (*User, error) {
+func (r *UserRepository) UpdateUser(id uint, updateUser User) (*User, error) {
 	var user User
 	if err := r.db.Where("id = ?", id).First(&user).Error; err != nil {
 		return nil, err
@@ -79,5 +80,3 @@ func (r *UserRepository) UpdateUser(id uint,updateUser User) (*User, error) {
 	}
 	return &user, nil
 }
-
-

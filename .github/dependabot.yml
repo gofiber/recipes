@@ -5,14 +5,17 @@ version: 2
 
 updates:
   - package-ecosystem: "github-actions"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 15
     directory: "/"
     labels:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    open-pull-requests-limit: 30
+    open-pull-requests-limit: 60
+    allow:
+      # Allow both direct and indirect updates for all packages.
+      - dependency-type: "all"
     directories:
       - "**/*"
     labels:
@@ -23,10 +26,32 @@ updates:
       fiber-modules:
         patterns:
           - "github.com/gofiber/fiber/**"
+      fiber-contrib-modules:
+        patterns:
+          - "github.com/gofiber/contrib/**"
+      fiber-utils-modules:
+        patterns:
+          - "github.com/gofiber/utils/**"
+          - "github.com/gofiber/utils"
+      fiber-storage-modules:
+        patterns:
+          - "github.com/gofiber/storage/**"
+      fiber-template-modules:
+        patterns:
+          - "github.com/gofiber/template"
+          - "github.com/gofiber/template/**"
+      fiber-schema-modules:
+        patterns:
+          - "github.com/gofiber/schema"
+          - "github.com/gofiber/schema/**"
       fasthttp-modules:
         patterns:
           - "github.com/valyala/fasthttp"
           - "github.com/valyala/fasthttp/**"
+      mimetype-modules:
+        patterns:
+          - "github.com/gabriel-vasile/mimetype"
+          - "github.com/gabriel-vasile/mimetype/**"
       golang-modules:
         patterns:
           - "golang.org/x/**"
@@ -36,6 +61,9 @@ updates:
       postgres-modules:
         patterns:
           - "github.com/jackc/pgx/**"
+          - "github.com/jackc/pgpassfile"
+          - "github.com/jackc/pgservicefile"
+          - "github.com/jackc/puddle/**"
           - "github.com/lib/pq"
       mysql-modules:
         patterns:
@@ -60,10 +88,21 @@ updates:
       aws-modules:
         patterns:
           - "github.com/aws/**"
+      awslabs-modules:
+        patterns:
+          - "github.com/awslabs/**"
       grpc-modules:
         patterns:
           - "google.golang.org/grpc"
           - "google.golang.org/grpc/**"
+      google-modules:
+        patterns:
+          - "google.golang.org/api"
+          - "google.golang.org/api/**"
+          - "google.golang.org/genproto"
+          - "google.golang.org/genproto/**"
+          - "google.golang.org/protobuf"
+          - "google.golang.org/protobuf/**"
       opentelemetry-modules:
         patterns:
           - "go.opentelemetry.io/**"
@@ -73,22 +112,108 @@ updates:
           - "go.uber.org/zap/**"
           - "github.com/sirupsen/logrus"
           - "github.com/sirupsen/logrus/**"
+      go-logr-modules:
+        patterns:
+          - "github.com/go-logr/**"
+      mattn-modules:
+        patterns:
+          - "github.com/mattn/go-sqlite*"
+          - "github.com/mattn/go-colorable"
+          - "github.com/mattn/go-isatty"
+          - "github.com/mattn/go-runewidth"
+      ebitengine-modules:
+        patterns:
+          - "github.com/ebitengine/**"
+      klauspost-modules:
+        patterns:
+          - "github.com/klauspost/**"
+      tklauser-modules:
+        patterns:
+          - "github.com/tklauser/**"
       spf13-modules:
         patterns:
           - "github.com/spf13/**"
+      philhofer-modules:
+        patterns:
+          - "github.com/philhofer/**"
+      rivo-modules:
+        patterns:
+          - "github.com/rivo/**"
+      tinylib-modules:
+        patterns:
+          - "github.com/tinylib/**"
       gorilla-modules:
         patterns:
           - "github.com/gorilla/**"
       validator-modules:
         patterns:
+          - "github.com/go-playground/**"
+          - "github.com/leodido/go-urn"
           - "github.com/go-playground/validator"
           - "github.com/go-playground/validator/**"
+      brotli-modules:
+        patterns:
+          - "github.com/andybalholm/brotli"
+      xxhash-modules:
+        patterns:
+          - "github.com/cespare/xxhash/**"
+      yaml-modules:
+        patterns:
+          - "gopkg.in/yaml.v3"
+      testcontainers-modules:
+        patterns:
+          - "github.com/testcontainers/**"
       testing-modules:
         patterns:
-          - "github.com/stretchr/testify/**"
+          - "github.com/stretchr/**"
           - "github.com/golang/mock/**"
+      clipperhouse-modules:
+        patterns:
+          - "github.com/clipperhouse/**"
+      snappy-modules:
+        patterns:
+          - "github.com/golang/snappy"
+      cel-modules:
+        patterns:
+          - "cel.dev/**"
+      googleapis-modules:
+        patterns:
+          - "github.com/googleapis/**"
+      envoyproxy-modules:
+        patterns:
+          - "github.com/envoyproxy/**"
+      hashicorp-modules:
+        patterns:
+          - "github.com/hashicorp/**"
+      atlas-modules:
+        patterns:
+          - "ariga.io/**"
+      openapi-modules:
+        patterns:
+          - "github.com/go-openapi/**"
+      google-go-modules:
+        patterns:
+          - "github.com/google/**"
+      go-cty-modules:
+        patterns:
+          - "github.com/zclconf/**"
+      godotenv-modules:
+        patterns:
+          - "github.com/joho/godotenv"
+      gorm-legacy-modules:
+        patterns:
+          - "github.com/jinzhu/**"
+      protobuf-legacy-modules:
+        patterns:
+          - "github.com/golang/protobuf"
+      fasthttp-core-modules:
+        patterns:
+          - "github.com/valyala/bytebufferpool"
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
+    allow:
+      # pnpm transitive update jobs can fail; keep version updates to direct deps.
+      - dependency-type: "direct"
     directories:
       - "**/*"
     labels:
@@ -100,10 +225,16 @@ updates:
         patterns:
           - "svelte"
           - "@sveltejs/**"
+          - "svelte-check"
       tailwind-modules:
         patterns:
           - "tailwindcss"
           - "@tailwindcss/*"
+      postcss-modules:
+        patterns:
+          - "postcss"
+          - "postcss-*"
+          - "autoprefixer"
       typescript-modules:
         patterns:
           - "typescript"

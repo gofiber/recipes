@@ -3,7 +3,7 @@ package handlers
 import (
 	"auth-jwt-gorm/models"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // AuthHandler contains HTTP handlers for authentication
@@ -19,13 +19,13 @@ func NewProductHandler(productRepo *models.ProductRepository) *ProductHandler {
 }
 
 // GetAllProducts query all products
-func (ph *ProductHandler) GetAllProducts(c *fiber.Ctx) error {
+func (ph *ProductHandler) GetAllProducts(c fiber.Ctx) error {
 	products, err := ph.productRepo.GetAll()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Failed to retrieve products",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 
@@ -37,7 +37,7 @@ func (ph *ProductHandler) GetAllProducts(c *fiber.Ctx) error {
 }
 
 // GetProduct query product
-func (ph *ProductHandler) GetProduct(c *fiber.Ctx) error {
+func (ph *ProductHandler) GetProduct(c fiber.Ctx) error {
 	product, err := ph.productRepo.GetById(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -54,9 +54,9 @@ func (ph *ProductHandler) GetProduct(c *fiber.Ctx) error {
 }
 
 // CreateProduct new product
-func (ph *ProductHandler) CreateProduct(c *fiber.Ctx) error {
+func (ph *ProductHandler) CreateProduct(c fiber.Ctx) error {
 	var product models.Product
-	if err := c.BodyParser(&product); err != nil {
+	if err := c.Bind().Body(&product); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Review your input",
@@ -80,7 +80,7 @@ func (ph *ProductHandler) CreateProduct(c *fiber.Ctx) error {
 }
 
 // DeleteProduct delete product
-func (ph *ProductHandler) DeleteProduct(c *fiber.Ctx) error {
+func (ph *ProductHandler) DeleteProduct(c fiber.Ctx) error {
 	product, err := ph.productRepo.GetById(c.Params("id"))
 	if err != nil || product == nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

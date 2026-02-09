@@ -13,14 +13,14 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/awslabs/aws-lambda-go-api-proxy/core"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/utils"
 	"github.com/valyala/fasthttp"
 )
 
 // FiberLambda makes it easy to send API Gateway proxy events to a fiber.App.
 // The library transforms the proxy event into an HTTP request and then
-// creates a proxy response object from the *fiber.Ctx
+// creates a proxy response object from the fiber.Ctx
 type FiberLambda struct {
 	core.RequestAccessor
 	app *fiber.App
