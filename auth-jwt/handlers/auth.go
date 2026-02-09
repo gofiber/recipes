@@ -140,14 +140,47 @@ func (ah *AuthHandler) Login(c fiber.Ctx) error {
 
 func (ah *AuthHandler) Logout(c fiber.Ctx) error {
 	tok, ok := c.Locals("user").(*jwt.Token)
-	if ok {
-		if claims, ok := tok.Claims.(jwt.MapClaims); ok {
-			if sub, ok := claims["sub"].(string); ok {
-				if userID, err := strconv.ParseUint(sub, 10, 64); err == nil {
-					_ = ah.authService.RevokeAllUserRefreshTokens(uint(userID))
-				}
-			}
-		}
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Invalid authentication token",
+			"data":    nil,
+		})
+	}
+
+	claims, ok := tok.Claims.(jwt.MapClaims)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Invalid authentication token claims",
+			"data":    nil,
+		})
+	}
+
+	sub, ok := claims["sub"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Invalid authentication token subject",
+			"data":    nil,
+		})
+	}
+
+	userID, err := strconv.ParseUint(sub, 10, 64)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Invalid authentication token subject",
+			"data":    nil,
+		})
+	}
+
+	if err := ah.authService.RevokeAllUserRefreshTokens(uint(userID)); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Failed to revoke refresh tokens on logout",
+			"data":    nil,
+		})
 	}
 
 	// Clear cookie
