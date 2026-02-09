@@ -6,12 +6,12 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-// AuthHandler contains HTTP handlers for authentication
+// ProductHandler contains HTTP handlers for products.
 type ProductHandler struct {
 	productRepo *models.ProductRepository
 }
 
-// NewAuthHandler creates a new auth handler
+// NewProductHandler creates a new product handler.
 func NewProductHandler(productRepo *models.ProductRepository) *ProductHandler {
 	return &ProductHandler{
 		productRepo: productRepo,
@@ -68,7 +68,7 @@ func (ph *ProductHandler) CreateProduct(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Couldn't create product",
-			"data":    err,
+			"data":    nil,
 		})
 	}
 

@@ -2,11 +2,15 @@ package handlers
 
 import (
 	"errors"
+	"net/mail"
+	"strconv"
+	"strings"
 	"time"
 
 	"auth-jwt-gorm/services"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type RegisterRequest struct {
@@ -36,7 +40,8 @@ type RefreshRequest struct {
 }
 
 type RefreshResponse struct {
-	Token string `json:"token"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 // AuthHandler contains HTTP handlers for authentication
@@ -51,6 +56,38 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 	}
 }
 
+func getAccessTokenExpiry(token string) time.Time {
+	expiration := time.Now().Add(15 * time.Minute)
+	parser := new(jwt.Parser)
+	claims := jwt.MapClaims{}
+
+	if _, _, err := parser.ParseUnverified(token, claims); err != nil {
+		return expiration
+	}
+
+	exp, ok := claims["exp"].(float64)
+	if !ok || exp <= 0 {
+		return expiration
+	}
+	return time.Unix(int64(exp), 0)
+}
+
+func setJWTCookie(c fiber.Ctx, token string) {
+	c.Cookie(&fiber.Cookie{
+		Name:     "jwt",
+		Value:    token,
+		Expires:  getAccessTokenExpiry(token),
+		HTTPOnly: true,
+		Secure:   c.Protocol() == "https",
+		SameSite: "Lax",
+	})
+}
+
+func isValidEmail(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
+}
+
 // Login get user and password
 func (ah *AuthHandler) Login(c fiber.Ctx) error {
 	var input LoginRequest
@@ -58,6 +95,14 @@ func (ah *AuthHandler) Login(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on login request",
+			"data":    nil,
+		})
+	}
+
+	if strings.TrimSpace(input.Email) == "" || strings.TrimSpace(input.Password) == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Email and password are required",
 			"data":    nil,
 		})
 	}
@@ -81,12 +126,7 @@ func (ah *AuthHandler) Login(c fiber.Ctx) error {
 		}
 	}
 
-	c.Cookie(&fiber.Cookie{
-		Name:     "jwt",
-		Value:    accessToken,
-		Expires:  time.Now().Add(time.Hour * 72),
-		HTTPOnly: true,
-	})
+	setJWTCookie(c, accessToken)
 
 	// Return the token
 	response := LoginResponse{AccessToken: accessToken, RefreshToken: refreshToken}
@@ -99,12 +139,25 @@ func (ah *AuthHandler) Login(c fiber.Ctx) error {
 }
 
 func (ah *AuthHandler) Logout(c fiber.Ctx) error {
+	tok, ok := c.Locals("user").(*jwt.Token)
+	if ok {
+		if claims, ok := tok.Claims.(jwt.MapClaims); ok {
+			if sub, ok := claims["sub"].(string); ok {
+				if userID, err := strconv.ParseUint(sub, 10, 64); err == nil {
+					_ = ah.authService.RevokeAllUserRefreshTokens(uint(userID))
+				}
+			}
+		}
+	}
+
 	// Clear cookie
 	c.Cookie(&fiber.Cookie{
 		Name:     "jwt",
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: true,
+		Secure:   c.Protocol() == "https",
+		SameSite: "Lax",
 	})
 
 	return c.JSON(fiber.Map{
@@ -120,6 +173,20 @@ func (ah *AuthHandler) Register(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Error on register request",
+			"data":    nil,
+		})
+	}
+	if strings.TrimSpace(input.Email) == "" || strings.TrimSpace(input.Username) == "" || strings.TrimSpace(input.Password) == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Email, username, and password are required",
+			"data":    nil,
+		})
+	}
+	if !isValidEmail(input.Email) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Invalid email",
 			"data":    nil,
 		})
 	}
@@ -140,6 +207,7 @@ func (ah *AuthHandler) Register(c fiber.Ctx) error {
 	}
 
 	newUser := RegisterResponse{
+		Id:       strconv.FormatUint(uint64(user.ID), 10),
 		Email:    user.Email,
 		Username: user.Username,
 	}
@@ -160,7 +228,7 @@ func (ah *AuthHandler) RefreshToken(c fiber.Ctx) error {
 			"data":    nil,
 		})
 	}
-	token, err := ah.authService.RefreshAccessToken(input.RefreshToken)
+	token, newRefreshToken, err := ah.authService.RefreshAccessToken(input.RefreshToken)
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidToken) || errors.Is(err, services.ErrExpiredToken) {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -177,14 +245,9 @@ func (ah *AuthHandler) RefreshToken(c fiber.Ctx) error {
 		}
 	}
 	// Clear cookie
-	c.Cookie(&fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 72),
-		HTTPOnly: true,
-	})
+	setJWTCookie(c, token)
 
-	response := RefreshResponse{Token: token}
+	response := RefreshResponse{Token: token, RefreshToken: newRefreshToken}
 
 	return c.JSON(fiber.Map{
 		"status":  "success",

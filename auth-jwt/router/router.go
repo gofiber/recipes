@@ -7,6 +7,7 @@ import (
 	"auth-jwt-gorm/models"
 	"auth-jwt-gorm/services"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v3"
@@ -28,8 +29,8 @@ func SetupRoutes(app *fiber.App) {
 	}
 	accessTTL := 15 * time.Minute
 	if ttlEnv := os.Getenv("ACCESS_TOKEN_TTL_MINUTES"); ttlEnv != "" {
-		if ttl, err := time.ParseDuration(ttlEnv + "m"); err == nil {
-			accessTTL = ttl
+		if ttlMinutes, err := strconv.Atoi(ttlEnv); err == nil && ttlMinutes > 0 {
+			accessTTL = time.Duration(ttlMinutes) * time.Minute
 		}
 	}
 	authService := services.NewAuthService(userRepo, refreshTokenRepo, jwtSecret, accessTTL)
@@ -38,11 +39,11 @@ func SetupRoutes(app *fiber.App) {
 	auth := api.Group("/auth")
 	auth.Post("/login", authHandler.Login)
 	auth.Post("/register", authHandler.Register)
-	auth.Post("/logout", authHandler.Logout)
+	auth.Post("/logout", middleware.Protected(), authHandler.Logout)
 	auth.Post("/refresh-token", authHandler.RefreshToken)
 
 	// User
-	userHandler := handlers.NewUserHandler(userRepo)
+	userHandler := handlers.NewUserHandler(userRepo, refreshTokenRepo)
 	user := api.Group("/users")
 	user.Get("/:id", middleware.Protected(), userHandler.GetUser)
 	user.Patch("/:id", middleware.Protected(), userHandler.UpdateUser)

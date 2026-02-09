@@ -56,3 +56,11 @@ func (r *RefreshTokenRepository) RevokeRefreshToken(tokenString string) error {
 	}
 	return nil
 }
+
+// RevokeAllUserTokens marks all refresh tokens for a user as revoked.
+func (r *RefreshTokenRepository) RevokeAllUserTokens(userId uint) error {
+	if err := r.db.Model(&RefreshToken{}).Where("user_id = ?", userId).Update("revoked", true).Error; err != nil {
+		return err
+	}
+	return nil
+}

@@ -11,9 +11,16 @@ type User struct {
 	gorm.Model
 	Username  string     `gorm:"uniqueIndex;not null" json:"username"`
 	Email     string     `gorm:"uniqueIndex;not null" json:"email"`
-	Password  string     `gorm:"not null" json:"password"`
+	Password  string     `gorm:"not null" json:"-"`
 	Names     string     `json:"names"`
 	LastLogin *time.Time `json:"last_login"`
+}
+
+// CreateUserRequest contains request payload fields for user creation.
+type CreateUserRequest struct {
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type UserRepository struct {
@@ -75,6 +82,20 @@ func (r *UserRepository) UpdateUser(id uint, updateUser User) (*User, error) {
 	user.Password = updateUser.Password
 	user.Names = updateUser.Names
 
+	if err := r.db.Save(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+// UpdateNames updates the names field for a user and returns the updated user.
+func (r *UserRepository) UpdateNames(id uint, names string) (*User, error) {
+	var user User
+	if err := r.db.Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+
+	user.Names = names
 	if err := r.db.Save(&user).Error; err != nil {
 		return nil, err
 	}

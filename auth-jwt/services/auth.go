@@ -3,6 +3,7 @@ package services
 import (
 	"auth-jwt-gorm/models"
 	"errors"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -27,6 +28,10 @@ type AuthService struct {
 
 // NewAuthService creates a new authentication service
 func NewAuthService(userRepo *models.UserRepository, refreshTokenRepo *models.RefreshTokenRepository, jwtSecret string, accessTokenTTL time.Duration) *AuthService {
+	if jwtSecret == "" {
+		panic("jwt secret must not be empty")
+	}
+
 	return &AuthService{
 		userRepo:         userRepo,
 		refreshTokenRepo: refreshTokenRepo,
@@ -149,35 +154,57 @@ func (s *AuthService) LoginWithRefresh(email, password string, refreshTokenTTL t
 	return accessToken, token.Token, nil
 }
 
-// RefreshAccessToken creates a new access token using a refresh token
-func (s *AuthService) RefreshAccessToken(refreshTokenString string) (string, error) {
+// RefreshAccessToken creates a new access token using a refresh token and rotates the refresh token.
+func (s *AuthService) RefreshAccessToken(refreshTokenString string) (accessToken string, refreshToken string, err error) {
 	// Retrieve the refresh token
 	token, err := s.refreshTokenRepo.GetRefreshToken(refreshTokenString)
 	if err != nil {
-		return "", ErrInvalidToken
+		return "", "", ErrInvalidToken
 	}
 
 	// Check if the token is valid
 	if token.Revoked {
-		return "", ErrInvalidToken
+		return "", "", ErrInvalidToken
 	}
 
 	// Check if the token has expired
 	if time.Now().After(token.ExpiresAt) {
-		return "", ErrExpiredToken
+		return "", "", ErrExpiredToken
 	}
 
 	// Get the user
 	user, err := s.userRepo.GetUserByID(token.UserId)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// Generate a new access token
-	accessToken, err := s.generateAccessToken(user)
+	accessToken, err = s.generateAccessToken(user)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	return accessToken, nil
+	remainingTTL := time.Until(token.ExpiresAt)
+	if remainingTTL <= 0 {
+		return "", "", ErrExpiredToken
+	}
+
+	if err := s.refreshTokenRepo.RevokeRefreshToken(refreshTokenString); err != nil {
+		return "", "", err
+	}
+
+	newToken, err := s.refreshTokenRepo.CreateRefreshToken(user.ID, remainingTTL)
+	if err != nil {
+		return "", "", err
+	}
+
+	return accessToken, newToken.Token, nil
+}
+
+// RevokeAllUserRefreshTokens revokes all refresh tokens for a user.
+func (s *AuthService) RevokeAllUserRefreshTokens(userID uint) error {
+	if err := s.refreshTokenRepo.RevokeAllUserTokens(userID); err != nil {
+		return fmt.Errorf("failed to revoke refresh tokens: %w", err)
+	}
+	return nil
 }

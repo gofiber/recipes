@@ -65,7 +65,7 @@ The following endpoints are available in the API:
 - **POST /api/auth/register**: Register a new user.
 - **POST /api/auth/login**: Authenticate a user and return a JWT.
 - **POST /api/auth/logout**: Logout a user and revoke their JWT.
-- **POST /api/auth/refresh-token**: Refreshes a user token and return a JWT.
+- **POST /api/auth/refresh-token**: Refreshes a user token and returns a JWT.
 - **GET /api/users/:id**: Get a user (requires a valid JWT).
 - **PATCH /api/users/:id**: Update a user (requires a valid JWT).
 - **DELETE /api/users/:id**: Delete a user (requires a valid JWT).

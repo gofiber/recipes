@@ -33,7 +33,10 @@ func (r *ProductRepository) GetAll() ([]Product, error) {
 func (r *ProductRepository) GetById(id string) (*Product, error) {
 	var product Product
 	err := r.db.First(&product, "id = ?", id).Error
-	return &product, err
+	if err != nil {
+		return nil, err
+	}
+	return &product, nil
 }
 
 func (r *ProductRepository) Update(product *Product) error {
