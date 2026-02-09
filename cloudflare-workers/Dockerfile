@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.24-alpine AS build
+ARG GO_VERSION=1.25.5
+FROM golang:${GO_VERSION}-alpine AS build
 
 # Set destination for COPY
 WORKDIR /app
@@ -18,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -o /server
 
 # Use distroless for minimal attack surface
-FROM gcr.io/distroless/static-debian12:latest
+FROM gcr.io/distroless/static-debian12@sha256:e6182b8855909d393b179153deacc16325519388f34ed539757189a29d01070e
 
 # Copy the binary
 COPY --from=build /server /server

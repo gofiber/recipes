@@ -1,4 +1,12 @@
+---
+title: Cloudflare Container Workers with Go Fiber
+keywords: [cloudflare, container, worker, edge]
+description: Run a Go Fiber v3 app in a Cloudflare Container Worker with a Worker proxy.
+---
+
 # Cloudflare Container Workers with Go Fiber
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/cloudflare-workers) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/cloudflare-workers)
 
 This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fiber) with [Cloudflare Container Workers](https://developers.cloudflare.com/containers/).
 
@@ -13,30 +21,33 @@ This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fi
 ## Prerequisites
 
 - Bun
-- Go 1.24+
+- Go 1.25+
 - Wrangler CLI
 - Cloudflare account with Container Workers access
 
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
 bun install
 ```
 
 2. Run locally:
+
 ```bash
 bun run dev
 ```
 
 3. Deploy to Cloudflare:
+
 ```bash
 bun run deploy
 ```
 
 ## Project Structure
 
-```
+```text
 .
 ├── src/index.ts           # Worker entry point
 ├── container_src/
@@ -49,14 +60,14 @@ bun run deploy
 
 ## How it Works
 
-1. The Worker (TypeScript) receives HTTP requests
-2. Requests are forwarded to the Go Fiber container
-3. The container responds with JSON data including environment variables
+1. The Worker (TypeScript) receives HTTP requests.
+2. Requests are forwarded to the Go Fiber container.
+3. The container responds with JSON data, including environment variables.
 
 ## Container Configuration
 
 The container is configured with:
-- 2 minute sleep timeout for inactivity
+- 2-minute sleep timeout for inactivity
 - Environment variable `MESSAGE` passed from the container class
 - Port 8080 (default)
 

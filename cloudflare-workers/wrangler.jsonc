@@ -19,9 +19,9 @@
 			"image": "./Dockerfile",
 			"max_instances": 10,
 			"name": "hello-containers",
-      // instance types: https://developers.cloudflare.com/containers/platform-details/#instance-types
-      "instance_type": "basic"
-    }
+			// instance types: https://developers.cloudflare.com/containers/platform-details/#instance-types
+			"instance_type": "basic"
+		}
 	],
 	"durable_objects": {
 		"bindings": [
