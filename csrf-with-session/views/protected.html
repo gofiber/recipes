@@ -1,6 +1,9 @@
 	<h1>Protected Content</h1>
 	<p>Welcome to the protected route. You are logged in.</p>
-	<p><a href="/logout">Logout</a></p>
+	<form method="POST" action="/logout" style="display: inline; background: none; box-shadow: none;">
+		<input type="hidden" name="csrf" value="{{ .csrf }}">
+		<button type="submit" style="margin: 0;">Logout</button>
+	</form>
 	<hr>
 	<h3>CSRF Form</h3>
 	<form method="POST" action="/protected">
