@@ -8,7 +8,7 @@ require (
 	github.com/aarondl/strmangle v0.0.9
 	github.com/friendsofgo/errors v0.9.2
 	github.com/gofiber/fiber/v3 v3.0.0
-	github.com/lib/pq v1.11.1
+	github.com/lib/pq v1.11.2
 )
 
 require (
