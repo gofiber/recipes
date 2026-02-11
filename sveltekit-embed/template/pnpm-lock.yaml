@@ -42,8 +42,8 @@ importers:
         specifier: ^10.1.8
         version: 10.1.8(eslint@10.0.0)
       eslint-plugin-svelte:
-        specifier: ^3.14.0
-        version: 3.14.0(eslint@10.0.0)(svelte@5.50.1)
+        specifier: ^3.15.0
+        version: 3.15.0(eslint@10.0.0)(svelte@5.50.1)
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
@@ -678,11 +678,11 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-svelte@3.14.0:
-    resolution: {integrity: sha512-Isw0GvaMm0yHxAj71edAdGFh28ufYs+6rk2KlbbZphnqZAzrH3Se3t12IFh2H9+1F/jlDhBBL4oiOJmLqmYX0g==}
+  eslint-plugin-svelte@3.15.0:
+    resolution: {integrity: sha512-QKB7zqfuB8aChOfBTComgDptMf2yxiJx7FE04nneCmtQzgTHvY8UJkuh8J2Rz7KB9FFV9aTHX6r7rdYGvG8T9Q==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.1 || ^9.0.0
+      eslint: ^8.57.1 || ^9.0.0 || ^10.0.0
       svelte: ^3.37.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       svelte:
@@ -1671,7 +1671,7 @@ snapshots:
     dependencies:
       eslint: 10.0.0
 
-  eslint-plugin-svelte@3.14.0(eslint@10.0.0)(svelte@5.50.1):
+  eslint-plugin-svelte@3.15.0(eslint@10.0.0)(svelte@5.50.1):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.0.0)
       '@jridgewell/sourcemap-codec': 1.5.5
