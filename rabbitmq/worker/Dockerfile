@@ -1,5 +1,5 @@
 
-FROM golang:1.25 AS builder
+FROM golang:1.26 AS builder
 
 # Move to working directory (/build).
 WORKDIR /build
