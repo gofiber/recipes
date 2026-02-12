@@ -4,16 +4,14 @@ go 1.25.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.0.0
-	github.com/zeimedee/go-postgres v0.0.0-20210622135935-cc5834be70dd
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.1
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
-	github.com/gofiber/fiber/v2 v2.13.0 // indirect
 	github.com/gofiber/schema v1.7.0 // indirect
-	github.com/gofiber/utils/v2 v2.0.0 // indirect
+	github.com/gofiber/utils/v2 v2.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect

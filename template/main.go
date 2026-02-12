@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/template/django/v3"
+	"github.com/gofiber/template/django/v4"
 )
 
 func main() {

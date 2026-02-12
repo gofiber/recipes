@@ -9,11 +9,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	firebase "firebase.google.com/go"
 	"github.com/gofiber/fiber/v3"
 	"github.com/joho/godotenv"
-	gofiberfirebaseauth "github.com/sacsand/gofiber-firebaseauth"
 	"google.golang.org/api/option"
 )
 
@@ -37,20 +37,47 @@ func main() {
 
 	// Initialize the firebase app.
 	opt := option.WithCredentialsFile(serviceAccount)
-	fireApp, _ := firebase.NewApp(context.Background(), nil, opt)
+	fireApp, err := firebase.NewApp(context.Background(), nil, opt)
+	if err != nil {
+		log.Fatalf("failed to initialize firebase app: %v", err)
+	}
+
+	authClient, err := fireApp.Auth(context.Background())
+	if err != nil {
+		log.Fatalf("failed to initialize firebase auth client: %v", err)
+	}
 
 	// Unauthenticated routes
 	app.Get("/salaanthe", salanthe)
 
-	// Initialize the middleware with config. See https://github.com/sacsand/gofiber-firebaseauth for more configuration options.
-	app.Use(gofiberfirebaseauth.New(gofiberfirebaseauth.Config{
-		// Firebase Authentication App Object
-		// Mandatory
-		FirebaseApp: fireApp,
-		// Ignore urls array.
-		// Optional. These url will ignore by middleware
-		IgnoreUrls: []string{"GET::/salut", "POST::/ciao"},
-	}))
+	ignoreRoutes := map[string]struct{}{
+		"GET::/salut":     {},
+		"POST::/ciao":     {},
+		"GET::/salaanthe": {},
+	}
+	app.Use(func(c fiber.Ctx) error {
+		if _, ok := ignoreRoutes[c.Method()+"::"+c.Path()]; ok {
+			return c.Next()
+		}
+
+		authHeader := c.Get("Authorization")
+		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+			return c.Status(fiber.StatusUnauthorized).SendString("Missing or invalid Authorization header")
+		}
+
+		idToken := strings.TrimSpace(strings.TrimPrefix(authHeader, "Bearer "))
+		if idToken == "" {
+			return c.Status(fiber.StatusUnauthorized).SendString("Missing bearer token")
+		}
+
+		token, err := authClient.VerifyIDToken(context.Background(), idToken)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).SendString("Invalid token")
+		}
+
+		c.Locals("user", token.Claims)
+		return c.Next()
+	})
 
 	// Authenticaed Routes.
 	app.Get("/hello", hello)

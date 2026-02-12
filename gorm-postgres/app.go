@@ -5,8 +5,8 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
-	"github.com/zeimedee/go-postgres/database"
-	"github.com/zeimedee/go-postgres/routes"
+	"gorm-postgres/database"
+	"gorm-postgres/routes"
 )
 
 func setUpRoutes(app *fiber.App) {
