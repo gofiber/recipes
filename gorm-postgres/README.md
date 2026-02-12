@@ -57,7 +57,7 @@ package main
 
 import (
     "log"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
 )
@@ -79,11 +79,11 @@ func main() {
 
     app := fiber.New()
 
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.SendString("Hello, GORM with PostgreSQL!")
     })
 
-    app.Post("/users", func(c *fiber.Ctx) error {
+    app.Post("/users", func(c fiber.Ctx) error {
         user := new(User)
         if err := c.BodyParser(user); err != nil {
             return c.Status(fiber.StatusBadRequest).SendString(err.Error())

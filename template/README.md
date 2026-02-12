@@ -60,8 +60,8 @@ Here is an example of how to set up a basic route with template rendering in Go:
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/template/html/v2"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/template/html/v3"
 )
 
 func main() {
@@ -74,7 +74,7 @@ func main() {
     })
 
     // Define a route
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.Render("index", fiber.Map{
             "Title": "Hello, World!",
         })

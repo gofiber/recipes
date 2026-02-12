@@ -34,7 +34,7 @@ package src
 import (
  "example.com/GofiberFirebaseBoilerplate/src/routes"
 
- "github.com/gofiber/fiber/v2"
+ "github.com/gofiber/fiber/v3"
 )
 
 func CreateServer() *fiber.App {
@@ -45,7 +45,7 @@ func CreateServer() *fiber.App {
   AppName:      "Gofiber Firebase Boilerplate " + version,
  })
 
- app.Get("/", func(c *fiber.Ctx) error {
+ app.Get("/", func(c fiber.Ctx) error {
   return c.SendString("Gofiber Firebase Boilerplate " + version)
  })
 
@@ -66,7 +66,7 @@ import (
  "example.com/GofiberFirebaseBoilerplate/src/database"
  "example.com/GofiberFirebaseBoilerplate/src/repositories"
 
- "github.com/gofiber/fiber/v2"
+ "github.com/gofiber/fiber/v3"
 )
 
 type Routes struct {
@@ -82,7 +82,7 @@ func (r *Routes) Setup(app *fiber.App) {
  app.Post("message", r.insertMessage)
 }
 
-func (r *Routes) insertMessage(c *fiber.Ctx) error {
+func (r *Routes) insertMessage(c fiber.Ctx) error {
  return c.SendString("ok")
 }
 ```
@@ -207,8 +207,8 @@ package app
 import (
 	"net/http"
 
-	"github.com/gofiber/fiber/v2"
-	adaptor "github.com/gofiber/fiber/v2/middleware/adaptor"
+	"github.com/gofiber/fiber/v3"
+	adaptor "github.com/gofiber/fiber/v3/middleware/adaptor"
 )
 
 // CloudFunctionRouteToFiber route cloud function http.Handler to *fiber.App
@@ -232,7 +232,7 @@ import (
  "strings"
 
  "example.com/GofiberFirebaseBoilerplate/src"
- "github.com/gofiber/fiber/v2"
+ "github.com/gofiber/fiber/v3"
 )
 
 var app *fiber.App

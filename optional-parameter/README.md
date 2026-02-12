@@ -45,13 +45,13 @@ Here is an example of how to handle optional parameters in a Fiber application:
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {
     app := fiber.New()
 
-    app.Get("/user/:id?", func(c *fiber.Ctx) error {
+    app.Get("/user/:id?", func(c fiber.Ctx) error {
         id := c.Params("id", "defaultID")
         return c.SendString("User ID: " + id)
     })

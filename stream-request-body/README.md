@@ -45,7 +45,7 @@ Here is an example of how to handle a streaming request body in Go using Fiber:
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "io"
     "log"
 )
@@ -53,7 +53,7 @@ import (
 func main() {
     app := fiber.New()
 
-    app.Post("/upload", func(c *fiber.Ctx) error {
+    app.Post("/upload", func(c fiber.Ctx) error {
         // Open a file to write the streamed data
         file, err := os.Create("uploaded_file")
         if err != nil {

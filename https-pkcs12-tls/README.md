@@ -56,7 +56,7 @@ import (
     "io/ioutil"
     "log"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "golang.org/x/crypto/pkcs12"
 )
 
@@ -94,7 +94,7 @@ func main() {
     app := fiber.New()
 
     // Routes
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.SendString("Hello, HTTPS with PKCS12 TLS!")
     })
 

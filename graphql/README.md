@@ -54,7 +54,7 @@ package main
 
 import (
     "log"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "github.com/99designs/gqlgen/graphql/handler"
     "github.com/99designs/gqlgen/graphql/playground"
 )
@@ -64,12 +64,12 @@ func main() {
 
     srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver{}}))
 
-    app.All("/graphql", func(c *fiber.Ctx) error {
+    app.All("/graphql", func(c fiber.Ctx) error {
         srv.ServeHTTP(c.Context().ResponseWriter(), c.Context().Request)
         return nil
     })
 
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         playground.Handler("GraphQL playground", "/graphql").ServeHTTP(c.Context().ResponseWriter(), c.Context().Request)
         return nil
     })

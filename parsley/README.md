@@ -86,7 +86,7 @@ The `ConfigureFiber` function sets up the Fiber application and registers it as 
 package modules
 
 import (
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "github.com/matzefriedrich/parsley/pkg/registration"
     "github.com/matzefriedrich/parsley/pkg/types"
 )
@@ -173,7 +173,7 @@ import (
 
     "github.com/gofiber/recipes/parsley-app/internal/services"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
 )
 
 type greeterRouteHandler struct {
@@ -186,7 +186,7 @@ func (h *greeterRouteHandler) Register(app *fiber.App) {
     app.Get("/say-hello", h.HandleSayHelloRequest)
 }
 
-func (h *greeterRouteHandler) HandleSayHelloRequest(ctx *fiber.Ctx) error {
+func (h *greeterRouteHandler) HandleSayHelloRequest(ctx fiber.Ctx) error {
 
     name := ctx.Query("name")
 

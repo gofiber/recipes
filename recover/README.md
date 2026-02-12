@@ -45,8 +45,8 @@ Here is an example of how to set up the `Recover` middleware in a Fiber applicat
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/recover"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/recover"
 )
 
 func main() {
@@ -55,7 +55,7 @@ func main() {
     // Use the Recover middleware
     app.Use(recover.New())
 
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         // This will cause a panic
         panic("something went wrong")
     })

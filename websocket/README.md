@@ -75,7 +75,7 @@ func main() {
     app := fiber.New()
 
     // Optional middleware
-    app.Use("/ws", func(c *fiber.Ctx) error {
+    app.Use("/ws", func(c fiber.Ctx) error {
         if c.Get("host") == "localhost:3000" {
             c.Locals("Host", "Localhost:3000")
             return c.Next()

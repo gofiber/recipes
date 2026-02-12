@@ -151,13 +151,13 @@ import (
     "clean-architecture/pkg/book"
     "clean-architecture/pkg/entities"
     "clean-architecture/api/presenter"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "net/http"
     "errors"
 )
 
 func AddBook(service book.Service) fiber.Handler {
-    return func(c *fiber.Ctx) error {
+    return func(c fiber.Ctx) error {
         var requestBody entities.Book
         err := c.BodyParser(&requestBody)
         if err != nil {
@@ -185,7 +185,7 @@ package main
 import (
     "clean-architecture/api/routes"
     "clean-architecture/pkg/book"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {

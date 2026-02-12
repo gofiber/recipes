@@ -69,8 +69,8 @@ Here is an example of how to set up a basic route in the Fiber backend to serve 
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/logger"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/logger"
 )
 
 func main() {
@@ -83,7 +83,7 @@ func main() {
     app.Static("/", "./frontend/dist")
 
     // API routes
-    app.Get("/api/hello", func(c *fiber.Ctx) error {
+    app.Get("/api/hello", func(c fiber.Ctx) error {
         return c.JSON(fiber.Map{"message": "Hello, World!"})
     })
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # parallel-go-build.sh
 # Recursively find go.mod files and run `go build ./...` in each module directory.
+# Optional: run with `-i` to execute `go mod tidy` and `go mod vendor` per module before build.
 # - truncates build-errors.log at start
 # - appends failures immediately, annotated with source line + 1-line context
 # - runs in parallel (jobs = CPU cores)
@@ -12,6 +13,33 @@ IFS=$'\n\t'
 
 JOBS="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 4)"
 LOGFILE="build-errors.log"
+INPLACE_SYNC=0
+
+usage() {
+  cat <<'EOF'
+Usage: parallel-go-build.sh [-i] [-h]
+
+Options:
+  -i    Run `go mod tidy` and `go mod vendor` in each module before build.
+  -h    Show this help.
+EOF
+}
+
+while getopts ":ih" opt; do
+  case "$opt" in
+    i) INPLACE_SYNC=1 ;;
+    h)
+      usage
+      exit 0
+      ;;
+    \?)
+      printf 'Unknown option: -%s\n' "$OPTARG" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
 
 # Colors (only if stdout is a tty)
 if [ -t 1 ]; then
@@ -189,6 +217,22 @@ run_build() {
 
 # main launcher: spawn jobs, throttle to JOBS, wait properly
 fail_count=0
+
+if [ "$INPLACE_SYNC" -eq 1 ]; then
+  printf '%b\n' "${YELLOW}Running module sync (go mod tidy && go mod vendor) before build...${RESET}"
+  for md in "${MODULE_DIRS[@]}"; do
+    safe="$(sanitize_name "$md")"
+    init_log="$TMPDIR/${safe}.init.log"
+    if ( cd "$md" 2>/dev/null && go mod tidy && go mod vendor ) >"$init_log" 2>&1; then
+      printf '%b\n' "${GREEN}SYNC: ${RESET}$md"
+      rm -f "$init_log" >/dev/null 2>&1 || true
+    else
+      printf '%b\n' "${RED}SYNC FAIL: ${RESET}$md (appending to $LOGFILE)"
+      annotate_and_append "$init_log" "$md"
+      fail_count=$((fail_count+1))
+    fi
+  done
+fi
 
 for md in "${MODULE_DIRS[@]}"; do
   run_build "$md" &

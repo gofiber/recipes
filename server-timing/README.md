@@ -45,14 +45,14 @@ Here is an example of how to set up Server-Timing headers in a Fiber application
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "time"
 )
 
 func main() {
     app := fiber.New()
 
-    app.Use(func(c *fiber.Ctx) error {
+    app.Use(func(c fiber.Ctx) error {
         start := time.Now()
         err := c.Next()
         duration := time.Since(start)
@@ -60,7 +60,7 @@ func main() {
         return err
     })
 
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.SendString("Hello, World!")
     })
 

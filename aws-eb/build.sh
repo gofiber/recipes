@@ -5,7 +5,7 @@
 #   (except in until or while loops, if-tests, list constructs)
 
 # Get dependencies
-go get -u github.com/gofiber/fiber/v2
+go get -u github.com/gofiber/fiber/v3
 
 # Build the binary
 go build -o application application.go

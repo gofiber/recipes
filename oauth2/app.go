@@ -17,7 +17,7 @@ import (
 	"github.com/antigloss/go/logger"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/session"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gofiber/template/html/v3"
 	"github.com/segmentio/encoding/json"
 )
 

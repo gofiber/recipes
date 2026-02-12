@@ -53,7 +53,7 @@ import (
     "database/sql"
     "log"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     _ "github.com/lib/pq"
 )
 
@@ -70,7 +70,7 @@ func main() {
     app := fiber.New()
 
     // Routes
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         var greeting string
         err := db.QueryRow("SELECT 'Hello, World!'").Scan(&greeting)
         if err != nil {

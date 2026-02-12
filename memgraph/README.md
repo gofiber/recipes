@@ -17,7 +17,7 @@ Go is an obvious prerequisite. Make sure it is installed and configured properly
 After that you need two Go packages: Fiber and Neo4j driver for Go. You can install them with the following commands:
 
 ```
-go get -u github.com/gofiber/fiber/v2
+go get -u github.com/gofiber/fiber/v3
 go get github.com/neo4j/neo4j-go-driver/v5
 ```
 

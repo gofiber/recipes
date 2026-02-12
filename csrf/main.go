@@ -11,7 +11,7 @@ import (
 	"main/routes"
 
 	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gofiber/template/html/v3"
 )
 
 //go:embed views/*

@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/static"
 
 	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gofiber/template/html/v3"
 
 	"geoip/handlers"
 )

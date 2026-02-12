@@ -45,7 +45,7 @@ Here is an example of how to create an RSS feed in a Fiber application:
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "github.com/gorilla/feeds"
     "time"
 )
@@ -53,7 +53,7 @@ import (
 func main() {
     app := fiber.New()
 
-    app.Get("/rss", func(c *fiber.Ctx) error {
+    app.Get("/rss", func(c fiber.Ctx) error {
         feed := &feeds.Feed{
             Title:       "Example RSS Feed",
             Link:        &feeds.Link{Href: "http://example.com/rss"},

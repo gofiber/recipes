@@ -53,7 +53,7 @@ import (
     "log"
     "time"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -76,7 +76,7 @@ func main() {
     app := fiber.New()
 
     // Routes
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.SendString("Hello, MongoDB!")
     })
 
