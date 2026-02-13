@@ -30,7 +30,7 @@ Ensure you have the following installed:
 2. Install dependencies:
     
     ```sh
-    go get
+    go mod tidy
     ```
 
 3. Create a Seenode account and connect your repository:
@@ -65,7 +65,7 @@ import (
     "fmt"
     "log"
     "os"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {
