@@ -57,7 +57,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [I18n](./i18n/README.md) - Internationalization support.
 - [JWT](./jwt/README.md) - Using JSON Web Tokens (JWT) for authentication.
 - [Kubernetes](./k8s/README.md) - Deploying applications to Kubernetes.
-- [Todo App + Auth + GORM + Testcontainers](./local-development-testcontainers/README.md) - A Todo application with authentication using GORM and Postgres.
 - [Memgraph](./memgraph/README.md) - Using Memgraph.
 - [MinIO](./minio/README.md) - A simple application for uploading and downloading files from MinIO.
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
@@ -74,6 +73,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
+- [Seenode](./seenode/README.md) - Deploying to Seenode cloud platform.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
@@ -88,7 +88,8 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Tableflip Example](./tableflip/README.md) - Use tableflip for graceful upgrades in a Go application.
 - [Template](./template/README.md) - Setting up a Go application with template rendering.
 - [Template Asset Bundling](./template-asset-bundling/README.md) - Setting up a Go application with template rendering and asset bundling.
-- [Todo App + Auth + GORM](./todo-app-with-auth-gorm/README.md) - A Todo application with authentication using GORM.
+- [Todo App + Auth + GORM (Postgres + Testcontainers)](./local-development-testcontainers/README.md) - A Todo application with authentication using GORM and Postgres with Testcontainers for local development.
+- [Todo App + Auth + GORM (SQLite)](./todo-app-with-auth-gorm/README.md) - A Todo application with authentication using GORM with SQLite database.
 - [Unit Testing](./unit-test/README.md) - Writing unit tests for a Go Fiber application.
 - [File Upload](./upload-file/README.md) - Handling file uploads in a Go application.
 - [URL Shortener](./url-shortener-api/README.md) - URL shortening service with a simple API.
