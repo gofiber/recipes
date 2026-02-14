@@ -51,7 +51,7 @@ import (
 )
 
 func main() {
-    // Fiber instance with Prefork enabled
+    // Fiber instance
     app := fiber.New()
 
     // Routes
@@ -59,7 +59,7 @@ func main() {
         return c.SendString("Hello, World!")
     })
 
-    // Start server
+    // Start server with prefork enabled
     log.Fatal(app.Listen(":3000", fiber.ListenConfig{
         EnablePrefork: true,
     }))
