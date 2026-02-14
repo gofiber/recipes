@@ -52,9 +52,7 @@ import (
 
 func main() {
     // Fiber instance with Prefork enabled
-    app := fiber.New(fiber.Config{
-        Prefork: true,
-    })
+    app := fiber.New()
 
     // Routes
     app.Get("/", func(c fiber.Ctx) error {
@@ -62,7 +60,9 @@ func main() {
     })
 
     // Start server
-    log.Fatal(app.Listen(":3000"))
+    log.Fatal(app.Listen(":3000"), fiber.ListenConfig{
+        EnablePrefork: true
+    })
 }
 ```
 
