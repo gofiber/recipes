@@ -13,7 +13,7 @@ importers:
         version: 1.7.5
       '@skeletonlabs/skeleton':
         specifier: ^4.12.0
-        version: 4.12.0(tailwindcss@4.1.18)
+        version: 4.12.0(tailwindcss@4.2.0)
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
         version: 3.0.10(@sveltejs/kit@2.52.2(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.53.0)(vite@7.3.1(yaml@2.8.2)))(svelte@5.53.0)(typescript@5.9.3)(vite@7.3.1(yaml@2.8.2)))
@@ -22,10 +22,10 @@ importers:
         version: 2.52.2(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.53.0)(vite@7.3.1(yaml@2.8.2)))(svelte@5.53.0)(typescript@5.9.3)(vite@7.3.1(yaml@2.8.2))
       '@tailwindcss/forms':
         specifier: ^0.5.11
-        version: 0.5.11(tailwindcss@4.1.18)
+        version: 0.5.11(tailwindcss@4.2.0)
       '@tailwindcss/typography':
         specifier: ^0.5.19
-        version: 0.5.19(tailwindcss@4.1.18)
+        version: 0.5.19(tailwindcss@4.2.0)
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.56.0
         version: 8.56.0(@typescript-eslint/parser@8.56.0(eslint@10.0.0)(typescript@5.9.3))(eslint@10.0.0)(typescript@5.9.3)
@@ -63,8 +63,8 @@ importers:
         specifier: ^4.4.1
         version: 4.4.1(picomatch@4.0.3)(svelte@5.53.0)(typescript@5.9.3)
       tailwindcss:
-        specifier: ^4.1.18
-        version: 4.1.18
+        specifier: ^4.2.0
+        version: 4.2.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1050,8 +1050,8 @@ packages:
     resolution: {integrity: sha512-7dhHkSamGS2vtoBmIW2hRab+gl5Z60alEHZB4910ePqqJNxAWnDAxsofVmlZ2tREmWyHNE+A1nCKwICAquoD2A==}
     engines: {node: '>=18'}
 
-  tailwindcss@4.1.18:
-    resolution: {integrity: sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==}
+  tailwindcss@4.2.0:
+    resolution: {integrity: sha512-yYzTZ4++b7fNYxFfpnberEEKu43w44aqDMNM9MHMmcKuCH7lL8jJ4yJ7LGHv7rSwiqM0nkiobF9I6cLlpS2P7Q==}
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -1398,9 +1398,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
-  '@skeletonlabs/skeleton@4.12.0(tailwindcss@4.1.18)':
+  '@skeletonlabs/skeleton@4.12.0(tailwindcss@4.2.0)':
     dependencies:
-      tailwindcss: 4.1.18
+      tailwindcss: 4.2.0
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -1455,15 +1455,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tailwindcss/forms@0.5.11(tailwindcss@4.1.18)':
+  '@tailwindcss/forms@0.5.11(tailwindcss@4.2.0)':
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 4.1.18
+      tailwindcss: 4.2.0
 
-  '@tailwindcss/typography@0.5.19(tailwindcss@4.1.18)':
+  '@tailwindcss/typography@0.5.19(tailwindcss@4.2.0)':
     dependencies:
       postcss-selector-parser: 6.0.10
-      tailwindcss: 4.1.18
+      tailwindcss: 4.2.0
 
   '@types/cookie@0.6.0': {}
 
@@ -2056,7 +2056,7 @@ snapshots:
       magic-string: 0.30.21
       zimmerframe: 1.1.4
 
-  tailwindcss@4.1.18: {}
+  tailwindcss@4.2.0: {}
 
   tinyglobby@0.2.15:
     dependencies:
