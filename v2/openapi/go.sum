@@ -2,8 +2,8 @@ github.com/andybalholm/brotli v1.2.0 h1:ukwgCxwYrmACq68yiUqwIWnGY0cTPox/M94sVwTo
 github.com/andybalholm/brotli v1.2.0/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
 github.com/clipperhouse/uax29/v2 v2.7.0 h1:+gs4oBZ2gPfVrKPthwbMzWZDaAFPGYK72F0NJv2v7Vk=
 github.com/clipperhouse/uax29/v2 v2.7.0/go.mod h1:EFJ2TJMRUaplDxHKj1qAEhCtQPW2tJSwu5BF98AuoVM=
-github.com/danielgtaylor/huma/v2 v2.37.0 h1:J1Uoi4YTbOA0G+4sTcz7mfPnEotNUgZ4pQAg1MBurDM=
-github.com/danielgtaylor/huma/v2 v2.37.0/go.mod h1:95S04G/lExFRYlBkKaBaZm9lVmxRmqX9f2CgoOZ11AM=
+github.com/danielgtaylor/huma/v2 v2.37.1 h1:jLqo0vUg1mdJJuVXB1P0xF2SschBczsLhEaeHJFGXuM=
+github.com/danielgtaylor/huma/v2 v2.37.1/go.mod h1:95S04G/lExFRYlBkKaBaZm9lVmxRmqX9f2CgoOZ11AM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
