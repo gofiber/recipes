@@ -6,7 +6,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/gofiber/fiber/v3 v3.0.0
 	github.com/joho/godotenv v1.5.1
-	google.golang.org/api v0.267.0
+	google.golang.org/api v0.268.0
 )
 
 require (
