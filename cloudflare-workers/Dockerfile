@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -o /server
 
 # Use distroless for minimal attack surface
-FROM gcr.io/distroless/static-debian12@sha256:e6182b8855909d393b179153deacc16325519388f34ed539757189a29d01070e
+FROM gcr.io/distroless/static-debian12@sha256:20bc6c0bc4d625a22a8fde3e55f6515709b32055ef8fb9cfbddaa06d1760f838
 
 # Copy the binary
 COPY --from=build /server /server
