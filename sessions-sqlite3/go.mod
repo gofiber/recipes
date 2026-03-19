@@ -6,7 +6,7 @@ require (
 	github.com/gofiber/fiber/v3 v3.1.0
 	github.com/gofiber/storage/sqlite3/v2 v2.2.3
 	github.com/gofiber/template/html/v3 v3.0.2
-	github.com/mattn/go-sqlite3 v1.14.34
+	github.com/mattn/go-sqlite3 v1.14.37
 )
 
 require (
