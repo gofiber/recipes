@@ -1,7 +1,7 @@
 github.com/andybalholm/brotli v1.2.0 h1:ukwgCxwYrmACq68yiUqwIWnGY0cTPox/M94sVwToPjQ=
 github.com/andybalholm/brotli v1.2.0/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
-github.com/apitally/apitally-go v0.10.1 h1:jnLGJ4PXi0M7IsCcl+LRmdeKsjdPPWimGchXAZej+0A=
-github.com/apitally/apitally-go v0.10.1/go.mod h1:7WKE1/L8s3i4qPmh7RWV+lg+0KFNCYieTNVe4yZh9ik=
+github.com/apitally/apitally-go v0.11.0 h1:u7GNR9FtxT4mHZ7QeabK4AFaYbWowMDoJ885A13HL7g=
+github.com/apitally/apitally-go v0.11.0/go.mod h1:08YQldfoLJG3InORIeOGzl2RJ6NVjB/DCYqckS4cARo=
 github.com/apitally/apitally-go/fiber v0.10.1 h1:AUZBUiFMQmACJoDBlRHGonODD/l84IRAlci1ddgnpl8=
 github.com/apitally/apitally-go/fiber v0.10.1/go.mod h1:Fwz9EZLv7E+L/PpGAHEPXZOGmrbRmST4ySGoRxJQ0Vs=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
