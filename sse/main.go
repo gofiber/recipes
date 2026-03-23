@@ -81,7 +81,7 @@ func main() {
 		c.Set("Connection", "keep-alive")
 		c.Set("Transfer-Encoding", "chunked")
 
-		c.Status(fiber.StatusOK).SendStreamWriter(func(w *bufio.Writer) {
+		return c.Status(fiber.StatusOK).SendStreamWriter(func(w *bufio.Writer) {
 			fmt.Println("WRITER")
 			var i int
 			for {
@@ -114,8 +114,6 @@ func main() {
 				time.Sleep(2 * time.Second)
 			}
 		})
-
-		return nil
 	})
 
 	// Publish endpoint adds messages to the queue that will be sent to the client
