@@ -3,8 +3,8 @@ module app
 go 1.25.0
 
 require (
-	entgo.io/ent v0.14.5
-	github.com/fatih/color v1.18.0
+	entgo.io/ent v0.14.6
+	github.com/fatih/color v1.19.0
 	github.com/gofiber/fiber/v3 v3.1.0
 	github.com/google/uuid v1.6.0
 	github.com/mattn/go-sqlite3 v1.14.37
@@ -23,7 +23,7 @@ require (
 	github.com/gofiber/utils/v2 v2.0.2 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
-	github.com/klauspost/compress v1.18.4 // indirect
+	github.com/klauspost/compress v1.18.5 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect

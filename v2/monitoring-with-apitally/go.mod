@@ -3,7 +3,7 @@ module main
 go 1.25.0
 
 require (
-	github.com/apitally/apitally-go/fiber v0.10.1
+	github.com/apitally/apitally-go/fiber v0.10.2
 	github.com/gofiber/fiber/v2 v2.52.12
 )
 
@@ -30,7 +30,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
-	github.com/apitally/apitally-go v0.10.1 // indirect
+	github.com/apitally/apitally-go v0.11.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -39,7 +39,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.8 // indirect
-	github.com/klauspost/compress v1.18.4 // indirect
+	github.com/klauspost/compress v1.18.5 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
