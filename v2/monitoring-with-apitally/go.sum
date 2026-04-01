@@ -1,5 +1,5 @@
-github.com/andybalholm/brotli v1.2.0 h1:ukwgCxwYrmACq68yiUqwIWnGY0cTPox/M94sVwToPjQ=
-github.com/andybalholm/brotli v1.2.0/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
+github.com/andybalholm/brotli v1.2.1 h1:R+f5xP285VArJDRgowrfb9DqL18yVK0gKAW/F+eTWro=
+github.com/andybalholm/brotli v1.2.1/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
 github.com/apitally/apitally-go v0.11.1 h1:cFjzDMVxh0dtkwnMJ7E5sr4WHp6Kb29+dUR+jOjYbKk=
 github.com/apitally/apitally-go v0.11.1/go.mod h1:08YQldfoLJG3InORIeOGzl2RJ6NVjB/DCYqckS4cARo=
 github.com/apitally/apitally-go/fiber v0.10.2 h1:/hkk7nFQBbNydf9wWVytRr5TmMIcqpQ6Cc+I1+g7O8w=
