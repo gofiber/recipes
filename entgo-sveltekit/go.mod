@@ -7,7 +7,7 @@ require (
 	github.com/fatih/color v1.19.0
 	github.com/gofiber/fiber/v3 v3.1.0
 	github.com/google/uuid v1.6.0
-	github.com/mattn/go-sqlite3 v1.14.38
+	github.com/mattn/go-sqlite3 v1.14.39
 	github.com/stretchr/testify v1.11.1
 )
 
