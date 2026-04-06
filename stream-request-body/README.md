@@ -45,32 +45,48 @@ Here is an example of how to handle a streaming request body in Go using Fiber:
 package main
 
 import (
-    "github.com/gofiber/fiber/v3"
-    "io"
-    "log"
+	"io"
+	"log"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-    app := fiber.New()
+	app := fiber.New()
+	// Enable request body streaming.
+	app.Server().StreamRequestBody = true
 
-    app.Post("/upload", func(c fiber.Ctx) error {
-        // Open a file to write the streamed data
-        file, err := os.Create("uploaded_file")
-        if err != nil {
-            return err
-        }
-        defer file.Close()
+	// You can test the route by using cURL:
+	// curl -X POST --data-binary @/path/to/large/file localhost:3000
+	app.Post("/", func(c fiber.Ctx) error {
+		reader := c.RequestCtx().RequestBodyStream()
+		if reader == nil {
+			return nil
+		}
+		// Read 1MiB at a time
+		buffer := make([]byte, 0, 1024*1024)
+		for {
+			length, err := io.ReadFull(reader, buffer[:cap(buffer)])
+			// Cap the buffer based on the actual length read
+			buffer = buffer[:length]
+			if length > 0 {
+				// Process the chunk - e.g., write to file, parse data, etc.
+				log.Printf("Read %d bytes", length)
+			}
+			if err != nil {
+				// EOF or ErrUnexpectedEOF means all data has been read.
+				// ErrUnexpectedEOF means the last chunk was smaller than the
+				// buffer, which is normal for the final (or only) chunk.
+				if err == io.EOF || err == io.ErrUnexpectedEOF {
+					break
+				}
+				return err
+			}
+		}
+		return nil
+	})
 
-        // Stream the request body to the file
-        _, err = io.Copy(file, c.BodyStream())
-        if err != nil {
-            return err
-        }
-
-        return c.SendString("File uploaded successfully")
-    })
-
-    log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":3000"))
 }
 ```
 
