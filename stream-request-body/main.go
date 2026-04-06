@@ -8,6 +8,16 @@ import (
 )
 
 func main() {
+	// Use an external setup function in order
+	// to configure the app in tests as well
+	app := setup()
+
+	// Start server
+	log.Fatal(app.Listen(":3000"))
+}
+
+// setup creates and configures a Fiber app with all routes.
+func setup() *fiber.App {
 	// Fiber instance
 	app := fiber.New()
 	// Enable request body streaming.
@@ -20,37 +30,32 @@ func main() {
 	// curl -X POST --data-binary @/path/to/large/file localhost:3000
 	app.Post("/", func(c fiber.Ctx) error {
 		reader := c.RequestCtx().RequestBodyStream()
+		if reader == nil {
+			return nil
+		}
 		// Read 1MiB at a time
 		buffer := make([]byte, 0, 1024*1024)
 		for {
 			length, err := io.ReadFull(reader, buffer[:cap(buffer)])
 			// Cap the buffer based on the actual length read
 			buffer = buffer[:length]
+			if length > 0 {
+				// Process the chunk - e.g., write to file, parse data, etc.
+				log.Printf("Read %d bytes", length)
+			}
 			if err != nil {
-				// When the error is EOF, there are no longer any bytes to read
-				// meaning the request is completed
-				if err == io.EOF {
+				// When the error is EOF or ErrUnexpectedEOF, there are no
+				// longer any bytes to read meaning the request is completed.
+				// ErrUnexpectedEOF means the last chunk was smaller than the
+				// buffer, which is normal for the final (or only) chunk.
+				if err == io.EOF || err == io.ErrUnexpectedEOF {
 					break
 				}
-
-				// If the error is an unexpected EOF, the requested size to read
-				// was larger than what was available. This is not an issue for
-				// as long as the length returned above is used, or the buffer
-				// is capped as it is above. Any error that is not an unexpected
-				// EOF is an actual error, which we handle accordingly
-				if err != io.ErrUnexpectedEOF {
-					return err
-				}
+				return err
 			}
-
-			// You may now use the buffer to handle the chunk of length bytes
-			log.Printf("Read %d bytes: %x ...", length, buffer[0])
 		}
 		return nil
 	})
 
-	// Start server
-	log.Fatal(app.Listen(":3000"))
+	return app
 }
-
-// fiber:context-methods migrated
