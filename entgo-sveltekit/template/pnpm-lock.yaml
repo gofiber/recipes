@@ -10,10 +10,10 @@ importers:
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
-        version: 3.0.10(@sveltejs/kit@2.57.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3)))
+        version: 3.0.10(@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3)))
       '@sveltejs/kit':
-        specifier: ^2.57.0
-        version: 2.57.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))
+        specifier: ^2.57.1
+        version: 2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.57.1
         version: 8.57.1(@typescript-eslint/parser@8.57.1(eslint@10.2.0)(typescript@5.9.3))(eslint@10.2.0)(typescript@5.9.3)
@@ -400,8 +400,8 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
-  '@sveltejs/kit@2.57.0':
-    resolution: {integrity: sha512-TMiqCTy9ZW4KBHvmTgeWU/hF6jcFpeMgR+9ekE06uhhGnbUZ7wpIY6l1Uk4ThRzlWYJnCVfzmtVNaHaDjaSiSg==}
+  '@sveltejs/kit@2.57.1':
+    resolution: {integrity: sha512-VRdSbB96cI1EnRh09CqmnQqP/YJvET5buj8S6k7CxaJqBJD4bw4fRKDjcarAj/eX9k2eHifQfDH8NtOh+ZxxPw==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -604,6 +604,9 @@ packages:
 
   devalue@5.7.0:
     resolution: {integrity: sha512-qCvc8m7cImp1QDCsiY+C2EdSBWSj7Ucfoq87scSdYboDiIKdvMtFbH1U2VReBls6WMhMaUOoK3ZJEDNG/7zm3w==}
+
+  devalue@5.7.1:
+    resolution: {integrity: sha512-MUbZ586EgQqdRnC4yDrlod3BEdyvE4TapGYHMW2CiaW+KkkFmWEFqBUaLltEZCGi0iFXCEjRF0OjF0DV2QHjOA==}
 
   electron-to-chromium@1.5.302:
     resolution: {integrity: sha512-sM6HAN2LyK82IyPBpznDRqlTQAtuSaO+ShzFiWTvoMJLHyZ+Y39r8VMfHzwbU8MVBzQ4Wdn85+wlZl2TLGIlwg==}
@@ -1391,11 +1394,11 @@ snapshots:
     dependencies:
       acorn: 8.16.0
 
-  '@sveltejs/adapter-static@3.0.10(@sveltejs/kit@2.57.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3)))':
+  '@sveltejs/adapter-static@3.0.10(@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3)))':
     dependencies:
-      '@sveltejs/kit': 2.57.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))
+      '@sveltejs/kit': 2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))
 
-  '@sveltejs/kit@2.57.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))':
+  '@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.2)(vite@8.0.8(esbuild@0.27.3)))(svelte@5.55.2)(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3))':
     dependencies:
       '@standard-schema/spec': 1.1.0
       '@sveltejs/acorn-typescript': 1.0.9(acorn@8.16.0)
@@ -1403,7 +1406,7 @@ snapshots:
       '@types/cookie': 0.6.0
       acorn: 8.16.0
       cookie: 0.6.0
-      devalue: 5.7.0
+      devalue: 5.7.1
       esm-env: 1.2.2
       kleur: 4.1.5
       magic-string: 0.30.21
@@ -1617,6 +1620,8 @@ snapshots:
   detect-libc@2.1.2: {}
 
   devalue@5.7.0: {}
+
+  devalue@5.7.1: {}
 
   electron-to-chromium@1.5.302: {}
 
