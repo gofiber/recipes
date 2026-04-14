@@ -12,8 +12,8 @@ importers:
         specifier: ^1.7.6
         version: 1.7.6
       '@skeletonlabs/skeleton':
-        specifier: ^4.15.1
-        version: 4.15.1(tailwindcss@4.2.2)
+        specifier: ^4.15.2
+        version: 4.15.2(tailwindcss@4.2.2)
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
         version: 3.0.10(@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.55.3(@typescript-eslint/types@8.58.1))(vite@8.0.8(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.55.3(@typescript-eslint/types@8.58.1))(typescript@5.9.3)(vite@8.0.8(esbuild@0.27.3)(yaml@2.8.2)))
@@ -417,8 +417,8 @@ packages:
   '@rolldown/pluginutils@1.0.0-rc.15':
     resolution: {integrity: sha512-UromN0peaE53IaBRe9W7CjrZgXl90fqGpK+mIZbA3qSTeYqg3pqpROBdIPvOG3F5ereDHNwoHBI2e50n1BDr1g==}
 
-  '@skeletonlabs/skeleton@4.15.1':
-    resolution: {integrity: sha512-uPfIdlgkylPfLf0ZTHuXsLajK/846/ASfMkUZ8/KT+iS1QOlm2kKsl1UAviC0kVoGXA/pQjqt7iOcpbG05lHug==}
+  '@skeletonlabs/skeleton@4.15.2':
+    resolution: {integrity: sha512-5O23Py76nw56aoieV2b2T7MJ6xS0DwDjUULpwLnCXxXOnmzADEoWoQxb/ABbqg04IMOygtRzK3HO22I1+kFsog==}
     peerDependencies:
       tailwindcss: ^4.0.0
 
@@ -1458,7 +1458,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-rc.15': {}
 
-  '@skeletonlabs/skeleton@4.15.1(tailwindcss@4.2.2)':
+  '@skeletonlabs/skeleton@4.15.2(tailwindcss@4.2.2)':
     dependencies:
       tailwindcss: 4.2.2
 
