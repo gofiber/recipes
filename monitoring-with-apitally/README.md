@@ -53,5 +53,5 @@ It provides detailed insights into the API's usage, errors, and performance. Ind
 
 ## References
 
-- [Apitally Documentation](https://docs.apitally.io/frameworks/fiber)
+- [Apitally Documentation](https://docs.apitally.io/setup-guides/fiber)
 - [Fiber Documentation](https://docs.gofiber.io)
