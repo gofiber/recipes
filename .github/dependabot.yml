@@ -13,14 +13,28 @@ updates:
       interval: "daily"
 
   # gomod split by alphabet ranges to reduce group PR size
-  # [0-9a-d] ~20 modules | [e-h] ~22 modules | [i-r] ~20 modules | [s-z] ~26 modules
+  # 0-9,a-d ~20 modules | e-h ~22 modules | i-r ~20 modules | s-z ~26 modules
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
     allow:
       - dependency-type: "all"
     directories:
-      - "/[0-9a-d]*"
-      - "/[0-9a-d]*/**"
+      - "/0*"
+      - "/1*"
+      - "/2*"
+      - "/3*"
+      - "/4*"
+      - "/5*"
+      - "/6*"
+      - "/7*"
+      - "/8*"
+      - "/9*"
+      - "/a*"
+      - "/a*/*"
+      - "/b*"
+      - "/c*"
+      - "/c*/*"
+      - "/d*"
     labels:
       - "🤖 Dependencies"
     schedule:
@@ -218,8 +232,11 @@ updates:
     allow:
       - dependency-type: "all"
     directories:
-      - "/[e-h]*"
-      - "/[e-h]*/**"
+      - "/e*"
+      - "/e*/*"
+      - "/f*"
+      - "/g*"
+      - "/h*"
     labels:
       - "🤖 Dependencies"
     schedule:
@@ -417,8 +434,17 @@ updates:
     allow:
       - dependency-type: "all"
     directories:
-      - "/[i-r]*"
-      - "/[i-r]*/**"
+      - "/i*"
+      - "/j*"
+      - "/k*"
+      - "/l*"
+      - "/m*"
+      - "/n*"
+      - "/o*"
+      - "/p*"
+      - "/q*"
+      - "/r*"
+      - "/r*/*"
     labels:
       - "🤖 Dependencies"
     schedule:
@@ -616,8 +642,17 @@ updates:
     allow:
       - dependency-type: "all"
     directories:
-      - "/[s-z]*"
-      - "/[s-z]*/**"
+      - "/s*"
+      - "/t*"
+      - "/u*"
+      - "/u*/*"
+      - "/v*"
+      - "/v*/*"
+      - "/v*/*/*"
+      - "/w*"
+      - "/x*"
+      - "/y*"
+      - "/z*"
     labels:
       - "🤖 Dependencies"
     schedule:
@@ -813,7 +848,6 @@ updates:
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     allow:
-      # pnpm transitive update jobs can fail; keep version updates to direct deps.
       - dependency-type: "direct"
     directories:
       - "**/*"
