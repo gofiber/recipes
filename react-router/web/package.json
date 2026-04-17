@@ -16,7 +16,7 @@
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.0",
     "react-scripts": "5.0.1",
-    "typescript": "^5.0.0",
+    "typescript": "^6.0.3",
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {
