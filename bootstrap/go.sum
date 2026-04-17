@@ -5,8 +5,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/ebitengine/purego v0.10.0 h1:QIw4xfpWT6GWTzaW5XEKy3HXoqrJGx1ijYHzTF0/ISU=
 github.com/ebitengine/purego v0.10.0/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
-github.com/fxamacker/cbor/v2 v2.9.0 h1:NpKPmjDBgUfBms6tr6JZkTHtfFGcMKsw3eGcmD/sapM=
-github.com/fxamacker/cbor/v2 v2.9.0/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
+github.com/fxamacker/cbor/v2 v2.9.1 h1:2rWm8B193Ll4VdjsJY28jxs70IdDsHRWgQYAI80+rMQ=
+github.com/fxamacker/cbor/v2 v2.9.1/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/gabriel-vasile/mimetype v1.4.13 h1:46nXokslUBsAJE/wMsp5gtO500a4F3Nkz9Ufpk2AcUM=
 github.com/gabriel-vasile/mimetype v1.4.13/go.mod h1:d+9Oxyo1wTzWdyVUPMmXFvp4F9tea18J8ufA774AB3s=
 github.com/go-ole/go-ole v1.2.6/go.mod h1:pprOEPIfldk/42T2oK7lQ4v4JSDwmV0As9GaiUsvbm0=
@@ -30,8 +30,8 @@ github.com/gofiber/template/html/v3 v3.0.2 h1:/Fh8UcEsB4uhf1QWNbYaAOwXxSORebJ2zX
 github.com/gofiber/template/html/v3 v3.0.2/go.mod h1:9phaCZLPZq2nFNTZj9zrmR8FSA8ydtBQFL9SEsr4jqI=
 github.com/gofiber/template/v2 v2.1.0 h1:vrLY6uEW2HdioJm6J5FGUpYZuapVQhHciNz21XQjR/4=
 github.com/gofiber/template/v2 v2.1.0/go.mod h1:ohgpR/Ng90nJbK+IyNzrgR/XpnBNt862/oTF5G7SAmE=
-github.com/gofiber/utils/v2 v2.0.2 h1:ShRRssz0F3AhTlAQcuEj54OEDtWF7+HJDwEi/aa6QLI=
-github.com/gofiber/utils/v2 v2.0.2/go.mod h1:+9Ub4NqQ+IaJoTliq5LfdmOJAA/Hzwf4pXOxOa3RrJ0=
+github.com/gofiber/utils/v2 v2.0.3 h1:qJyfS/t7s7Z4+/zlU1i1pafYNP2+xLupVPgkW8ce1uI=
+github.com/gofiber/utils/v2 v2.0.3/go.mod h1:GGERKU3Vhj5z6hS8YKvxL99A54DjOvTFZ0cjZnG4Lj4=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
