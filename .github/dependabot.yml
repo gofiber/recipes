@@ -11,18 +11,21 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+
+  # gomod split by alphabet ranges to reduce group PR size
+  # [0-9a-d] ~20 modules | [e-h] ~22 modules | [i-r] ~20 modules | [s-z] ~26 modules
   - package-ecosystem: "gomod"
-    open-pull-requests-limit: 60
+    open-pull-requests-limit: 15
     allow:
-      # Allow both direct and indirect updates for all packages.
       - dependency-type: "all"
     directories:
-      - "**/*"
+      - "/[0-9a-d]*"
+      - "/[0-9a-d]*/**"
     labels:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
-    groups:
+    groups: &gomod-groups
       fiber-modules:
         patterns:
           - "github.com/gofiber/fiber/**"
@@ -209,6 +212,46 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+
+  - package-ecosystem: "gomod"
+    open-pull-requests-limit: 15
+    allow:
+      - dependency-type: "all"
+    directories:
+      - "/[e-h]*"
+      - "/[e-h]*/**"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+    groups: *gomod-groups
+
+  - package-ecosystem: "gomod"
+    open-pull-requests-limit: 15
+    allow:
+      - dependency-type: "all"
+    directories:
+      - "/[i-r]*"
+      - "/[i-r]*/**"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+    groups: *gomod-groups
+
+  - package-ecosystem: "gomod"
+    open-pull-requests-limit: 15
+    allow:
+      - dependency-type: "all"
+    directories:
+      - "/[s-z]*"
+      - "/[s-z]*/**"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+    groups: *gomod-groups
+
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
     allow:
