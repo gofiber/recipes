@@ -1,35 +1,19 @@
-name: 'Sync docs'
+name: Sync docs
 
 on:
-    push:
-        branches:
-            - master
-            - main
-        paths:
-            - '**/*.md'
-    workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths: ['**/*.md']
+  workflow_dispatch:
 
 jobs:
-    sync-docs:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-              with:
-                  ref: ${{ github.event.pull_request.head.sha }}
-                  fetch-depth: 2
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v6
-              with:
-                  node-version: '18'
-
-            - name: Install JQ
-              run: sudo apt-get install jq
-
-            - name: Sync docs
-              run: ./.github/scripts/sync_docs.sh
-              env:
-                  EVENT: ${{ github.event_name }}
-                  TAG_NAME: ${{ github.ref_name }}
-                  TOKEN: ${{ secrets.DOC_SYNC_TOKEN }}
+  sync:
+    uses: gofiber/.github/.github/workflows/sync-docs.yml@main
+    with:
+      destination-dir: docs/recipes
+      file-patterns: '*.md,*.png,*.jpg,*.jpeg,*.gif,*.bmp,*.svg,*.webp'
+      exclude-patterns: vendor,.github
+      commit-url: https://github.com/gofiber/recipes
+      event-mode: push
+    secrets:
+      doc-sync-token: ${{ secrets.DOC_SYNC_TOKEN }}
