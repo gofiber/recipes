@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/gofiber/fiber/v3 v3.1.0
-	github.com/gofiber/template/html/v3 v3.0.2
+	github.com/gofiber/template/html/v3 v3.0.3
 	github.com/nicksnyder/go-i18n/v2 v2.6.1
 	golang.org/x/text v0.36.0
 )
