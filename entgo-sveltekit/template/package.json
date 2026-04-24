@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.57.1",
+    "@sveltejs/kit": "^2.58.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
 		"@typescript-eslint/parser": "^8.59.0",
 		"eslint": "^10.2.1",
@@ -20,7 +20,7 @@
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.10",
     "postcss-load-config": "^6.0.1",
-    "svelte": "^5.55.4",
+    "svelte": "^5.55.5",
     "svelte-check": "^4.4.6",
     "tailwindcss": "^4.2.4",
     "tslib": "^2.8.1",
