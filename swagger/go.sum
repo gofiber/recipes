@@ -55,8 +55,8 @@ github.com/go-openapi/validate v0.25.2 h1:12NsfLAwGegqbGWr2CnvT65X/Q2USJipmJ9b7x
 github.com/go-openapi/validate v0.25.2/go.mod h1:Pgl1LpPPGFnZ+ys4/hTlDiRYQdI1ocKypgE+8Q8BLfY=
 github.com/go-viper/mapstructure/v2 v2.5.0 h1:vM5IJoUAy3d7zRSVtIwQgBj7BiWtMPfmPEgAXnvj1Ro=
 github.com/go-viper/mapstructure/v2 v2.5.0/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
-github.com/gofiber/contrib/v3/swaggerui v1.0.2 h1:i1QkrgVT5tDbV2VVOPGL5ukouB77r2kRPzSQe7COvCA=
-github.com/gofiber/contrib/v3/swaggerui v1.0.2/go.mod h1:yqnsv53B44a32/ByzFN8/YhwpIVTVHrBb4ZIdtBg4s4=
+github.com/gofiber/contrib/v3/swaggerui v1.0.3 h1:8m8SPXnfPO0d7wmJFQtFrydT73RB4Lr9YjVvMUdXJKo=
+github.com/gofiber/contrib/v3/swaggerui v1.0.3/go.mod h1:B9tHvPWyfinXFCfkyrVVn7CkLC4PJD95sSRwFZ5C5AI=
 github.com/gofiber/fiber/v3 v3.1.0 h1:1p4I820pIa+FGxfwWuQZ5rAyX0WlGZbGT6Hnuxt6hKY=
 github.com/gofiber/fiber/v3 v3.1.0/go.mod h1:n2nYQovvL9z3Too/FGOfgtERjW3GQcAUqgfoezGBZdU=
 github.com/gofiber/schema v1.7.1 h1:oSJBKdgP8JeIME4TQSAqlNKTU2iBB+2RNmKi8Nsc+TI=
