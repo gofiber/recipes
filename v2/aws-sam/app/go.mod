@@ -1,7 +1,7 @@
 require (
 	github.com/aws/aws-lambda-go v1.54.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
-	github.com/gofiber/fiber/v2 v2.52.12
+	github.com/gofiber/fiber/v2 v2.52.13
 )
 
 require (
