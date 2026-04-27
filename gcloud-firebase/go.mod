@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/gofiber/fiber/v3 v3.1.0
+	github.com/gofiber/fiber/v3 v3.2.0
 	github.com/joho/godotenv v1.5.1
 	github.com/valyala/fasthttp v1.70.0
 )
