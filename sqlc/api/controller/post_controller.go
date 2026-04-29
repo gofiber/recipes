@@ -28,7 +28,7 @@ func GetPost(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
@@ -63,7 +63,7 @@ func DeletePost(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
@@ -80,7 +80,7 @@ func UpdatePost(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}

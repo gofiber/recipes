@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+
 	"fiber-oauth-google/auth"
 
 	"github.com/gofiber/fiber/v3"
@@ -9,7 +12,12 @@ import (
 // Auth fiber handler
 func Auth(c fiber.Ctx) error {
 	path := auth.ConfigGoogle()
-	url := path.AuthCodeURL("state")
+	b := make([]byte, 16)
+	if _, err := rand.Read(b); err != nil {
+		return err
+	}
+	state := hex.EncodeToString(b)
+	url := path.AuthCodeURL(state)
 	return c.Redirect().To(url)
 }
 

@@ -28,7 +28,7 @@ func GetAuthor(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
@@ -63,7 +63,7 @@ func DeleteAuthor(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
@@ -81,7 +81,7 @@ func UpdateAuthor(c fiber.Ctx) error {
 	defer cancle()
 
 	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}

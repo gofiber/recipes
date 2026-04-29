@@ -6,6 +6,9 @@ on:
     paths: ['**/*.md']
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   sync:
     uses: gofiber/.github/.github/workflows/sync-docs.yml@main

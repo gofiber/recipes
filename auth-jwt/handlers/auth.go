@@ -166,7 +166,7 @@ func (ah *AuthHandler) Logout(c fiber.Ctx) error {
 		})
 	}
 
-	userID, err := strconv.ParseUint(sub, 10, 64)
+	userID, err := strconv.ParseUint(sub, 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",

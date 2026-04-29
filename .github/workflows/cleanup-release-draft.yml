@@ -9,6 +9,9 @@ on:
         type: string
         default: ''
 
+permissions:
+  contents: read
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
