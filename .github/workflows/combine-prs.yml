@@ -22,6 +22,9 @@ on:
         required: true
         default: 'nocombine'
 
+permissions:
+  contents: read
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "combine-prs"
