@@ -21,4 +21,6 @@ node_modules/
 .parcel-cache/
 
 # Bundled assets
-public/assets/
+public/assets/template-asset-bundling/
+
+template-asset-bundling

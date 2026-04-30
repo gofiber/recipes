@@ -2,3 +2,4 @@
 .vscode/launch.json
 .env
 logs/
+oauth2
