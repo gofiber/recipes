@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/extractors"
 	"github.com/gofiber/fiber/v3/middleware/keyauth"
 	"github.com/gofiber/fiber/v3/middleware/logger"
 )
@@ -30,7 +31,7 @@ func main() {
 	app.Use(keyauth.New(keyauth.Config{
 		SuccessHandler: successHandler,
 		ErrorHandler:   errHandler,
-		KeyLookup:      "header:x-api-key",
+		Extractor:      extractors.FromHeader("x-api-key"),
 		Validator:      validator,
 	}))
 
