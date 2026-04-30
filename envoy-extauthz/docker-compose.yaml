@@ -12,7 +12,7 @@ services:
       - envoymesh
 
   front-envoy:
-    image: envoyproxy/envoy-alpine:v1.17-latest
+    image: envoyproxy/envoy:v1.33-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
     networks:

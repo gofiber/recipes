@@ -7,13 +7,14 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
 	// Fiber instance
-	app := fiber.New()
+	app := fiber.New(fiber.Config{BodyLimit: 10 * 1024 * 1024})
 
 	app.Post("/", func(c fiber.Ctx) error {
 		// Parse the multipart form:
@@ -29,17 +30,19 @@ func main() {
 
 		// Loop through files:
 		for _, file := range files {
-			fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+			// Sanitize filename to prevent path traversal attacks:
+			filename := filepath.Base(file.Filename)
+			fmt.Println(filename, file.Size, file.Header["Content-Type"][0])
 			// => "tutorial.pdf" 360641 "application/pdf"
 
 			// Save the files to disk:
-			err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+			err := c.SaveFile(file, fmt.Sprintf("./%s", filename))
 			// Check for errors
 			if err != nil {
 				return err
 			}
 		}
-		return nil
+		return c.JSON(fiber.Map{"message": "File uploaded successfully"})
 	})
 
 	// Start server

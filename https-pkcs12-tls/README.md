@@ -31,7 +31,12 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Place your PKCS12 certificate file (`cert.p12`) in the project directory.
+3. Place your PKCS12 certificate file (`server.p12`) in the `security/` directory.
+
+4. Optionally set the PKCS12 password via environment variable (defaults to `changeit`):
+    ```sh
+    export PKCS12_PASSWORD=yourpassword
+    ```
 
 ## Running the Application
 
@@ -40,7 +45,7 @@ Ensure you have the following installed:
     go run main.go
     ```
 
-2. Access the application at `https://localhost:3000`.
+2. Access the application at `https://localhost:443`.
 
 ## Example
 
@@ -50,56 +55,52 @@ Here is an example of how to set up an HTTPS server with PKCS12 TLS in a Fiber a
 package main
 
 import (
+    "crypto"
     "crypto/tls"
-    "crypto/x509"
-    "encoding/pem"
-    "io/ioutil"
     "log"
+    "os"
 
     "github.com/gofiber/fiber/v3"
     "golang.org/x/crypto/pkcs12"
 )
 
 func main() {
-    // Load PKCS12 certificate
-    p12Data, err := ioutil.ReadFile("cert.p12")
+    path := "./security/server.p12"
+    password := os.Getenv("PKCS12_PASSWORD")
+    if password == "" {
+        password = "changeit"
+    }
+
+    // Read and decode PKCS12 file
+    pkcs12Data, err := os.ReadFile(path)
     if err != nil {
         log.Fatal(err)
     }
 
-    // Decode PKCS12 certificate
-    blocks, err := pkcs12.ToPEM(p12Data, "password")
+    key, cert, err := pkcs12.Decode(pkcs12Data, password)
     if err != nil {
         log.Fatal(err)
     }
 
-    var pemData []byte
-    for _, b := range blocks {
-        pemData = append(pemData, pem.EncodeToMemory(b)...)
+    tlsCert := tls.Certificate{
+        Certificate: [][]byte{cert.Raw},
+        PrivateKey:  key.(crypto.PrivateKey),
+        Leaf:        cert,
     }
 
-    // Load certificate and key
-    cert, err := tls.X509KeyPair(pemData, pemData)
-    if err != nil {
-        log.Fatal(err)
-    }
+    config := &tls.Config{Certificates: []tls.Certificate{tlsCert}}
 
-    // Create TLS configuration
-    tlsConfig := &tls.Config{
-        Certificates: []tls.Certificate{cert},
-        ClientCAs:    x509.NewCertPool(),
-    }
-
-    // Fiber instance
     app := fiber.New()
-
-    // Routes
     app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString("Hello, HTTPS with PKCS12 TLS!")
+        return c.SendString("This page is being served over TLS using a PKCS12 store type!")
     })
 
-    // Start server with TLS
-    log.Fatal(app.ListenTLS(":3000", tlsConfig))
+    ln, err := tls.Listen("tcp", ":443", config)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    log.Fatal(app.Listener(ln))
 }
 ```
 

@@ -54,7 +54,9 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 
 	// Serve request to internal HTTP client
 	go func() {
-		log.Fatal(fiberApp.Listener(ln))
+		if err := fiberApp.Listener(ln); err != nil {
+			log.Println("server err:", err)
+		}
 	}()
 
 	// Call internal Fiber API

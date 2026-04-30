@@ -7,13 +7,14 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
 	// Fiber instance
-	app := fiber.New()
+	app := fiber.New(fiber.Config{BodyLimit: 10 * 1024 * 1024})
 
 	// Routes
 	app.Post("/", func(c fiber.Ctx) error {
@@ -22,8 +23,13 @@ func main() {
 		if err != nil {
 			return err
 		}
+		// Sanitize filename to prevent path traversal attacks:
+		filename := filepath.Base(file.Filename)
 		// Save file inside uploads folder under current working directory:
-		return c.SaveFile(file, fmt.Sprintf("./uploads/%s", file.Filename))
+		if err := c.SaveFile(file, fmt.Sprintf("./uploads/%s", filename)); err != nil {
+			return err
+		}
+		return c.JSON(fiber.Map{"message": "File uploaded successfully"})
 	})
 
 	app.Post("/temp", func(c fiber.Ctx) error {
@@ -32,9 +38,14 @@ func main() {
 		if err != nil {
 			return err
 		}
-		//(uploads_relative)folder must be created before hand:
-		//Save file using a relative path:
-		return c.SaveFile(file, fmt.Sprintf("/tmp/uploads_relative/%s", file.Filename))
+		// Sanitize filename to prevent path traversal attacks:
+		filename := filepath.Base(file.Filename)
+		// uploads_relative folder must be created beforehand:
+		// Save file to a temp uploads directory:
+		if err := c.SaveFile(file, fmt.Sprintf("./uploads_relative/%s", filename)); err != nil {
+			return err
+		}
+		return c.JSON(fiber.Map{"message": "File uploaded successfully"})
 	})
 
 	// Start server

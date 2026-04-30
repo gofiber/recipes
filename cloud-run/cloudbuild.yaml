@@ -17,11 +17,14 @@ steps:
       - |
         gcloud run deploy $_SERVICE_NAME \
         --image=asia.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA \
-        --region=$_REGION --platform managed --allow-unauthenticated \
+        --region=$_REGION --platform managed \
+        --allow-unauthenticated \
         --port=3000
+        # NOTE: --allow-unauthenticated makes the service publicly accessible.
+        # Remove this flag in production and use IAM-based access control instead.
 options:
   substitutionOption: ALLOW_LOOSE
 
 substitutions:
-  _SERVICE_NAME: cloud-run-exampple
+  _SERVICE_NAME: cloud-run-example
   _REGION: asia-southeast1

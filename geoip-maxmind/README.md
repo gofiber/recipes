@@ -11,12 +11,14 @@ description: Geolocation with GeoIP and MaxMind databases.
 This is an alternative method to resolve IP addresses to real-world location data using MaxMind GeoLite2 City databases.
 
 ## Prerequisites
-Before you run this, you must first download a database from the MaxMind website - https://dev.maxmind.com/geoip/geoip2/geolite2/. To do this, you may need to register for a free account.
+Before you run this, you must first download a database from the MaxMind website - https://dev.maxmind.com/geoip/geoip2/geolite2/. To do this, you need to register for a free MaxMind account.
+
+> **Note:** The GeoLite2 database is provided by MaxMind under the [GeoLite2 End User License Agreement](https://www.maxmind.com/en/geolite2/eula). A free MaxMind account is required to download the database file.
 
 The database you need to download is the one with the edition ID `GeoLite2-City`. Place it in this folder and run
 
 ```
-go run geoip-maxmind
+go run .
 ```
 
 ## Usage

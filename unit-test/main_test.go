@@ -48,11 +48,12 @@ func TestIndexRoute(t *testing.T) {
 	for _, test := range tests {
 		// Create a new http request with the route
 		// from the test case
-		req, _ := http.NewRequest(
+		req, err := http.NewRequest(
 			"GET",
 			test.route,
 			nil,
 		)
+		assert.Nilf(t, err, test.description)
 
 		// Perform the request plain with the app.
 		// The -1 disables request latency.
@@ -66,6 +67,8 @@ func TestIndexRoute(t *testing.T) {
 		if test.expectedError {
 			continue
 		}
+
+		defer res.Body.Close()
 
 		// Verify if the status code is as expected
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)

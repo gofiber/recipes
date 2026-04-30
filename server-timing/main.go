@@ -36,10 +36,9 @@ func Timer() fiber.Handler {
 		start := time.Now()
 		// next routes
 		err := c.Next()
-		// stop timer
-		stop := time.Now()
 		// Do something with response
-		c.Append("Server-Timing", fmt.Sprintf("app;dur=%v", stop.Sub(start).String()))
+		// dur value must be in milliseconds per W3C spec
+		c.Append("Server-Timing", fmt.Sprintf("app;dur=%.2f", float64(time.Since(start).Microseconds())/1000.0))
 		// return stack error if exist
 		return err
 	}

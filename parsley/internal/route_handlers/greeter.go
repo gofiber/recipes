@@ -22,11 +22,14 @@ func (h *greeterRouteHandler) Register(app *fiber.App) {
 func (h *greeterRouteHandler) HandleSayHelloRequest(ctx fiber.Ctx) error {
 
 	name := ctx.Query("name")
+	if name == "" {
+		return ctx.Status(fiber.StatusBadRequest).SendString("name parameter is required")
+	}
 
 	politeFlag := ctx.Query("polite", defaultPoliteFlag)
 	polite, err := strconv.ParseBool(politeFlag)
 	if err != nil {
-		polite = true
+		return ctx.Status(fiber.StatusBadRequest).SendString("polite parameter must be a boolean")
 	}
 
 	msg := h.greeter.SayHello(name, polite)

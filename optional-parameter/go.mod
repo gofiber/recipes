@@ -1,4 +1,4 @@
-module main
+module github.com/gofiber/recipes/optional-parameter
 
 go 1.25.0
 

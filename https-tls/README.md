@@ -31,7 +31,13 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Place your TLS certificate (`cert.pem`) and private key (`key.pem`) in the project directory.
+3. Generate a self-signed certificate and key:
+    ```sh
+    mkdir -p certs
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+      -keyout certs/ssl.key -out certs/ssl.cert \
+      -subj "/CN=localhost"
+    ```
 
 ## Running the Application
 
@@ -40,7 +46,7 @@ Ensure you have the following installed:
     go run main.go
     ```
 
-2. Access the application at `https://localhost:3000`.
+2. Access the application at `https://localhost:443`.
 
 ## Example
 
@@ -50,7 +56,9 @@ Here is an example of how to set up an HTTPS server with TLS in a Fiber applicat
 package main
 
 import (
+    "crypto/tls"
     "log"
+
     "github.com/gofiber/fiber/v3"
 )
 
@@ -58,11 +66,25 @@ func main() {
     app := fiber.New()
 
     app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString("Hello, HTTPS with TLS!")
+        return c.SendString(c.Protocol()) // => https
     })
 
-    // Start server with TLS
-    log.Fatal(app.ListenTLS(":3000", "cert.pem", "key.pem"))
+    // Create tls certificate
+    cer, err := tls.LoadX509KeyPair("certs/ssl.cert", "certs/ssl.key")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    config := &tls.Config{Certificates: []tls.Certificate{cer}}
+
+    // Create custom listener
+    ln, err := tls.Listen("tcp", ":443", config)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Start server with https/ssl enabled on http://localhost:443
+    log.Fatal(app.Listener(ln))
 }
 ```
 

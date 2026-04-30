@@ -1,23 +1,21 @@
 ---
 title: GeoIP
-keywords: [geoip, maxmind, ip]
-description: Geolocation with GeoIP.
+keywords: [geoip, ip-api, geolocation]
+description: Geolocation using ip-api.com.
 ---
 
 # GeoIP Example
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/geoip) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/geoip)
 
-This project demonstrates how to set up a GeoIP lookup service in a Go application using the Fiber framework.
+This recipe demonstrates how to build a GeoIP lookup service with [Fiber](https://github.com/gofiber/fiber). It proxies requests to the [ip-api.com](http://ip-api.com) JSON API and caches responses for 10 minutes using Fiber's built-in cache middleware.
+
+> **Note:** This recipe depends on the free [ip-api.com](http://ip-api.com) service. The free tier is limited to **1000 requests per minute** from a single IP address. For higher traffic, consider a paid plan or a self-hosted alternative such as [geoip-maxmind](../geoip-maxmind/).
 
 ## Prerequisites
 
-Ensure you have the following installed:
-
-- Golang
-- [Fiber](https://github.com/gofiber/fiber) package
-- [MaxMind GeoIP2](https://github.com/oschwald/geoip2-golang) package
-- GeoIP2 database file (e.g., `GeoLite2-City.mmdb`)
+- Go 1.21+
+- Internet access (ip-api.com is called at runtime — no local database required)
 
 ## Setup
 
@@ -32,56 +30,57 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Download the GeoIP2 database file and place it in the project directory.
-
 ## Running the Application
 
-1. Start the application:
-    ```sh
-    go run main.go
-    ```
+```sh
+go run main.go
+```
 
-2. Access the application at `http://localhost:3000`.
+The server starts on port `3000` by default. Set the `PORT` environment variable to override:
+
+```sh
+PORT=8080 go run main.go
+```
+
+Open `http://localhost:3000` in a browser to use the web UI.
 
 ## Example
 
-Here is an example `main.go` file for the Fiber application with GeoIP lookup:
+Look up geolocation data for an IP address via the `/geo` endpoint:
 
-```go
-package main
+```sh
+curl "http://localhost:3000/geo?ip=178.62.56.160"
+```
 
-import (
-    "log"
-    "github.com/gofiber/fiber/v3"
-    "github.com/oschwald/geoip2-golang"
-    "net"
-)
+Example response:
 
-func main() {
-    app := fiber.New()
-
-    db, err := geoip2.Open("GeoLite2-City.mmdb")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer db.Close()
-
-    app.Get("/geoip/:ip", func(c fiber.Ctx) error {
-        ip := c.Params("ip")
-        parsedIP := net.ParseIP(ip)
-        record, err := db.City(parsedIP)
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-        }
-        return c.JSON(record)
-    })
-
-    log.Fatal(app.Listen(":3000"))
+```json
+{
+  "status": "success",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "region": "ENG",
+  "regionName": "England",
+  "city": "London",
+  "zip": "EC1A",
+  "lat": 51.5085,
+  "lon": -0.1257,
+  "timezone": "Europe/London",
+  "isp": "DigitalOcean, LLC",
+  "org": "DigitalOcean, LLC",
+  "as": "AS14061 DigitalOcean, LLC",
+  "query": "178.62.56.160"
 }
+```
+
+Omit the `ip` query parameter to look up the caller's own IP address:
+
+```sh
+curl "http://localhost:3000/geo"
 ```
 
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [MaxMind GeoIP2 Documentation](https://pkg.go.dev/github.com/oschwald/geoip2-golang)
-- [GeoIP2 Database](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data)
+- [ip-api.com Documentation](http://ip-api.com/docs)
+- [ip-api.com Rate Limits](http://ip-api.com/docs/api:json#usage_limits)

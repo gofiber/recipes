@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: my-fiber-app-deployment
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: my-fiber-app
@@ -23,6 +24,18 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 20
 
 ---
 apiVersion: v1

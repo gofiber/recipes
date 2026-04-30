@@ -45,8 +45,11 @@ Here is an example of how to set up Server-Timing headers in a Fiber application
 package main
 
 import (
-    "github.com/gofiber/fiber/v3"
+    "fmt"
+    "log"
     "time"
+
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {
@@ -55,8 +58,8 @@ func main() {
     app.Use(func(c fiber.Ctx) error {
         start := time.Now()
         err := c.Next()
-        duration := time.Since(start)
-        c.Append("Server-Timing", "app;dur="+duration.String())
+        // dur value must be in milliseconds per W3C spec
+        c.Append("Server-Timing", fmt.Sprintf("app;dur=%.2f", float64(time.Since(start).Microseconds())/1000.0))
         return err
     })
 
@@ -64,8 +67,20 @@ func main() {
         return c.SendString("Hello, World!")
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
+```
+
+### Testing with curl
+
+```sh
+curl -i http://localhost:3000/
+```
+
+Example response header:
+
+```
+Server-Timing: app;dur=2001.23
 ```
 
 ## References

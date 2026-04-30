@@ -13,17 +13,16 @@ import (
 // SetupRoutes prepares required routes
 func SetupRoutes(app *fiber.App) {
 	app.Use(cors.New(cors.Config{
-		// attempt to mitigate CORS issues - pay attention to last /
-		AllowOrigins: []string{"http://localhost:8080", "http://localhost:8080/", "https://api.github.com/user", "https://api.github.com/user/", ""}, //
+		AllowOrigins: []string{"http://localhost:8080", "http://localhost:8080/"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 		AllowMethods: []string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		Next:         nil,
 	}))
 
-	// display a nice call trae on the console
+	// display a nice call trace on the console
 	app.Use(logger.New())
 
-	// if you want to prevent crashes
+	// prevent crashes on unhandled panics
 	app.Use(recover.New())
 
 	// add a standard redirect to the index page
@@ -37,9 +36,12 @@ func SetupRoutes(app *fiber.App) {
 	// perform logout - in fact only the local session is destroyed
 	app.Get("/logout", middleware.OAUTHDisconnect)
 
-	// display the "forbidden" page - but only if the middleware agrees with it
+	// display the "protected" page - but only if the middleware agrees with it
 	app.Get("/protected", middleware.OAUTHProtected, middleware.OAUTHGETHandler)
 
-	// perform the "magic" - exdecutes the whole GitHub authentication routine
+	// initiate GitHub OAuth2 flow (generates CSRF state and redirects to GitHub)
+	app.Get("/oauth/begin", middleware.OAUTHBegin)
+
+	// handle the GitHub OAuth2 callback (exchanges code for token, validates CSRF state)
 	app.Get("/oauth/redirect", middleware.OAUTHRedirect)
 }

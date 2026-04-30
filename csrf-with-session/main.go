@@ -148,10 +148,7 @@ func main() {
 
 	// Route for the login page
 	app.Get("/login", func(c fiber.Ctx) error {
-		csrfToken, ok := csrf.TokenFromContext(c), true
-		if !ok {
-			return c.SendStatus(fiber.StatusInternalServerError)
-		}
+		csrfToken := csrf.TokenFromContext(c)
 
 		return c.Render("login", fiber.Map{
 			"Title": "Login",
@@ -176,10 +173,7 @@ func main() {
 
 		if bcrypt.CompareHashAndPassword([]byte(checkPassword), []byte(password)) != nil {
 			// Authentication failed
-			csrfToken, ok := csrf.TokenFromContext(c), true
-			if !ok {
-				return c.SendStatus(fiber.StatusInternalServerError)
-			}
+			csrfToken := csrf.TokenFromContext(c)
 
 			return c.Render("login", fiber.Map{
 				"Title": "Login",
@@ -239,10 +233,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c), true
-		if !ok {
-			return c.SendStatus(fiber.StatusInternalServerError)
-		}
+		csrfToken := csrf.TokenFromContext(c)
 
 		return c.Render("protected", fiber.Map{
 			"Title": "Protected",
@@ -265,10 +256,7 @@ func main() {
 			return c.Redirect().To("/login")
 		}
 
-		csrfToken, ok := csrf.TokenFromContext(c), true
-		if !ok {
-			return c.SendStatus(fiber.StatusInternalServerError)
-		}
+		csrfToken := csrf.TokenFromContext(c)
 
 		// Retrieve the submitted form data
 		message := c.FormValue("message")

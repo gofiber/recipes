@@ -143,3 +143,25 @@ sqlc/
 ```
 #### 5. Reference
 [sqlc document](https://docs.sqlc.dev/en/stable/)
+
+## API Endpoints
+
+### Authors
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/authors` | List all authors |
+| GET | `/authors/:id` | Get an author by ID |
+| POST | `/authors` | Create a new author |
+| PUT | `/authors/:id` | Update an author |
+| DELETE | `/authors/:id` | Delete an author |
+
+### Posts
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/posts` | List all posts |
+| GET | `/posts/:id` | Get a post by ID |
+| POST | `/posts` | Create a new post |
+| PUT | `/posts/:id` | Update a post |
+| DELETE | `/posts/:id` | Delete a post |

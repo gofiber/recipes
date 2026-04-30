@@ -1,0 +1,39 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: dev-rabbitmq
+    hostname: dev-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+      - ./configs/definitions.json:/opt/definitions.json:ro
+      - ./configs/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  worker:
+    build: ./worker
+    container_name: dev-rabbitmq-worker
+    environment:
+      RABBITMQ_URL: amqp://user:password@dev-rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  api:
+    build: .
+    container_name: dev-rabbitmq-api
+    ports:
+      - "3000:3000"
+    environment:
+      RABBITMQ_URL: amqp://user:password@dev-rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy

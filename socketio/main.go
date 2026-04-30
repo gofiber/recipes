@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"sync"
 
 	"github.com/gofiber/contrib/v3/socketio"
 	"github.com/gofiber/contrib/v3/websocket"
@@ -25,6 +26,7 @@ type MessageObject struct {
 
 func main() {
 	// The key for the map is message.to
+	var mu sync.RWMutex
 	clients := make(map[string]string)
 
 	// Start a new Fiber application
@@ -43,15 +45,15 @@ func main() {
 
 	// Multiple event handling supported
 	socketio.On(socketio.EventConnect, func(ep *socketio.EventPayload) {
-		fmt.Println(fmt.Sprintf("Connection event 1 - User: %s", ep.Kws.GetStringAttribute("user_id")))
+		fmt.Printf("Connection event 1 - User: %s\n", ep.Kws.GetStringAttribute("user_id"))
 	})
 	socketio.On(socketio.EventConnect, func(ep *socketio.EventPayload) {
-		fmt.Println(fmt.Sprintf("Connection event 2 - User: %s", ep.Kws.GetStringAttribute("user_id")))
+		fmt.Printf("Connection event 2 - User: %s\n", ep.Kws.GetStringAttribute("user_id"))
 	})
 
 	// On message event
 	socketio.On(socketio.EventMessage, func(ep *socketio.EventPayload) {
-		fmt.Println(fmt.Sprintf("Message event - User: %s - Message: %s", ep.Kws.GetStringAttribute("user_id"), string(ep.Data)))
+		fmt.Printf("Message event - User: %s - Message: %s\n", ep.Kws.GetStringAttribute("user_id"), string(ep.Data))
 
 		message := MessageObject{}
 
@@ -68,7 +70,10 @@ func main() {
 		}
 
 		// Emit the message directly to specified user
-		err = ep.Kws.EmitTo(clients[message.To], ep.Data)
+		mu.RLock()
+		target := clients[message.To]
+		mu.RUnlock()
+		err = ep.Kws.EmitTo(target, ep.Data)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -77,21 +82,25 @@ func main() {
 	// On disconnect event
 	socketio.On(socketio.EventDisconnect, func(ep *socketio.EventPayload) {
 		// Remove the user from the local clients
+		mu.Lock()
 		delete(clients, ep.Kws.GetStringAttribute("user_id"))
-		fmt.Println(fmt.Sprintf("Disconnection event - User: %s", ep.Kws.GetStringAttribute("user_id")))
+		mu.Unlock()
+		fmt.Printf("Disconnection event - User: %s\n", ep.Kws.GetStringAttribute("user_id"))
 	})
 
 	// On close event
 	// This event is called when the server disconnects the user actively with .Close() method
 	socketio.On(socketio.EventClose, func(ep *socketio.EventPayload) {
 		// Remove the user from the local clients
+		mu.Lock()
 		delete(clients, ep.Kws.GetStringAttribute("user_id"))
-		fmt.Println(fmt.Sprintf("Close event - User: %s", ep.Kws.GetStringAttribute("user_id")))
+		mu.Unlock()
+		fmt.Printf("Close event - User: %s\n", ep.Kws.GetStringAttribute("user_id"))
 	})
 
 	// On error event
 	socketio.On(socketio.EventError, func(ep *socketio.EventPayload) {
-		fmt.Println(fmt.Sprintf("Error event - User: %s", ep.Kws.GetStringAttribute("user_id")))
+		fmt.Printf("Error event - User: %s\n", ep.Kws.GetStringAttribute("user_id"))
 	})
 
 	app.Get("/ws/:id", socketio.New(func(kws *socketio.Websocket) {
@@ -101,7 +110,9 @@ func main() {
 		// Add the connection to the list of the connected clients
 		// The UUID is generated randomly and is the key that allow
 		// socketio to manage Emit/EmitTo/Broadcast
+		mu.Lock()
 		clients[userId] = kws.UUID
+		mu.Unlock()
 
 		// Every websocket connection has an optional session key => value storage
 		kws.SetAttribute("user_id", userId)

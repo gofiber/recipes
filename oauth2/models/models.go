@@ -1,7 +1,9 @@
 package models
 
 import (
-	"github.com/antigloss/go/logger"
+	"log/slog"
+	"os"
+
 	"github.com/gofiber/fiber/v3/middleware/session"
 )
 
@@ -19,7 +21,9 @@ type OAuthAccessResponse struct {
 }
 
 // SYSLOG logger to be used for system traces
-var SYSLOG *logger.Logger
+var SYSLOG = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+	Level: slog.LevelDebug,
+}))
 
 // ClientID client ID to be passed to the GitHub API
 var ClientID string

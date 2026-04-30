@@ -2,6 +2,8 @@ package controller
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"strconv"
 	"time"
 
@@ -12,8 +14,8 @@ import (
 )
 
 func GetPosts(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	posts, err := sqlc.New(database.DB).GetPosts(ctx)
 	if err != nil {
@@ -24,8 +26,8 @@ func GetPosts(c fiber.Ctx) error {
 }
 
 func GetPost(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	postId, err := strconv.ParseInt(id, 10, 32)
@@ -35,6 +37,9 @@ func GetPost(c fiber.Ctx) error {
 
 	post, err := sqlc.New(database.DB).GetPost(ctx, int32(postId))
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.Status(fiber.StatusNotFound).SendString("post not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
@@ -42,8 +47,8 @@ func GetPost(c fiber.Ctx) error {
 }
 
 func NewPost(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	var post sqlc.NewPostParams
 	if err := c.Bind().Body(&post); err != nil {
@@ -55,12 +60,12 @@ func NewPost(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	return c.Status(fiber.StatusOK).JSON(newPost)
+	return c.Status(fiber.StatusCreated).JSON(newPost)
 }
 
 func DeletePost(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	postId, err := strconv.ParseInt(id, 10, 32)
@@ -76,8 +81,8 @@ func DeletePost(c fiber.Ctx) error {
 }
 
 func UpdatePost(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	postId, err := strconv.ParseInt(id, 10, 32)
@@ -92,6 +97,9 @@ func UpdatePost(c fiber.Ctx) error {
 
 	post.ID = int32(postId)
 	if _, err := sqlc.New(database.DB).UpdatePost(ctx, post); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.Status(fiber.StatusNotFound).SendString("post not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 

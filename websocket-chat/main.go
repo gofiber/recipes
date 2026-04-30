@@ -62,6 +62,9 @@ func runHub() {
 }
 
 func main() {
+	addr := flag.String("addr", ":8080", "http service address")
+	flag.Parse()
+
 	app := fiber.New()
 
 	app.Get("/*", static.New("./home.html"))
@@ -104,7 +107,5 @@ func main() {
 		}
 	}))
 
-	addr := flag.String("addr", ":8080", "http service address")
-	flag.Parse()
 	log.Fatal(app.Listen(*addr))
 }

@@ -10,6 +10,13 @@ description: Integrating Firebase with Google Cloud.
 
 Examples on how to run an application using Fiber on Google Cloud.
 
+## Prerequisites
+
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install) installed and authenticated (`gcloud auth login`)
+- A Google Cloud project created and billing enabled
+- Required APIs enabled: Cloud Run, App Engine, or Cloud Functions (depending on deployment method)
+- Set your project: `gcloud config set project [YOUR_PROJECT_ID]`
+
 ## Running Locally
 
 * Run on the command line:
@@ -30,7 +37,7 @@ Or you can do it manually with those steps:
 * Run on the command line:
 ```
 export GCLOUD_PROJECT=[YOUR_PROJECT_ID]
-gcloud builds submit — -tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber .
+gcloud builds submit --tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber .
 gcloud beta run deploy --platform managed --image gcr.io/$GCLOUD_PROJECT/gcloud-fiber
 ```
 
@@ -51,5 +58,5 @@ For the Cloud Functions env, Google enforces us to deploy a function that is a `
 
 * Run on the command line:
 ```
-gcloud functions deploy MyCloudFunction --runtime go111 --trigger-http
+gcloud functions deploy MyCloudFunction --runtime go122 --trigger-http
 ```

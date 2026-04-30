@@ -88,7 +88,7 @@ func (uh *UserHandler) UpdateUser(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Review your input",
-			"data":    err,
+			"data":    err.Error(),
 		})
 	}
 

@@ -49,7 +49,7 @@ func (h *handler) Delete(ctx fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(500).JSON(nil)
 	}
-	return ctx.Status(201).JSON(fiber.Map{"message": "ok"})
+	return ctx.Status(200).JSON(fiber.Map{"message": "ok"})
 }
 
 func (h *handler) GetAll(ctx fiber.Ctx) error {

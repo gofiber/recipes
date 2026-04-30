@@ -21,24 +21,30 @@ func AddBook(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 
-	database.DBConn.Create(&book)
+	if result := database.DBConn.Create(&book); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(result.Error.Error())
+	}
 
 	return c.Status(fiber.StatusOK).JSON(book)
 }
 
 func GetBook(c fiber.Ctx) error {
-	books := []models.Book{}
+	book := models.Book{}
 
-	database.DBConn.First(&books, c.Params("id"))
+	if result := database.DBConn.First(&book, c.Params("id")); result.Error != nil {
+		return c.Status(fiber.StatusNotFound).JSON(result.Error.Error())
+	}
 
-	return c.Status(fiber.StatusOK).JSON(books)
+	return c.Status(fiber.StatusOK).JSON(book)
 }
 
 // AllBooks
 func AllBooks(c fiber.Ctx) error {
 	books := []models.Book{}
 
-	database.DBConn.Find(&books)
+	if result := database.DBConn.Find(&books); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(result.Error.Error())
+	}
 
 	return c.Status(fiber.StatusOK).JSON(books)
 }
@@ -49,9 +55,15 @@ func Update(c fiber.Ctx) error {
 	if err := c.Bind().Body(book); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
-	id, _ := strconv.Atoi(c.Params("id"))
 
-	database.DBConn.Model(&models.Book{}).Where("id = ?", id).Update("title", book.Title)
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON("invalid id")
+	}
+
+	if result := database.DBConn.Model(&models.Book{}).Where("id = ?", id).Updates(book); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(result.Error.Error())
+	}
 
 	return c.Status(fiber.StatusOK).JSON("updated")
 }
@@ -60,9 +72,14 @@ func Update(c fiber.Ctx) error {
 func Delete(c fiber.Ctx) error {
 	book := new(models.Book)
 
-	id, _ := strconv.Atoi(c.Params("id"))
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON("invalid id")
+	}
 
-	database.DBConn.Where("id = ?", id).Delete(&book)
+	if result := database.DBConn.Where("id = ?", id).Delete(&book); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(result.Error.Error())
+	}
 
 	return c.Status(fiber.StatusOK).JSON("deleted")
 }

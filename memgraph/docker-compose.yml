@@ -1,0 +1,23 @@
+services:
+  memgraph:
+    image: memgraph/memgraph:latest
+    ports:
+      - "7687:7687"
+      - "7444:7444"
+    environment:
+      - MEMGRAPH_TELEMETRY_ENABLED=false
+    healthcheck:
+      test: ["CMD", "mg_client", "--use-ssl=False", "-e", "RETURN 1;"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - BOLT_URL=bolt://memgraph:7687
+    depends_on:
+      memgraph:
+        condition: service_healthy

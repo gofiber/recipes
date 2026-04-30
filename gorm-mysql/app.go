@@ -23,9 +23,9 @@ func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	setUpRoutes(app)
-
 	app.Use(cors.New())
+
+	setUpRoutes(app)
 
 	app.Use(func(c fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNotFound) // => 404 "Not Found"

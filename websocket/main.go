@@ -5,7 +5,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/gofiber/contrib/v3/websocket"
@@ -26,7 +25,6 @@ func main() {
 
 	// Upgraded websocket request
 	app.Get("/ws", websocket.New(func(c *websocket.Conn) {
-		fmt.Println(c.Locals("Host")) // "Localhost:3000"
 		for {
 			mt, msg, err := c.ReadMessage()
 			if err != nil {

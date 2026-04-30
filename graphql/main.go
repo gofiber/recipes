@@ -8,9 +8,9 @@ import (
 )
 
 type Input struct {
-	Query         string                 `query:"query"`
-	OperationName string                 `query:"operationName"`
-	Variables     map[string]interface{} `query:"variables"`
+	Query         string         `query:"query"`
+	OperationName string         `query:"operationName"`
+	Variables     map[string]any `query:"variables"`
 }
 
 func main() {
@@ -29,6 +29,23 @@ func main() {
 		log.Fatalf("failed to create new schema, error: %v", err)
 	}
 
+	executeQuery := func(ctx fiber.Ctx, input Input) error {
+		result := graphql.Do(graphql.Params{
+			Schema:         schema,
+			RequestString:  input.Query,
+			OperationName:  input.OperationName,
+			VariableValues: input.Variables,
+		})
+
+		status := fiber.StatusOK
+		if result.HasErrors() {
+			status = fiber.StatusBadRequest
+		}
+
+		ctx.Set("Content-Type", "application/graphql-response+json")
+		return ctx.Status(status).JSON(result)
+	}
+
 	app := fiber.New()
 
 	// curl 'http://localhost:9090/?query=query%7Bhello%7D'
@@ -36,19 +53,10 @@ func main() {
 		var input Input
 		if err := ctx.Bind().Query(&input); err != nil {
 			return ctx.
-				Status(fiber.StatusInternalServerError).
+				Status(fiber.StatusBadRequest).
 				SendString("Cannot parse query parameters: " + err.Error())
 		}
-
-		result := graphql.Do(graphql.Params{
-			Schema:         schema,
-			RequestString:  input.Query,
-			OperationName:  input.OperationName,
-			VariableValues: input.Variables,
-		})
-
-		ctx.Set("Content-Type", "application/graphql-response+json")
-		return ctx.JSON(result)
+		return executeQuery(ctx, input)
 	})
 
 	// curl 'http://localhost:9090/' --header 'content-type: application/json' --data-raw '{"query":"query{hello}"}'
@@ -56,19 +64,10 @@ func main() {
 		var input Input
 		if err := ctx.Bind().Body(&input); err != nil {
 			return ctx.
-				Status(fiber.StatusInternalServerError).
+				Status(fiber.StatusBadRequest).
 				SendString("Cannot parse body: " + err.Error())
 		}
-
-		result := graphql.Do(graphql.Params{
-			Schema:         schema,
-			RequestString:  input.Query,
-			OperationName:  input.OperationName,
-			VariableValues: input.Variables,
-		})
-
-		ctx.Set("Content-Type", "application/graphql-response+json")
-		return ctx.JSON(result)
+		return executeQuery(ctx, input)
 	})
 
 	log.Fatal(app.Listen(":9090"))

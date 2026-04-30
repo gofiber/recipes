@@ -2,9 +2,9 @@ package book
 
 import (
 	"context"
+	"fmt"
 	"time"
 
-	"clean-architecture/api/presenter"
 	"clean-architecture/pkg/entities"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,7 +15,7 @@ import (
 // Repository interface allows us to access the CRUD Operations in mongo here.
 type Repository interface {
 	CreateBook(book *entities.Book) (*entities.Book, error)
-	ReadBook() (*[]presenter.Book, error)
+	ReadBook() (*[]entities.Book, error)
 	UpdateBook(book *entities.Book) (*entities.Book, error)
 	DeleteBook(ID string) error
 }
@@ -43,15 +43,17 @@ func (r *repository) CreateBook(book *entities.Book) (*entities.Book, error) {
 }
 
 // ReadBook is a mongo repository that helps to fetch books
-func (r *repository) ReadBook() (*[]presenter.Book, error) {
-	var books []presenter.Book
+func (r *repository) ReadBook() (*[]entities.Book, error) {
+	var books []entities.Book
 	cursor, err := r.Collection.Find(context.Background(), bson.D{})
 	if err != nil {
 		return nil, err
 	}
 	for cursor.Next(context.TODO()) {
-		var book presenter.Book
-		_ = cursor.Decode(&book)
+		var book entities.Book
+		if err := cursor.Decode(&book); err != nil {
+			return nil, fmt.Errorf("failed to decode book: %w", err)
+		}
 		books = append(books, book)
 	}
 	return &books, nil

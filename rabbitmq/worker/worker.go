@@ -2,22 +2,34 @@ package main
 
 import (
 	"log"
+	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func main() {
-	// Create a new RabbitMQ connection with default settings.
-	// Name of Docker container with RabbitMQ: dev-rabbitmq (see Makefile)
-	connRabbitMQ, err := amqp.Dial("amqp://user:password@dev-rabbitmq:5672/")
-	if err != nil {
-		panic(err)
+func getEnv(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
 	}
+	return fallback
+}
+
+func main() {
+	// Read RabbitMQ URL from environment with fallback.
+	// Name of Docker container with RabbitMQ: dev-rabbitmq (see docker-compose.yml)
+	rabbitmqURL := getEnv("RABBITMQ_URL", "amqp://user:password@dev-rabbitmq:5672/")
+
+	// Create a new RabbitMQ connection.
+	connRabbitMQ, err := amqp.Dial(rabbitmqURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer connRabbitMQ.Close()
 
 	// Open a new channel.
 	channel, err := connRabbitMQ.Channel()
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 	defer channel.Close()
 
@@ -32,7 +44,7 @@ func main() {
 		nil,
 	)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	// Welcome message.
@@ -50,6 +62,6 @@ func main() {
 		}
 	}()
 
-	// Close the channel.
+	// Block until channel is closed.
 	<-forever
 }

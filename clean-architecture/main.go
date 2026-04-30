@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"clean-architecture/api/routes"
@@ -18,7 +19,7 @@ import (
 func main() {
 	db, cancel, err := databaseConnection()
 	if err != nil {
-		log.Fatal("Database Connection Error $s", err)
+		log.Fatalf("Database Connection Error: %s", err)
 	}
 	fmt.Println("Database connection success!")
 	bookCollection := db.Collection("books")
@@ -33,14 +34,16 @@ func main() {
 	api := app.Group("/api")
 	routes.BookRouter(api, bookService)
 	defer cancel()
-	log.Fatal(app.Listen(":8080"))
+	log.Fatal(app.Listen(":3000"))
 }
 
 func databaseConnection() (*mongo.Database, context.CancelFunc, error) {
+	mongoURI := os.Getenv("MONGO_URI")
+	if mongoURI == "" {
+		mongoURI = "mongodb://localhost:27017"
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(
-		"mongodb://username:password@localhost:27017/fiber").SetServerSelectionTimeout(5*time.
-		Second))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI).SetServerSelectionTimeout(5*time.Second))
 	if err != nil {
 		cancel()
 		return nil, nil, err

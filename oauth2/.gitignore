@@ -1,2 +1,4 @@
 .vscode
 .vscode/launch.json
+.env
+logs/

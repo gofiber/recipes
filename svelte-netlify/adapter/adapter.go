@@ -14,7 +14,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/awslabs/aws-lambda-go-api-proxy/core"
 	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/utils"
+	"github.com/gofiber/utils/v2"
 	"github.com/valyala/fasthttp"
 )
 
@@ -44,7 +44,7 @@ func (f *FiberLambda) Proxy(req events.APIGatewayProxyRequest) (events.APIGatewa
 }
 
 // ProxyWithContext receives context and an API Gateway proxy event,
-// transforms them into an http.Request object, and sends it to the echo.Echo for routing.
+// transforms them into an http.Request object, and sends it to the fiber.App for routing.
 // It returns a proxy response object generated from the http.ResponseWriter.
 func (f *FiberLambda) ProxyWithContext(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	fiberRequest, err := f.EventToRequestWithContext(ctx, req)

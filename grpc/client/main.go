@@ -5,7 +5,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"strconv"
@@ -18,13 +17,14 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:4040", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient("localhost:4040", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+	defer conn.Close()
+
 	client := proto.NewAddServiceClient(conn)
 
-	// g := gin.Default()
 	app := fiber.New()
 
 	app.Use(logger.New())
@@ -43,7 +43,7 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: a, B: b}
-		if res, err := client.Add(context.Background(), req); err == nil {
+		if res, err := client.Add(c.Context(), req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})
@@ -67,7 +67,7 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: a, B: b}
-		if res, err := client.Multiply(context.Background(), req); err == nil {
+		if res, err := client.Multiply(c.Context(), req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})

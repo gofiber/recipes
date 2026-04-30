@@ -1,4 +1,4 @@
-module main
+module github.com/gofiber/recipes/recover
 
 go 1.25.0
 

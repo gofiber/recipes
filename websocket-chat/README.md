@@ -61,6 +61,11 @@ The application should now be running on `http://localhost:8080`.
 
 The main Go file sets up the Fiber application, handles WebSocket connections, and manages the chat hub.
 
+- Defines a `client` struct with a mutex and a closing flag to guard concurrent writes per connection.
+- Declares global channels (`register`, `broadcast`, `unregister`) and a shared `clients` map.
+- `runHub()` runs in a goroutine and serialises map mutations: it adds connections on `register`, fans out messages to all clients in parallel goroutines on `broadcast`, and removes connections on `unregister`.
+- `main()` parses the `--addr` flag, serves `home.html` as a static file, upgrades `/ws` requests to WebSocket, and starts the hub before listening.
+
 ### `home.html`
 
 The HTML file provides a simple user interface for the chat application, including a message log and input field.

@@ -1,4 +1,4 @@
-module github.com/amalshaji/fiber-netlify
+module github.com/gofiber/recipes/svelte-netlify
 
 go 1.25.0
 
@@ -6,14 +6,13 @@ require (
 	github.com/aws/aws-lambda-go v1.54.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/gofiber/fiber/v3 v3.2.0
-	github.com/gofiber/utils v1.2.0
+	github.com/gofiber/utils/v2 v2.0.4
 	github.com/valyala/fasthttp v1.70.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/gofiber/schema v1.7.1 // indirect
-	github.com/gofiber/utils/v2 v2.0.4 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.5 // indirect

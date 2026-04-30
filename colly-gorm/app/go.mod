@@ -3,7 +3,7 @@ module fiber-colly-gorm
 go 1.25.0
 
 require (
-	github.com/gocolly/colly v1.2.0
+	github.com/gocolly/colly/v2 v2.1.0
 	github.com/gofiber/fiber/v3 v3.2.0
 	github.com/spf13/viper v1.21.0
 	gorm.io/driver/postgres v1.6.0

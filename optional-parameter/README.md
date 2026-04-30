@@ -45,24 +45,37 @@ Here is an example of how to handle optional parameters in a Fiber application:
 package main
 
 import (
+    "log"
+    "strconv"
+
     "github.com/gofiber/fiber/v3"
 )
 
 func main() {
+    // user list
+    users := [...]string{"Alice", "Bob", "Charlie", "David"}
+
+    // Fiber instance
     app := fiber.New()
 
-    app.Get("/user/:id?", func(c fiber.Ctx) error {
-        id := c.Params("id", "defaultID")
-        return c.SendString("User ID: " + id)
+    // Route to profile
+    app.Get("/:id?", func(c fiber.Ctx) error {
+        id, err := strconv.Atoi(c.Params("id")) // transform id to array index
+        if err != nil || id < 0 || id >= len(users) {
+            return c.SendStatus(fiber.StatusNotFound) // invalid parameter returns 404
+        }
+        return c.SendString("Hello, " + users[id] + "!") // custom hello message to user with the id
     })
 
-    app.Listen(":3000")
+    // Start server
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
 In this example:
 - The `:id?` parameter in the route is optional.
-- If the `id` parameter is not provided, it defaults to `"defaultID"`.
+- If no valid `id` is provided, a `404 Not Found` is returned.
+- Valid `id` values (0-3) map to users Alice, Bob, Charlie, and David.
 
 ## References
 

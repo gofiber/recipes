@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"catalog/domain"
@@ -73,18 +72,19 @@ func (r *mongoRepository) Update(product *domain.Product) error {
 func (r *mongoRepository) FindAll() ([]*domain.Product, error) {
 	var items []*domain.Product
 
-	collection := r.client.Database(r.db).Collection("products")
-	cur, err := collection.Find(context.Background(), bson.D{})
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer cur.Close(context.Background())
-	for cur.Next(context.TODO()) {
+	ctx, cancel := context.WithTimeout(context.Background(), r.timeout)
+	defer cancel()
 
+	collection := r.client.Database(r.db).Collection("products")
+	cur, err := collection.Find(ctx, bson.D{})
+	if err != nil {
+		return nil, errors.Wrap(err, "repository find all")
+	}
+	defer cur.Close(ctx)
+	for cur.Next(ctx) {
 		var item domain.Product
 		if err := cur.Decode(&item); err != nil {
-			log.Fatal(err)
-			return nil, err
+			return nil, errors.Wrap(err, "repository decode")
 		}
 		items = append(items, &item)
 	}
@@ -96,7 +96,7 @@ func (r *mongoRepository) Delete(code string) error {
 	defer cancel()
 	filter := bson.M{"code": code}
 
-	collection := r.client.Database(r.db).Collection("items")
+	collection := r.client.Database(r.db).Collection("products")
 	_, err := collection.DeleteOne(ctx, filter)
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func newMongoClient(mongoServerURL string, timeout int) (*mongo.Client, error) {
 	defer cancel()
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	return client, nil
 }

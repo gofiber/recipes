@@ -21,7 +21,7 @@ func AddBook(service book.Service) fiber.Handler {
 			return c.JSON(presenter.BookErrorResponse(err))
 		}
 		if requestBody.Author == "" || requestBody.Title == "" {
-			c.Status(http.StatusInternalServerError)
+			c.Status(http.StatusBadRequest)
 			return c.JSON(presenter.BookErrorResponse(errors.New(
 				"Please specify title and author")))
 		}
@@ -69,8 +69,8 @@ func RemoveBook(service book.Service) fiber.Handler {
 		}
 		return c.JSON(&fiber.Map{
 			"status": true,
-			"data":   "updated successfully",
-			"err":    nil,
+			"data":   "deleted successfully",
+			"error":  nil,
 		})
 	}
 }

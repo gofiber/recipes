@@ -32,7 +32,7 @@ Or you can do it manually with those steps:
 * Run on the command line:
 ```
 export GCLOUD_PROJECT=[YOUR_PROJECT_ID]
-gcloud builds submit — -tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber-firebase .
+gcloud builds submit --tag gcr.io/$GCLOUD_PROJECT/gcloud-fiber-firebase .
 gcloud beta run deploy --platform managed --image gcr.io/$GCLOUD_PROJECT/gcloud-fiber-firebase \
  --set-env-vars GCP_PROJECT=$GCLOUD_PROJECT
 ```
@@ -54,5 +54,5 @@ For the Cloud Functions env, Google enforces us to deploy a function that is a `
 
 * Run on the command line:
 ```
-gcloud functions deploy HeroesAPI --runtime go111 --trigger-http
+gcloud functions deploy HeroesAPI --runtime go122 --trigger-http
 ```

@@ -12,19 +12,19 @@ import (
 func setUpRoutes(app *fiber.App) {
 	app.Get("/hello", routes.Hello)
 	app.Get("/allbooks", routes.AllBooks)
-	app.Post("/addbook", routes.AddBook)
-	app.Post("/book", routes.Book)
-	app.Put("/update", routes.Update)
-	app.Delete("/delete", routes.Delete)
+	app.Get("/book/:id", routes.Book)
+	app.Post("/book", routes.AddBook)
+	app.Put("/book/:id", routes.Update)
+	app.Delete("/book/:id", routes.Delete)
 }
 
 func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	setUpRoutes(app)
-
 	app.Use(cors.New())
+
+	setUpRoutes(app)
 
 	app.Use(func(c fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNotFound) // => 404 "Not Found"

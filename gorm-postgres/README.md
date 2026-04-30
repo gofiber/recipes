@@ -29,15 +29,19 @@ Ensure you have the following installed:
 
 2. Install dependencies:
     ```sh
-    go get
+    go mod tidy
     ```
 
 3. Set up PostgreSQL and create a database:
     ```sh
-    createdb mydb
+    createdb go-db
     ```
 
-4. Update the database connection string in the code if necessary.
+4. Configure the database connection via the `DB_DSN` environment variable:
+    ```sh
+    export DB_DSN="host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable"
+    ```
+    If `DB_DSN` is not set, the application falls back to the default DSN above.
 
 ## Running the Application
 
@@ -48,52 +52,46 @@ Ensure you have the following installed:
 
 2. Access the application at `http://localhost:3000`.
 
-## Example
+## Endpoints
 
-Here is an example `main.go` file for the Fiber application with GORM and PostgreSQL:
+| Method | URL        | Description                |
+| ------ | ---------- | -------------------------- |
+| GET    | /hello     | Returns a hello message    |
+| GET    | /allbooks  | Retrieves all books        |
+| GET    | /book/:id  | Retrieves a book by ID     |
+| POST   | /book      | Creates a new book         |
+| PUT    | /book/:id  | Updates an existing book   |
+| DELETE | /book/:id  | Deletes a book             |
 
-```go
-package main
+## Example Requests
 
-import (
-    "log"
-    "github.com/gofiber/fiber/v3"
-    "gorm.io/driver/postgres"
-    "gorm.io/gorm"
-)
+### Get All Books
+```sh
+curl -X GET http://localhost:3000/allbooks
+```
 
-type User struct {
-    ID    uint   `gorm:"primaryKey"`
-    Name  string `gorm:"size:255"`
-    Email string `gorm:"uniqueIndex"`
-}
+### Get Book by ID
+```sh
+curl -X GET http://localhost:3000/book/1
+```
 
-func main() {
-    dsn := "host=localhost user=youruser password=yourpassword dbname=mydb port=5432 sslmode=disable"
-    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-    if err != nil {
-        log.Fatal(err)
-    }
+### Create a New Book
+```sh
+curl -X POST http://localhost:3000/book \
+  -d '{"title": "New Book", "author": "Author Name"}' \
+  -H "Content-Type: application/json"
+```
 
-    db.AutoMigrate(&User{})
+### Update a Book
+```sh
+curl -X PUT http://localhost:3000/book/1 \
+  -d '{"title": "Updated Book", "author": "Updated Author"}' \
+  -H "Content-Type: application/json"
+```
 
-    app := fiber.New()
-
-    app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString("Hello, GORM with PostgreSQL!")
-    })
-
-    app.Post("/users", func(c fiber.Ctx) error {
-        user := new(User)
-        if err := c.BodyParser(user); err != nil {
-            return c.Status(fiber.StatusBadRequest).SendString(err.Error())
-        }
-        db.Create(user)
-        return c.JSON(user)
-    })
-
-    log.Fatal(app.Listen(":3000"))
-}
+### Delete a Book
+```sh
+curl -X DELETE http://localhost:3000/book/1
 ```
 
 ## References

@@ -39,60 +39,63 @@ Ensure you have the following installed:
 
 ## Example
 
-Here is an example of how to create an RSS feed in a Fiber application:
+This recipe uses [Mustache templates](https://github.com/cbroglie/mustache) (via the `gofiber/template/mustache` engine) to render an RSS XML response. The template lives in `./xmls/example.xml`.
+
+**`xmls/example.xml`:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+    <language>{{{Lang}}}</language>
+    <title>{{{Title}}}</title>
+    <greeting>{{{Greetings}}}</greeting>
+</note>
+```
+
+**`main.go`:**
 
 ```go
 package main
 
 import (
+    "log"
+
     "github.com/gofiber/fiber/v3"
-    "github.com/gorilla/feeds"
-    "time"
+    "github.com/gofiber/template/mustache/v3"
 )
 
 func main() {
+    engineXML := mustache.New("./xmls", ".xml")
+    if err := engineXML.Load(); err != nil {
+        log.Fatal(err)
+    }
+
     app := fiber.New()
 
     app.Get("/rss", func(c fiber.Ctx) error {
-        feed := &feeds.Feed{
-            Title:       "Example RSS Feed",
-            Link:        &feeds.Link{Href: "http://example.com/rss"},
-            Description: "This is an example RSS feed",
-            Author:      &feeds.Author{Name: "John Doe", Email: "john@example.com"},
-            Created:     time.Now(),
-        }
+        // Set Content-Type to application/rss+xml
+        c.Type("rss")
 
-        feed.Items = []*feeds.Item{
-            {
-                Title:       "First Post",
-                Link:        &feeds.Link{Href: "http://example.com/post/1"},
-                Description: "This is the first post",
-                Author:      &feeds.Author{Name: "John Doe", Email: "john@example.com"},
-                Created:     time.Now(),
-            },
-            {
-                Title:       "Second Post",
-                Link:        &feeds.Link{Href: "http://example.com/post/2"},
-                Description: "This is the second post",
-                Author:      &feeds.Author{Name: "Jane Doe", Email: "jane@example.com"},
-                Created:     time.Now(),
-            },
-        }
-
-        rss, err := feed.ToRss()
-        if err != nil {
-            return err
-        }
-
-        c.Set("Content-Type", "application/rss+xml")
-        return c.SendString(rss)
+        // Render Mustache template with data
+        return engineXML.Render(c, "example", fiber.Map{
+            "Lang":      "en",
+            "Title":     "hello-rss",
+            "Greetings": "Hello World",
+        })
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
+```
+
+### Testing with curl
+
+```sh
+curl http://localhost:3000/rss
 ```
 
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [Gorilla Feeds Documentation](https://pkg.go.dev/github.com/gorilla/feeds)
+- [Fiber Template - Mustache](https://github.com/gofiber/template/tree/master/mustache)
+- [cbroglie/mustache](https://pkg.go.dev/github.com/cbroglie/mustache)

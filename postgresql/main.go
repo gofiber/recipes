@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
-	_ "github.com/lib/pq"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 // Database instance
@@ -26,10 +26,10 @@ const (
 
 // Employee struct
 type Employee struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Salary string `json:"salary"`
-	Age    string `json:"age"`
+	ID     int     `json:"id"`
+	Name   string  `json:"name"`
+	Salary float64 `json:"salary"`
+	Age    int     `json:"age"`
 }
 
 // Employees struct
@@ -40,7 +40,7 @@ type Employees struct {
 // Connect function
 func Connect() error {
 	var err error
-	db, err = sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname))
+	db, err = sql.Open("pgx", fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname))
 	if err != nil {
 		return err
 	}
@@ -78,6 +78,9 @@ func main() {
 			// Append Employee to Employees
 			result.Employees = append(result.Employees, employee)
 		}
+		if err := rows.Err(); err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		}
 		// Return Employees in JSON format
 		return c.JSON(result)
 	})
@@ -93,20 +96,16 @@ func main() {
 		}
 
 		// Insert Employee into database
-		res, err := db.Query("INSERT INTO employees (name, salary, age)VALUES ($1, $2, $3)", u.Name, u.Salary, u.Age)
-		if err != nil {
+		if _, err := db.Exec("INSERT INTO employees (name, salary, age) VALUES ($1, $2, $3)", u.Name, u.Salary, u.Age); err != nil {
 			return err
 		}
-
-		// Print result
-		log.Println(res)
 
 		// Return Employee in JSON format
 		return c.JSON(u)
 	})
 
 	// Update record into postgreSQL
-	app.Put("/employee", func(c fiber.Ctx) error {
+	app.Put("/employee/:id", func(c fiber.Ctx) error {
 		// New Employee struct
 		u := new(Employee)
 
@@ -116,38 +115,22 @@ func main() {
 		}
 
 		// Update Employee into database
-		res, err := db.Query("UPDATE employees SET name=$1,salary=$2,age=$3 WHERE id=$5", u.Name, u.Salary, u.Age, u.ID)
-		if err != nil {
+		if _, err := db.Exec("UPDATE employees SET name=$1, salary=$2, age=$3 WHERE id=$4", u.Name, u.Salary, u.Age, c.Params("id")); err != nil {
 			return err
 		}
-
-		// Print result
-		log.Println(res)
 
 		// Return Employee in JSON format
 		return c.Status(fiber.StatusCreated).JSON(u)
 	})
 
 	// Delete record from postgreSQL
-	app.Delete("/employee", func(c fiber.Ctx) error {
-		// New Employee struct
-		u := new(Employee)
-
-		// Parse body into struct
-		if err := c.Bind().Body(u); err != nil {
-			return c.Status(fiber.StatusBadRequest).SendString(err.Error())
-		}
-
+	app.Delete("/employee/:id", func(c fiber.Ctx) error {
 		// Delete Employee from database
-		res, err := db.Query("DELETE FROM employees WHERE id = $1", u.ID)
-		if err != nil {
+		if _, err := db.Exec("DELETE FROM employees WHERE id = $1", c.Params("id")); err != nil {
 			return err
 		}
 
-		// Print result
-		log.Println(res)
-
-		// Return Employee in JSON format
+		// Return result in JSON format
 		return c.JSON("Deleted")
 	})
 

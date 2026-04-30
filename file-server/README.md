@@ -48,14 +48,16 @@ package main
 
 import (
     "log"
+
     "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/static"
 )
 
 func main() {
     app := fiber.New()
 
-    // Serve static files from the "public" directory
-    app.Static("/", "./public")
+    // Serve static files from the "files" directory
+    app.Get("/*", static.New("./files"))
 
     log.Fatal(app.Listen(":3000"))
 }

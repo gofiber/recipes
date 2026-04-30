@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,21 +15,25 @@ import (
 	"oauth2/models"
 	"oauth2/router"
 
-	"github.com/antigloss/go/logger"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/session"
 	"github.com/gofiber/template/html/v3"
+	"github.com/joho/godotenv"
 	"github.com/segmentio/encoding/json"
 )
 
-// Assets contains embedded frontend ressources
+// Assets contains embedded frontend resources
 //
 //go:embed www/*
 var Assets embed.FS
 
 func main() {
 	var app *fiber.App
-	var err error
+
+	// Load .env once at startup
+	if err := godotenv.Load(".env"); err != nil {
+		slog.Warn("could not load .env file", "err", err)
+	}
 
 	models.ClientID = config.Config("CLIENT_ID")
 	models.ClientSecret = config.Config("CLIENT_SECRET")
@@ -36,46 +41,32 @@ func main() {
 		CookieSecure: true,
 	})
 
-	// define system log
-	models.SYSLOG, err = logger.New(&logger.Config{
-		LogDir:            "./logs",
-		LogFileMaxSize:    200,
-		LogFileMaxNum:     500,
-		LogFileNumToDel:   50,
-		LogFilenamePrefix: "SYS",
-		LogLevel:          logger.LogLevelTrace,
-		LogDest:           logger.LogDestFile, //| logger.LogDestConsole,
-		Flag:              logger.ControlFlagLogDate | logger.ControlFlagLogLineNum,
-	})
-	if err != nil {
-		panic(err)
-	}
-
 	fmt.Println("Starting app ...")
 	models.SYSLOG.Info("Starting app ...")
 
 	// load only the contents of the subfolder www
-	if subFS, err := fs.Sub(Assets, "www"); err != nil {
-		subFS = nil
-		models.SYSLOG.Fatal(err)
-	} else {
-		engine := html.NewFileSystem(http.FS(subFS), ".html")
-		// engine.Reload(true)       // if the templates need constant reparsing
-		engine.Debug(true)        // make the engine declare parsed templates
-		engine.Delims("{{", "}}") // define delimiters to use in the templates
-
-		// instantiate the application
-		app = fiber.New(fiber.Config{
-			ServerHeader:     "OAUTH2 tester",  // name the server
-			DisableKeepalive: false,            // <-- must keep alive to have web sockets working
-			JSONEncoder:      json.Marshal,     // use a better JSON library
-			ReadTimeout:      time.Second * 20, // set a timeout to be able to shutdown the application
-			Views:            engine,           // declare templating engine,
-		})
-
-		// prepare routes
-		router.SetupRoutes(app)
+	subFS, err := fs.Sub(Assets, "www")
+	if err != nil {
+		slog.Error("could not create sub FS", "err", err)
+		os.Exit(1)
 	}
+
+	engine := html.NewFileSystem(http.FS(subFS), ".html")
+	// engine.Reload(true)       // if the templates need constant reparsing
+	engine.Debug(true)        // make the engine declare parsed templates
+	engine.Delims("{{", "}}") // define delimiters to use in the templates
+
+	// instantiate the application
+	app = fiber.New(fiber.Config{
+		ServerHeader:     "OAUTH2 tester",  // name the server
+		DisableKeepalive: false,            // <-- must keep alive to have web sockets working
+		JSONEncoder:      json.Marshal,     // use a better JSON library
+		ReadTimeout:      time.Second * 20, // set a timeout to be able to shutdown the application
+		Views:            engine,           // declare templating engine
+	})
+
+	// prepare routes
+	router.SetupRoutes(app)
 
 	fmt.Println("Running app ...")
 	models.SYSLOG.Info("Running app ...")
@@ -83,7 +74,8 @@ func main() {
 	// run server in a separate goroutine
 	go func() {
 		if err := app.Listen(":8080", fiber.ListenConfig{EnablePrefork: false}); err != nil {
-			models.SYSLOG.Fatal(err)
+			slog.Error("server error", "err", err)
+			os.Exit(1)
 		}
 	}()
 

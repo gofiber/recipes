@@ -6,7 +6,7 @@ import (
 
 	"fiber-colly-gorm/internals/services/database"
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/v2"
 )
 
 // CourseraCourses is based on Colly's official examples:

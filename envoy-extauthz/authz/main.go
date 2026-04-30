@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 
 	"github.com/gofiber/fiber/v3"
@@ -8,20 +9,15 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/logger"
 )
 
-const (
-	authKey  = "apiKey"
-	authName = "x-api-key"
-	authSrc  = "header"
-)
-
 var (
+	// authList contains valid API keys. "valid-key" is for demo purposes only.
 	authList   = []string{"valid-key"}
 	errMissing = &fiber.Error{
-		Code:    403000,
+		Code:    fiber.StatusForbidden,
 		Message: "Missing API key",
 	}
 	errInvalid = &fiber.Error{
-		Code:    403001,
+		Code:    fiber.StatusForbidden,
 		Message: "Invalid API key",
 	}
 )
@@ -34,8 +30,8 @@ func main() {
 	app.Use(keyauth.New(keyauth.Config{
 		SuccessHandler: successHandler,
 		ErrorHandler:   errHandler,
-		// TODO: migrate KeyLookup: strings.Join([]string{authSrc, authName}, ":")
-		Validator: validator,
+		KeyLookup:      "header:x-api-key",
+		Validator:      validator,
 	}))
 
 	log.Fatal(app.Listen(":1337"))
@@ -48,7 +44,7 @@ func successHandler(ctx fiber.Ctx) error {
 func errHandler(ctx fiber.Ctx, err error) error {
 	ctx.Status(fiber.StatusForbidden)
 
-	if err == errMissing {
+	if errors.Is(err, errMissing) {
 		return ctx.JSON(errMissing)
 	}
 

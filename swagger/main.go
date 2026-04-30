@@ -22,10 +22,12 @@ import (
 // @BasePath /api
 func main() {
 	if err := database.Connect(); err != nil {
-		log.Panic("Can't connect database:", err.Error())
+		log.Fatal("Can't connect database:", err.Error())
 	}
 
-	database.DBConn.AutoMigrate(&models.Book{})
+	if err := database.DBConn.AutoMigrate(&models.Book{}); err != nil {
+		log.Fatal(err)
+	}
 
 	app := routes.New()
 	log.Fatal(app.Listen(":3000"))

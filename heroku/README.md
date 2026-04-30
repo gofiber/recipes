@@ -10,6 +10,8 @@ description: Deploying to Heroku.
 
 This project demonstrates how to deploy a Go application using the Fiber framework on Heroku.
 
+> **Note:** Heroku removed its free tier in November 2022. A paid plan is required to deploy applications.
+
 ## Prerequisites
 
 Ensure you have the following installed:
@@ -41,9 +43,13 @@ Ensure you have the following installed:
     heroku create
     ```
 
-5. Add a `Procfile` to the project directory with the following content:
+5. Build the binary and add a `Procfile` to the project directory:
+    ```sh
+    go build -o bin/main .
     ```
-    web: go run main.go
+    `Procfile`:
+    ```
+    web: bin/main
     ```
 
 6. Deploy the application to Heroku:
@@ -69,6 +75,8 @@ package main
 
 import (
     "log"
+    "os"
+
     "github.com/gofiber/fiber/v3"
 )
 

@@ -100,12 +100,12 @@ func main() {
 				})
 				continue // Skip to the next file
 			}
-			defer file.Close() // Ensure the file is closed after the upload
 
 			// Detect content type
 			buffer := make([]byte, 512)
 			_, err = file.Read(buffer)
 			if err != nil {
+				file.Close()
 				failedFiles = append(failedFiles, fiber.Map{
 					"filename": filePart.Filename,
 					"message":  "error reading file",
@@ -113,11 +113,14 @@ func main() {
 				continue // Skip to the next file
 			}
 
-			minio.ConfigDefault.PutObjectOptions.ContentType = http.DetectContentType(buffer)
+			// Use a local PutObjectOptions to avoid mutating global state (race condition)
+			putOpts := minio.ConfigDefault.PutObjectOptions
+			putOpts.ContentType = http.DetectContentType(buffer)
 
 			// Reset file pointer
 			_, err = file.Seek(0, 0)
 			if err != nil {
+				file.Close()
 				failedFiles = append(failedFiles, fiber.Map{
 					"filename": filePart.Filename,
 					"message":  "error resetting file",
@@ -127,13 +130,14 @@ func main() {
 
 			// Upload the file to MinIO
 			uploadInfo, err := store.Conn().PutObject(
-				c.RequestCtx(),
-				minio.ConfigDefault.Bucket,           // Bucket name
-				filePart.Filename,                    // File name in the MinIO bucket
-				file,                                 // File data to upload
-				filePart.Size,                        // File size
-				minio.ConfigDefault.PutObjectOptions, // content type for binary files
+				c.Context(),
+				minio.ConfigDefault.Bucket, // Bucket name
+				filePart.Filename,          // File name in the MinIO bucket
+				file,                       // File data to upload
+				filePart.Size,              // File size
+				putOpts,                    // content type for binary files
 			)
+			file.Close() // Close explicitly after each upload, not via defer inside loop
 			if err != nil {
 				// If the upload fails, add the file to the failed list
 				failedFiles = append(failedFiles, fiber.Map{
@@ -179,7 +183,7 @@ func main() {
 		}
 
 		// Check if the file exists in the MinIO bucket
-		_, err := store.Conn().StatObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		_, err := store.Conn().StatObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusNotFound).JSON(fiber.Map{
 				"message": "file not found",
@@ -187,7 +191,7 @@ func main() {
 		}
 
 		// Retrieve the file from MinIO
-		object, err := store.Conn().GetObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		object, err := store.Conn().GetObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "error retrieving file",

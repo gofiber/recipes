@@ -44,9 +44,11 @@ func main() {
 			}
 
 			// You may now use the buffer to handle the chunk of length bytes
-			log.Printf("Read %d bytes: %x ...", length, buffer[0])
+			if length > 0 {
+				log.Printf("Read %d bytes: %x ...", length, buffer[0])
+			}
 		}
-		return nil
+		return c.SendStatus(fiber.StatusOK)
 	})
 
 	// Start server

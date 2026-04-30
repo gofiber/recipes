@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"net"
 
 	"github.com/gofiber/recipes/fiber-grpc/proto"
@@ -21,7 +22,7 @@ func main() {
 	reflection.Register(srv)
 
 	if e := srv.Serve(lis); e != nil {
-		panic(err)
+		log.Fatal(e)
 	}
 }
 

@@ -2,6 +2,8 @@ package controller
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"strconv"
 	"time"
 
@@ -12,8 +14,8 @@ import (
 )
 
 func GetAuthors(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	authors, err := sqlc.New(database.DB).GetAuthors(ctx)
 	if err != nil {
@@ -24,8 +26,8 @@ func GetAuthors(c fiber.Ctx) error {
 }
 
 func GetAuthor(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	authorId, err := strconv.ParseInt(id, 10, 32)
@@ -35,6 +37,9 @@ func GetAuthor(c fiber.Ctx) error {
 
 	author, err := sqlc.New(database.DB).GetAuthor(ctx, int32(authorId))
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.Status(fiber.StatusNotFound).SendString("author not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
@@ -42,8 +47,8 @@ func GetAuthor(c fiber.Ctx) error {
 }
 
 func NewAuthor(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	var author sqlc.NewAuthorParams
 	if err := c.Bind().Body(&author); err != nil {
@@ -55,12 +60,12 @@ func NewAuthor(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	return c.Status(fiber.StatusOK).JSON(newAuthor)
+	return c.Status(fiber.StatusCreated).JSON(newAuthor)
 }
 
 func DeleteAuthor(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	authorId, err := strconv.ParseInt(id, 10, 32)
@@ -77,8 +82,8 @@ func DeleteAuthor(c fiber.Ctx) error {
 }
 
 func UpdateAuthor(c fiber.Ctx) error {
-	ctx, cancle := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	id := c.Params("id")
 	authorId, err := strconv.ParseInt(id, 10, 32)
@@ -94,6 +99,9 @@ func UpdateAuthor(c fiber.Ctx) error {
 
 	updatedAuthor, err := sqlc.New(database.DB).UpdateAuthor(ctx, author)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.Status(fiber.StatusNotFound).SendString("author not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 

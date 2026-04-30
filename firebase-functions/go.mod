@@ -5,7 +5,6 @@ go 1.25.0
 require (
 	cloud.google.com/go/firestore v1.22.0
 	github.com/gofiber/fiber/v3 v3.2.0
-	google.golang.org/api v0.277.0
 )
 
 require (
@@ -54,6 +53,7 @@ require (
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/text v0.36.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
+	google.golang.org/api v0.277.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20260319201613-d00831a3d3e7 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect

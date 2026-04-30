@@ -6,8 +6,8 @@ import (
 
 	"github.com/gofiber/fiber/v3/middleware/static"
 
-	"github.com/amalshaji/fiber-netlify/adapter"
-	"github.com/amalshaji/fiber-netlify/handler"
+	"github.com/gofiber/recipes/svelte-netlify/adapter"
+	"github.com/gofiber/recipes/svelte-netlify/handler"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gofiber/fiber/v3"
@@ -26,13 +26,11 @@ func init() {
 	fiberLambda = adapter.New(app)
 }
 
-// Handler proxies our app requests to aws lambda
+// Handler proxies app requests to AWS Lambda.
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// If no name is provided in the HTTP request body, throw an error
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
-	//
 	lambda.Start(Handler)
 }

@@ -4,25 +4,22 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "user"
-	password = "password"
-	dbname   = "fiber_demo"
-)
-
 func ConnectDB() {
-	// Connect to the database
-	var connStr string = fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+	)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
@@ -33,6 +30,9 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(5)
+
 	DB = db
-	fmt.Println("😁 Connected to database")
+	fmt.Println("Connected to database")
 }

@@ -27,9 +27,7 @@ func main() {
 
 	// Get the PORT from heroku env
 	port := os.Getenv("PORT")
-
-	// Verify if heroku provided the port or not
-	if os.Getenv("PORT") == "" {
+	if port == "" {
 		port = "3000"
 	}
 

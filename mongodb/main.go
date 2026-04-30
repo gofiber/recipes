@@ -6,6 +6,8 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,11 +25,15 @@ type MongoInstance struct {
 
 var mg MongoInstance
 
-// Database settings (insert your own database name and connection URI)
-const (
-	dbName   = "fiber_test"
-	mongoURI = "mongodb://user:password@localhost:27017/" + dbName
-)
+// Database settings
+const dbName = "fiber_test"
+
+func mongoURI() string {
+	if uri := os.Getenv("MONGO_URI"); uri != "" {
+		return uri
+	}
+	return "mongodb://localhost:27017/" + dbName
+}
 
 // Employee struct
 type Employee struct {
@@ -40,7 +46,10 @@ type Employee struct {
 // Connect configures the MongoDB client and initializes the database connection.
 // Source: https://www.mongodb.com/docs/drivers/go/current/quick-start/
 func Connect() error {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoURI))
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI()))
 	if err != nil {
 		return err
 	}
@@ -65,20 +74,20 @@ func main() {
 	// Get all employee records from MongoDB
 	// Docs: https://docs.mongodb.com/manual/reference/command/find/
 	app.Get("/employee", func(c fiber.Ctx) error {
-		cursor, err := mg.Db.Collection("employees").Find(c.RequestCtx(), bson.D{})
+		cursor, err := mg.Db.Collection("employees").Find(c.Context(), bson.D{})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
-		defer cursor.Close(c.RequestCtx())
+		defer cursor.Close(c.Context())
 
 		var employees []Employee
-		if err := cursor.All(c.RequestCtx(), &employees); err != nil {
+		if err := cursor.All(c.Context(), &employees); err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
 		return c.JSON(employees)
 	})
 
-	// Get once employee records from MongoDB
+	// Get one employee record from MongoDB
 	// Docs: https://www.mongodb.com/blog/post/quick-start-golang--mongodb--how-to-read-documents
 	app.Get("/employee/:id", func(c fiber.Ctx) error {
 		id, err := primitive.ObjectIDFromHex(c.Params("id"))
@@ -87,7 +96,7 @@ func main() {
 		}
 
 		var employee Employee
-		err = mg.Db.Collection("employees").FindOne(c.RequestCtx(), bson.M{"_id": id}).Decode(&employee)
+		err = mg.Db.Collection("employees").FindOne(c.Context(), bson.M{"_id": id}).Decode(&employee)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				return c.SendStatus(fiber.StatusNotFound)
@@ -107,7 +116,7 @@ func main() {
 		}
 
 		employee.ID = ""
-		result, err := mg.Db.Collection("employees").InsertOne(c.RequestCtx(), employee)
+		result, err := mg.Db.Collection("employees").InsertOne(c.Context(), employee)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
@@ -140,7 +149,7 @@ func main() {
 			"age":    employee.Age,
 			"salary": employee.Salary,
 		}}
-		err = mg.Db.Collection("employees").FindOneAndUpdate(c.RequestCtx(), bson.M{"_id": id}, update).Err()
+		err = mg.Db.Collection("employees").FindOneAndUpdate(c.Context(), bson.M{"_id": id}, update).Err()
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				return c.SendStatus(fiber.StatusNotFound)
@@ -161,7 +170,7 @@ func main() {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		result, err := mg.Db.Collection("employees").DeleteOne(c.RequestCtx(), bson.M{"_id": id})
+		result, err := mg.Db.Collection("employees").DeleteOne(c.Context(), bson.M{"_id": id})
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
@@ -175,5 +184,3 @@ func main() {
 
 	log.Fatal(app.Listen(":3000"))
 }
-
-// fiber:context-methods migrated

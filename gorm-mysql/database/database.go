@@ -12,20 +12,21 @@ import (
 
 var DBConn *gorm.DB
 
-// connectDb
+// ConnectDb opens the MySQL connection and runs auto-migration.
+// Set DB_DSN env var to override the default DSN.
+// Default DSN: user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
 func ConnectDb() {
 	// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
-	dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
-	/*
-		NOTE:
-		To handle time.Time correctly, you need to include parseTime as a parameter. (more parameters)
-		To fully support UTF-8 encoding, you need to change charset=utf8 to charset=utf8mb4. See this article for a detailed explanation
-	*/
+	// NOTE: parseTime=True is required for time.Time fields.
+	//       charset=utf8mb4 is required for full UTF-8 support.
+	dsn := os.Getenv("DB_DSN")
+	if dsn == "" {
+		dsn = "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+	}
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to database. \n", err)
-		os.Exit(2)
 	}
 
 	log.Println("connected")

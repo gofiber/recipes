@@ -3,7 +3,6 @@ module oauth2
 go 1.25.0
 
 require (
-	github.com/antigloss/go v1.19.3
 	github.com/gofiber/fiber/v3 v3.2.0
 	github.com/gofiber/template/html/v3 v3.0.3
 	github.com/joho/godotenv v1.5.1
