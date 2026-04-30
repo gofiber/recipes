@@ -10,8 +10,8 @@ github.com/fxamacker/cbor/v2 v2.9.1 h1:2rWm8B193Ll4VdjsJY28jxs70IdDsHRWgQYAI80+r
 github.com/fxamacker/cbor/v2 v2.9.1/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/go-sql-driver/mysql v1.10.0 h1:Q+1LV8DkHJvSYAdR83XzuhDaTykuDx0l6fkXxoWCWfw=
 github.com/go-sql-driver/mysql v1.10.0/go.mod h1:M+cqaI7+xxXGG9swrdeUIoPG3Y3KCkF0pZej+SK+nWk=
-github.com/gofiber/contrib/v3/jwt v1.1.2 h1:GZ8qIG/lb1+bDhPvSXwYO6VOdMzbCSUaukc9mIlqGns=
-github.com/gofiber/contrib/v3/jwt v1.1.2/go.mod h1:xzx903TJHZR/akrLU4RC1UzUvL8j/NvwXrnuqyTtH5c=
+github.com/gofiber/contrib/v3/jwt v1.1.3 h1:7pBl4hUtsJbL/An2Sm/hZ4tLObCcdogAeeYPJZHaOjA=
+github.com/gofiber/contrib/v3/jwt v1.1.3/go.mod h1:3Nq8tAfmPpbgt9v9SUHlgXNKbrWnW4SXitH0Iop8ySs=
 github.com/gofiber/fiber/v3 v3.2.0 h1:g9+09D320foINPpCnR3ibQ5oBEFHjAWRRfDG1te54u8=
 github.com/gofiber/fiber/v3 v3.2.0/go.mod h1:FHOsc2Db7HhHpsE62QAaJlXVV1pNkbZEptZ4jtti7m4=
 github.com/gofiber/schema v1.7.1 h1:oSJBKdgP8JeIME4TQSAqlNKTU2iBB+2RNmKi8Nsc+TI=
