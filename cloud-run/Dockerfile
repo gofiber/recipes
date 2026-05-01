@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS build-go
+FROM golang:1.26-alpine AS build-go
 WORKDIR /cloud-run-example
 COPY go.mod .
 COPY go.sum .
