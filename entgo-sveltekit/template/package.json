@@ -15,7 +15,7 @@
     "@sveltejs/kit": "^2.58.0",
     "@typescript-eslint/eslint-plugin": "^8.59.1",
 		"@typescript-eslint/parser": "^8.59.1",
-		"eslint": "^10.2.1",
+		"eslint": "^10.3.0",
 		"eslint-plugin-svelte": "^3.17.1",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.13",
