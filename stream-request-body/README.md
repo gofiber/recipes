@@ -59,30 +59,32 @@ func main() {
 	// You can test the route by using cURL:
 	// curl -X POST --data-binary @/path/to/large/file localhost:3000
 	app.Post("/", func(c fiber.Ctx) error {
-		reader := c.BodyStream()
+		reader := c.RequestCtx().RequestBodyStream()
+		if reader == nil {
+			return c.SendStatus(fiber.StatusOK)
+		}
 		// Read 1MiB at a time
 		buffer := make([]byte, 0, 1024*1024)
 		for {
 			length, err := io.ReadFull(reader, buffer[:cap(buffer)])
 			// Cap the buffer based on the actual length read
 			buffer = buffer[:length]
+			if length > 0 {
+				// Process the chunk - e.g., write to file, parse data, etc.
+				log.Printf("Read %d bytes", length)
+			}
 			if err != nil {
-				if err == io.EOF {
+				// EOF or ErrUnexpectedEOF means all data has been read.
+				// ErrUnexpectedEOF means the last chunk was smaller than the
+				// buffer, which is normal for the final (or only) chunk.
+				if err == io.EOF || err == io.ErrUnexpectedEOF {
 					break
 				}
-				if err != io.ErrUnexpectedEOF {
-					return err
-				}
-			}
-
-			// You may now use the buffer to handle the chunk of length bytes
-			if length > 0 {
-				log.Printf("Read %d bytes: %x ...", length, buffer[0])
+				return err
 			}
 		}
 		return c.SendStatus(fiber.StatusOK)
 	})
-
 	log.Fatal(app.Listen(":3000"))
 }
 ```
