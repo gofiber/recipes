@@ -34,10 +34,9 @@ This project provides a starting point for building a web application with a cle
     cd recipes/clean-architecture
     ```
 
-2. Set the environment variables in a `.env` file:
+2. Set the environment variables in a `.env` file (see `.env.example`):
     ```env
-    DB_URI=mongodb://localhost:27017
-    DB_NAME=example_db
+    MONGO_URI=mongodb://localhost:27017
     ```
 
 3. Install the dependencies:
@@ -47,7 +46,7 @@ This project provides a starting point for building a web application with a cle
 
 4. Run the application:
     ```bash
-    go run cmd/main.go
+    go run main.go
     ```
 
 The API should now be running on `http://localhost:3000`.
@@ -138,8 +137,8 @@ import "clean-architecture/pkg/entities"
 type Service interface {
     InsertBook(book *entities.Book) (*entities.Book, error)
     UpdateBook(book *entities.Book) (*entities.Book, error)
-    RemoveBook(id primitive.ObjectID) error
-    FetchBooks() ([]*entities.Book, error)
+    RemoveBook(ID string) error
+    FetchBooks() (*[]entities.Book, error)
 }
 ```
 
@@ -159,13 +158,13 @@ import (
 func AddBook(service book.Service) fiber.Handler {
     return func(c fiber.Ctx) error {
         var requestBody entities.Book
-        err := c.BodyParser(&requestBody)
+        err := c.Bind().Body(&requestBody)
         if err != nil {
             c.Status(http.StatusBadRequest)
             return c.JSON(presenter.BookErrorResponse(err))
         }
         if requestBody.Author == "" || requestBody.Title == "" {
-            c.Status(http.StatusInternalServerError)
+            c.Status(http.StatusBadRequest)
             return c.JSON(presenter.BookErrorResponse(errors.New("Please specify title and author")))
         }
         result, err := service.InsertBook(&requestBody)
@@ -178,7 +177,7 @@ func AddBook(service book.Service) fiber.Handler {
 }
 ```
 
-#### `cmd/main.go`
+#### `main.go`
 ```go
 package main
 
@@ -190,7 +189,8 @@ import (
 
 func main() {
     app := fiber.New()
-    bookService := book.NewService() // Assume NewService is a constructor for the book service
+    bookRepo := book.NewRepo(collection)
+    bookService := book.NewService(bookRepo)
     routes.BookRouter(app, bookService)
     app.Listen(":3000")
 }

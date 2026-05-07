@@ -3,7 +3,6 @@ package main
 import (
 	"crypto"
 	"crypto/tls"
-	"fmt"
 	"log"
 	"os"
 
@@ -43,21 +42,23 @@ func initTLSConfig(path string, password string) (*tls.Certificate, error) {
 
 func main() {
 	path := "./security/server.p12"
-	password := "changeit"
-
-	tlsCert, error := initTLSConfig(path, password)
-
-	if error != nil {
-		fmt.Println("Unable to initialize TLS configuration object. Check your configuration and try again. Program will STOP.")
-	} else {
-		config := &tls.Config{Certificates: []tls.Certificate{*tlsCert}}
-
-		app := initFiberApp()
-		ln, err := tls.Listen("tcp", ":443", config)
-		if err != nil {
-			panic(err)
-		}
-
-		log.Fatal(app.Listener(ln))
+	password := os.Getenv("PKCS12_PASSWORD")
+	if password == "" {
+		password = "changeit"
 	}
+
+	tlsCert, err := initTLSConfig(path, password)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	config := &tls.Config{Certificates: []tls.Certificate{*tlsCert}}
+
+	app := initFiberApp()
+	ln, err := tls.Listen("tcp", ":443", config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Fatal(app.Listener(ln))
 }

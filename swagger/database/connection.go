@@ -20,6 +20,12 @@ var (
 	port     = os.Getenv("DB_PORT")
 )
 
+func init() {
+	if port == "" {
+		port = "5432"
+	}
+}
+
 // Connect creates a connection to database
 func Connect() (err error) {
 	port, err := strconv.Atoi(port)

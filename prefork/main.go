@@ -21,7 +21,7 @@ func main() {
 	}
 
 	// Fiber instance
-	app := fiber.New(fiber.Config{})
+	app := fiber.New()
 
 	// Routes
 	app.Get("/", hello)

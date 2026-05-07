@@ -20,7 +20,7 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 1. Clone the repository:
     ```sh
     git clone https://github.com/gofiber/recipes.git
-    cd recipes/gorm-example
+    cd recipes/gorm
     ```
 
 2. Install dependencies:

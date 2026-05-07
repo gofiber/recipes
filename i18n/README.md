@@ -40,6 +40,33 @@ Hola Bob
     Bob tiene 4 correos electrónicos no leídos
 ```
 
+## Getting Started
+
+```bash
+go run main.go
+```
+
+Set `ENV=development` to enable template hot-reload:
+
+```bash
+ENV=development go run main.go
+```
+
+## File Structure
+
+```
+i18n/
+├── lang/
+│   ├── active.en.toml   # English translations (default)
+│   ├── active.es.toml   # Spanish translations
+│   └── active.ru.toml   # Russian translations
+├── templates/
+│   └── index.html       # HTML template
+├── main.go              # Application entry point
+├── go.mod
+└── go.sum
+```
+
 ## go-i18n docs
 
 - [Translating a new language](https://github.com/nicksnyder/go-i18n#translating-a-new-language);

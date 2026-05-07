@@ -13,11 +13,13 @@ func NewServer(dataSources *datasources.DataSources) *fiber.App {
 	app := fiber.New()
 	apiRoutes := app.Group("/api")
 
+	booksService := services.NewBooksService(dataSources.DB)
+
 	apiRoutes.Get("/status", func(c fiber.Ctx) error {
 		return c.SendString("ok")
 	})
-	apiRoutes.Get("/v1/books", handlers.GetBooks(services.NewBooksService(dataSources.DB)))
-	apiRoutes.Post("/v1/books", handlers.AddBook(services.NewBooksService(dataSources.DB)))
+	apiRoutes.Get("/v1/books", handlers.GetBooks(booksService))
+	apiRoutes.Post("/v1/books", handlers.AddBook(booksService))
 
 	return app
 }

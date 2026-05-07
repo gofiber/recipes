@@ -21,6 +21,22 @@ This project provides a starting point for deploying a Go Fiber application to G
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [Git](https://git-scm.com/downloads)
 
+## GCP Prerequisites
+
+Before deploying, ensure the following GCP APIs are enabled and IAM roles are granted:
+
+**Enable APIs:**
+```bash
+gcloud services enable run.googleapis.com \
+  cloudbuild.googleapis.com \
+  containerregistry.googleapis.com
+```
+
+**IAM roles required for the Cloud Build service account (`[PROJECT_NUMBER]@cloudbuild.gserviceaccount.com`):**
+- `roles/run.admin` — deploy Cloud Run services
+- `roles/iam.serviceAccountUser` — act as the Cloud Run runtime service account
+- `roles/storage.admin` — push images to Container Registry
+
 ## Setup
 
 1. Clone the repository:
@@ -46,6 +62,8 @@ This project provides a starting point for deploying a Go Fiber application to G
 
 The application should now be running on `http://localhost:3000`.
 
+> **PORT environment variable:** Cloud Run injects the `PORT` env variable at runtime. The application reads `PORT` and falls back to `3000` if unset, so it works both locally and on Cloud Run without any code changes.
+
 ## Deploy to Google Cloud Run
 
 1. Set up Google Cloud SDK and authenticate:
@@ -63,6 +81,8 @@ The application should now be running on `http://localhost:3000`.
     ```bash
     gcloud run deploy cloud-run-example --image gcr.io/[YOUR_PROJECT_ID]/cloud-run-example --platform managed --region [YOUR_REGION] --allow-unauthenticated
     ```
+
+    > **Note:** `--allow-unauthenticated` makes the service publicly accessible. Remove this flag in production and use IAM-based access control instead.
 
 Replace `[YOUR_PROJECT_ID]` and `[YOUR_REGION]` with your Google Cloud project ID and desired region.
 
@@ -90,8 +110,11 @@ steps:
       - |
         gcloud run deploy $_SERVICE_NAME \
         --image=asia.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA \
-        --region=$_REGION --platform managed --allow-unauthenticated \
+        --region=$_REGION --platform managed \
+        --allow-unauthenticated \
         --port=3000
+        # NOTE: --allow-unauthenticated is for demo purposes only.
+        # Remove this flag in production and use IAM-based access control instead.
 options:
   substitutionOption: ALLOW_LOOSE
 

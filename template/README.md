@@ -1,6 +1,6 @@
 ---
 title: Template
-keywords: [template, tailwindcss, parcel]
+keywords: [template, django, rendering]
 description: Setting up a Go application with template rendering.
 ---
 
@@ -8,15 +8,13 @@ description: Setting up a Go application with template rendering.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/template) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/template)
 
-This project demonstrates how to set up a Go application with template rendering, Tailwind CSS, and Parcel for asset bundling.
+This project demonstrates how to set up a Go application with template rendering using the Django template engine.
 
 ## Prerequisites
 
 Ensure you have the following installed:
 
 - Golang
-- Node.js
-- npm
 
 ## Setup
 
@@ -28,24 +26,10 @@ Ensure you have the following installed:
 
 2. Install dependencies:
     ```sh
-    npm install
+    go get
     ```
 
-## Usage
-
-### Building Assets
-
-1. Build the assets:
-    ```sh
-    npm run build
-    ```
-
-2. Watch assets for changes:
-    ```sh
-    npm run dev
-    ```
-
-### Running the Application
+## Running the Application
 
 1. Start the Fiber application:
     ```sh
@@ -60,13 +44,15 @@ Here is an example of how to set up a basic route with template rendering in Go:
 package main
 
 import (
+    "log"
+
     "github.com/gofiber/fiber/v3"
-    "github.com/gofiber/template/html/v3"
+    "github.com/gofiber/template/django/v4"
 )
 
 func main() {
     // Initialize the template engine
-    engine := html.New("./views", ".html")
+    engine := django.New("./views", ".html")
 
     // Create a new Fiber instance with the template engine
     app := fiber.New(fiber.Config{
@@ -80,13 +66,11 @@ func main() {
         })
     })
 
-    // Start the server
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Parcel Documentation](https://parceljs.org/docs)
+- [Fiber Template Documentation](https://github.com/gofiber/template)

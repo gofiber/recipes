@@ -29,22 +29,17 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
     go mod tidy
     ```
 
-3. Configure the database connection in the `config.json` file:
-    ```json
-    {
-      "DB_Username": "your_db_username",
-      "DB_Password": "your_db_password",
-      "DB_Name": "your_db_name",
-      "DB_Host": "localhost",
-      "DB_Port": "3306"
-    }
+3. Configure the database connection via the `DB_DSN` environment variable:
+    ```sh
+    export DB_DSN="user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
     ```
+    If `DB_DSN` is not set, the application falls back to the default DSN above.
 
 ## Running the Application
 
 1. Run the application:
     ```sh
-    go run main.go
+    go run app.go
     ```
 
 2. The server will start on `http://localhost:3000`.
@@ -57,8 +52,8 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 | GET    | /allbooks | Retrieves all books        |
 | GET    | /book/:id | Retrieves a book by ID     |
 | POST   | /book     | Creates a new book         |
-| PUT    | /book     | Updates an existing book   |
-| DELETE | /book     | Deletes a book             |
+| PUT    | /book/:id | Updates an existing book   |
+| DELETE | /book/:id | Deletes a book             |
 
 ## Example Requests
 
@@ -79,10 +74,10 @@ curl -X POST http://localhost:3000/book -d '{"title": "New Book", "author": "Aut
 
 ### Update a Book
 ```sh
-curl -X PUT http://localhost:3000/book -d '{"id": 1, "title": "Updated Book", "author": "Updated Author"}' -H "Content-Type: application/json"
+curl -X PUT http://localhost:3000/book/1 -d '{"title": "Updated Book", "author": "Updated Author"}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Book
 ```sh
-curl -X DELETE http://localhost:3000/book -d '{"id": 1}' -H "Content-Type: application/json"
+curl -X DELETE http://localhost:3000/book/1
 ```

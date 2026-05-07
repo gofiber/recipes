@@ -14,6 +14,7 @@ services:
       - API_USERNAME=fiber
       - API_PASSWORD=fiber
       - JWT_SECRET=fiber
+      - DB_DSN=root:@tcp(mariadb:3306)/fiber_dmca
     networks:
       - application
     depends_on:
@@ -21,7 +22,7 @@ services:
     command: ./docker-mariadb-clean-arch
 
   mariadb:
-    image: mariadb:10.6.3
+    image: mariadb:11
     restart: always
     volumes:
       - ./scripts/migrations.sql:/docker-entrypoint-initdb.d/1.sql

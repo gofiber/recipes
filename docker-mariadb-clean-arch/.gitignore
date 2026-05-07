@@ -19,3 +19,4 @@
 
 # Output from 'e2e-testing.sh'
 cookie.txt
+docker-mariadb-clean-arch

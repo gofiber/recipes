@@ -38,6 +38,13 @@ Ensure you have the following installed:
     export NEO4J_URI=neo4j://localhost:7687
     export NEO4J_USER=neo4j
     export NEO4J_PASSWORD=password
+    export NEO4J_DATABASE=movies
+    ```
+
+    Or start Neo4j via Docker Compose:
+
+    ```sh
+    docker compose up -d
     ```
 
 ## Running the Application
@@ -56,6 +63,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -63,44 +71,126 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
-func main() {
-	uri := os.Getenv("NEO4J_URI")
-	user := os.Getenv("NEO4J_USER")
-	pass := os.Getenv("NEO4J_PASSWORD")
+type Movie struct {
+	Title    string `json:"title"`
+	Tagline  string `json:"tagline"`
+	Released int64  `json:"released"`
+	Director string `json:"director"`
+}
 
-	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, pass, ""))
+func envOrDefault(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+
+func main() {
+	uri := envOrDefault("NEO4J_URI", "neo4j://localhost:7687")
+	user := envOrDefault("NEO4J_USER", "neo4j")
+	password := envOrDefault("NEO4J_PASSWORD", "password")
+	database := envOrDefault("NEO4J_DATABASE", "movies")
+
+	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, password, ""))
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer driver.Close(context.Background())
+	defer func() {
+		if closeErr := driver.Close(context.Background()); closeErr != nil {
+			log.Printf("failed to close neo4j driver: %v", closeErr)
+		}
+	}()
+
+	if err := driver.VerifyConnectivity(context.Background()); err != nil {
+		log.Fatal(err)
+	}
 
 	app := fiber.New()
 
-	app.Get("/", func(c fiber.Ctx) error {
-		ctx := context.Background()
-		session := driver.NewSession(ctx, neo4j.SessionConfig{
-			DatabaseName: "movies",
-			AccessMode:   neo4j.AccessModeRead,
-		})
-		defer session.Close(ctx)
+	app.Post("/movie", func(c fiber.Ctx) error {
+		movie := new(Movie)
+		if err := c.Bind().Body(movie); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		}
 
-		result, err := session.Run(ctx, "RETURN 'Hello, World!' AS message", nil)
+		ctx := c.Context()
+		session := driver.NewSession(ctx, neo4j.SessionConfig{
+			DatabaseName: database,
+			AccessMode:   neo4j.AccessModeWrite,
+		})
+		defer func() { _ = session.Close(ctx) }()
+
+		query := `CREATE (n:Movie {title: $title, tagline: $tagline, released: $released, director: $director})`
+		_, err := session.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+			_, runErr := tx.Run(ctx, query, map[string]any{
+				"title": movie.Title, "tagline": movie.Tagline,
+				"released": movie.Released, "director": movie.Director,
+			})
+			return nil, runErr
+		})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
+		return c.Status(fiber.StatusCreated).JSON(movie)
+	})
 
-		if result.Next(ctx) {
-			return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": result.Record().AsMap()["message"]})
-		}
-		if result.Err() != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": result.Err().Error()})
-		}
+	app.Get("/movie/:title", func(c fiber.Ctx) error {
+		title := c.Params("title")
+		ctx := c.Context()
+		session := driver.NewSession(ctx, neo4j.SessionConfig{
+			DatabaseName: database,
+			AccessMode:   neo4j.AccessModeRead,
+		})
+		defer func() { _ = session.Close(ctx) }()
 
-		return c.SendStatus(fiber.StatusNotFound)
+		query := `MATCH (n:Movie {title: $title})
+		          RETURN n.title AS title, n.tagline AS tagline, n.released AS released, n.director AS director`
+		result, err := session.ExecuteRead(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+			res, runErr := tx.Run(ctx, query, map[string]any{"title": title})
+			if runErr != nil {
+				return nil, runErr
+			}
+			if !res.Next(ctx) {
+				if res.Err() != nil {
+					return nil, res.Err()
+				}
+				return nil, nil
+			}
+			row := res.Record().AsMap()
+			return Movie{
+				Title:    row["title"].(string),
+				Tagline:  row["tagline"].(string),
+				Released: row["released"].(int64),
+				Director: row["director"].(string),
+			}, nil
+		})
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+		if result == nil {
+			return c.SendStatus(fiber.StatusNotFound)
+		}
+		return c.Status(fiber.StatusOK).JSON(result)
 	})
 
 	log.Fatal(app.Listen(":3000"))
 }
+```
+
+### curl Examples
+
+**Create a movie:**
+
+```sh
+curl -X POST http://localhost:3000/movie \
+  -H "Content-Type: application/json" \
+  -d '{"title":"The Matrix","tagline":"Welcome to the Real World","released":1999,"director":"Lana Wachowski"}'
+```
+
+**Get a movie by title:**
+
+```sh
+curl http://localhost:3000/movie/The%20Matrix
 ```
 
 ## References

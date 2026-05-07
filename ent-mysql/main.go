@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 
 	"ent-mysql/database"
 	"ent-mysql/routes"
@@ -25,7 +24,6 @@ func main() {
 func setSchema() {
 	if err := database.DBConn.Schema.Create(context.Background()); err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 }
 

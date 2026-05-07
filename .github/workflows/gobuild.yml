@@ -14,13 +14,18 @@ on:
       - "**.md"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   builds:
     strategy:
       matrix:
         go-version:
-          - "1.25.x"
+          - "1.26.x"
     runs-on: ubuntu-latest
+    env:
+      GOTOOLCHAIN: auto
     steps:
       - name: Fetch Repository
         uses: actions/checkout@v6

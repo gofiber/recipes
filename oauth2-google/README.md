@@ -66,6 +66,12 @@ curl -X GET http://localhost:3300/api/
 curl -X GET http://localhost:3300/api/auth/google/callback?state=state&code=code
 ```
 
+## Security
+
+### OAuth2 State Validation (CSRF Protection)
+
+The login handler generates a random `state` parameter and stores it in an `HttpOnly`, `Secure`, `SameSite=Lax` cookie before redirecting to Google. The callback handler compares the `state` query parameter returned by Google against the stored cookie value and returns `403 Forbidden` if they do not match. This prevents [Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attacks against the OAuth2 flow.
+
 ## Packages Used
 
 - [Godotenv](https://github.com/joho/godotenv)

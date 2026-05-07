@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"context"
 	"log"
 
 	"ent-mysql/database"
@@ -9,17 +8,15 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-var ctx = context.Background()
-
 func GetBook(c fiber.Ctx) error {
 	id, _ := fiber.Params[int](c, "id"), error(nil)
 	b, err := database.DBConn.Book.
-		Get(ctx, id)
-	if b == nil {
-		return c.Status(fiber.StatusNotFound).JSON("Not found")
-	}
+		Get(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+	if b == nil {
+		return c.Status(fiber.StatusNotFound).JSON("Not found")
 	}
 	log.Println("book data: ", b)
 	return c.Status(fiber.StatusOK).JSON(b)
@@ -27,7 +24,7 @@ func GetBook(c fiber.Ctx) error {
 
 func GetAllBook(c fiber.Ctx) error {
 	b, err := database.DBConn.Book.
-		Query().All(ctx)
+		Query().All(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
@@ -36,16 +33,21 @@ func GetAllBook(c fiber.Ctx) error {
 }
 
 func CreateBook(c fiber.Ctx) error {
-	title := c.Query("title")
-	author := c.Query("author")
-	if title == "" || author == "" {
+	body := struct {
+		Title  string `json:"title"`
+		Author string `json:"author"`
+	}{}
+	if err := c.Bind().Body(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+	}
+	if body.Title == "" || body.Author == "" {
 		return c.Status(fiber.StatusBadRequest).JSON("Not enough data for creating")
 	}
 	b, err := database.DBConn.Book.
 		Create().
-		SetTitle(title).
-		SetAuthor(author).
-		Save(ctx)
+		SetTitle(body.Title).
+		SetAuthor(body.Author).
+		Save(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
@@ -57,7 +59,7 @@ func DeleteBook(c fiber.Ctx) error {
 	id, _ := fiber.Params[int](c, "id"), error(nil)
 	err := database.DBConn.Book.
 		DeleteOneID(id).
-		Exec(ctx)
+		Exec(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
@@ -76,7 +78,7 @@ func UpdateBook(c fiber.Ctx) error {
 		UpdateOneID(id).
 		SetTitle(title).
 		SetAuthor(author).
-		Save(ctx)
+		Save(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}

@@ -30,10 +30,18 @@ func BookSuccessResponse(data *entities.Book) *fiber.Map {
 }
 
 // BooksSuccessResponse is the list SuccessResponse that will be passed in the response by Handler
-func BooksSuccessResponse(data *[]Book) *fiber.Map {
+func BooksSuccessResponse(data *[]entities.Book) *fiber.Map {
+	var books []Book
+	for _, b := range *data {
+		books = append(books, Book{
+			ID:     b.ID,
+			Title:  b.Title,
+			Author: b.Author,
+		})
+	}
 	return &fiber.Map{
 		"status": true,
-		"data":   data,
+		"data":   books,
 		"error":  nil,
 	}
 }

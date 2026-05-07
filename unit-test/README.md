@@ -65,6 +65,7 @@ import (
  "net/http"
  "testing"
 
+ "github.com/gofiber/fiber/v3"
  "github.com/stretchr/testify/assert"
 )
 
@@ -95,12 +96,14 @@ func TestIndexRoute(t *testing.T) {
  app := Setup()
 
  for _, test := range tests {
-  req, _ := http.NewRequest("GET", test.route, nil)
-  res, err := app.Test(req, -1)
+  req, err := http.NewRequest("GET", test.route, nil)
+  assert.Nilf(t, err, test.description)
+  res, err := app.Test(req, fiber.TestConfig{Timeout: 0, FailOnTimeout: false})
   assert.Equalf(t, test.expectedError, err != nil, test.description)
   if test.expectedError {
    continue
   }
+  defer res.Body.Close()
   assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
   body, err := io.ReadAll(res.Body)
   assert.Nilf(t, err, test.description)
@@ -139,7 +142,7 @@ The `app.Test` method in Fiber is used to simulate HTTP requests to the Fiber ap
 
 The `app.Test` method takes two parameters:
 1. **req**: An `*http.Request` object representing the HTTP request to be tested.
-2. **timeout**: An `int` value specifying the maximum time in milliseconds that the request can take. A value of `-1` disables the timeout.
+2. **config**: A `fiber.TestConfig` struct for configuring the test (e.g., `Timeout` and `FailOnTimeout`).
 
 The method returns an `*http.Response` and an `error`. The `*http.Response` contains the application's response to the simulated request, and the `error` indicates if any error occurred during the request processing.
 
@@ -155,6 +158,7 @@ import (
     "net/http"
     "testing"
 
+    "github.com/gofiber/fiber/v3"
     "github.com/stretchr/testify/assert"
 )
 
@@ -163,10 +167,12 @@ func TestIndexRoute(t *testing.T) {
     app := Setup()
 
     // Create a new HTTP request
-    req, _ := http.NewRequest("GET", "/", nil)
+    req, err := http.NewRequest("GET", "/", nil)
+    assert.Nil(t, err)
 
     // Perform the request using app.Test
-    res, err := app.Test(req, -1)
+    res, err := app.Test(req, fiber.TestConfig{Timeout: 0, FailOnTimeout: false})
+    defer res.Body.Close()
 
     // Verify that no error occurred
     assert.Nil(t, err)
@@ -175,7 +181,8 @@ func TestIndexRoute(t *testing.T) {
     assert.Equal(t, 200, res.StatusCode)
 
     // Read the response body
-    body, _ := io.ReadAll(res.Body)
+    body, err := io.ReadAll(res.Body)
+    assert.Nil(t, err)
 
     // Verify the response body
     assert.Equal(t, "OK", string(body))

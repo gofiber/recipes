@@ -18,7 +18,8 @@ Resources:
       RoleName: sam-app-role
       ManagedPolicyArns:
         # add managed policy arns here
-        - arn:aws:iam::aws:policy/AmazonVPCFullAccess
+        # Note: AmazonVPCFullAccess has been removed — use only the permissions your function requires.
+        # Example: - arn:aws:iam::aws:policy/AWSLambdaVPCAccessExecutionRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -62,7 +63,7 @@ Resources:
         AllowMethods: [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ]
         AllowOrigins: [ '*' ]
         AllowHeaders: [ 'Content-Type', 'Authorization', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent' ]
-        AllowCredentials: true
+        # AllowCredentials cannot be true when AllowOrigins is '*' — remove or restrict AllowOrigins to specific domains.
 
 Outputs:
   Endpoint:

@@ -16,6 +16,30 @@ proxy (the configuration could also be used for an L2 / Sidecar proxy). See `aut
 
 It also uses `fiber` as a sample upstream service, with the following endpoints. See `app`.
 
+## Architecture
+
+```
+Client
+  │
+  │  HTTP request (port 8000)
+  ▼
+Envoy (front-envoy)
+  │
+  ├──► AuthZ service (fiber_authz :1337)
+  │      Checks x-api-key header via keyauth middleware.
+  │      Returns 200 OK → Envoy forwards request upstream.
+  │      Returns 403 Forbidden → Envoy rejects request immediately.
+  │
+  └──► App service (fiber_app) — only reached when AuthZ approves
+         Serves /health (unprotected) and /api/resource (protected).
+```
+
+All three services run in the same Docker network (`envoymesh`). Envoy is the sole ingress point; the app service is never exposed directly.
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) with Compose plugin (or `docker-compose` v1)
+
 ## Endpoints
 
 | Name      | Rute          | Protected | Method |

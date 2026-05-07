@@ -18,7 +18,7 @@ This project provides a starting point for deploying a Go Fiber application to A
 
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [Elastic Beanstalk CLI](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.25 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Setup
@@ -57,7 +57,7 @@ The build process is defined in the `Buildfile` and `build.sh` scripts.
     ```bash
     #!/bin/bash -xe
     # Get dependencies
-    go get -u github.com/gofiber/fiber/v3
+    go mod download
 
     # Build the binary
     go build -o application application.go

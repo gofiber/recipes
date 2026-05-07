@@ -63,32 +63,31 @@ Ensure you have the following installed:
 
 ## Example
 
-Here is an example of how to set up a basic route in the Fiber backend to serve the React frontend:
+Here is an example of how to serve a SPA with Fiber v3 using the `static` middleware:
 
 ```go
 package main
 
 import (
+    "log"
+
     "github.com/gofiber/fiber/v3"
-    "github.com/gofiber/fiber/v3/middleware/logger"
+    "github.com/gofiber/fiber/v3/middleware/static"
 )
 
 func main() {
     app := fiber.New()
 
-    // Middleware
-    app.Use(logger.New())
-
-    // Serve static files
-    app.Static("/", "./frontend/dist")
-
-    // API routes
-    app.Get("/api/hello", func(c fiber.Ctx) error {
-        return c.JSON(fiber.Map{"message": "Hello, World!"})
-    })
+    // Serve Single Page Application on "/web".
+    // The NotFoundHandler falls back to index.html so client-side routing works.
+    app.Get("/web*", static.New("dist", static.Config{
+        NotFoundHandler: func(c fiber.Ctx) error {
+            return c.SendFile("./dist/index.html")
+        },
+    }))
 
     // Start server
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 

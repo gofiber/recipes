@@ -1,14 +1,13 @@
 package book
 
 import (
-	"clean-architecture/api/presenter"
 	"clean-architecture/pkg/entities"
 )
 
 // Service is an interface from which our api module can access our repository of all our models
 type Service interface {
 	InsertBook(book *entities.Book) (*entities.Book, error)
-	FetchBooks() (*[]presenter.Book, error)
+	FetchBooks() (*[]entities.Book, error)
 	UpdateBook(book *entities.Book) (*entities.Book, error)
 	RemoveBook(ID string) error
 }
@@ -30,7 +29,7 @@ func (s *service) InsertBook(book *entities.Book) (*entities.Book, error) {
 }
 
 // FetchBooks is a service layer that helps fetch all books in BookShop
-func (s *service) FetchBooks() (*[]presenter.Book, error) {
+func (s *service) FetchBooks() (*[]entities.Book, error) {
 	return s.repository.ReadBook()
 }
 

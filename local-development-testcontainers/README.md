@@ -26,7 +26,7 @@ Ensure you have the following installed and available in your `GOPATH`:
 1. Clone the repository:
     ```sh
     git clone https://github.com/gofiber/recipes.git
-    cd recipes/todo-app-testcontainers-postgres
+    cd recipes/local-development-testcontainers
     ```
 
 2. Install dependencies:
@@ -50,7 +50,7 @@ Create a `.env` file in the root directory and add the following variables:
 # default: 8000
 PORT=
 
-# DB returns the name of the sqlite database
+# DB returns the name of the PostgreSQL database
 # default: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
 
 # TOKENKEY returns the jwt token secret

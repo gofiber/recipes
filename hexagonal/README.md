@@ -31,12 +31,12 @@ This project presents a simple product catalogue microservice to demonstrate the
     go mod tidy
     ```
 
-3. Configure the MongoDB connection in the `config.json` file:
-    ```json
-    {
-      "DB_URI": "your_mongodb_uri",
-      "DB_Name": "your_db_name"
-    }
+3. Configure the MongoDB connection in the `config.yaml` file:
+    ```yaml
+    database:
+      url: "your_mongodb_uri"
+      db: "your_db_name"
+      timeout: 30
     ```
 
 ## Running the Application
@@ -46,7 +46,7 @@ This project presents a simple product catalogue microservice to demonstrate the
     go run main.go
     ```
 
-2. The server will start on `http://localhost:3000`.
+2. The server will start on `http://localhost:8080`.
 
 ## Endpoints
 
@@ -62,27 +62,27 @@ This project presents a simple product catalogue microservice to demonstrate the
 
 ### Get All Products
 ```sh
-curl -X GET http://localhost:3000/api/v1/products
+curl -X GET http://localhost:8080/api/v1/products
 ```
 
 ### Get Product by ID
 ```sh
-curl -X GET http://localhost:3000/api/v1/product/1
+curl -X GET http://localhost:8080/api/v1/product/1
 ```
 
 ### Create a New Product
 ```sh
-curl -X POST http://localhost:3000/api/v1/product -d '{"name": "New Product", "price": 100}' -H "Content-Type: application/json"
+curl -X POST http://localhost:8080/api/v1/product -d '{"name": "New Product", "price": 100}' -H "Content-Type: application/json"
 ```
 
 ### Update a Product
 ```sh
-curl -X PUT http://localhost:3000/api/v1/product/1 -d '{"name": "Updated Product", "price": 150}' -H "Content-Type: application/json"
+curl -X PUT http://localhost:8080/api/v1/product/1 -d '{"name": "Updated Product", "price": 150}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Product
 ```sh
-curl -X DELETE http://localhost:3000/api/v1/product/1
+curl -X DELETE http://localhost:8080/api/v1/product/1
 ```
 
 ## Hexagonal Architecture

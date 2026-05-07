@@ -61,7 +61,7 @@ func main() {
 	app.Post("/", func(c fiber.Ctx) error {
 		reader := c.RequestCtx().RequestBodyStream()
 		if reader == nil {
-			return nil
+			return c.SendStatus(fiber.StatusOK)
 		}
 		// Read 1MiB at a time
 		buffer := make([]byte, 0, 1024*1024)
@@ -83,11 +83,16 @@ func main() {
 				return err
 			}
 		}
-		return nil
+		return c.SendStatus(fiber.StatusOK)
 	})
-
 	log.Fatal(app.Listen(":3000"))
 }
+```
+
+### curl Example
+
+```sh
+curl -X POST --data-binary @/path/to/large/file http://localhost:3000
 ```
 
 ## References

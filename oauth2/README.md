@@ -1,21 +1,20 @@
 ---
 title: OAuth2
-keywords: [oauth2, golang, authentication, api]
-description: Implementing OAuth2 authentication.
+keywords: [oauth2, golang, authentication, github, api]
+description: Implementing GitHub OAuth2 authentication with GoFiber.
 ---
 
-# OAuth2
+# OAuth2 (GitHub)
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/oauth2) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/oauth2)
 
-This project demonstrates how to implement OAuth2 authentication in a Go application.
+This project demonstrates how to implement GitHub OAuth2 authentication in a GoFiber application.
 
 ## Prerequisites
 
-Ensure you have the following installed:
-
-- Golang
-- [OAuth2](https://github.com/golang/oauth2) package
+- Go 1.21+
+- A [GitHub OAuth App](https://github.com/settings/developers)
+  - Set **Authorization callback URL** to `http://localhost:8080/oauth/redirect`
 
 ## Setup
 
@@ -25,64 +24,60 @@ Ensure you have the following installed:
     cd recipes/oauth2
     ```
 
-2. Install dependencies:
+2. Copy the example env file and fill in your credentials:
     ```sh
-    go get
+    cp .env.example .env
+    ```
+
+3. Install dependencies:
+    ```sh
+    go mod download
     ```
 
 ## Running the Application
 
-1. Start the application:
-    ```sh
-    go run main.go
-    ```
+```sh
+go run app.go
+```
+
+Then open `http://localhost:8080` in your browser.
 
 ## Environment Variables
 
-Create a `.env` file in the root directory and add the following variables:
+Create a `.env` file in the root directory (see `.env.example`):
 
 ```shell
-# CLIENT_ID is the OAuth2 client ID
-CLIENT_ID=
-
-# CLIENT_SECRET is the OAuth2 client secret
-CLIENT_SECRET=
-
-# REDIRECT_URL is the OAuth2 redirect URL
-REDIRECT_URL=
-
-# AUTH_URL is the OAuth2 authorization URL
-AUTH_URL=
-
-# TOKEN_URL is the OAuth2 token URL
-TOKEN_URL=
+# GitHub OAuth2 App credentials
+CLIENT_ID=your_github_client_id
+CLIENT_SECRET=your_github_client_secret
 ```
 
-## Example
+## OAuth2 Flow
 
-Here is an example of how to set up an OAuth2 configuration:
+```
+Browser → GET /oauth/begin
+        → generates CSRF state, stores in session
+        → redirects to https://github.com/login/oauth/authorize
+
+GitHub  → GET /oauth/redirect?code=...&state=...
+        → validates CSRF state
+        → exchanges code for access token via GitHub API
+        → stores token in session
+        → redirects to /welcome.html
+
+GET /protected → OAUTHProtected middleware checks session token
+```
+
+## Example: GitHub OAuth2 token exchange
 
 ```go
-package main
-
-import (
-    "golang.org/x/oauth2"
-    "golang.org/x/oauth2/google"
-)
-
-func main() {
-    conf := &oauth2.Config{
-        ClientID:     "your-client-id",
-        ClientSecret: "your-client-secret",
-        RedirectURL:  "your-redirect-url",
-        Endpoint:     google.Endpoint,
-    }
-
-    // Your code here
-}
+// POST https://github.com/login/oauth/access_token
+// with client_id, client_secret, and code
+// Response:
+// {"access_token":"gho_...","token_type":"bearer","scope":""}
 ```
 
 ## References
 
-- [OAuth2 Package Documentation](https://pkg.go.dev/golang.org/x/oauth2)
-- [Google OAuth2 Documentation](https://developers.google.com/identity/protocols/oauth2)
+- [GitHub OAuth Apps documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)
+- [GoFiber documentation](https://docs.gofiber.io)

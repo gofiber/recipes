@@ -18,7 +18,7 @@ This project provides a starting point for building a web application with user 
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.21 or higher
 
 ## Setup
 
@@ -28,7 +28,7 @@ This project provides a starting point for building a web application with user 
     cd recipes/auth-docker-postgres-jwt
     ```
 
-2. Set the environment variables in a `.env` file:
+2. Set the environment variables in a `.env` file (see `.env.example` for reference):
     ```env
     DB_PORT=5432
     DB_USER=example_user

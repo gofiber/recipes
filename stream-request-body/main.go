@@ -31,7 +31,7 @@ func setup() *fiber.App {
 	app.Post("/", func(c fiber.Ctx) error {
 		reader := c.RequestCtx().RequestBodyStream()
 		if reader == nil {
-			return nil
+			return c.SendStatus(fiber.StatusOK)
 		}
 		// Read 1MiB at a time
 		buffer := make([]byte, 0, 1024*1024)
@@ -54,7 +54,7 @@ func setup() *fiber.App {
 				return err
 			}
 		}
-		return nil
+		return c.SendStatus(fiber.StatusOK)
 	})
 
 	return app

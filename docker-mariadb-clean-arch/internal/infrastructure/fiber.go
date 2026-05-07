@@ -26,7 +26,7 @@ func Run() {
 	// Try to connect to our database as the initial part.
 	mariadb, err := ConnectToMariaDB()
 	if err != nil {
-		log.Fatal("Database connection error: $s", err)
+		log.Fatalf("Database connection error: %s", err)
 	}
 
 	// Creates a new Fiber instance.
@@ -36,7 +36,8 @@ func Run() {
 	})
 
 	// Use global middlewares.
-	app.Use(cors.New())
+	// TODO: restrict AllowOrigins to your actual domain(s) in production.
+	app.Use(cors.New(cors.Config{AllowOrigins: []string{"http://localhost:3000"}}))
 	app.Use(compress.New())
 	app.Use(etag.New())
 	app.Use(favicon.New())

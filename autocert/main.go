@@ -7,6 +7,7 @@ package main
 import (
 	"crypto/tls"
 	"log"
+	"net/http"
 
 	"github.com/gofiber/fiber/v3"
 	"golang.org/x/crypto/acme/autocert"
@@ -46,9 +47,14 @@ func main() {
 			"http/1.1", "acme-tls/1",
 		},
 	}
+	// Handle ACME HTTP-01 challenge on port 80
+	go func() {
+		log.Fatal(http.ListenAndServe(":80", m.HTTPHandler(nil)))
+	}()
+
 	ln, err := tls.Listen("tcp", ":443", cfg)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Start server

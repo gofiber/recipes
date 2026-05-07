@@ -5,6 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var validate = validator.New()
+
 type User struct {
 	gorm.Model
 	Email    string `json:"username" gorm:"unique;" validate:"required,email,min=6,max=32"`
@@ -12,6 +14,5 @@ type User struct {
 }
 
 func (l User) Validate() error {
-	v := validator.New()
-	return v.Struct(l)
+	return validate.Struct(l)
 }

@@ -37,9 +37,9 @@ The default table schema only stores session data and expiry, making it difficul
 3. Create the sessions table in SQLite3:
     ```sql
     CREATE TABLE sessions (
-        key TEXT PRIMARY KEY,
-        data BLOB,
-        expiry INTEGER,
+        k TEXT PRIMARY KEY,
+        v BLOB,
+        e INTEGER,
         u TEXT
     );
     ```
@@ -56,3 +56,8 @@ The default table schema only stores session data and expiry, making it difficul
 ## Explanation
 
 This example uses the SQLite3 storage package to persist user sessions. The storage package can create the sessions table for you at initialization, but for the purpose of this example, the table is created manually with an additional "u" column to better query all user-related sessions.
+
+## Security Notes
+
+- The UID passed from the front-end is used directly to identify the user. In production, **always validate the UID** server-side (e.g., verify credentials against your database) instead of trusting client-supplied values.
+- Session type assertions (`s.Get("uid").(string)`) are guarded with an `ok` check to prevent panics on malformed or missing session data.

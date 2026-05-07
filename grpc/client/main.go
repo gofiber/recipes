@@ -5,7 +5,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"strconv"
@@ -18,32 +17,33 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:4040", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient("localhost:4040", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+	defer conn.Close()
+
 	client := proto.NewAddServiceClient(conn)
 
-	// g := gin.Default()
 	app := fiber.New()
 
 	app.Use(logger.New())
 
 	app.Get("/add/:a/:b", func(c fiber.Ctx) error {
-		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
+		a, err := strconv.ParseInt(c.Params("a"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument A",
 			})
 		}
-		b, err := strconv.ParseUint(c.Params("b"), 10, 64)
+		b, err := strconv.ParseInt(c.Params("b"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument B",
 			})
 		}
-		req := &proto.Request{A: int64(a), B: int64(b)}
-		if res, err := client.Add(context.Background(), req); err == nil {
+		req := &proto.Request{A: a, B: b}
+		if res, err := client.Add(c.Context(), req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})
@@ -54,20 +54,20 @@ func main() {
 	})
 
 	app.Get("/mult/:a/:b", func(c fiber.Ctx) error {
-		a, err := strconv.ParseUint(c.Params("a"), 10, 64)
+		a, err := strconv.ParseInt(c.Params("a"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument A",
 			})
 		}
-		b, err := strconv.ParseUint(c.Params("b"), 10, 64)
+		b, err := strconv.ParseInt(c.Params("b"), 10, 64)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": "Invalid argument B",
 			})
 		}
-		req := &proto.Request{A: int64(a), B: int64(b)}
-		if res, err := client.Multiply(context.Background(), req); err == nil {
+		req := &proto.Request{A: a, B: b}
+		if res, err := client.Multiply(c.Context(), req); err == nil {
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"result": fmt.Sprint(res.Result),
 			})

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
 	"crypto/subtle"
 	"log"
 	"os"
@@ -34,11 +33,8 @@ var apiKeys = map[string]apiKeyInfo{
 }
 
 func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
-	hashedKey := sha256.Sum256([]byte(key))
-
 	for apiKey, info := range apiKeys {
-		hashedAPIKey := sha256.Sum256([]byte(apiKey))
-		if subtle.ConstantTimeCompare(hashedAPIKey[:], hashedKey[:]) == 1 {
+		if subtle.ConstantTimeCompare([]byte(apiKey), []byte(key)) == 1 {
 			// Set the consumer for Apitally
 			consumer := apitally.Consumer{
 				Identifier: info.userID,

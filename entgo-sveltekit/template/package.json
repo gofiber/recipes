@@ -12,22 +12,27 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.56.1",
-    "@typescript-eslint/eslint-plugin": "^8.57.1",
-		"@typescript-eslint/parser": "^8.57.1",
-		"eslint": "^10.2.0",
-		"eslint-plugin-svelte": "^3.17.0",
-    "autoprefixer": "^10.4.27",
-    "postcss": "^8.5.8",
+    "@sveltejs/kit": "^2.59.1",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+		"@typescript-eslint/parser": "^8.59.2",
+		"eslint": "^10.3.0",
+		"eslint-plugin-svelte": "^3.17.1",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.14",
     "postcss-load-config": "^6.0.1",
-    "svelte": "^5.55.1",
-    "svelte-check": "^4.4.6",
-    "tailwindcss": "^4.2.2",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.4.8",
+    "tailwindcss": "^4.2.4",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.3",
-    "vite": "^8.0.3"
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10"
   },
   "type": "module",
   "dependencies": {
+  },
+  "pnpm": {
+    "overrides": {
+      "cookie": ">=0.7.0"
+    }
   }
 }

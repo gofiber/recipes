@@ -1,4 +1,4 @@
-FROM golang AS builder
+FROM golang:1.26-alpine AS builder
 WORKDIR /k8s-example
 COPY go.mod .
 COPY go.sum .
