@@ -27,37 +27,54 @@ type Book struct {
 // WARNING: In production applications:
 // - Never hardcode API keys in source code
 // - Use a secure database and only store hashed keys
-var apiKeys = map[string]apiKeyInfo{
-	"d7e123f5a2b9c4e8d6a7b2c1f5e9d3a4": {userID: "user1", userName: "Alice", group: "admin"},
-	"8f4e2d1c9b7a5f3e2d8c6b4a9f7e3d1c": {userID: "user2", userName: "Bob", group: "developer"},
-	"3a9b8c7d6e5f4a2b1c9d8e7f6a5b4c3d": {userID: "user3", userName: "Charlie", group: "reader"},
-}
+var apiKeys = func() map[[32]byte]apiKeyInfo {
+	raw := map[string]apiKeyInfo{
+		"d7e123f5a2b9c4e8d6a7b2c1f5e9d3a4": {userID: "user1", userName: "Alice", group: "admin"},
+		"8f4e2d1c9b7a5f3e2d8c6b4a9f7e3d1c": {userID: "user2", userName: "Bob", group: "developer"},
+		"3a9b8c7d6e5f4a2b1c9d8e7f6a5b4c3d": {userID: "user3", userName: "Charlie", group: "reader"},
+	}
+	hashed := make(map[[32]byte]apiKeyInfo, len(raw))
+	for k, v := range raw {
+		hashed[sha256.Sum256([]byte(k))] = v
+	}
+	return hashed
+}()
 
 func validateAPIKey(c fiber.Ctx, key string) (bool, error) {
 	hashedKey := sha256.Sum256([]byte(key))
 
-	for apiKey, info := range apiKeys {
-		hashedAPIKey := sha256.Sum256([]byte(apiKey))
-		if subtle.ConstantTimeCompare(hashedAPIKey[:], hashedKey[:]) == 1 {
-			// Set the consumer for Apitally
-			consumer := apitally.Consumer{
-				Identifier: info.userID,
-				Name:       info.userName,
-				Group:      info.group,
-			}
-			apitally.SetConsumer(c, consumer)
-			return true, nil
+	// Constant-time compare against every stored hash to avoid leaking
+	// which key is present via timing.
+	var match apiKeyInfo
+	var found bool
+	for storedHash, info := range apiKeys {
+		if subtle.ConstantTimeCompare(storedHash[:], hashedKey[:]) == 1 {
+			match = info
+			found = true
 		}
 	}
+	if !found {
+		return false, keyauth.ErrMissingOrMalformedAPIKey
+	}
 
-	return false, keyauth.ErrMissingOrMalformedAPIKey
+	// Set the consumer for Apitally
+	apitally.SetConsumer(c, apitally.Consumer{
+		Identifier: match.userID,
+		Name:       match.userName,
+		Group:      match.group,
+	})
+	return true, nil
 }
 
 func main() {
 	app := fiber.New()
 	validate := validator.New()
 
-	// Monitoring and request logging with Apitally
+	// Monitoring and request logging with Apitally.
+	// WARNING: LogRequestHeaders, LogRequestBody, LogResponseBody and
+	// CaptureLogs forward full headers, payloads and application logs to
+	// Apitally. They may contain auth tokens, PII or other secrets.
+	// Disable or mask sensitive fields before enabling these in production.
 	cfg := apitally.NewConfig(os.Getenv("APITALLY_CLIENT_ID"))
 	cfg.Env = "dev"
 	cfg.RequestLogging.Enabled = true
