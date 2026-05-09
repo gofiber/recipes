@@ -46,7 +46,7 @@ Ensure you have the following installed:
 
 5. Deploy the application to Kubernetes:
     ```sh
-    kubectl apply -f deployment.yaml
+    kubectl apply -f my-service.yaml
     ```
 
 ## Running the Application
@@ -71,7 +71,11 @@ Here is an example `main.go` file for the Fiber application:
 package main
 
 import (
+    "context"
     "log"
+    "os/signal"
+    "syscall"
+
     "github.com/gofiber/fiber/v3"
 )
 
@@ -82,14 +86,31 @@ func main() {
         return c.SendString("Hello, Kubernetes!")
     })
 
-    log.Fatal(app.Listen(":3000"))
+    app.Get("/healthz", func(c fiber.Ctx) error {
+        return c.SendStatus(fiber.StatusOK)
+    })
+
+    ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+    defer stop()
+
+    go func() {
+        if err := app.Listen(":3000"); err != nil {
+            log.Printf("Listen error: %v\n", err)
+        }
+    }()
+
+    <-ctx.Done()
+    log.Println("Gracefully shutting down...")
+    if err := app.ShutdownWithContext(ctx); err != nil {
+        log.Printf("Shutdown error: %v\n", err)
+    }
 }
 ```
 
 Here is an example `Dockerfile` for the application:
 
 ```Dockerfile
-FROM golang:1.25
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -106,7 +127,7 @@ EXPOSE 3000
 CMD ["/fiber-k8s-example"]
 ```
 
-Here is an example `deployment.yaml` file for deploying the application to Kubernetes:
+Here is an example `my-service.yaml` file for deploying the application to Kubernetes:
 
 ```yaml
 apiVersion: apps/v1
@@ -128,6 +149,18 @@ spec:
         image: fiber-k8s-example:latest
         ports:
         - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 20
 ---
 apiVersion: v1
 kind: Service

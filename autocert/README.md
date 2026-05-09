@@ -16,8 +16,10 @@ This project provides a starting point for building a secure web application wit
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.21 or higher
 - [Git](https://git-scm.com/downloads)
+- A publicly accessible domain name pointing to your server
+- Ports 80 and 443 open and accessible from the internet (required by Let's Encrypt)
 
 ## Setup
 
@@ -46,7 +48,7 @@ This project provides a starting point for building a secure web application wit
     go run main.go
     ```
 
-The application should now be running on `https://localhost`.
+The application should now be running on `https://yourdomain.com`.
 
 ## Example Usage
 

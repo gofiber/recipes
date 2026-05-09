@@ -23,8 +23,6 @@ func main() {
 	micro := fiber.New()
 	scrape := fiber.New()
 
-	app.Use("/api", micro)
-	app.Use("/scrape", scrape)
 	app.Use(logger.New())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
@@ -32,6 +30,9 @@ func main() {
 		AllowMethods:     []string{"GET"},
 		AllowCredentials: true,
 	}))
+
+	app.Use("/api", micro)
+	app.Use("/scrape", scrape)
 
 	micro.Get("/healthchecker", func(c fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{

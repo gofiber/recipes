@@ -8,7 +8,7 @@ description: Setting up a GraphQL server.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/graphql) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/graphql)
 
-This project demonstrates how to set up a GraphQL server in a Go application using the Fiber framework.
+This project demonstrates how to set up a GraphQL server in a Go application using the Fiber framework and the [graphql-go](https://github.com/graphql-go/graphql) library.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ Ensure you have the following installed:
 
 - Golang
 - [Fiber](https://github.com/gofiber/fiber) package
-- [gqlgen](https://github.com/99designs/gqlgen) package
+- [graphql-go](https://github.com/graphql-go/graphql) package
 
 ## Setup
 
@@ -31,11 +31,6 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Initialize gqlgen:
-    ```sh
-    go run github.com/99designs/gqlgen init
-    ```
-
 ## Running the Application
 
 1. Start the application:
@@ -43,43 +38,36 @@ Ensure you have the following installed:
     go run main.go
     ```
 
-2. Access the GraphQL playground at `http://localhost:3000/graphql`.
+2. The server listens on port `9090` and exposes a single endpoint at `/` that accepts both GET and POST requests.
 
-## Example
+## Usage
 
-Here is an example `main.go` file for the Fiber application with GraphQL:
+### GET request
 
-```go
-package main
+Pass the GraphQL query as a URL-encoded `query` parameter:
 
-import (
-    "log"
-    "github.com/gofiber/fiber/v3"
-    "github.com/99designs/gqlgen/graphql/handler"
-    "github.com/99designs/gqlgen/graphql/playground"
-)
+```sh
+curl 'http://localhost:9090/?query=query%7Bhello%7D'
+```
 
-func main() {
-    app := fiber.New()
+### POST request
 
-    srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver{}}))
+Send the query as a JSON body with `Content-Type: application/json`:
 
-    app.All("/graphql", func(c fiber.Ctx) error {
-        srv.ServeHTTP(c.Context().ResponseWriter(), c.Context().Request)
-        return nil
-    })
+```sh
+curl 'http://localhost:9090/' \
+  --header 'content-type: application/json' \
+  --data-raw '{"query":"query{hello}"}'
+```
 
-    app.Get("/", func(c fiber.Ctx) error {
-        playground.Handler("GraphQL playground", "/graphql").ServeHTTP(c.Context().ResponseWriter(), c.Context().Request)
-        return nil
-    })
+Both return a JSON response like:
 
-    log.Fatal(app.Listen(":3000"))
-}
+```json
+{"data":{"hello":"world"}}
 ```
 
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [gqlgen Documentation](https://gqlgen.com/)
+- [graphql-go Documentation](https://github.com/graphql-go/graphql)
 - [GraphQL Documentation](https://graphql.org/)

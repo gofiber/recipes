@@ -20,8 +20,10 @@ func main() {
 	// Create view engine
 	engine := html.New("./views", ".html")
 
-	// Disable this in production
-	engine.Reload(true)
+	// Enable template reloading in development only
+	if os.Getenv("APP_ENV") != "production" {
+		engine.Reload(true)
+	}
 
 	engine.AddFunc("getCssAsset", func(name string) (res template.HTML) {
 		filepath.Walk("public/assets", func(path string, info os.FileInfo, err error) error {

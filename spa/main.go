@@ -16,13 +16,13 @@ func main() {
 	// Create new Fiber instance
 	app := fiber.New()
 
-	// serve Single Page application on "/web"
-	// assume static file at dist folder
-	app.Get("/web*", static.New("dist"))
-
-	app.Get("/web/*", func(ctx fiber.Ctx) error {
-		return ctx.SendFile("./dist/index.html")
-	})
+	// Serve Single Page Application on "/web".
+	// The NotFoundHandler falls back to index.html so client-side routing works.
+	app.Get("/web*", static.New("dist", static.Config{
+		NotFoundHandler: func(ctx fiber.Ctx) error {
+			return ctx.SendFile("./dist/index.html")
+		},
+	}))
 
 	// Start server on http://localhost:3000
 	log.Fatal(app.Listen(":3000"))

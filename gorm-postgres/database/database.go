@@ -2,6 +2,7 @@ package database
 
 import (
 	"log"
+	"os"
 
 	"gorm-postgres/models"
 	"gorm.io/driver/postgres"
@@ -15,9 +16,14 @@ type Dbinstance struct {
 
 var DB Dbinstance
 
-// connectDb
+// ConnectDb opens the PostgreSQL connection and runs auto-migration.
+// Set DB_DSN env var to override the default DSN.
+// Default DSN: host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable
 func ConnectDb() {
-	dsn := "host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	dsn := os.Getenv("DB_DSN")
+	if dsn == "" {
+		dsn = "host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable"
+	}
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),

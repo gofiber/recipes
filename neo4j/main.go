@@ -12,10 +12,10 @@ import (
 
 // Movie represent the movie schema
 type Movie struct {
-	Title    string `json:"title" db:"title"`
-	Tagline  string `json:"tagline" db:"tagline"`
-	Released int64  `json:"released" db:"released"`
-	Director string `json:"director" db:"director"`
+	Title    string `json:"title"`
+	Tagline  string `json:"tagline"`
+	Released int64  `json:"released"`
+	Director string `json:"director"`
 }
 
 func movieFromRecord(record *neo4j.Record) (Movie, error) {
@@ -62,6 +62,7 @@ func main() {
 	uri := envOrDefault("NEO4J_URI", "neo4j://localhost:7687")
 	user := envOrDefault("NEO4J_USER", "neo4j")
 	password := envOrDefault("NEO4J_PASSWORD", "password")
+	database := envOrDefault("NEO4J_DATABASE", "movies")
 
 	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, password, ""))
 	if err != nil {
@@ -86,9 +87,9 @@ func main() {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		ctx := context.Background()
+		ctx := c.Context()
 		session := driver.NewSession(ctx, neo4j.SessionConfig{
-			DatabaseName: "movies",
+			DatabaseName: database,
 			AccessMode:   neo4j.AccessModeWrite,
 		})
 		defer func() {
@@ -116,9 +117,9 @@ func main() {
 
 	app.Get("/movie/:title", func(c fiber.Ctx) error {
 		title := c.Params("title")
-		ctx := context.Background()
+		ctx := c.Context()
 		session := driver.NewSession(ctx, neo4j.SessionConfig{
-			DatabaseName: "movies",
+			DatabaseName: database,
 			AccessMode:   neo4j.AccessModeRead,
 		})
 		defer func() {

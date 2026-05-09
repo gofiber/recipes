@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/gofiber/fiber/v3"
@@ -10,16 +13,23 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
+func getEnv(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+
 func main() {
-	// Create context
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
+	// Read RabbitMQ URL from environment with fallback.
+	rabbitmqURL := getEnv("RABBITMQ_URL", "amqp://user:password@localhost:5672/")
 
 	// Create a new RabbitMQ connection.
-	connRabbitMQ, err := amqp.Dial("amqp://user:password@localhost:5672/")
+	connRabbitMQ, err := amqp.Dial(rabbitmqURL)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+	defer connRabbitMQ.Close()
 
 	// Create a new Fiber instance.
 	app := fiber.New()
@@ -33,7 +43,9 @@ func main() {
 	app.Get("/send", func(c fiber.Ctx) error {
 		// Checking, if query is empty.
 		if c.Query("msg") == "" {
-			log.Println("Missing 'msg' query parameter")
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": "msg parameter required",
+			})
 		}
 
 		// Let's start by opening a channel to our RabbitMQ instance
@@ -60,6 +72,9 @@ func main() {
 		}
 
 		// Attempt to publish a message to the queue.
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+
 		err = ch.PublishWithContext(
 			ctx,
 			"",
@@ -75,9 +90,23 @@ func main() {
 			return err
 		}
 
-		return nil
+		return c.JSON(fiber.Map{"status": "message sent"})
 	})
 
+	// Graceful shutdown: listen for OS signals.
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		<-quit
+		log.Println("Shutting down server...")
+		if err := app.Shutdown(); err != nil {
+			log.Printf("Error during shutdown: %v", err)
+		}
+	}()
+
 	// Start Fiber API server.
-	log.Fatal(app.Listen(":3000"))
+	if err := app.Listen(":3000"); err != nil {
+		log.Fatal(err)
+	}
 }

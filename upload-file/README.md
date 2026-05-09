@@ -92,6 +92,11 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
     curl -F "documents=@/path/to/your/file1" -F "documents=@/path/to/your/file2" http://localhost:3000/
     ```
 
+## Security
+
+- **Filename sanitization**: All handlers use `filepath.Base(file.Filename)` to strip any directory components from uploaded filenames, preventing path traversal attacks (e.g., `../../etc/passwd`).
+- **Body size limit**: The app is configured with a 10 MB body limit (`BodyLimit: 10 * 1024 * 1024`) to prevent denial-of-service via large uploads.
+
 ## Code Overview
 
 ### `single/main.go`
@@ -100,7 +105,7 @@ Handles uploading a single file to the root directory.
 
 ### `single_relative_path/main.go`
 
-Handles uploading a single file to a relative path.
+Handles uploading a single file to a relative path (`./uploads/`) or a temp uploads directory (`./uploads_relative/`).
 
 ### `multiple/main.go`
 

@@ -49,7 +49,9 @@ Server-Sent Events (SSE) allow servers to push updates to the client over a sing
 
 ## Example Usage
 
-By default, the example will run on port `3000`; this can be changed by modifying the `appPort` constant in `main.go`
+By default, the example will run on port `3000`; this can be changed by modifying the `appPort` constant in `main.go`.
+
+The index page connects to the SSE endpoint using a relative URL (`/sse`), so it works regardless of the host or port.
 
 1. Open your browser and navigate to `http://localhost:3000`.
 2. The client will automatically connect to the SSE endpoint and start receiving updates from the server.

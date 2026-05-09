@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
@@ -27,5 +27,6 @@ func getEnv(name string, fallback string) string {
 		return fallback
 	}
 
-	panic(fmt.Sprintf(`Environment variable not found :: %v`, name))
+	log.Fatalf("Environment variable not found :: %s", name)
+	return ""
 }

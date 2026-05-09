@@ -15,7 +15,7 @@ This example demonstrates a simple Go Fiber application that includes modules fo
 Ensure you have the following installed:
 
 - [Go](https://golang.org/dl/): (version 1.22 or higher) installed
-- [minio](https://min.io/download): MinIO running on your local machine or a remote server
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/): for running a local MinIO instance
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure
@@ -37,7 +37,23 @@ git clone https://github.com/gofiber/recipes.git
 cd recipes/minio
 ```
 
-### 2. Install Dependencies
+### 2. Start MinIO with Docker Compose
+
+A `docker-compose.yml` is provided for running a local MinIO instance:
+
+```bash
+docker-compose up -d
+```
+
+This starts MinIO on port `9000` (API) and `9001` (web console). Access the console at [http://localhost:9001](http://localhost:9001) with credentials `minioadmin` / `minioadmin`.
+
+To stop MinIO:
+
+```bash
+docker-compose down
+```
+
+### 3. Install Dependencies
 
 Use Go’s module system to install dependencies:
 

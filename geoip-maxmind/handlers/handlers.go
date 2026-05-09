@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net"
 
 	"github.com/gofiber/fiber/v3"
@@ -30,8 +30,7 @@ func init() {
 	var err error
 	geoIPDb, err = maxminddb.Open("GeoLite2-City.mmdb")
 	if err != nil {
-		fmt.Println("Unable to load 'GeoLite2-City.mmdb'.")
-		panic(err)
+		log.Fatal("Unable to load 'GeoLite2-City.mmdb': ", err)
 	}
 }
 

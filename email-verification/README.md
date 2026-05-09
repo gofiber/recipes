@@ -36,19 +36,20 @@ email-verification/
 
 ## Configuration
 
-Update `config/config.go` with your SMTP settings:
+The application is configured via environment variables. Copy `.env.example` to `.env` and fill in your SMTP credentials:
 
-```go
-func GetConfig() *Config {
-    return &Config{
-        SMTPHost:       "smtp.gmail.com",
-        SMTPPort:       587,
-        SMTPUser:       "your-email@gmail.com",
-        SMTPPassword:   "your-app-password",
-        CodeExpiration: time.Minute * 1,
-    }
-}
+```bash
+cp .env.example .env
 ```
+
+| Variable    | Required | Default        | Description                  |
+|-------------|----------|----------------|------------------------------|
+| `SMTP_HOST` | No       | `smtp.gmail.com` | SMTP server hostname        |
+| `SMTP_PORT` | No       | `587`          | SMTP server port             |
+| `SMTP_USER` | **Yes**  | —              | SMTP username / email address |
+| `SMTP_PASS` | **Yes**  | —              | SMTP password or app-password |
+
+The application exits with a fatal error on startup if `SMTP_USER` or `SMTP_PASS` are not set.
 
 ## API Endpoints
 
@@ -87,13 +88,14 @@ Error:
 
 ## How to Run
 
-1. Configure SMTP settings in `config/config.go`
-2. Run the application:
+1. Copy `.env.example` to `.env` and set your SMTP credentials.
+2. Export the environment variables and run the application:
 ```bash
+export $(cat .env | xargs)
 go run main.go
 ```
 
 ## Dependencies
 
 - [Fiber v3](https://github.com/gofiber/fiber)
-- Go 1.25+
+- Go 1.23+

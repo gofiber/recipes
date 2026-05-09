@@ -93,7 +93,10 @@ func main() {
 		// you should instead check email/password here and then get your user ID.
 
 		// Get or create session
-		s, _ := store.Get(c)
+		s, err := store.Get(c)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		}
 		defer s.Release() // Important: Manual cleanup required
 
 		// If this is a new session
@@ -120,11 +123,12 @@ func main() {
 			stmt, err := db.Prepare(`UPDATE sessions SET u = ? WHERE k = ?`)
 			if err != nil {
 				log.Println(err)
-			}
-
-			_, err = stmt.Exec(uid, sid)
-			if err != nil {
-				log.Println(err)
+			} else {
+				defer stmt.Close()
+				_, err = stmt.Exec(uid, sid)
+				if err != nil {
+					log.Println(err)
+				}
 			}
 		}
 
@@ -141,7 +145,10 @@ func main() {
 		}
 
 		// Get current session
-		s, _ := store.Get(c)
+		s, err := store.Get(c)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		}
 		defer s.Release() // Important: Manual cleanup required
 
 		// Check session ID
@@ -160,7 +167,11 @@ func main() {
 			}
 
 			// If it belongs to current user destroy requested session
-			if s.Get("uid").(string) == dm["uid"] {
+			uid, ok := s.Get("uid").(string)
+			if !ok {
+				return c.Status(fiber.StatusUnauthorized).JSON("invalid session")
+			}
+			if uid == dm["uid"] {
 				store.Storage.Delete(req.SID)
 			}
 		} else {
@@ -174,7 +185,10 @@ func main() {
 	// Handle account API
 	app.Get("/api/account", func(c fiber.Ctx) error {
 		// Get current session
-		s, _ := store.Get(c)
+		s, err := store.Get(c)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		}
 		defer s.Release() // Important: Manual cleanup required
 
 		// If there is a valid session
@@ -196,7 +210,10 @@ func main() {
 
 			// Get profile info
 			sid := s.ID()
-			uid := s.Get("uid").(string)
+			uid, ok := s.Get("uid").(string)
+			if !ok {
+				return c.Status(fiber.StatusUnauthorized).JSON("invalid session")
+			}
 			u := account{
 				Email:     users[uid].Email,
 				Firstname: users[uid].Firstname,

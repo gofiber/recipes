@@ -89,7 +89,9 @@ func main() {
 				"message": "error reading file",
 			})
 		}
-		minio.ConfigDefault.PutObjectOptions.ContentType = http.DetectContentType(buffer)
+		// Use a local PutObjectOptions to avoid mutating global state (race condition)
+		putOpts := minio.ConfigDefault.PutObjectOptions
+		putOpts.ContentType = http.DetectContentType(buffer)
 
 		// Reset file pointer
 		_, err = file.Seek(0, 0)
@@ -101,12 +103,12 @@ func main() {
 
 		// Upload the file to MinIO
 		uploadInfo, err := store.Conn().PutObject(
-			c.RequestCtx(),
-			minio.ConfigDefault.Bucket,           // Bucket name
-			filename,                             // File name in the MinIO bucket
-			file,                                 // File data to upload
-			formFile.Size,                        // File size
-			minio.ConfigDefault.PutObjectOptions, // content type for binary files
+			c.Context(),
+			minio.ConfigDefault.Bucket, // Bucket name
+			filename,                   // File name in the MinIO bucket
+			file,                       // File data to upload
+			formFile.Size,              // File size
+			putOpts,                    // content type for binary files
 		)
 		// If the upload fails, return Error
 		if err != nil {
@@ -146,7 +148,7 @@ func main() {
 		}
 
 		// Check if the file exists in the MinIO bucket
-		_, err := store.Conn().StatObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		_, err := store.Conn().StatObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusNotFound).JSON(fiber.Map{
 				"message": "file not found",
@@ -154,7 +156,7 @@ func main() {
 		}
 
 		// Retrieve the file from MinIO
-		object, err := store.Conn().GetObject(c.RequestCtx(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		object, err := store.Conn().GetObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "error retrieving file",

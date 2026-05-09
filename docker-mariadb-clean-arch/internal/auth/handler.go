@@ -79,7 +79,7 @@ func (h *AuthHandler) signInUser(c fiber.Ctx) error {
 		Value:    signedToken,
 		Path:     "/",
 		Expires:  time.Now().Add(time.Hour * 24),
-		Secure:   false,
+		Secure:   false, // Development only; set to true in production.
 		HTTPOnly: true,
 	})
 
@@ -97,7 +97,7 @@ func (h *AuthHandler) signOutUser(c fiber.Ctx) error {
 		Value:    "loggedOut",
 		Path:     "/",
 		Expires:  time.Now().Add(time.Second * 10),
-		Secure:   false,
+		Secure:   false, // Development only; set to true in production.
 		HTTPOnly: true,
 	})
 

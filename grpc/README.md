@@ -58,6 +58,33 @@ A sample program to showcase fiber as a client to a gRPC server.
 {"result":"14823961130"}
 ```
 
+## Regenerating Proto Files
+
+If you modify `proto/service.proto`, regenerate the Go bindings with one of the following methods:
+
+### Using protoc
+
+Install the required tools:
+```sh
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
+
+Then regenerate:
+```sh
+protoc --go_out=. --go_opt=paths=source_relative \
+       --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+       proto/service.proto
+```
+
+### Using buf
+
+Install buf: https://buf.build/docs/installation
+
+```sh
+buf generate
+```
+
 ## Additional Information
 
 gRPC (gRPC Remote Procedure Calls) is a high-performance, open-source universal RPC framework initially developed by Google. It uses HTTP/2 for transport, Protocol Buffers as the interface description language, and provides features such as authentication, load balancing, and more.

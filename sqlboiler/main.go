@@ -9,11 +9,9 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-func init() {
-	database.ConnectDB()
-}
-
 func main() {
+	database.ConnectDB()
+
 	app := fiber.New()
 	route.SetupRoutes(app)
 

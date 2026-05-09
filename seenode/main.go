@@ -15,6 +15,10 @@ func main() {
 		return c.SendString("Hello, Welcome to seenode 👋")
 	})
 
+	app.Get("/health", func(c fiber.Ctx) error {
+		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

@@ -16,7 +16,10 @@ import (
 const version = "v0.0.1"
 
 func main() {
-	upg, _ := tableflip.New(tableflip.Options{})
+	upg, err := tableflip.New(tableflip.Options{})
+	if err != nil {
+		log.Fatalf("tableflip.New: %v", err)
+	}
 	defer upg.Stop()
 
 	// By prefixing PID to log, easy to interrupt from another process.
@@ -32,7 +35,10 @@ func main() {
 	}()
 
 	// Listen must be called before Ready
-	ln, _ := upg.Listen("tcp", "localhost:8080")
+	ln, err := upg.Listen("tcp", "localhost:8080")
+	if err != nil {
+		log.Fatalf("upg.Listen: %v", err)
+	}
 	defer ln.Close()
 
 	app := fiber.New()
@@ -41,7 +47,11 @@ func main() {
 		return c.SendString(version)
 	})
 
-	go app.Listener(ln)
+	go func() {
+		if err := app.Listener(ln); err != nil {
+			log.Printf("app.Listener: %v", err)
+		}
+	}()
 
 	// tableflip ready
 	if err := upg.Ready(); err != nil {
@@ -59,5 +69,9 @@ func main() {
 	})
 
 	// Wait for connections to drain.
-	app.ShutdownWithContext(context.Background())
+	ctx, cancel := context.WithTimeout(context.Background(), 25*time.Second)
+	defer cancel()
+	if err := app.ShutdownWithContext(ctx); err != nil {
+		log.Printf("ShutdownWithContext: %v", err)
+	}
 }

@@ -11,45 +11,37 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type User struct {
+	ID        uint   `json:"id"        validate:"required"`
+	Firstname string `json:"firstname" validate:"required"`
+	Password  string `json:"-"         validate:"gte=10"` // gte = Greater than or equal
+}
+
 func main() {
+	// Load .env variables before starting the server.
+	if err := godotenv.Load(".env"); err != nil {
+		log.Println("No .env file found, using system environment")
+	}
+
 	app := fiber.New()
-	validate := validator.New() // Create Validate for using.
+	validate := validator.New()
 
 	// Use Cors
 	app.Use(cors.New())
 
-	app.Get("/test", func(ctx fiber.Ctx) error {
-		type User struct {
-			ID        uint   `validate:"required,omitempty"`
-			Firstname string `validate:"required"`
-			Password  string `validate:"gte=10"` // gte = Greater than or equal
-		}
+	app.Post("/test", func(ctx fiber.Ctx) error {
+		var user User
 
-		user := User{
-			ID:        1,
-			Firstname: "Fiber",
-			/*
-				if you delete Firstname field
-				you'll get response like this: Error:Field validation for 'Firstname' failed on the 'required' tag"
-			*/
-			Password: "FiberPassword123",
-			/*
-				if you enter "Fiber" in Password
-				you'll get response like this: Error:Field validation for 'Password' failed on the 'gte' tag"
-			*/
+		if err := ctx.Bind().Body(&user); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
 		if err := validate.Struct(user); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
-		return ctx.Status(fiber.StatusOK).JSON("success time")
+		return ctx.Status(fiber.StatusOK).JSON(user)
 	})
-
-	// .env Variables validation
-	if err := godotenv.Load(".env"); err != nil {
-		panic("Error loading .env file")
-	}
 
 	log.Fatal(app.Listen(config.Config("PORT")))
 }

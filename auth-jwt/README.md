@@ -27,15 +27,19 @@ This project provides a starting point for building a web application with user 
     cd recipes/auth-jwt
     ```
 
-2. Set the environment variables in a `.env` file:
+2. Set the environment variables in a `.env` file (see `.env.sample`):
     ```env
+    DB_HOST=localhost
     DB_PORT=5432
     DB_USER=example_user
     DB_PASSWORD=example_password
     DB_NAME=example_db
-    DB_HOST=localhost
+    DB_SSLMODE=disable
     SECRET=example_secret
+    ACCESS_TOKEN_TTL_MINUTES=15
     ```
+
+    > **Note:** `DB_SSLMODE` controls the PostgreSQL SSL connection mode (`disable`, `require`, `verify-full`, etc.). Set to `require` or `verify-full` in production.
 
 3. Install the dependencies:
     ```bash

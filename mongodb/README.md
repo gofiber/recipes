@@ -32,7 +32,15 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Set up your MongoDB database and update the connection string in the code.
+3. Start MongoDB using Docker:
+    ```sh
+    docker-compose up -d
+    ```
+
+4. (Optional) Set the `MONGO_URI` environment variable. Defaults to `mongodb://localhost:27017/fiber_test`:
+    ```sh
+    export MONGO_URI="mongodb://localhost:27017/fiber_test"
+    ```
 
 ## Running the Application
 
@@ -60,17 +68,13 @@ import (
 
 func main() {
     // MongoDB connection
-    client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-    if err != nil {
-        log.Fatal(err)
-    }
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
-    err = client.Connect(ctx)
+    client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
     if err != nil {
         log.Fatal(err)
     }
-    defer client.Disconnect(ctx)
+    defer client.Disconnect(context.Background())
 
     // Fiber instance
     app := fiber.New()

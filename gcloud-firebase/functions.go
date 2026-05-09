@@ -57,7 +57,6 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 		err := fiberApp.Listener(ln)
 		if err != nil {
 			log.Fatalf("server err : %v", err)
-			panic(err)
 		}
 	}()
 

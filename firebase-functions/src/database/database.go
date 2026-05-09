@@ -2,20 +2,20 @@ package database
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
-
-	"google.golang.org/api/option"
 )
 
+// NewConnection initializes a Firestore client using Application Default Credentials (ADC).
+// On Cloud Functions / Cloud Run, ADC is provided automatically by the runtime environment.
+// For local development, run: gcloud auth application-default login
 func NewConnection() *firestore.Client {
 	ctx := context.Background()
 
-	sa := option.WithCredentialsJSON(credentials())
-	app, err := firebase.NewApp(ctx, nil, sa)
+	// No explicit credentials option needed — ADC resolves credentials automatically.
+	app, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		log.Fatalf("functions.init: NewApp %v\n", err)
 	}
@@ -26,28 +26,4 @@ func NewConnection() *firestore.Client {
 	}
 
 	return db
-}
-
-func credentials() []byte {
-	// TODO: Replace with your Credentials
-	data := map[string]interface{}{
-		"type":                        "",
-		"project_id":                  "",
-		"private_key_id":              "",
-		"private_key":                 "",
-		"client_email":                "",
-		"client_id":                   "",
-		"auth_uri":                    "",
-		"token_uri":                   "",
-		"auth_provider_x509_cert_url": "",
-		"client_x509_cert_url":        "",
-		"universe_domain":             "",
-	}
-
-	bytes, err := json.Marshal(data)
-	if err != nil {
-		panic(err)
-	}
-
-	return bytes
 }

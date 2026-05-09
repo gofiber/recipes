@@ -54,7 +54,7 @@ import (
     "log"
 
     "github.com/gofiber/fiber/v3"
-    _ "github.com/lib/pq"
+    _ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func main() {
@@ -88,4 +88,4 @@ func main() {
 
 - [Fiber Documentation](https://docs.gofiber.io)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [pq Driver Documentation](https://pkg.go.dev/github.com/lib/pq)
+- [pgx Driver Documentation](https://pkg.go.dev/github.com/jackc/pgx/v5)

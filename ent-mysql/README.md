@@ -35,7 +35,7 @@ go generate ./ent
 | Method | URL         | Description     |
 |--------|-------------|-----------------|
 | GET    | /book       | All Books Info  |
-| GET    | /book:id    | One Book Info   |
+| GET    | /book/:id   | One Book Info   |
 | POST   | /create     | One Book Add    |
-| PUT    | /update/:id | One Book Update |
+| PUT    | /update/:id | One Book Update (reads fields from query params) |
 | DELETE | /delete/:id | One Book Delete |

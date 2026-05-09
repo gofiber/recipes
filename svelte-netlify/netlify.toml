@@ -4,8 +4,7 @@
   publish = "public"
 
 [build.environment]
-  GO_IMPORT_PATH = "github.com/amalshaji/fiber-netlify"
-  GO111MODULE = "on"
+  GO_IMPORT_PATH = "github.com/gofiber/recipes/svelte-netlify"
 
 [[redirects]]
   from = "/api/*"

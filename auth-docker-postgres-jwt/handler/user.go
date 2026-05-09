@@ -116,7 +116,9 @@ func UpdateUser(c fiber.Ctx) error {
 
 	db.First(&user, id)
 	user.Names = uui.Names
-	db.Save(&user)
+	if result := db.Save(&user); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't update user", "data": result.Error.Error()})
+	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "User successfully updated", "data": user})
 }
@@ -146,6 +148,8 @@ func DeleteUser(c fiber.Ctx) error {
 
 	db.First(&user, id)
 
-	db.Delete(&user)
+	if result := db.Delete(&user); result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't delete user", "data": result.Error.Error()})
+	}
 	return c.JSON(fiber.Map{"status": "success", "message": "User successfully deleted", "data": nil})
 }

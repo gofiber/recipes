@@ -6,9 +6,9 @@ import (
 
 // ProductHandler  an interface with operations to be implemented by a specific handler, ie http, gRCP
 type ProductHandler interface {
-	Get(ctx fiber.Ctx)
-	Post(ctx fiber.Ctx)
-	Put(ctx fiber.Ctx)
-	Delete(ctx fiber.Ctx)
-	GetAll(ctx fiber.Ctx)
+	Get(ctx fiber.Ctx) error
+	Post(ctx fiber.Ctx) error
+	Put(ctx fiber.Ctx) error
+	Delete(ctx fiber.Ctx) error
+	GetAll(ctx fiber.Ctx) error
 }

@@ -8,10 +8,6 @@ import (
 
 // If city does not exist, do not allow one to access the API.
 func (h *CityHandler) checkIfCityExistsMiddleware(c fiber.Ctx) error {
-	// Create a new customized context.
-	customContext, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
 	// Fetch parameter.
 	targetedCityID, err := fiber.Params[int](c, "cityID"), error(nil)
 	if err != nil {
@@ -22,7 +18,7 @@ func (h *CityHandler) checkIfCityExistsMiddleware(c fiber.Ctx) error {
 	}
 
 	// Check if city exists.
-	searchedCity, err := h.cityService.FetchCity(customContext, targetedCityID)
+	searchedCity, err := h.cityService.FetchCity(context.Background(), targetedCityID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",

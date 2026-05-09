@@ -20,7 +20,7 @@ This example demonstrates how to create a simple chatroom using WebSockets. The 
 1. Clone the repository:
     ```sh
     git clone https://github.com/gofiber/recipes.git
-    cd recipes/socketio-chat
+    cd recipes/socketio
     ```
 
 2. Install dependencies:

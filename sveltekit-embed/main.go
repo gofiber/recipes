@@ -1,6 +1,11 @@
 package main
 
 import (
+	"context"
+	"log"
+	"os/signal"
+	"syscall"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/logger"
@@ -18,10 +23,10 @@ const (
 func main() {
 	// Create new Fiber Instance
 	app := fiber.New(fiber.Config{AppName: appName})
-	defer app.Shutdown()
 
 	// Middleware
 	app.Use(cors.New(cors.Config{
+		// Development only - restrict in production
 		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{"*"},
 	}))
@@ -36,8 +41,19 @@ func main() {
 		IndexNames: []string{"index.html"},
 	}))
 
+	// Listen for OS signals to trigger graceful shutdown
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		<-ctx.Done()
+		if err := app.Shutdown(); err != nil {
+			log.Printf("Error shutting down server: %v", err)
+		}
+	}()
+
 	// Start the server
 	if err := app.Listen(port); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }

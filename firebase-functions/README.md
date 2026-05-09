@@ -64,6 +64,7 @@ package routes
 
 import (
  "example.com/GofiberFirebaseBoilerplate/src/database"
+ "example.com/GofiberFirebaseBoilerplate/src/models"
  "example.com/GofiberFirebaseBoilerplate/src/repositories"
 
  "github.com/gofiber/fiber/v3"
@@ -83,43 +84,40 @@ func (r *Routes) Setup(app *fiber.App) {
 }
 
 func (r *Routes) insertMessage(c fiber.Ctx) error {
- return c.SendString("ok")
+ var body models.MessageInputBody
+ if err := c.Bind().JSON(&body); err != nil {
+  return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+ }
+ if err := r.mainRepository.InsertMessage(&body); err != nil {
+  return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+ }
+ return c.Status(fiber.StatusCreated).JSON(fiber.Map{"id": body})
 }
 ```
 
 ## Database Configuration
 
-Configure your Firestore database connection in the `src/database/database.go` file. Make sure to replace the placeholder credentials with your Firebase project's actual credentials.
+Configure your Firestore database connection in the `src/database/database.go` file. Authentication uses Application Default Credentials (ADC), which are provided automatically by Cloud Functions / Cloud Run. For local development, run `gcloud auth application-default login`.
 
 ```go
 package database
 
 import (
  "context"
- "encoding/json"
  "log"
 
  "cloud.google.com/go/firestore"
  firebase "firebase.google.com/go"
-
- "google.golang.org/api/option"
 )
 
-type Config struct {
- Host     string
- Port     string
- Password string
- User     string
- DBName   string
- SSLMode  string
-}
-
+// NewConnection initializes a Firestore client using Application Default Credentials (ADC).
+// On Cloud Functions / Cloud Run, ADC is provided automatically by the runtime environment.
+// For local development, run: gcloud auth application-default login
 func NewConnection() *firestore.Client {
-
  ctx := context.Background()
 
- sa := option.WithCredentialsJSON(credentials())
- app, err := firebase.NewApp(ctx, nil, sa)
+ // No explicit credentials option needed — ADC resolves credentials automatically.
+ app, err := firebase.NewApp(ctx, nil)
  if err != nil {
   log.Fatalf("functions.init: NewApp %v\n", err)
  }
@@ -130,30 +128,6 @@ func NewConnection() *firestore.Client {
  }
 
  return db
-}
-
-func credentials() []byte {
- // TODO: Replace with your Credentials
- data := map[string]interface{}{
-  "type":                        "",
-  "project_id":                  "",
-  "private_key_id":              "",
-  "private_key":                 "",
-  "client_email":                "",
-  "client_id":                   "",
-  "auth_uri":                    "",
-  "token_uri":                   "",
-  "auth_provider_x509_cert_url": "",
-  "client_x509_cert_url":        "",
-  "universe_domain":             "",
- }
-
- bytes, err := json.Marshal(data)
- if err != nil {
-  panic(err)
- }
-
- return bytes
 }
 ```
 
@@ -177,9 +151,9 @@ type MainRepository struct {
 }
 
 func (r *MainRepository) InsertMessage(body *models.MessageInputBody) error {
- id := uuid.New().String()
- _, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body)
- return err
+	id := uuid.New().String()
+	_, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body)
+	return err
 }
 ```
 
@@ -342,7 +316,7 @@ Deploy your Cloud Function using the following commands, replacing `<YourProject
 
 ```bash
 gcloud config set project <YourProjectID>
-gcloud functions deploy MyCloudFunction --runtime go120 --trigger-http
+gcloud functions deploy MyCloudFunction --runtime go122 --trigger-http
 ```
 
 ## Conclusion
