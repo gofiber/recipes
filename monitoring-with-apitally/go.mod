@@ -3,17 +3,17 @@ module monitoring-with-apitally
 go 1.25.0
 
 require (
-	github.com/apitally/apitally-go/fiber-v3 v0.11.0
-	github.com/go-playground/validator/v10 v10.26.0
+	github.com/apitally/apitally-go/fiber-v3 v0.11.1
+	github.com/go-playground/validator/v10 v10.30.2
 	github.com/gofiber/fiber/v3 v3.2.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
-	github.com/apitally/apitally-go v0.11.0 // indirect
+	github.com/apitally/apitally-go v0.11.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
