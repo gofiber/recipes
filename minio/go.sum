@@ -48,8 +48,8 @@ github.com/gofiber/fiber/v3 v3.2.0 h1:g9+09D320foINPpCnR3ibQ5oBEFHjAWRRfDG1te54u
 github.com/gofiber/fiber/v3 v3.2.0/go.mod h1:FHOsc2Db7HhHpsE62QAaJlXVV1pNkbZEptZ4jtti7m4=
 github.com/gofiber/schema v1.7.1 h1:oSJBKdgP8JeIME4TQSAqlNKTU2iBB+2RNmKi8Nsc+TI=
 github.com/gofiber/schema v1.7.1/go.mod h1:A/X5Ffyru4p9eBdp99qu+nzviHzQiZ7odLT+TwxWhbk=
-github.com/gofiber/storage/minio v0.4.6 h1:ehCJ94YQInp6H4HNRYC5XFAgjEIKKCe4zlVNppnpXDA=
-github.com/gofiber/storage/minio v0.4.6/go.mod h1:M/l2+ZUKcY1QV9aOQlyFriqA6DS2MISPkUMGIsw/a4A=
+github.com/gofiber/storage/minio v0.4.7 h1:vXHKs58YCzDFrED8PvHOCdVsGsUKhuYIADF3w4bdQu0=
+github.com/gofiber/storage/minio v0.4.7/go.mod h1:9wKoUcen4Q9Hq1LGCmls9XlTV9IwNz1sp3sDSyjYELU=
 github.com/gofiber/utils/v2 v2.0.5 h1:IMXoI2A5Dao/aMMBURTNxnhbtQO4kUwUFOgcwFSIjLU=
 github.com/gofiber/utils/v2 v2.0.5/go.mod h1:FwwopfzwAQsoXLCHhOT24eH2jQfBgrrra9S5p0+luxg=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
