@@ -67,6 +67,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
 - [OAuth2](./oauth2/README.md) - Implementing GitHub OAuth2 authentication with GoFiber.
 - [Google OAuth2](./oauth2-google/README.md) - Implementing Google OAuth2 authentication.
+- [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
