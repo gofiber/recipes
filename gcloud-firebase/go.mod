@@ -1,6 +1,6 @@
 module github.com/gofiber/gcloud-firebase
 
-go 1.25.0
+go 1.25.8
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
@@ -37,7 +37,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/googleapis/enterprise-certificate-proxy v0.3.15 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.3.16 // indirect
 	github.com/googleapis/gax-go/v2 v2.22.0 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
