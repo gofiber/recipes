@@ -3,7 +3,7 @@ module main
 go 1.25.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.2.0
+	github.com/gofiber/fiber/v3 v3.3.0
 	github.com/gofiber/storage/sqlite3/v2 v2.2.5
 	github.com/gofiber/template/html/v3 v3.0.4
 	github.com/mattn/go-sqlite3 v1.14.44
