@@ -23,7 +23,7 @@
 		"autoprefixer": "^10.5.0",
 		"eslint": "^10.4.0",
 		"eslint-config-prettier": "^10.1.8",
-		"eslint-plugin-svelte": "^3.17.1",
+		"eslint-plugin-svelte": "^3.18.0",
 		"highlight.js": "^11.11.1",
 		"postcss": "^8.5.15",
 		"prettier": "^3.8.3",
