@@ -47,8 +47,8 @@ github.com/gofiber/fiber/v3 v3.3.0 h1:QBd3sYCqdy6Qs5gJYzSw4I4SbqL204jPqpdub/ueiw
 github.com/gofiber/fiber/v3 v3.3.0/go.mod h1:YH7/TAoRaU4kF8slDCtQuFJ1NzC+3MtxUI4KfvQtaIA=
 github.com/gofiber/schema v1.7.2 h1:/0+siRIDYfMTh/edbdSNDXYZESBAFAu0CjKDUjo3g9Q=
 github.com/gofiber/schema v1.7.2/go.mod h1:lmbXPQ8hvzXSLkdS2DS7pb4kpunC2Roh7Sj3HMjGfzA=
-github.com/gofiber/storage/minio v0.4.7 h1:vXHKs58YCzDFrED8PvHOCdVsGsUKhuYIADF3w4bdQu0=
-github.com/gofiber/storage/minio v0.4.7/go.mod h1:9wKoUcen4Q9Hq1LGCmls9XlTV9IwNz1sp3sDSyjYELU=
+github.com/gofiber/storage/minio v0.4.8 h1:cH6MOlyElAncmlr2u+wrKGHDfiKRZGlBfcGxu4PkU38=
+github.com/gofiber/storage/minio v0.4.8/go.mod h1:xGVTMPOSwRtCBgC0SeLDW7cJIw1GIARuS/L4TLyt1ck=
 github.com/gofiber/utils/v2 v2.1.0 h1:WSu4COJhJw9moNfJu2nQvaM9AFvAQ/nZbigjhHqKgOQ=
 github.com/gofiber/utils/v2 v2.1.0/go.mod h1:DdOgEVwQTi8cou/AKWPqhXOR4fHGRVhA/rEWL3IXG7Q=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
@@ -125,10 +125,10 @@ github.com/testcontainers/testcontainers-go/modules/minio v0.42.0 h1:8yTWNv8ALG7
 github.com/testcontainers/testcontainers-go/modules/minio v0.42.0/go.mod h1:bcjonmVMA/aEzxFFIh/FRwSkeZ+fnxwvkGN/Z4EiW28=
 github.com/tinylib/msgp v1.6.4 h1:mOwYbyYDLPj35mkA2BjjYejgJk9BuHxDdvRnb6v2ZcQ=
 github.com/tinylib/msgp v1.6.4/go.mod h1:RSp0LW9oSxFut3KzESt5Voq4GVWyS+PSulT77roAqEA=
-github.com/tklauser/go-sysconf v0.3.16 h1:frioLaCQSsF5Cy1jgRBrzr6t502KIIwQ0MArYICU0nA=
-github.com/tklauser/go-sysconf v0.3.16/go.mod h1:/qNL9xxDhc7tx3HSRsLWNnuzbVfh3e7gh/BmM179nYI=
-github.com/tklauser/numcpus v0.11.0 h1:nSTwhKH5e1dMNsCdVBukSZrURJRoHbSEQjdEbY+9RXw=
-github.com/tklauser/numcpus v0.11.0/go.mod h1:z+LwcLq54uWZTX0u/bGobaV34u6V7KNlTZejzM6/3MQ=
+github.com/tklauser/go-sysconf v0.4.0 h1:7H0uAN+7RkwWRaxhYXDLqa5V3LPrJeV8wmD9dRUgPQU=
+github.com/tklauser/go-sysconf v0.4.0/go.mod h1:8mTNWyog7H+MpKijp4VmKJAd2bbYQ2zuUwkYRbUArPI=
+github.com/tklauser/numcpus v0.12.0 h1:NR85qdvHA9pFse3x3weVZ0r0ST8R6l5RHbZrlRaqob4=
+github.com/tklauser/numcpus v0.12.0/go.mod h1:ABHeXzJnr/qqwguhClkZKT1/8VABcYrsyUiUGobwWJg=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasthttp v1.71.0 h1:tepR7H+Guh9VUqxxcPggYi8R3lGUu2Rsdh+z7/FCY3k=
