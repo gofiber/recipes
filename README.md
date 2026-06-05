@@ -105,3 +105,9 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 If you have found an amazing recipe for **Fiber** — share it with others!
 We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://docs.gofiber.io) and this repository).
+
+## ☕ Supporters
+
+Fiber is an open-source project that runs on donations to pay the bills, e.g., our domain name, hosting, and serverless infrastructure. If you want to support Fiber, please become a [GitHub Sponsor](https://github.com/sponsors/gofiber).
+
+<!-- sponsors --><!-- sponsors -->
