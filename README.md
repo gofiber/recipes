@@ -106,6 +106,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 If you have found an amazing recipe for **Fiber** — share it with others!
 We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://docs.gofiber.io) and this repository).
 
+<!-- skip-docs -->
 ## ☕ Supporters
 
 Fiber is an open-source project that runs on donations to pay the bills, e.g., our domain name, hosting, and serverless infrastructure. If you want to support Fiber, please become a [GitHub Sponsor](https://github.com/sponsors/gofiber).
@@ -126,3 +127,4 @@ Fiber is an open-source project that runs on donations to pay the bills, e.g., o
 <tr><td valign="top"><strong>☕ Fiber Supporter</strong></td><td><a href="https://hectorgray.com" title="@defstream"><img src="https://github.com/defstream.png" width="28" alt="@defstream" /></a>&nbsp;<a href="https://docs.webp.sh/" title="@webp-sh"><img src="https://github.com/webp-sh.png" width="28" alt="@webp-sh" /></a>&nbsp;<a href="https://zergo0.dev" title="@ZerGo0"><img src="https://github.com/ZerGo0.png" width="28" alt="@ZerGo0" /></a>&nbsp;<a href="https://f.style" title="@hiifong"><img src="https://github.com/hiifong.png" width="28" alt="@hiifong" /></a>&nbsp;<a href="https://github.com/decomoraes" title="@decomoraes"><img src="https://github.com/decomoraes.png" width="28" alt="@decomoraes" /></a>&nbsp;<a href="https://github.com/bsdrop" title="@bsdrop"><img src="https://github.com/bsdrop.png" width="28" alt="@bsdrop" /></a>&nbsp;<a href="https://kos.sh" title="@prplx"><img src="https://github.com/prplx.png" width="28" alt="@prplx" /></a>&nbsp;<a href="https://github.com/sebajax" title="@sebajax"><img src="https://github.com/sebajax.png" width="28" alt="@sebajax" /></a>&nbsp;<a href="https://theaceix.site" title="@Aceix"><img src="https://github.com/Aceix.png" width="28" alt="@Aceix" /></a>&nbsp;<a href="https://rjd.app" title="@rj-davidson"><img src="https://github.com/rj-davidson.png" width="28" alt="@rj-davidson" /></a>&nbsp;<a href="https://mesutgenez.com" title="@mstgnz"><img src="https://github.com/mstgnz.png" width="28" alt="@mstgnz" /></a></td></tr>
 </table>
 <!-- sponsors -->
+<!-- skip-docs -->
