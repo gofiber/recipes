@@ -6,6 +6,10 @@ on:
     paths: ['**/*.md']
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 

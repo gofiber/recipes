@@ -14,6 +14,10 @@ on:
       - "**.md"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -24,6 +28,7 @@ jobs:
         go-version:
           - "1.26.x"
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     env:
       GOTOOLCHAIN: auto
     steps:
