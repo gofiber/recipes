@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "parcel": "2.16.4",
-    "postcss": "8.5.15",
+    "postcss": "8.5.16",
     "tailwindcss": "4.3.1"
   }
 }
