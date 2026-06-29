@@ -13,7 +13,7 @@ require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/gofiber/schema v1.8.0 // indirect
 	github.com/gofiber/template/v2 v2.1.0 // indirect
-	github.com/gofiber/utils/v2 v2.1.0 // indirect
+	github.com/gofiber/utils/v2 v2.1.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
