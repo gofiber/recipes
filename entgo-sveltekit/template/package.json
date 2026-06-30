@@ -13,8 +13,8 @@
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.68.0",
-    "@typescript-eslint/eslint-plugin": "^8.62.0",
-		"@typescript-eslint/parser": "^8.62.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
+		"@typescript-eslint/parser": "^8.62.1",
 		"eslint": "^10.6.0",
 		"eslint-plugin-svelte": "^3.20.0",
     "autoprefixer": "^10.5.2",
