@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.3.0
-	github.com/gofiber/template/html/v3 v3.0.5
+	github.com/gofiber/template/html/v3 v3.0.6
 )
 
 require (
