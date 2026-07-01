@@ -23,8 +23,8 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/gofiber/storage/minio v0.5.0
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/klauspost/compress v1.18.6 // indirect
-	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
+	github.com/klauspost/compress v1.18.7 // indirect
+	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.22 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
