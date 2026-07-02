@@ -2,7 +2,7 @@ module yendoapi
 
 go 1.25.0
 
-require github.com/gofiber/fiber/v3 v3.3.0
+require github.com/gofiber/fiber/v3 v3.4.0
 
 require (
 	github.com/andybalholm/brotli v1.2.2 // indirect
