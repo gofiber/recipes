@@ -19,10 +19,10 @@ importers:
         version: 4.15.2(tailwindcss@4.3.2)
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
-        version: 3.0.10(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))
+        version: 3.0.10(@sveltejs/kit@2.69.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))
       '@sveltejs/kit':
-        specifier: ^2.68.0
-        version: 2.68.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))
+        specifier: ^2.69.0
+        version: 2.69.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))
       '@tailwindcss/forms':
         specifier: ^0.5.11
         version: 0.5.11(tailwindcss@4.3.2)
@@ -442,8 +442,8 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
-  '@sveltejs/kit@2.68.0':
-    resolution: {integrity: sha512-PdKiWsqinAoubVsSiRgVFkg3MHzGhQPnwQ8VxnGQKpZYijpapZ3UHHBje0GeByt2TvfjHPw+kxV+dNK2RIZg9g==}
+  '@sveltejs/kit@2.69.0':
+    resolution: {integrity: sha512-RD4ntr/QiXsU5V0ADEoZ+R2lyPlwZbENJ6ss0YtgQXqWn3+U9PnU/EeitysgpVbDV8d9XTmFqdTMKOTOe3yb0A==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -621,8 +621,8 @@ packages:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
-  cookie@2.0.0:
-    resolution: {integrity: sha512-hRSFuKJ6SYHrFVNltQdagQFMk7e0Q/VrORTGqZGyUAmmhA3EwPeldHCTg0HqUaDodQOfQDe7qXuOtpf4lwCsaA==}
+  cookie@2.0.1:
+    resolution: {integrity: sha512-yuToqVvRrj6pfDXREyQAAv8SkAEk/8GS3jQRTiUMm66TVtBYmqQeoEjL2Lmq8Rpo6271vH76InTChTitEAm65w==}
     engines: {node: '>=22'}
 
   cross-spawn@7.0.6:
@@ -1482,18 +1482,18 @@ snapshots:
     dependencies:
       acorn: 8.17.0
 
-  '@sveltejs/adapter-static@3.0.10(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))':
+  '@sveltejs/adapter-static@3.0.10(@sveltejs/kit@2.69.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))':
     dependencies:
-      '@sveltejs/kit': 2.68.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))
+      '@sveltejs/kit': 2.69.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))
 
-  '@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))':
+  '@sveltejs/kit@2.69.0(@sveltejs/vite-plugin-svelte@2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))':
     dependencies:
       '@standard-schema/spec': 1.1.0
       '@sveltejs/acorn-typescript': 1.0.10(acorn@8.17.0)
       '@sveltejs/vite-plugin-svelte': 2.5.3(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.2(esbuild@0.27.3)(yaml@2.8.2))
       '@types/cookie': 0.6.0
       acorn: 8.17.0
-      cookie: 2.0.0
+      cookie: 2.0.1
       devalue: 5.8.1
       esm-env: 1.2.2
       kleur: 4.1.5
@@ -1697,7 +1697,7 @@ snapshots:
 
   clsx@2.1.1: {}
 
-  cookie@2.0.0: {}
+  cookie@2.0.1: {}
 
   cross-spawn@7.0.6:
     dependencies:
