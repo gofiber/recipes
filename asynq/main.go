@@ -29,7 +29,11 @@ func main() {
 
 	// The client is safe for concurrent use; create one and reuse it.
 	client := asynq.NewClient(asynq.RedisClientOpt{Addr: redisAddr})
-	defer client.Close()
+	defer func() {
+		if err := client.Close(); err != nil {
+			log.Printf("closing asynq client: %v", err)
+		}
+	}()
 
 	app := fiber.New()
 	app.Use(logger.New())
