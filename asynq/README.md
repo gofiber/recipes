@@ -53,17 +53,19 @@ Set `REDIS_ADDR` if Redis isn't on `localhost:6379`.
 ## Trying it out
 
 ```bash
-curl -X POST "http://localhost:3000/enqueue?email=jane@example.com&user=42"
+curl -X POST http://localhost:3000/enqueue \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"42","email":"jane@example.com"}'
 # {"enqueued":true,"task_id":"...","queue":"default"}
 ```
 
 The worker terminal logs:
 
-```
-sending welcome email to jane@example.com (user 42)
+```text
+sending welcome email for user 42
 ```
 
-A request missing `email` or `user` returns `400`.
+A request with a missing or invalid body returns `400`.
 
 ## Notes
 

@@ -34,8 +34,9 @@ func handleEmailWelcome(_ context.Context, t *asynq.Task) error {
 		return asynq.SkipRetry
 	}
 
-	// Real work goes here (send the email, call an API, etc.).
-	log.Printf("sending welcome email to %s (user %s)", p.Email, p.UserID)
+	// Real work goes here (send the email, call an API, etc.). Log the user id
+	// rather than the email so PII doesn't end up in worker logs.
+	log.Printf("sending welcome email for user %s", p.UserID)
 	return nil
 }
 

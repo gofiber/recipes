@@ -34,16 +34,19 @@ func main() {
 	app := fiber.New()
 	app.Use(logger.New())
 
-	// POST /enqueue?email=a@b.com&user=123
-	// Enqueues a welcome-email job and returns the task id.
+	// POST /enqueue with a JSON body: {"user_id": "...", "email": "..."}.
+	// The payload is read from the body rather than the query string, so the
+	// email address doesn't land in the request-line access log.
 	app.Post("/enqueue", func(c fiber.Ctx) error {
-		email := c.Query("email")
-		userID := c.Query("user")
-		if email == "" || userID == "" {
-			return fiber.NewError(fiber.StatusBadRequest, "email and user are required")
+		var body task.EmailWelcomePayload
+		if err := c.Bind().Body(&body); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, "invalid JSON body")
+		}
+		if body.Email == "" || body.UserID == "" {
+			return fiber.NewError(fiber.StatusBadRequest, "user_id and email are required")
 		}
 
-		t, err := task.NewEmailWelcome(userID, email)
+		t, err := task.NewEmailWelcome(body.UserID, body.Email)
 		if err != nil {
 			return err
 		}
