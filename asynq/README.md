@@ -14,7 +14,7 @@ This example shows how to run background jobs with [Asynq](https://github.com/hi
 
 ## How it works
 
-- The Fiber API exposes `POST /enqueue?email=<email>&user=<id>`.
+- The Fiber API exposes `POST /enqueue` with a JSON body: `{"user_id": "...", "email": "..."}`.
 - Each request enqueues a `email:welcome` task onto Redis and returns the task id — it never does the work inline.
 - A separate **worker** process pulls tasks from Redis and runs them, retrying on failure with backoff.
 - The task type and payload live in a shared `task` package, so the API and the worker can't drift apart.
