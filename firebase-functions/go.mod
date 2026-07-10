@@ -3,7 +3,7 @@ module example.com/GofiberFirebaseBoilerplate
 go 1.25.8
 
 require (
-	cloud.google.com/go/firestore v1.22.0
+	cloud.google.com/go/firestore v1.23.0
 	github.com/gofiber/fiber/v3 v3.4.0
 )
 
