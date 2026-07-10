@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/go-playground/validator/v10 v10.30.3
-	github.com/gofiber/contrib/v3/monitor v1.1.0
+	github.com/gofiber/contrib/v3/monitor v1.1.1
 	github.com/gofiber/fiber/v3 v3.4.0
 	github.com/gofiber/template/html/v3 v3.0.6
 	github.com/joho/godotenv v1.5.1
