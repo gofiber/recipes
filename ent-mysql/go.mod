@@ -18,7 +18,7 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/go-openapi/inflect v0.21.6 // indirect
 	github.com/gofiber/schema v1.8.1 // indirect
-	github.com/gofiber/utils/v2 v2.1.1 // indirect
+	github.com/gofiber/utils/v2 v2.1.2 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
