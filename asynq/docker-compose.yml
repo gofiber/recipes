@@ -1,0 +1,35 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: dev-asynq-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    container_name: dev-asynq-worker
+    environment:
+      REDIS_ADDR: dev-asynq-redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dev-asynq-api
+    ports:
+      - "3000:3000"
+    environment:
+      REDIS_ADDR: dev-asynq-redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
