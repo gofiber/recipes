@@ -18,8 +18,8 @@ cloud.google.com/go/longrunning v1.2.0 h1:WjYH3YHBGCxGJP9M4dWGHBfXr/cFIjMkNgWcJj
 cloud.google.com/go/longrunning v1.2.0/go.mod h1:5KMQALFGOCtFoi2xSOA1u3H7WKlhmckgiyFw7+LGQp0=
 cloud.google.com/go/monitoring v1.29.0 h1:AHhDsFaSax1/4k+qlIDX/SDGe6hggnfXJ9dkgD9qBPY=
 cloud.google.com/go/monitoring v1.29.0/go.mod h1:72NOVjJXHY/HBfoLT0+qlCZBT059+9VXLeAnL2PeeVM=
-cloud.google.com/go/storage v1.63.0 h1:hvXF2xfg9I32bjujggxgkEZn/Ej6sJ9pieFgeueBLrQ=
-cloud.google.com/go/storage v1.63.0/go.mod h1:tirWVptrFNo5GEX2DQ47JooF7yaweJdAJ1hYAVMvKzE=
+cloud.google.com/go/storage v1.63.1 h1:CYXILV9G4CH0C18IQ9+V0h4XiqD2LhKnMLO0o7uJWNs=
+cloud.google.com/go/storage v1.63.1/go.mod h1:lWyAtwvDZHdL3k68WVKbESP6bmWaV23ZJJ/JEVw/ZaQ=
 cloud.google.com/go/trace v1.16.0 h1:GmQovzFc5F0CNfl0VLgL64aoTtu7xsM0YajW2GlG9+E=
 cloud.google.com/go/trace v1.16.0/go.mod h1:r+bdAn16dKLSV1G2D5v3e58IlQlizfxWrUfjx7kM7X0=
 firebase.google.com/go v3.13.0+incompatible h1:3TdYC3DDi6aHn20qoRkxwGqNgdjtblwVAyRLQwGn/+4=
