@@ -36,8 +36,8 @@ github.com/gofiber/fiber/v3 v3.4.0 h1:F0aND4vwZF7dR7cbvSwFQQEpBU902XHKWxrLsFBkVq
 github.com/gofiber/fiber/v3 v3.4.0/go.mod h1:nAhJfdxUIJJph2tPWPmqWf8QDIN2iiqQiQf3lENZpdk=
 github.com/gofiber/schema v1.8.2 h1:wq+LO2xEGlsqma/8Akp9PUebQ6vcsYmF0xYQ4F2ijvU=
 github.com/gofiber/schema v1.8.2/go.mod h1:iyAMJztdyky7Pk2U7bwUP3EHjzMqUNjZ/hglE0nYO/g=
-github.com/gofiber/utils/v2 v2.1.2 h1:/rfkCHvC3XWfOHR04c34KajAhbs5QxmF6cNeJKnkEBI=
-github.com/gofiber/utils/v2 v2.1.2/go.mod h1:DdOgEVwQTi8cou/AKWPqhXOR4fHGRVhA/rEWL3IXG7Q=
+github.com/gofiber/utils/v2 v2.2.0 h1:YSSmCzQponq/f9uSOg2HtXC5qK1Dmor0o6DqaQVz8GE=
+github.com/gofiber/utils/v2 v2.2.0/go.mod h1:Ieopk6sQh7rbhQ12aBNCJtJuG0gxAg0nz63sFCrrOmE=
 github.com/google/go-cmp v0.5.6/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
@@ -65,8 +65,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 h1:o4JXh1EVt9k/+g42oCprj/FisM4qX9L3sZB3upGN2ZU=
 github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55/go.mod h1:OmDBASR4679mdNQnz2pUhc2G8CO2JrUAVFDRBDP/hJE=
-github.com/shamaton/msgpack/v3 v3.1.2 h1:d5gWAIyMU4M0WgDjz6IFSCuXJUA2dFwRHBpDclE8CLw=
-github.com/shamaton/msgpack/v3 v3.1.2/go.mod h1:DcQG8jrdrQCIxr3HlMYkiXdMhK+KfN2CitkyzsQV4uc=
+github.com/shamaton/msgpack/v3 v3.2.0 h1:1q2Ms+MWmuRju+PuDMSFDB7p7621npeX4zprJN5Zck8=
+github.com/shamaton/msgpack/v3 v3.2.0/go.mod h1:sgBYvEiyz8JR1NC3yGRoPVME9xXovpnh3l/plW1nfRo=
 github.com/shirou/gopsutil/v4 v4.26.6 h1:Mzr/npDtQC/xpeEuQKHZt8Zo9CmPvhTj8nkR8w5TLDs=
 github.com/shirou/gopsutil/v4 v4.26.6/go.mod h1:LZ6ewCSkBqUpvSOf+LsTGnRinC6iaNUNMGBtDkJBaLQ=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
