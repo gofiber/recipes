@@ -30,8 +30,8 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0
       eslint-plugin-svelte:
-        specifier: ^3.20.0
-        version: 3.20.0(eslint@10.7.0)(svelte@5.56.6(@typescript-eslint/types@8.64.0))
+        specifier: ^3.21.0
+        version: 3.21.0(eslint@10.7.0)(svelte@5.56.6(@typescript-eslint/types@8.64.0))
       postcss:
         specifier: ^8.5.20
         version: 8.5.20
@@ -748,8 +748,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-svelte@3.20.0:
-    resolution: {integrity: sha512-AElKLVt7Hjy4d7ljwhrhw9hux60DCxCNkmK8cY/aAXvjs8tpR7PvU4DlyI/SA1PaJww1gh0wPGo2pbyURuEwxQ==}
+  eslint-plugin-svelte@3.21.0:
+    resolution: {integrity: sha512-2dkuAk77FzQn5Ad5bJvcS6gU9iRCjywzQv6wVBR7RNseZzDsxfaIu+yzah/hTBB2znDd8Hl4oOISdhQuNyjTdQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.1 || ^9.0.0 || ^10.0.0
@@ -1852,7 +1852,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-svelte@3.20.0(eslint@10.7.0)(svelte@5.56.6(@typescript-eslint/types@8.64.0)):
+  eslint-plugin-svelte@3.21.0(eslint@10.7.0)(svelte@5.56.6(@typescript-eslint/types@8.64.0)):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.7.0)
       '@jridgewell/sourcemap-codec': 1.5.5
