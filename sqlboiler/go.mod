@@ -15,7 +15,7 @@ require (
 	github.com/aarondl/inflect v0.0.2 // indirect
 	github.com/aarondl/randomize v0.0.2 // indirect
 	github.com/andybalholm/brotli v1.2.2 // indirect
-	github.com/gofiber/schema v1.8.2 // indirect
+	github.com/gofiber/schema v1.8.3 // indirect
 	github.com/gofiber/utils/v2 v2.2.0 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
