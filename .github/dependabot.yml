@@ -2039,6 +2039,8 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 3
     groups:
       svelte-modules:
         patterns:
