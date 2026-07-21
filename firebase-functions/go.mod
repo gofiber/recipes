@@ -66,7 +66,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/andybalholm/brotli v1.2.2 // indirect
 	github.com/google/uuid v1.6.0
-	github.com/klauspost/compress v1.19.0 // indirect
+	github.com/klauspost/compress v1.19.1 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.23 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
