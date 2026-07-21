@@ -19,7 +19,7 @@ require (
 	github.com/go-openapi/runtime/server-middleware v0.32.5 // indirect
 	github.com/go-openapi/spec v0.22.6 // indirect
 	github.com/go-openapi/swag/conv v0.27.1 // indirect
-	github.com/go-openapi/swag/jsonname v0.27.1 // indirect
+	github.com/go-openapi/swag/jsonname v0.27.3 // indirect
 	github.com/go-openapi/swag/jsonutils v0.27.1 // indirect
 	github.com/go-openapi/swag/loading v0.27.1 // indirect
 	github.com/go-openapi/swag/pools v0.27.1 // indirect
