@@ -15,7 +15,7 @@ require (
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/gofiber/fiber/v2 v2.52.14 // indirect
 	github.com/gofiber/schema v1.8.3 // indirect
-	github.com/gofiber/utils/v2 v2.2.0 // indirect
+	github.com/gofiber/utils/v2 v2.3.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
