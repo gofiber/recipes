@@ -7,7 +7,7 @@ require github.com/gofiber/fiber/v3 v3.4.0
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/gofiber/schema v1.8.3 // indirect
-	github.com/gofiber/utils/v2 v2.2.0 // indirect
+	github.com/gofiber/utils/v2 v2.3.0 // indirect
 	github.com/klauspost/crc32 v1.3.0 // indirect
 	github.com/minio/crc64nvme v1.1.1 // indirect
 	github.com/minio/minio-go/v7 v7.2.1 // indirect
