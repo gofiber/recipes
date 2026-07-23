@@ -16,7 +16,7 @@ require (
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antchfx/htmlquery v1.3.6 // indirect
 	github.com/antchfx/xmlquery v1.5.1 // indirect
-	github.com/antchfx/xpath v1.3.7 // indirect
+	github.com/antchfx/xpath v1.3.8 // indirect
 	github.com/bits-and-blooms/bitset v1.24.6 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
