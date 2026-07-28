@@ -1,0 +1,91 @@
+name: CodeQL
+
+# Advanced setup, replacing GitHub's default setup so the analysis can run on the
+# sponsored Blacksmith runners. Both cannot coexist: while default setup is enabled
+# GitHub rejects the SARIF upload from this workflow, so disable it under
+# Settings -> Code security -> Code scanning first.
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+  schedule:
+    # weekly, matching the cadence the default setup used
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Go is the whole cost: in the last default-setup run its build phase alone
+          # took 406s of the ~10 min, while the queries needed 29s. It gets the big
+          # runner, the other two finish in seconds and need no build at all.
+          - language: go
+            build-mode: autobuild
+            runner: blacksmith-8vcpu-ubuntu-2404
+          - language: javascript-typescript
+            build-mode: none
+            runner: blacksmith-2vcpu-ubuntu-2404
+          - language: actions
+            build-mode: none
+            runner: blacksmith-2vcpu-ubuntu-2404
+
+    steps:
+      - name: Fetch Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Before autobuild, not after: it compiles all 91 modules, and without a warm
+      # module and build cache every dependency tree is built from scratch. The same
+      # cache cut the plain build in gobuild.yml from 526s to 113s.
+      - name: Install Go
+        if: matrix.language == 'go'
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          # the runner image decides the patch otherwise, and a module's go directive
+          # can outrun it while setup-go pins GOTOOLCHAIN=local
+          check-latest: true
+          cache-dependency-path: '**/go.sum'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      # Kept over a manual build on purpose: CodeQL's Go autobuilder already discovers
+      # all 91 modules, and a hand-written build that misses one would silently shrink
+      # the database instead of failing.
+      - name: Autobuild
+        if: matrix.build-mode == 'autobuild'
+        uses: github/codeql-action/autobuild@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          # same categories the default setup used, so the existing alert history
+          # carries over instead of starting fresh
+          category: "/language:${{ matrix.language }}"
