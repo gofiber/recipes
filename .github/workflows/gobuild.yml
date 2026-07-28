@@ -27,7 +27,9 @@ jobs:
       matrix:
         go-version:
           - "1.26.x"
-    runs-on: ubuntu-latest
+    # 8 vCPU: the compiler parallelises across GOMAXPROCS while the dep trees of 91
+    # modules are built; the long tail of small modules is serial either way
+    runs-on: blacksmith-8vcpu-ubuntu-2404
     timeout-minutes: 60
     env:
       GOTOOLCHAIN: auto
