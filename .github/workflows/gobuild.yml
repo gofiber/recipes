@@ -77,11 +77,19 @@ jobs:
           set -euo pipefail
           # sed instead of grep: grep exits 1 when it filters everything out, which
           # pipefail would turn into a failed step for a PR that touched no module.
-          printf '%s\n' $CHANGED_DIRS | sed '/^$/d' | sort -u \
-            | xargs -P "$(nproc)" -I{} bash -c '
-                dir="$1"
-                [ -f "$dir/go.mod" ] || exit 0
-                set -o pipefail
-                cd "$dir" || exit 1
-                { go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"
-              ' _ {}
+          printf '%s\n' $CHANGED_DIRS | sed '/^$/d' | sort -u > dirs.txt
+          echo "Processing $(wc -l < dirs.txt) directories on $(nproc) cores"
+          # vet and build succeed silently, so each module reports itself: without that
+          # the whole step logs nothing and "all green" reads the same as "never ran".
+          xargs -P "$(nproc)" -I{} bash -c '
+              dir="$1"
+              [ -f "$dir/go.mod" ] || { echo "[$dir] skipped, no go.mod"; exit 0; }
+              set -o pipefail
+              cd "$dir" || exit 1
+              if { go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"; then
+                echo "[$dir] ok"
+              else
+                echo "[$dir] FAILED"
+                exit 1
+              fi
+            ' _ {} < dirs.txt
