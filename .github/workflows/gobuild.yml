@@ -27,8 +27,8 @@ jobs:
       matrix:
         go-version:
           - "1.26.x"
-    # 8 vCPU: the compiler parallelises across GOMAXPROCS while the dep trees of 91
-    # modules are built; the long tail of small modules is serial either way
+    # 8 vCPU: the build step fans the 91 modules out over the cores, and they share
+    # one warm build cache instead of each rebuilding the fiber dep tree
     runs-on: blacksmith-8vcpu-ubuntu-2404
     timeout-minutes: 60
     env:
@@ -65,20 +65,23 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
 
-      - name: Run go vet for changed directories
+      # vet and build run per module in one pass: once the shared build cache is warm
+      # a single module barely keeps one core busy, so the modules are what we spread.
+      # Output is prefixed because parallel invocations interleave; xargs exits 123
+      # as soon as any module failed.
+      - name: Vet and build changed modules
+        shell: bash
+        env:
+          CHANGED_DIRS: ${{ env.changed_dirs }}
         run: |
-          for dir in ${{ env.changed_dirs }}; do
-            echo "Running go vet in directory: ${dir}"
-            if [ -f "${dir}/go.mod" ]; then
-              (cd $dir; go vet ./...);
-            fi
-          done
-
-      - name: Run go build for changed directories
-        run: |
-          for dir in ${{ env.changed_dirs }}; do
-            echo "Running go build in directory: ${dir}"
-            if [ -f "${dir}/go.mod" ]; then
-              (cd $dir; go build -race ./...);
-            fi
-          done
+          set -euo pipefail
+          # sed instead of grep: grep exits 1 when it filters everything out, which
+          # pipefail would turn into a failed step for a PR that touched no module.
+          printf '%s\n' $CHANGED_DIRS | sed '/^$/d' | sort -u \
+            | xargs -P "$(nproc)" -I{} bash -c '
+                dir="$1"
+                [ -f "$dir/go.mod" ] || exit 0
+                set -o pipefail
+                cd "$dir" || exit 1
+                { go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"
+              ' _ {}
