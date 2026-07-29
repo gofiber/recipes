@@ -21,7 +21,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.65.0",
 		"@typescript-eslint/parser": "^8.65.0",
 		"autoprefixer": "^10.5.4",
-		"eslint": "^10.7.0",
+		"eslint": "^10.8.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.22.0",
 		"highlight.js": "^11.11.1",
