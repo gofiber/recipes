@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Wait for check is finished
         id: wait_for_checks
-        uses: poseidon/wait-for-status-checks@899c768d191b56eef585c18f8558da19e1f3e707 # v0.6.0
+        uses: poseidon/wait-for-status-checks@e7e24423722c5b8e97a6dd5848827d2a412f812d # v0.7.0
         with:
           token: ${{ secrets.PR_TOKEN }}
           match_pattern: builds
