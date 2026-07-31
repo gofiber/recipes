@@ -11,6 +11,12 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    groups:
+      # init/autobuild/analyze are separate dependencies to dependabot; bumped
+      # one at a time each PR fails on the version mismatch across the steps
+      codeql-action:
+        patterns:
+          - "github/codeql-action/*"
 
   # gomod split into fine-grained directory blocks to keep grouped PR commit
   # messages well below the GitHub commit-message truncation limit. Each block
