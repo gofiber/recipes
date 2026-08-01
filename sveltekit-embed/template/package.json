@@ -21,6 +21,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.65.0",
 		"@typescript-eslint/parser": "^8.65.0",
 		"autoprefixer": "^10.5.4",
+		"esbuild": "^0.28.1",
 		"eslint": "^10.8.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.22.0",
@@ -33,7 +34,8 @@
 		"tailwindcss": "^4.3.3",
 		"tslib": "^2.8.1",
 		"typescript": "^7.0.2",
-		"vite": "^8.1.5"
+		"vite": "^8.1.5",
+		"yaml": "^2.8.3"
 	},
 	"type": "module",
 	"pnpm": {
