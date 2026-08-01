@@ -21,7 +21,11 @@ func main() {
 	app.Get("/api/:ip", handler.CacheRequest(10*time.Minute), handler.GeoLocation)
 
 	// gateway translates the API Gateway proxy event Netlify delivers into an
-	// http.Request, so the Fiber app is exposed as a plain http.Handler. The
-	// host argument is unused on Lambda.
+	// http.Request, so the Fiber app is exposed as a plain http.Handler.
+	//
+	// Despite the name, the first argument is not a listen address and is never
+	// parsed as one. It is only used as a fallback Host for the constructed
+	// request when the event does not carry one. "n/a" follows the library's own
+	// example.
 	log.Fatal(gateway.ListenAndServe("n/a", adaptor.FiberApp(app)))
 }
