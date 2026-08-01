@@ -30,5 +30,11 @@ require (
 // aws-lambda-go-api-proxy v0.16.2 pins github.com/gofiber/fiber/v2 v2.52.1 in its
 // own go.mod. That version never reaches this build -- this recipe uses Fiber v3
 // and only imports the proxy's /core package -- but it still shows up in the
-// module graph. Force the patched release so scanners resolve v2.52.14.
-replace github.com/gofiber/fiber/v2 => github.com/gofiber/fiber/v2 v2.52.14
+// module graph. Pin that exact version to the patched release so scanners
+// resolve v2.52.14.
+//
+// Scoped to v2.52.1 on purpose: an unversioned replace would also downgrade a
+// legitimately newer Fiber v2 if some future dependency required one. If the
+// proxy changes its pin, this stops applying and the new version shows up in
+// scans again, which is the behaviour we want.
+replace github.com/gofiber/fiber/v2 v2.52.1 => github.com/gofiber/fiber/v2 v2.52.14
