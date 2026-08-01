@@ -13,14 +13,13 @@
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.70.1",
+    "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.65.0",
 		"@typescript-eslint/parser": "^8.65.0",
 		"eslint": "^10.8.0",
 		"eslint-plugin-svelte": "^3.22.0",
-    "autoprefixer": "^10.5.4",
+    "@tailwindcss/vite": "^4.3.3",
     "esbuild": "^0.28.1",
-    "postcss": "^8.5.24",
-    "postcss-load-config": "^6.0.1",
     "svelte": "^5.56.8",
     "svelte-check": "^4.7.4",
     "tailwindcss": "^4.3.3",
@@ -28,12 +27,15 @@
     "typescript": "^7.0.2",
     "vite": "^8.1.5"
   },
+  "engines": {
+    "node": "^20.19 || ^22.13 || >=24"
+  },
   "type": "module",
   "dependencies": {
   },
   "pnpm": {
     "overrides": {
-      "cookie": ">=0.7.0"
+      "cookie": "^0.7.2"
     }
   }
 }
