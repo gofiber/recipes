@@ -1,0 +1,58 @@
+name: OSV Scanner
+
+# Catches vulnerable dependency versions at PR time instead of months later on
+# the Security tab.
+#
+# Dependabot alerts are necessary but not sufficient here: they only tell you
+# about drift after an advisory lands, and only for ecosystems and manifests it
+# is configured to see. This job resolves every manifest in the repository --
+# go.mod, pnpm-lock.yaml, package-lock.json and bun.lock -- against OSV.dev on
+# every pull request, so a lockfile that quietly falls behind fails a check
+# instead of accumulating alerts.
+#
+# Accepted findings live in osv-scanner.toml.
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+  schedule:
+    # weekly, so newly published advisories against unchanged manifests surface
+    # on their own rather than waiting for the next unrelated pull request
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Scan dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: false
+
+      - name: Install osv-scanner
+        run: go install github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.4.0
+
+      - name: Scan
+        # `scan source -r` walks every manifest and lockfile in the tree. It
+        # exits non-zero when anything not listed in osv-scanner.toml is found.
+        run: osv-scanner scan source -r --config=osv-scanner.toml .

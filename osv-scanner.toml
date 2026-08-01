@@ -1,0 +1,23 @@
+# Accepted findings for the OSV scan in .github/workflows/osv-scanner.yml.
+#
+# Only add an entry here when an advisory has no fixed version available, or
+# when the affected code is provably unreachable. Anything that can simply be
+# upgraded should be upgraded instead -- an ignore entry that hides a fixable
+# advisory is how alerts end up sitting open for months.
+#
+# Please leave a reason and, where it makes sense, a review date.
+
+[[IgnoredVulns]]
+id = "GO-2026-5932"
+reason = """
+"The golang.org/x/crypto/openpgp package is unmaintained, unsafe by design, and
+has known security issues". There is no fixed version -- the advisory covers all
+releases of golang.org/x/crypto, and v0.54.0 is the latest.
+
+The advisory is scoped to the golang.org/x/crypto/openpgp import paths, and
+nothing in this repository imports them; x/crypto is pulled in transitively by
+Fiber. It also has no GHSA identifier, so it is a govulncheck/OSV-only entry.
+
+Revisit if any recipe ever imports golang.org/x/crypto/openpgp -- at that point
+it should move to github.com/ProtonMail/go-crypto/openpgp instead.
+"""
