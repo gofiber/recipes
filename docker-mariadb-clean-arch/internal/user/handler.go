@@ -8,10 +8,11 @@ import (
 )
 
 // Represents our handler with our use-case / service.
-// requestTimeout bounds how long a single request may spend in the data
-// layer. Without it a hung query would block the handler indefinitely,
-// since the request context alone is only cancelled when the client
-// disconnects.
+// requestTimeout bounds a single data layer call, not a whole request.
+// Routes that run the existence middleware before the handler perform two
+// independent calls and can therefore wait up to twice this long in total.
+// Without it a hung query would block indefinitely, since the request
+// context alone is only cancelled when the client disconnects.
 const requestTimeout = 10 * time.Second
 
 type UserHandler struct {
