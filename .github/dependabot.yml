@@ -2094,6 +2094,21 @@ updates:
           - "vite"
           - "parcel"
           - "esbuild"
+
+  # `bun.lock` is not covered by the npm ecosystem above and needs its own
+  # entry, otherwise Dependabot never updates it. cloudflare-workers/bun.lock
+  # had drifted far enough that it no longer satisfied its own package.json.
+  - package-ecosystem: "bun"
+    open-pull-requests-limit: 15
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 3
+
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
     directories:
