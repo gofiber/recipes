@@ -26,3 +26,9 @@ require (
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
 )
+
+// aws-lambda-go-api-proxy v0.16.2 pins github.com/gofiber/fiber/v2 v2.52.1 in its
+// own go.mod. That version never reaches this build -- this recipe uses Fiber v3
+// and only imports the proxy's /core package -- but it still shows up in the
+// module graph. Force the patched release so scanners resolve v2.52.14.
+replace github.com/gofiber/fiber/v2 => github.com/gofiber/fiber/v2 v2.52.14
