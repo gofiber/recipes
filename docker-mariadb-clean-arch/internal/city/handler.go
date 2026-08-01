@@ -2,11 +2,18 @@ package city
 
 import (
 	"context"
+	"time"
 
 	"docker-mariadb-clean-arch/internal/auth"
 
 	"github.com/gofiber/fiber/v3"
 )
+
+// requestTimeout bounds how long a single request may spend in the data
+// layer. Without it a hung query would block the handler indefinitely,
+// since the request context alone is only cancelled when the client
+// disconnects.
+const requestTimeout = 10 * time.Second
 
 // We will inject our dependency - the service - here.
 type CityHandler struct {
@@ -37,7 +44,10 @@ func NewCityHandler(cityRoute fiber.Router, cs CityService) {
 // Handler to get all cities.
 func (h *CityHandler) getCities(c fiber.Ctx) error {
 	// Get all cities.
-	cities, err := h.cityService.FetchCities(context.Background())
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	cities, err := h.cityService.FetchCities(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -64,7 +74,10 @@ func (h *CityHandler) getCity(c fiber.Ctx) error {
 	}
 
 	// Get one city.
-	city, err := h.cityService.FetchCity(context.Background(), targetedCityID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	city, err := h.cityService.FetchCity(ctx, targetedCityID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -94,7 +107,10 @@ func (h *CityHandler) createCity(c fiber.Ctx) error {
 	}
 
 	// Create one city.
-	err := h.cityService.BuildCity(context.Background(), city, currentUserID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.cityService.BuildCity(ctx, city, currentUserID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -125,7 +141,10 @@ func (h *CityHandler) updateCity(c fiber.Ctx) error {
 	}
 
 	// Update one city.
-	err := h.cityService.ModifyCity(context.Background(), targetedCityID, city, currentUserID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.cityService.ModifyCity(ctx, targetedCityID, city, currentUserID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -146,7 +165,10 @@ func (h *CityHandler) deleteCity(c fiber.Ctx) error {
 	targetedCityID := c.Locals("cityID").(int)
 
 	// Delete one city.
-	err := h.cityService.DestroyCity(context.Background(), targetedCityID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.cityService.DestroyCity(ctx, targetedCityID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",

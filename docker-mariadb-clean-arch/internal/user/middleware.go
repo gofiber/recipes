@@ -18,7 +18,10 @@ func (h *UserHandler) checkIfUserExistsMiddleware(c fiber.Ctx) error {
 	}
 
 	// Check if user exists.
-	searchedUser, err := h.userService.GetUser(context.Background(), targetedUserID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	searchedUser, err := h.userService.GetUser(ctx, targetedUserID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",

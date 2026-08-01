@@ -18,7 +18,10 @@ func (h *CityHandler) checkIfCityExistsMiddleware(c fiber.Ctx) error {
 	}
 
 	// Check if city exists.
-	searchedCity, err := h.cityService.FetchCity(context.Background(), targetedCityID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	searchedCity, err := h.cityService.FetchCity(ctx, targetedCityID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
