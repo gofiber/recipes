@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+/* Dark mode is toggled by adding `.dark` to <html>, see LightSwitch.svelte. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* The primary palette this recipe uses (bg-primary-200, text-primary-900, ...). */
+@theme {
+	--color-primary-50: #ecfeff;
+	--color-primary-100: #cffafe;
+	--color-primary-200: #a5f3fc;
+	--color-primary-300: #67e8f9;
+	--color-primary-400: #22d3ee;
+	--color-primary-500: #06b6d4;
+	--color-primary-600: #0891b2;
+	--color-primary-700: #0e7490;
+	--color-primary-800: #155e75;
+	--color-primary-900: #164e63;
+
+	--font-sans: 'Quicksand', ui-sans-serif, system-ui, sans-serif;
+}
+
+@font-face {
+	font-family: 'Quicksand';
+	src: url('/fonts/Quicksand.ttf');
+	font-display: swap;
+}
+
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+}
