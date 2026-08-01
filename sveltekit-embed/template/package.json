@@ -38,6 +38,9 @@
 		"vite": "^8.1.5",
 		"yaml": "^2.8.3"
 	},
+	"engines": {
+		"node": "^20.19 || ^22.13 || >=24"
+	},
 	"type": "module",
 	"pnpm": {
 		"overrides": {

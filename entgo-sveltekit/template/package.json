@@ -27,6 +27,9 @@
     "typescript": "^7.0.2",
     "vite": "^8.1.5"
   },
+  "engines": {
+    "node": "^20.19 || ^22.13 || >=24"
+  },
   "type": "module",
   "dependencies": {
   },
