@@ -19,7 +19,8 @@ the rest. See .github/CONTRIBUTING.md for the full requirements.
 - [ ] `README.md` present, with the Docusaurus front matter (`title`, `keywords`, `description`)
 - [ ] `README.md` explains the idea, the components used and how to run it
 - [ ] `make generate` run, so the overview table of contents is up to date
-- [ ] Example builds and runs (`go build ./...`, `go vet ./...`)
+- [ ] Example passes `go build ./...` and `go vet ./...`
+- [ ] Example was run locally and behaves as the README describes
 
 ## Anything reviewers should know
 
