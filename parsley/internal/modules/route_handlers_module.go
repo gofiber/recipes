@@ -1,8 +1,6 @@
 package modules
 
 import (
-	"context"
-
 	"github.com/gofiber/recipes/parsley-app/internal/route_handlers"
 	"github.com/matzefriedrich/parsley/pkg/features"
 	"github.com/matzefriedrich/parsley/pkg/registration"
@@ -19,7 +17,7 @@ import (
 // - error: Any error that occurred during the registration process.
 func RegisterRouteHandlers(registry types.ServiceRegistry) error {
 	// The Parsley app requires a list of RouteHandler instances, so we must enable it.
-	if err := features.RegisterList[route_handlers.RouteHandler](context.Background(), registry); err != nil {
+	if err := features.RegisterList[route_handlers.RouteHandler](registry); err != nil {
 		return err
 	}
 
