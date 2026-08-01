@@ -10,19 +10,52 @@ description: Proxying dummy JSON data.
 
 This is a basic Go application using the Fiber framework to create a proxy server. The server listens on port 3000 and has a single route (`GET /proxy`) that accepts a `?url=<target>` query parameter, fetches data from the given external URL, and forwards it to the client.
 
-### How to Run
+## Prerequisites
 
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Run `go run main.go`.
-4. Use a tool like `curl` to test it: `curl "http://localhost:3000/proxy?url=https://dummyjson.com/products/1"`
+Ensure you have the following installed:
 
-### What It Does
+- Golang
+- [Fiber](https://github.com/gofiber/fiber) package
 
-- Fetches data from an external service, in this case `DummyJson.com`
-- Forwards the fetched data or an error message to the client.
+## Setup
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/gofiber/recipes.git
+    cd recipes/dummyjson
+    ```
+
+2. Install dependencies:
+    ```sh
+    go get
+    ```
+
+## Running the Application
+
+Start the server:
+
+```sh
+go run main.go
+```
+
+The server listens on port 3000.
+
+## Usage
+
+Pass the target URL as a `url` query parameter:
+
+```sh
+curl "http://localhost:3000/proxy?url=https://dummyjson.com/products/1"
+```
+
+The server fetches the data from the external service, in this case `dummyjson.com`, and forwards the response to the client.
 
 ### Error Handling
 
-- Returns a 500 Internal Server Error if any issue occurs during the fetch.
-- Returns the same status code as the external service if it's not a 200 OK.
+- Returns 500 Internal Server Error if anything goes wrong during the fetch.
+- Returns the same status code as the external service if it is not 200 OK.
+
+## References
+
+- [Fiber Documentation](https://docs.gofiber.io)
+- [DummyJSON](https://dummyjson.com)
