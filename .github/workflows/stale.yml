@@ -1,0 +1,65 @@
+name: Mark stale issues and pull requests
+
+# Replaces the deprecated probot/stale app, which was configured through
+# .github/stale.yml. That app is no longer maintained and upstream points
+# users at this action instead.
+#
+# Note on the label: the old config used `wontfix` as its stale label, which
+# reads as a maintainer decision rather than "nothing happened here for a
+# while". Several untouched reports ended up looking declined that way. This
+# uses a plain `stale` label instead.
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
+        with:
+          days-before-stale: 60
+          days-before-close: 7
+
+          stale-issue-label: stale
+          stale-pr-label: stale
+
+          exempt-issue-labels: pinned,security
+          exempt-pr-labels: pinned,security
+
+          # Someone has picked it up, so inactivity is not a reason to close it.
+          exempt-all-assignees: true
+
+          stale-issue-message: >
+            👋 Hello. Is this still relevant? If so, what is blocking it? Is
+            there anything you can do to help move it forward?
+
+            > This issue has been automatically marked as stale because it has
+            not had recent activity. It will be closed if no further activity
+            occurs.
+
+            Thank you for your contributions.
+          stale-pr-message: >
+            👋 Hello. Is this still relevant? If so, what is blocking it? Is
+            there anything you can do to help move it forward?
+
+            > This pull request has been automatically marked as stale because
+            it has not had recent activity. It will be closed if no further
+            activity occurs.
+
+            Thank you for your contributions.
+
+          close-issue-message: >
+            ⚡️ This issue has been automatically closed because it has not had
+            recent activity.
+          close-pr-message: >
+            ⚡️ This pull request has been automatically closed because it has
+            not had recent activity.
