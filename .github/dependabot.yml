@@ -2037,8 +2037,12 @@ updates:
 
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
-    allow:
-      - dependency-type: "direct"
+    # No `allow` filter on purpose: `dependency-type: "direct"` would also apply
+    # to Dependabot *security* updates, so advisories for transitive packages
+    # that only exist in the lockfile (esbuild, yaml, cookie, ...) could never be
+    # fixed automatically. The default keeps version updates limited to
+    # explicitly declared dependencies while still allowing security updates for
+    # indirect ones.
     directories:
       - "**/*"
     labels:
@@ -2089,6 +2093,7 @@ updates:
         patterns:
           - "vite"
           - "parcel"
+          - "esbuild"
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
     directories:
