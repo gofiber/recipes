@@ -66,7 +66,6 @@ Connect your repository in the Netlify dashboard. The `netlify.toml` configures 
 
 ```
 .
-├── adapter/        # AWS Lambda <-> Fiber adapter
 ├── cmd/gateway/    # Lambda entry point (main.go)
 ├── handler/        # Fiber route handlers
 ├── public/         # Compiled Svelte frontend
