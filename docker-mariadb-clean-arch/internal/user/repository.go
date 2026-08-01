@@ -53,6 +53,12 @@ func (r *mariaDBRepository) GetUsers(ctx context.Context) (*[]User, error) {
 	}
 
 	// Return all of our users.
+	// res.Next() also stops on a cancelled context, so without this the
+	// caller would receive a partial slice and a nil error.
+	if err := res.Err(); err != nil {
+		return nil, err
+	}
+
 	return &users, nil
 }
 

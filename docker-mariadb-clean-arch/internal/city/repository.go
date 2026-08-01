@@ -61,6 +61,12 @@ func (r *mariaDBRepository) GetCities(ctx context.Context) (*[]CityAndUser, erro
 		cities = append(cities, *city)
 	}
 
+	// res.Next() also stops on a cancelled context, so without this the
+	// caller would receive a partial slice and a nil error.
+	if err := res.Err(); err != nil {
+		return nil, err
+	}
+
 	return &cities, nil
 }
 

@@ -2,11 +2,19 @@ package user
 
 import (
 	"context"
+	"time"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 // Represents our handler with our use-case / service.
+// requestTimeout bounds a single data layer call, not a whole request.
+// Routes that run the existence middleware before the handler perform two
+// independent calls and can therefore wait up to twice this long in total.
+// Without it a hung query would block indefinitely, since the request
+// context alone is only cancelled when the client disconnects.
+const requestTimeout = 10 * time.Second
+
 type UserHandler struct {
 	userService UserService
 }
@@ -31,7 +39,10 @@ func NewUserHandler(userRoute fiber.Router, us UserService) {
 // Gets all users.
 func (h *UserHandler) getUsers(c fiber.Ctx) error {
 	// Get all users.
-	users, err := h.userService.GetUsers(context.Background())
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	users, err := h.userService.GetUsers(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -58,7 +69,10 @@ func (h *UserHandler) getUser(c fiber.Ctx) error {
 	}
 
 	// Get one user.
-	user, err := h.userService.GetUser(context.Background(), targetedUserID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	user, err := h.userService.GetUser(ctx, targetedUserID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -87,7 +101,10 @@ func (h *UserHandler) createUser(c fiber.Ctx) error {
 	}
 
 	// Create one user.
-	err := h.userService.CreateUser(context.Background(), user)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.userService.CreateUser(ctx, user)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -117,7 +134,10 @@ func (h *UserHandler) updateUser(c fiber.Ctx) error {
 	}
 
 	// Update one user.
-	err := h.userService.UpdateUser(context.Background(), targetedUserID, user)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.userService.UpdateUser(ctx, targetedUserID, user)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
@@ -138,7 +158,10 @@ func (h *UserHandler) deleteUser(c fiber.Ctx) error {
 	targetedUserID := c.Locals("userID").(int)
 
 	// Delete one user.
-	err := h.userService.DeleteUser(context.Background(), targetedUserID)
+	ctx, cancel := context.WithTimeout(c.Context(), requestTimeout)
+	defer cancel()
+
+	err := h.userService.DeleteUser(ctx, targetedUserID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"status":  "fail",
