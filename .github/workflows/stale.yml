@@ -24,6 +24,58 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+      # actions/stale cannot exempt by author: its exemptions are labels,
+      # assignees, milestones and projects only, and `exempt-authors` is a
+      # long-open request upstream (actions/stale#933). This step bridges that
+      # by labelling the authors we want skipped, which the action then exempts.
+      #
+      # Both signals come from the API rather than a hardcoded list of account
+      # names, so a new bot or a new maintainer is covered without editing this
+      # file. Note that the two are independent: coderabbitai[bot] reports
+      # `author_association: CONTRIBUTOR`, so association alone does not
+      # identify bots.
+      - name: Exempt bot and maintainer authored items
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const EXEMPT = 'no-auto-stale'
+            const MAINTAINER = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
+
+            // addLabels does not create missing labels, so make sure it exists.
+            try {
+              await github.rest.issues.getLabel({ ...context.repo, name: EXEMPT })
+            } catch (error) {
+              if (error.status !== 404) throw error
+              await github.rest.issues.createLabel({
+                ...context.repo,
+                name: EXEMPT,
+                color: 'ededed',
+                description: 'Never marked stale automatically (bot or maintainer authored)',
+              })
+            }
+
+            // listForRepo returns pull requests as well as issues.
+            const items = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo,
+              state: 'open',
+              per_page: 100,
+            })
+
+            for (const item of items) {
+              const login = item.user?.login ?? ''
+              const isBot = item.user?.type === 'Bot' || login.endsWith('[bot]')
+              const isMaintainer = MAINTAINER.has(item.author_association)
+              if (!isBot && !isMaintainer) continue
+              if (item.labels.some((label) => (label.name ?? label) === EXEMPT)) continue
+
+              core.info(`Exempting #${item.number} by ${login} (${item.author_association})`)
+              await github.rest.issues.addLabels({
+                ...context.repo,
+                issue_number: item.number,
+                labels: [EXEMPT],
+              })
+            }
+
       - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
           days-before-stale: 60
@@ -32,8 +84,8 @@ jobs:
           stale-issue-label: stale
           stale-pr-label: stale
 
-          exempt-issue-labels: pinned,security
-          exempt-pr-labels: pinned,security
+          exempt-issue-labels: pinned,security,no-auto-stale
+          exempt-pr-labels: pinned,security,no-auto-stale
 
           # Someone has picked it up, so inactivity is not a reason to close it.
           exempt-all-assignees: true
