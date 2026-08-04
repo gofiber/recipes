@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/contrib/v3/swaggerui v1.0.9
 	github.com/gofiber/fiber/v3 v3.4.0
 	github.com/swaggo/swag v1.16.6
-	gorm.io/driver/postgres v1.6.1
+	gorm.io/driver/postgres v1.6.2
 	gorm.io/gorm v1.31.2
 )
 
