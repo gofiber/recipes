@@ -8,8 +8,8 @@ github.com/gofiber/fiber/v3 v3.4.0 h1:F0aND4vwZF7dR7cbvSwFQQEpBU902XHKWxrLsFBkVq
 github.com/gofiber/fiber/v3 v3.4.0/go.mod h1:nAhJfdxUIJJph2tPWPmqWf8QDIN2iiqQiQf3lENZpdk=
 github.com/gofiber/schema v1.8.3 h1:06ZedxIYjngzc0095PYy7uWnFnbRflWFpikvZH61fDc=
 github.com/gofiber/schema v1.8.3/go.mod h1:jWnnZdhcW1mHyV+VnfRxKJDPNcepJsTZ9RIWxrr32Ng=
-github.com/gofiber/storage/sqlite3/v2 v2.2.7 h1:IrDVtqbpIBt74UFoHYbNMDYdWaATGVXgB8FONcayxuU=
-github.com/gofiber/storage/sqlite3/v2 v2.2.7/go.mod h1:hKiRgHPr7zb19lxkRlvpbojB6c5HH/aLK4X/oLlJFrY=
+github.com/gofiber/storage/sqlite3/v2 v2.2.8 h1:fhznHbLVWpqX4W4CRqKJScj+4j4yxr2HK5wnVQtD/tI=
+github.com/gofiber/storage/sqlite3/v2 v2.2.8/go.mod h1:Qcqw2dXr/7z8ovs2kKBXZjQwuX8HjQLKKt0XYX6UL1I=
 github.com/gofiber/template/html/v3 v3.0.7 h1:69km1ARnxz4dMWDSmKjhJ8Vw5usz4GESOXNVHNSQVKo=
 github.com/gofiber/template/html/v3 v3.0.7/go.mod h1:JXGY8Lh+xoO7GcRfYbGt1u5zrUAuU/nvWveGiyH1iJA=
 github.com/gofiber/template/v2 v2.1.0 h1:vrLY6uEW2HdioJm6J5FGUpYZuapVQhHciNz21XQjR/4=
