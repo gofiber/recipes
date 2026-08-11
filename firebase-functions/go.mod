@@ -3,17 +3,17 @@ module example.com/GofiberFirebaseBoilerplate
 go 1.25.8
 
 require (
-	cloud.google.com/go/firestore v1.24.0
+	cloud.google.com/go/firestore v1.25.0
 	github.com/gofiber/fiber/v3 v3.4.0
 )
 
 require (
 	cel.dev/expr v0.25.2 // indirect
 	cloud.google.com/go v0.123.0 // indirect
-	cloud.google.com/go/auth v0.22.0 // indirect
+	cloud.google.com/go/auth v0.23.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
-	cloud.google.com/go/iam v1.12.0 // indirect
+	cloud.google.com/go/iam v1.13.0 // indirect
 	cloud.google.com/go/longrunning v1.2.0 // indirect
 	cloud.google.com/go/monitoring v1.30.0 // indirect
 	cloud.google.com/go/storage v1.64.0 // indirect
