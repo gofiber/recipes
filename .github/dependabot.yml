@@ -2157,3 +2157,14 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+
+  # docker above only fetches Dockerfiles and k8s manifests, compose images need
+  # their own entry; ungrouped on purpose, one image per PR keeps the trailer short
+  - package-ecosystem: "docker-compose"
+    open-pull-requests-limit: 15
+    directories:
+      - "**/*"
+    labels:
+      - "🤖 Dependencies"
+    schedule:
+      interval: "daily"
