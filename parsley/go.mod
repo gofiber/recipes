@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/parsley-app
 go 1.26.5
 
 require (
-	github.com/gofiber/fiber/v3 v3.4.0
+	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/matzefriedrich/parsley v1.7.0
 )
 
