@@ -22,7 +22,7 @@ services:
     command: ./docker-mariadb-clean-arch
 
   mariadb:
-    image: mariadb:11
+    image: mariadb:12
     restart: always
     volumes:
       - ./scripts/migrations.sql:/docker-entrypoint-initdb.d/1.sql
