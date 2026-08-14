@@ -1,6 +1,6 @@
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4-management
     container_name: dev-rabbitmq
     hostname: dev-rabbitmq
     ports:
