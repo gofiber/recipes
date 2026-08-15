@@ -61,9 +61,11 @@ jobs:
             changed_dirs=$(find . -name go.mod -exec dirname {} \; | tr '\n' ' ')
           fi
 
-          echo "changed_dirs<<EOF" >> $GITHUB_ENV
-          echo "${changed_dirs}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          {
+            echo "changed_dirs<<EOF"
+            echo "${changed_dirs}"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
 
 
       # vet and build run per module in one pass: once the shared build cache is warm
@@ -78,10 +80,12 @@ jobs:
           set -euo pipefail
           # sed instead of grep: grep exits 1 when it filters everything out, which
           # pipefail would turn into a failed step for a PR that touched no module.
+          # shellcheck disable=SC2086 # CHANGED_DIRS is a space-separated list, splitting is intended
           printf '%s\n' $CHANGED_DIRS | sed '/^$/d' | sort -u > dirs.txt
           echo "Processing $(wc -l < dirs.txt) directories on $(nproc) cores"
           # vet and build succeed silently, so each module reports itself: without that
           # the whole step logs nothing and "all green" reads the same as "never ran".
+          # shellcheck disable=SC2016 # the inner script must expand in the spawned shell, not here
           xargs -P "$(nproc)" -I{} bash -c '
               dir="$1"
               [ -f "$dir/go.mod" ] || { echo "[$dir] skipped, no go.mod"; exit 0; }
