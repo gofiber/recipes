@@ -17,7 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^8.67.0",
 		"@typescript-eslint/parser": "^8.67.0",
 		"eslint": "^10.8.1",
-		"eslint-plugin-svelte": "^3.22.0",
+		"eslint-plugin-svelte": "^3.23.0",
     "@tailwindcss/vite": "^4.3.3",
     "esbuild": "^0.28.2",
     "svelte": "^5.56.9",
