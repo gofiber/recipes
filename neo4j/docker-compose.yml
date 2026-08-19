@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: neo4j:5
+    image: neo4j:2026.06.0
     ports:
       - "7474:7474"
       - "7687:7687"
