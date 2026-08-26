@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.5.0
-	github.com/gofiber/template/html/v3 v3.0.7
+	github.com/gofiber/template/html/v3 v3.0.8
 	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/encoding v0.5.4
 )
