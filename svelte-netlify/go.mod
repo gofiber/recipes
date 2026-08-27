@@ -1,6 +1,6 @@
 module github.com/gofiber/recipes/svelte-netlify
 
-go 1.25.0
+go 1.26
 
 require (
 	github.com/carlmjohnson/gateway v1.22.2
@@ -9,7 +9,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.2.2 // indirect
-	github.com/aws/aws-lambda-go v1.54.0 // indirect
+	github.com/aws/aws-lambda-go v1.55.0 // indirect
 	github.com/gofiber/schema v1.8.4 // indirect
 	github.com/gofiber/utils/v2 v2.4.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
