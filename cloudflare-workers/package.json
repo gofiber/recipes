@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@cloudflare/containers": "^0.3.7",
-    "hono": "^4.13.3"
+    "hono": "^4.13.4"
   },
   "cloudflare": {
     "label": "Containers Starter",
