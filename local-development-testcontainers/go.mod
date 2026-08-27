@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/go-playground/validator/v10 v10.30.3
-	github.com/gofiber/contrib/v3/testcontainers v1.0.9
+	github.com/gofiber/contrib/v3/testcontainers v1.0.10
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/stretchr/testify v1.12.1
