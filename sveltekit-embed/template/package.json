@@ -19,7 +19,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.68.0",
 		"@typescript-eslint/parser": "^8.68.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.9.0",
+		"eslint": "^10.9.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.23.0",
 		"highlight.js": "^11.12.0",
