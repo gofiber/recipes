@@ -6,7 +6,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/joho/godotenv v1.5.1
-	google.golang.org/api v0.293.0
+	google.golang.org/api v0.294.0
 )
 
 require (
@@ -67,7 +67,7 @@ require (
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20260715232425-e75dac1f907d // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260715232425-e75dac1f907d // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260807164820-c8921c73eeea // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260819154853-08b0e4226688 // indirect
 	google.golang.org/grpc v1.83.2 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
