@@ -20,7 +20,7 @@
 		"eslint-plugin-svelte": "^3.23.0",
     "@tailwindcss/vite": "^4.3.3",
     "esbuild": "^0.28.2",
-    "svelte": "^5.56.10",
+    "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "tailwindcss": "^4.3.3",
     "tslib": "^2.8.1",
