@@ -21,7 +21,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.2.3 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/gofiber/storage/minio v0.5.2
+	github.com/gofiber/storage/minio v0.6.0
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.19.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
