@@ -12,8 +12,8 @@ github.com/gofiber/template/mustache/v3 v3.1.0 h1:UKbR84tdmvFAgMrMvVxH2dPTOIVd1H
 github.com/gofiber/template/mustache/v3 v3.1.0/go.mod h1:8W6r3ukxO2rnsAg8bJUmUL6CIpva89uK1GcAJITKOX8=
 github.com/gofiber/template/v2 v2.1.1 h1:1OKU5NGrQgtyUIuv6yffSG3+YVLBpX/vEB0z17ZImOE=
 github.com/gofiber/template/v2 v2.1.1/go.mod h1:L2UVJH2NjnfQC7Tej4l9RfyEtX8h1WnEXCK/GqTPJUg=
-github.com/gofiber/utils/v2 v2.4.2 h1:OA4LAEG3zKkPwFU7Jippxdk//N5hKMU12qXSCd0C4lQ=
-github.com/gofiber/utils/v2 v2.4.2/go.mod h1:AGosyllO+RVdfXyyKoUp91D0qj86BuknRN4I6mciqe8=
+github.com/gofiber/utils/v2 v2.4.3 h1:hOkGb/qneZWo3LDu/lvVYLNkLYjYf2L24yzWiNCwZlg=
+github.com/gofiber/utils/v2 v2.4.3/go.mod h1:moBcJN92eNvu0ybYe4zd4W34K6VI3UoZi5gKFwx/jj0=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.20.0 h1:a3C1ke2ohxFymNlb2HWAHjDeKCI90scRskErZkR0ezA=
@@ -24,8 +24,8 @@ github.com/mattn/go-isatty v0.0.24 h1:tGZZoVgT/KiqK1c8ocVLeDS8BSWMRd47J3Lbz7vsRe
 github.com/mattn/go-isatty v0.0.24/go.mod h1:nMCL3Zebbrt45jsMDgnfIwz6ydEQApk5oEI3HqDio6A=
 github.com/philhofer/fwd v1.2.0 h1:e6DnBTl7vGY+Gz322/ASL4Gyp1FspeMvx1RNDoToZuM=
 github.com/philhofer/fwd v1.2.0/go.mod h1:RqIHx9QI14HlwKwm98g9Re5prTQ6LdeRQn+gXJFxsJM=
-github.com/shamaton/msgpack/v3 v3.2.0 h1:1q2Ms+MWmuRju+PuDMSFDB7p7621npeX4zprJN5Zck8=
-github.com/shamaton/msgpack/v3 v3.2.0/go.mod h1:sgBYvEiyz8JR1NC3yGRoPVME9xXovpnh3l/plW1nfRo=
+github.com/shamaton/msgpack/v3 v3.2.1 h1:jjRACetPv+OlUzQt+nRmkS1cKhtV67I2xvvSQUwRTik=
+github.com/shamaton/msgpack/v3 v3.2.1/go.mod h1:sgBYvEiyz8JR1NC3yGRoPVME9xXovpnh3l/plW1nfRo=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 github.com/tinylib/msgp v1.6.4 h1:mOwYbyYDLPj35mkA2BjjYejgJk9BuHxDdvRnb6v2ZcQ=
