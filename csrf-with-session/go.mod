@@ -1,11 +1,11 @@
 module main
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/gofiber/template/html/v3 v3.0.8
-	golang.org/x/crypto v0.55.0
+	golang.org/x/crypto v0.56.0
 )
 
 require (
