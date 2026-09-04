@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/apitally/apitally-go/fiber-v3 v0.11.1
-	github.com/go-playground/validator/v10 v10.30.3
+	github.com/go-playground/validator/v10 v10.30.4
 	github.com/gofiber/fiber/v3 v3.5.0
 )
 
