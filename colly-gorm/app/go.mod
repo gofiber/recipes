@@ -13,7 +13,7 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.13.0 // indirect
 	github.com/andybalholm/brotli v1.2.3 // indirect
-	github.com/andybalholm/cascadia v1.3.4 // indirect
+	github.com/andybalholm/cascadia v1.3.5 // indirect
 	github.com/antchfx/htmlquery v1.3.6 // indirect
 	github.com/antchfx/xmlquery v1.5.1 // indirect
 	github.com/antchfx/xpath v1.3.8 // indirect
