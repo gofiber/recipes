@@ -251,6 +251,11 @@ updates:
       exclude:
         - "github.com/gofiber/*"
         - "github.com/valyala/fasthttp*"
+    ignore:
+      # colly v2 has no release for the v1 rewrite; it still needs glob.Glob,
+      # which v1.0.0 removed. Drop this once colly migrates.
+      - dependency-name: "github.com/gobwas/glob"
+        versions: [">= 1.0.0"]
     groups:
       fiber-modules:
         patterns:
