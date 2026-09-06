@@ -12,8 +12,8 @@ github.com/gofiber/template/django/v4 v4.0.9 h1:cCN0VsyYv5IQkUunoJ0d/RcoKcnoiUG2
 github.com/gofiber/template/django/v4 v4.0.9/go.mod h1:h42aU/RlYNtGdlIB1BultzGhqC29Ng0V4UAGTIitPl4=
 github.com/gofiber/template/v2 v2.1.1 h1:1OKU5NGrQgtyUIuv6yffSG3+YVLBpX/vEB0z17ZImOE=
 github.com/gofiber/template/v2 v2.1.1/go.mod h1:L2UVJH2NjnfQC7Tej4l9RfyEtX8h1WnEXCK/GqTPJUg=
-github.com/gofiber/utils/v2 v2.4.3 h1:hOkGb/qneZWo3LDu/lvVYLNkLYjYf2L24yzWiNCwZlg=
-github.com/gofiber/utils/v2 v2.4.3/go.mod h1:moBcJN92eNvu0ybYe4zd4W34K6VI3UoZi5gKFwx/jj0=
+github.com/gofiber/utils/v2 v2.5.0 h1:KdxVwQCUHVDmLtA4M7HwqavywROkXFCMSRm86b8pA+E=
+github.com/gofiber/utils/v2 v2.5.0/go.mod h1:moBcJN92eNvu0ybYe4zd4W34K6VI3UoZi5gKFwx/jj0=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.20.0 h1:a3C1ke2ohxFymNlb2HWAHjDeKCI90scRskErZkR0ezA=
