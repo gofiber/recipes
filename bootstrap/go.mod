@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/go-playground/validator/v10 v10.30.4
-	github.com/gofiber/contrib/v3/monitor v1.2.0
+	github.com/gofiber/contrib/v3/monitor v1.2.1
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/gofiber/template/html/v3 v3.0.8
 	github.com/joho/godotenv v1.5.1
@@ -30,12 +30,12 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.20.0 // indirect
 	github.com/leodido/go-urn v1.5.0 // indirect
-	github.com/lufia/plan9stats v0.0.0-20260216142805-b3301c5f2a88 // indirect
+	github.com/lufia/plan9stats v0.0.0-20260802145828-341c2f0c90b5 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/molecule-man/go-brrr v1.0.1 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
-	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
+	github.com/power-devops/perfstat v0.0.0-20260805114148-88456608a4f6 // indirect
 	github.com/shirou/gopsutil/v4 v4.26.8 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect
 	github.com/tklauser/go-sysconf v0.4.0 // indirect
