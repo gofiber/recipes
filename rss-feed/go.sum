@@ -4,8 +4,8 @@ github.com/fxamacker/cbor/v2 v2.9.3 h1:oQBnFATpNdY8gJHTndDDv5Xl4QqNaz51G5LLEPhng
 github.com/fxamacker/cbor/v2 v2.9.3/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/gofiber/fiber/v3 v3.5.0 h1:dk7TOUH6DXJGtOLsN2XEG+0ZML7cznzHILTVozbNEK8=
 github.com/gofiber/fiber/v3 v3.5.0/go.mod h1:GOVDTW+gjJvfe0iJyVujbQ1Lnx+JUjFySJRI/9/xX/w=
-github.com/gofiber/schema v1.8.5 h1:f5J8jjPH5Q6ZJIb8oJxzRh+K8TxPx9Zm478Xkjj0dMg=
-github.com/gofiber/schema v1.8.5/go.mod h1:85qQG6r0X0g4vKWxDdPgEVOH2eY+0mlBd950Nq+NldY=
+github.com/gofiber/schema v1.8.6 h1:xVlbSg3vsyKVlfzRBps2tJ7pHx1d8mSgiaJye6Lb3xs=
+github.com/gofiber/schema v1.8.6/go.mod h1:Cxh3loYVG3FLA7FzW4C5G83pL/pmCmAnuaIJ5y2HwkU=
 github.com/gofiber/template/mustache/v3 v3.1.0 h1:UKbR84tdmvFAgMrMvVxH2dPTOIVd1HwGnlY61UvMY40=
 github.com/gofiber/template/mustache/v3 v3.1.0/go.mod h1:8W6r3ukxO2rnsAg8bJUmUL6CIpva89uK1GcAJITKOX8=
 github.com/gofiber/template/v2 v2.1.1 h1:1OKU5NGrQgtyUIuv6yffSG3+YVLBpX/vEB0z17ZImOE=
