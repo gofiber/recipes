@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.25.0
+ARG GO_VERSION=1.26.0
 FROM golang:${GO_VERSION}-alpine AS build
 
 # Set destination for COPY

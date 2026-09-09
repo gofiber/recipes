@@ -27,6 +27,7 @@ jobs:
       matrix:
         go-version:
           - "1.26.x"
+          - "1.27.x"
     # 8 vCPU: the build step fans the 91 modules out over the cores, and they share
     # one warm build cache instead of each rebuilding the fiber dep tree
     runs-on: blacksmith-8vcpu-ubuntu-2404
@@ -54,8 +55,16 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            # Get the changed directories for the entire pull request
-            changed_dirs=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk -F'/' '{print $1}' | sort -u | tr '\n' ' ')
+            # Walk up to the module owning each changed file: splitting on the first path
+            # segment resolved nested modules like clean-code/app to a dir with no go.mod,
+            # so their PRs went green unbuilt. --no-renames so a move also rebuilds the source.
+            changed_dirs=$(git diff --no-renames --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | while IFS= read -r file; do
+              dir=$(dirname "$file")
+              while [[ "$dir" != "." && ! -f "$dir/go.mod" ]]; do dir=$(dirname "$dir"); done
+              # not `[[ ... ]] && echo`: that is the loop's exit status, and -e plus pipefail
+              # would kill the step whenever the last changed file belongs to no module.
+              if [[ -f "$dir/go.mod" ]]; then echo "$dir"; fi
+            done | sort -u | tr '\n' ' ')
           else
             # For master branch, process all directories with go.mod
             changed_dirs=$(find . -name go.mod -exec dirname {} \; | tr '\n' ' ')

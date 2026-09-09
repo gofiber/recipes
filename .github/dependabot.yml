@@ -256,6 +256,10 @@ updates:
       # which v1.0.0 removed. Drop this once colly migrates.
       - dependency-name: "github.com/gobwas/glob"
         versions: [">= 1.0.0"]
+      # pgx 5.11.0 put TypeMap() into the Rows interface and no released pgxmock
+      # implements it. Drop this once pgxmock ships pashagolub/pgxmock#289.
+      - dependency-name: "github.com/jackc/pgx/v5"
+        versions: [">= 5.11.0"]
     groups:
       fiber-modules:
         patterns:
