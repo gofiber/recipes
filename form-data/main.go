@@ -83,11 +83,10 @@ func bindNested(c fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(order)
 }
 
-// bindMap handles the case Bind().Body() cannot: dynamic, caller-chosen
-// field names with no matching Go struct field. gofiber/schema only decodes
-// into a pointer to a struct, so a form body with unknown keys is parsed
-// directly as a query string instead — net/url.ParseQuery returns
-// url.Values, a map[string][]string, which already carries repeated values.
+// bindMap demonstrates parsing dynamic, caller-chosen field names into a
+// map[string][]string using the standard library's net/url.ParseQuery.
+// Alternatively, Fiber's Bind().Body(&mapTarget) also supports decoding
+// form data directly into maps via its built-in form binder.
 func bindMap(c fiber.Ctx) error {
 	values, err := url.ParseQuery(string(c.Body()))
 	if err != nil {

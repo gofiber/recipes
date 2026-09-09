@@ -95,7 +95,7 @@ The main Go file sets up the Fiber application and four routes, each binding a u
 - `POST /struct` binds a flat form into a struct with `Bind().Body()`.
 - `POST /slice` binds a repeated field (`tags=go&tags=web`) into a `[]string`.
 - `POST /nested` binds a dotted key path (`address.street`) into a nested struct, and a dotted, indexed key path (`items.0.qty`) into a slice of structs.
-- `POST /map` parses the raw body with `net/url.ParseQuery` into a `map[string][]string`, for keys with no matching struct field. `Bind().Body()` cannot cover this case: gofiber/schema only decodes into a pointer to a struct.
+- `POST /map` parses the raw body into a `map[string][]string` using `net/url.ParseQuery` as a standard-library alternative (Fiber's `Bind().Body()` also natively supports binding form bodies into maps).
 
 ## Conclusion
 
