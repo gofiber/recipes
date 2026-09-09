@@ -16,7 +16,7 @@ This project shows four ways a urlencoded form body can be parsed: a flat struct
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.26 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure
