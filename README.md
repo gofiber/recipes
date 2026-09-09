@@ -40,6 +40,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [File Server](./file-server/README.md) - Serving static files.
 - [Firebase Authentication](./firebase-auth/README.md) - Firebase authentication integration.
 - [Firebase Functions](./firebase-functions/README.md) - Using Firebase Functions.
+- [Form Data](./form-data/README.md) - Parsing application/x-www-form-urlencoded bodies into structs, slices and maps.
 - [Firebase GCloud](./gcloud/README.md) - Integrating Firebase with Google Cloud.
 - [Google Cloud Firebase](./gcloud-firebase/README.md) - Firebase services on Google Cloud.
 - [GeoIP](./geoip/README.md) - Geolocation using ip-api.com.
