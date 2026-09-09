@@ -2,8 +2,8 @@ github.com/fxamacker/cbor/v2 v2.9.3 h1:oQBnFATpNdY8gJHTndDDv5Xl4QqNaz51G5LLEPhng
 github.com/fxamacker/cbor/v2 v2.9.3/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/gofiber/fiber/v3 v3.5.0 h1:dk7TOUH6DXJGtOLsN2XEG+0ZML7cznzHILTVozbNEK8=
 github.com/gofiber/fiber/v3 v3.5.0/go.mod h1:GOVDTW+gjJvfe0iJyVujbQ1Lnx+JUjFySJRI/9/xX/w=
-github.com/gofiber/schema v1.8.5 h1:f5J8jjPH5Q6ZJIb8oJxzRh+K8TxPx9Zm478Xkjj0dMg=
-github.com/gofiber/schema v1.8.5/go.mod h1:85qQG6r0X0g4vKWxDdPgEVOH2eY+0mlBd950Nq+NldY=
+github.com/gofiber/schema v1.8.6 h1:xVlbSg3vsyKVlfzRBps2tJ7pHx1d8mSgiaJye6Lb3xs=
+github.com/gofiber/schema v1.8.6/go.mod h1:Cxh3loYVG3FLA7FzW4C5G83pL/pmCmAnuaIJ5y2HwkU=
 github.com/gofiber/storage/sqlite3/v2 v2.3.0 h1:prcAhZ7pYJ8u8VHqWf//kn7Ze7kQolej+KRQykTIt5Q=
 github.com/gofiber/storage/sqlite3/v2 v2.3.0/go.mod h1:tOzr39pwj8WLub0QcMLGq9AaQ0m96E3wwSgwBfbGvYY=
 github.com/gofiber/template/html/v3 v3.0.8 h1:g3n9MPby26tF5Yd/xaQDkXMKynarb0ACacfJWD2WpaM=
