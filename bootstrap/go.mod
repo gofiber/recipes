@@ -33,7 +33,7 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20260802145828-341c2f0c90b5 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
-	github.com/molecule-man/go-brrr v1.0.1 // indirect
+	github.com/molecule-man/go-brrr v1.1.0 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20260805114148-88456608a4f6 // indirect
 	github.com/shirou/gopsutil/v4 v4.26.8 // indirect
