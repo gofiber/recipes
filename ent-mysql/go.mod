@@ -25,7 +25,7 @@ require (
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
-	github.com/molecule-man/go-brrr v1.0.1 // indirect
+	github.com/molecule-man/go-brrr v1.1.0 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect
