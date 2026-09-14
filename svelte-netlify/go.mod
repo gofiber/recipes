@@ -1,9 +1,9 @@
 module github.com/gofiber/recipes/svelte-netlify
 
-go 1.26.0
+go 1.27
 
 require (
-	github.com/carlmjohnson/gateway v1.22.2
+	github.com/carlmjohnson/gateway v1.26.1
 	github.com/gofiber/fiber/v3 v3.5.0
 )
 
