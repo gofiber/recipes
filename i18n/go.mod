@@ -5,14 +5,14 @@ go 1.26.0
 require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/gofiber/fiber/v3 v3.5.0
-	github.com/gofiber/template/html/v3 v3.0.8
+	github.com/gofiber/template/html/v3 v3.0.9
 	github.com/nicksnyder/go-i18n/v2 v2.6.1
 	golang.org/x/text v0.42.0
 )
 
 require (
 	github.com/gofiber/schema v1.8.7 // indirect
-	github.com/gofiber/template/v2 v2.1.1 // indirect
+	github.com/gofiber/template/v2 v2.1.2 // indirect
 	github.com/gofiber/utils/v2 v2.5.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.0 // indirect
