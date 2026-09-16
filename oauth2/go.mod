@@ -11,7 +11,7 @@ require (
 
 require (
 	github.com/fxamacker/cbor/v2 v2.9.4 // indirect
-	github.com/gofiber/schema v1.8.6 // indirect
+	github.com/gofiber/schema v1.8.7 // indirect
 	github.com/gofiber/template/v2 v2.1.1 // indirect
 	github.com/gofiber/utils/v2 v2.5.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
