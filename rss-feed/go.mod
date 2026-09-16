@@ -4,13 +4,13 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.5.0
-	github.com/gofiber/template/mustache/v3 v3.1.0
+	github.com/gofiber/template/mustache/v3 v3.1.1
 )
 
 require (
 	github.com/cbroglie/mustache v1.4.2 // indirect
 	github.com/gofiber/schema v1.8.7 // indirect
-	github.com/gofiber/template/v2 v2.1.1 // indirect
+	github.com/gofiber/template/v2 v2.1.2 // indirect
 	github.com/gofiber/utils/v2 v2.5.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.0 // indirect
