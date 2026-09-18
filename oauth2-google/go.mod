@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	cloud.google.com/go/compute/metadata v0.9.0 // indirect
+	cloud.google.com/go/compute/metadata v0.9.1 // indirect
 	github.com/gofiber/schema v1.8.7 // indirect
 	github.com/gofiber/utils/v2 v2.5.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
