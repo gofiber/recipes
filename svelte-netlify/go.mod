@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	github.com/aws/aws-lambda-go v1.55.0 // indirect
+	github.com/aws/aws-lambda-go v1.55.1 // indirect
 	github.com/gofiber/schema v1.8.7 // indirect
 	github.com/gofiber/utils/v2 v2.5.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
