@@ -29,8 +29,8 @@ github.com/gofiber/fiber/v3 v3.5.0 h1:dk7TOUH6DXJGtOLsN2XEG+0ZML7cznzHILTVozbNEK
 github.com/gofiber/fiber/v3 v3.5.0/go.mod h1:GOVDTW+gjJvfe0iJyVujbQ1Lnx+JUjFySJRI/9/xX/w=
 github.com/gofiber/schema v1.8.7 h1:7cSagr2ObiUVFuitCOqjKMqIhV+oVbkanP4Ge/wHsnI=
 github.com/gofiber/schema v1.8.7/go.mod h1:fBz4T6uOepH3L+dYlz/yzQ0bFHPnfExkp/B3Qrk2VBI=
-github.com/gofiber/utils/v2 v2.5.3 h1:8bOn+DSKeANT8R/eqm+g2FHU/8uuE4Ed2IXOrijS0yw=
-github.com/gofiber/utils/v2 v2.5.3/go.mod h1:tc9KqdRAQZRD/u0mN2d1ZHROGheSZv+0FcC9cg5OEdw=
+github.com/gofiber/utils/v2 v2.6.0 h1:irTtj/gCDH/y8yzEQrPOx03t6ODeVd6EO9i6RnQlGe4=
+github.com/gofiber/utils/v2 v2.6.0/go.mod h1:tc9KqdRAQZRD/u0mN2d1ZHROGheSZv+0FcC9cg5OEdw=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
 github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 h1:f+oWsMOmNPc8JmEHVZIycC7hBoQxHH9pNKQORJNozsQ=
 github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8/go.mod h1:wcDNUvekVysuuOpQKo3191zZyTpiI6se1N1ULghS0sw=
