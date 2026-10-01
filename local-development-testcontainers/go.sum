@@ -149,8 +149,8 @@ github.com/testcontainers/testcontainers-go/modules/postgres v0.44.0 h1:8fdv/9y3
 github.com/testcontainers/testcontainers-go/modules/postgres v0.44.0/go.mod h1:CFr2LncGYokw+OKjXcr8ARCKG1SaC2UEnGxFBovE86g=
 github.com/testcontainers/testcontainers-go/modules/redis v0.44.0 h1:43EH7N6yB5B2tY/9uhPit487tMLm5iQiyKQaXWXNbnk=
 github.com/testcontainers/testcontainers-go/modules/redis v0.44.0/go.mod h1:k4nnCSzm3z8yRMBKBn3rhsllbFjjhVn/2JjWNxxArg8=
-github.com/tinylib/msgp v1.6.4 h1:mOwYbyYDLPj35mkA2BjjYejgJk9BuHxDdvRnb6v2ZcQ=
-github.com/tinylib/msgp v1.6.4/go.mod h1:RSp0LW9oSxFut3KzESt5Voq4GVWyS+PSulT77roAqEA=
+github.com/tinylib/msgp v1.6.5 h1:iAH6XTP7BpzErjBZlujJQXxA+GmRi2YWs6M4KdLtNbE=
+github.com/tinylib/msgp v1.6.5/go.mod h1:RSp0LW9oSxFut3KzESt5Voq4GVWyS+PSulT77roAqEA=
 github.com/tklauser/go-sysconf v0.4.0 h1:7H0uAN+7RkwWRaxhYXDLqa5V3LPrJeV8wmD9dRUgPQU=
 github.com/tklauser/go-sysconf v0.4.0/go.mod h1:8mTNWyog7H+MpKijp4VmKJAd2bbYQ2zuUwkYRbUArPI=
 github.com/tklauser/numcpus v0.12.0 h1:NR85qdvHA9pFse3x3weVZ0r0ST8R6l5RHbZrlRaqob4=
