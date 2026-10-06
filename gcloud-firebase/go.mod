@@ -6,7 +6,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/joho/godotenv v1.5.1
-	github.com/valyala/fasthttp v1.74.0
+	github.com/valyala/fasthttp v1.75.0
 )
 
 require (
