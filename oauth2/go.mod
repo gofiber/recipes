@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.5.0
-	github.com/gofiber/template/html/v3 v3.0.9
+	github.com/gofiber/template/html/v3 v3.0.10
 	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/encoding v0.5.4
 )
@@ -12,7 +12,7 @@ require (
 require (
 	github.com/fxamacker/cbor/v2 v2.9.6 // indirect
 	github.com/gofiber/schema v1.8.8 // indirect
-	github.com/gofiber/template/v2 v2.1.2 // indirect
+	github.com/gofiber/template/v2 v2.1.3 // indirect
 	github.com/gofiber/utils/v2 v2.6.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.1 // indirect
