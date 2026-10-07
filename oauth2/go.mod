@@ -10,7 +10,7 @@ require (
 )
 
 require (
-	github.com/fxamacker/cbor/v2 v2.9.4 // indirect
+	github.com/fxamacker/cbor/v2 v2.9.6 // indirect
 	github.com/gofiber/schema v1.8.8 // indirect
 	github.com/gofiber/template/v2 v2.1.2 // indirect
 	github.com/gofiber/utils/v2 v2.6.1 // indirect
