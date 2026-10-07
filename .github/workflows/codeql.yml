@@ -57,6 +57,22 @@ jobs:
       - name: Fetch Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # Improved incremental analysis failed with "disk space constraints" on the 8 vCPU
+      # runner (run 37654421853), and CodeQL then switched it off for the following runs.
+      # A Go analysis needs none of these preinstalled SDKs, so their space goes to the
+      # build and database. df before and after is logged to show what was reclaimed.
+      - name: Free disk space
+        if: matrix.language == 'go'
+        shell: bash
+        run: |
+          df -h /
+          for dir in /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost; do
+            if [ -d "$dir" ]; then
+              sudo rm -rf "$dir" || echo "::warning::could not remove $dir"
+            fi
+          done
+          df -h /
+
       # Before autobuild, not after: it compiles all 91 modules, and without a warm
       # module and build cache every dependency tree is built from scratch. The same
       # cache cut the plain build in gobuild.yml from 526s to 113s.
