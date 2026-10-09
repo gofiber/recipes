@@ -1,0 +1,4 @@
+# kit 2 still depends on the vulnerable cookie ^0.6.0. Kept here, not in package.json:
+# Dependabot runs a newer pnpm that only reads overrides from this file.
+overrides:
+  cookie: ^0.7.2

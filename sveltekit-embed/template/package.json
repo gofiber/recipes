@@ -38,10 +38,5 @@
 	"engines": {
 		"node": "^20.19 || ^22.13 || >=24"
 	},
-	"type": "module",
-	"pnpm": {
-		"overrides": {
-			"cookie": "^0.7.2"
-		}
-	}
+	"type": "module"
 }

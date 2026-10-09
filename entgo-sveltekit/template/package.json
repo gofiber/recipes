@@ -34,10 +34,5 @@
   },
   "type": "module",
   "dependencies": {
-  },
-  "pnpm": {
-    "overrides": {
-      "cookie": "^0.7.2"
-    }
   }
 }
