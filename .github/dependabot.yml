@@ -178,13 +178,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -391,13 +392,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -595,13 +597,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -798,13 +801,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -1004,13 +1008,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -1207,13 +1212,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -1413,13 +1419,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -1484,6 +1491,11 @@ updates:
       exclude:
         - "github.com/gofiber/*"
         - "github.com/valyala/fasthttp*"
+    ignore:
+      # gateway 1.26.1+ requires go 1.27, but the builds matrix still runs 1.26.x
+      # with GOTOOLCHAIN=local. Drop this once 1.26.x leaves the matrix.
+      - dependency-name: "github.com/carlmjohnson/gateway"
+        versions: [">= 1.26.1"]
     groups:
       fiber-modules:
         patterns:
@@ -1615,13 +1627,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -1819,13 +1832,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -2027,13 +2041,14 @@ updates:
           - "github.com/go-playground/validator/**"
       brotli-modules:
         patterns:
-          - "github.com/andybalholm/brotli"
+          - "github.com/molecule-man/go-brrr"
       xxhash-modules:
         patterns:
           - "github.com/cespare/xxhash/**"
       yaml-modules:
         patterns:
           - "gopkg.in/yaml.v3"
+          - "go.yaml.in/yaml/**"
       testcontainers-modules:
         patterns:
           - "github.com/testcontainers/**"
@@ -2150,13 +2165,22 @@ updates:
   - package-ecosystem: "bun"
     open-pull-requests-limit: 15
     directories:
-      - "**/*"
+      # not "**/*": on a pnpm or npm directory bun bumps package.json only
+      - "/cloudflare-workers"
     labels:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
     cooldown:
       default-days: 3
+    groups:
+      # majors stay separate PRs, inside a group they would hold back the automerge
+      workers-modules:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
