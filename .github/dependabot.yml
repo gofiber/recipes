@@ -1491,11 +1491,6 @@ updates:
       exclude:
         - "github.com/gofiber/*"
         - "github.com/valyala/fasthttp*"
-    ignore:
-      # gateway 1.26.1+ requires go 1.27, but the builds matrix still runs 1.26.x
-      # with GOTOOLCHAIN=local. Drop this once 1.26.x leaves the matrix.
-      - dependency-name: "github.com/carlmjohnson/gateway"
-        versions: [">= 1.26.1"]
     groups:
       fiber-modules:
         patterns:
@@ -2115,6 +2110,17 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 3
+    ignore:
+      # kit 3 needs a migration (config in vite.config.ts, #lib, TypeScript 6) and
+      # adapter-static 4 requires kit 3. Drop both once the templates are migrated.
+      - dependency-name: "@sveltejs/kit"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@sveltejs/adapter-static"
+        update-types: ["version-update:semver-major"]
+      # svelte-check, typescript-eslint and kit all stop at TypeScript 6; the 7 bump
+      # went through green and broke `check` in both templates.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     groups:
       svelte-modules:
         patterns:
@@ -2140,12 +2146,12 @@ updates:
           - "react"
           - "react-dom"
           - "react-router-dom"
-          - "react-scripts"
           - "@types/react*"
           - "@testing-library/*"
       eslint-modules:
         patterns:
           - "eslint"
+          - "@eslint/*"
           - "eslint-*"
           - "eslint-plugin*"
           - "eslint-config*"

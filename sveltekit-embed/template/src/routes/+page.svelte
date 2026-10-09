@@ -39,9 +39,7 @@
 						<span class="text-base">http://localhost:3000</span>
 					</div>
 				</div>
-				<div
-					class="h-auto flex-grow rounded-b-lg border border-gray-200 p-4 dark:border-gray-700"
-				>
+				<div class="h-auto flex-grow rounded-b-lg border border-gray-200 p-4 dark:border-gray-700">
 					Hello, World!
 				</div>
 			</div>

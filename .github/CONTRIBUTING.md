@@ -30,4 +30,6 @@ Thank you for considering contributing to this project! To ensure a smooth and e
     make generate
     ```
 
+4. **Add a `Makefile` if `go build` is not enough**: An example with a frontend or a code generation step must ship a `Makefile` whose `build` target builds everything the example needs. CI runs `make build` for every changed example that has one. It only provides Go and Node, so the target has to fetch any other tool itself, for example with a pinned `npx --yes pnpm@10.34.6`. See `sveltekit-embed/makefile`.
+
 By following these guidelines, you help maintain the quality and consistency of the project. Thank you for your contributions!

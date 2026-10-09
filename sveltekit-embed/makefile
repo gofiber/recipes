@@ -1,7 +1,13 @@
-.PHONY: all info go-build svelte-build install-template-dependencies clean
+.PHONY: all build info go-build svelte-build install-template-dependencies clean
+
+# pinned so the lockfile format stays stable; npx needs nothing but Node
+PNPM ?= npx --yes pnpm@10.34.6
 
 # Default target
 all: svelte-build go-build
+
+# What CI runs, see .github/CONTRIBUTING.md
+build: all
 
 # Print information about available commands
 info:
@@ -14,6 +20,7 @@ info:
 	$(info - go-build:  Build the Golang project.)
 	$(info - svelte-build:  Build the SvelteKit project.)
 	$(info - all:  Run all commands (SvelteBuild, GoBuild).)
+	$(info - build:  Same as all, the target CI runs.)
 	$(info )
 	$(info Usage: make <command>)
 
@@ -25,24 +32,14 @@ go-build:
 # Build the SvelteKit project
 svelte-build: install-template-dependencies
 	@echo "=== Building SvelteKit Project ==="
-	@if command -v pnpm >/dev/null; then \
-		pnpm run -C ./template build; \
-	else \
-		npm run --prefix ./template build; \
-	fi
+	@$(PNPM) run -C ./template build
 
 # Install template dependencies
 install-template-dependencies:
-	@if command -v pnpm >/dev/null; then \
-		pnpm install -C ./template; \
-	else \
-		npm install --prefix ./template; \
-	fi
+	@$(PNPM) install -C ./template --frozen-lockfile
 
 # Clean build artifacts
 clean:
 	@echo "=== Cleaning build artifacts ==="
 	@rm -f app
-	@if [ -d "./template/__svelte_build__" ]; then \
-		rm -rf ./template/__svelte_build__; \
-	fi
+	@find ./template/dist -mindepth 1 ! -name .gitkeep -delete

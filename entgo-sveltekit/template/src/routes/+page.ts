@@ -7,7 +7,7 @@ export const load = (async ({fetch}) => {
         const response = await fetch("/api/v1/todo/list");
         const result = await response.json() as TodoType[];
         todos.set(result); // Set the retrieved data to the todos store
-    } catch (e) {
+    } catch {
         error.set(true); // Set the error state to true if an error occurs
     } finally {
         loading.set(false); // Set the loading state back to false after the fetch operation

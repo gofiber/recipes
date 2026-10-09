@@ -75,7 +75,7 @@ jobs:
 
       # Before autobuild, not after: it compiles all 91 modules, and without a warm
       # module and build cache every dependency tree is built from scratch. The same
-      # cache cut the plain build in gobuild.yml from 526s to 113s.
+      # cache cut the plain build in build.yml from 526s to 113s.
       - name: Install Go
         if: matrix.language == 'go'
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0

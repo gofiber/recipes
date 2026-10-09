@@ -50,9 +50,9 @@ func SvelteRun() {
 	green.Println("=== Running SvelteKit Project ===")
 	installTemplateDependencies()
 	if hasCommand("pnpm") {
-		execCmd("pnpm", "run", "-C", "./template ", "run")
+		execCmd("pnpm", "run", "-C", "./template", "dev")
 	} else {
-		execCmd("npm", "run", "dev", "--prefix ", "./template")
+		execCmd("npm", "run", "dev", "--prefix", "./template")
 	}
 }
 
@@ -60,9 +60,9 @@ func SvelteBuild() {
 	green.Println("=== Building SvelteKit Project ===")
 	installTemplateDependencies()
 	if hasCommand("pnpm") {
-		execCmd("pnpm", "run", "-C", "./template ", "build")
+		execCmd("pnpm", "run", "-C", "./template", "build")
 	} else {
-		execCmd("npm", "run", "build", "--prefix ", "./template")
+		execCmd("npm", "run", "build", "--prefix", "./template")
 	}
 }
 

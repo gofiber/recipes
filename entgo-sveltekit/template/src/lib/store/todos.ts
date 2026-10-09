@@ -33,7 +33,7 @@ export const add = async (todo: TodoType) => {
         });
         const result = await response.json() as TodoType;
         todos.update(existingTodos => [...existingTodos, result]);
-    } catch (e) {
+    } catch {
         error.set(true);
     }
 };
@@ -50,7 +50,7 @@ export const remove = async (id: string | undefined) => {
             method: 'DELETE'
         });
         todos.update(existingTodos => existingTodos.filter(todo => todo.id !== id));
-    } catch (e) {
+    } catch {
         error.set(true);
     }
 };

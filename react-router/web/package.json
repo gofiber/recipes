@@ -4,46 +4,26 @@
   "description": "Sample application to serve React with Go-Fiber",
   "private": true,
   "author": "Nicholas Dwiarto W. <nicholasdwiarto@yahoo.com> (https://www.nicholasdw.com)",
-  "homepage": "/web",
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run"
   },
   "dependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^7.0.2",
-    "web-vitals": "^6.0.0"
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.0.0",
-    "@testing-library/user-event": "^14.0.0",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^26.1.1",
     "@types/react": "^19.2.13",
-    "@types/react-dom": "^19.2.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "jsdom": "^30.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
   }
 }

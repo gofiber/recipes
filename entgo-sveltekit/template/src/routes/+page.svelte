@@ -39,7 +39,7 @@
       {#if $todos.length === 0}
         <p class="text-gray-500">No todos yet.</p>
       {/if}
-      {#each $todos as todo}
+      {#each $todos as todo (todo.id)}
         <div class="flex items-center mb-2">
           <input
             class="mr-2"

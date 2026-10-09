@@ -22,16 +22,16 @@ FROM node:26@sha256:a723b54c35a76e947095a20a67d39585bb09c862e6b1adeb8a9f518f95e3
 WORKDIR /frontendcompile
 
 # Copy lockfiles and dependencies.
-COPY ./web/package.json ./web/yarn.lock ./
+COPY ./web/package.json ./web/package-lock.json ./
 
 # Install our dependencies.
-RUN yarn
+RUN npm ci
 
 # Copy our installed 'node_modules' and everything else.
 COPY ./web .
 
 # Build our application.
-RUN yarn build
+RUN npm run build
 
 # Last stage: discard everything except our executables.
 FROM alpine:latest AS prod

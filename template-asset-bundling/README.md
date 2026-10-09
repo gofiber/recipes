@@ -36,7 +36,6 @@ template-asset-bundling/
 ├── public/
 │   └── assets/          # Compiled assets output (git-ignored)
 ├── package.json         # Node dependencies and npm scripts
-├── tailwind.config.js   # Tailwind CSS configuration
 └── .postcssrc           # PostCSS configuration for Parcel
 ```
 

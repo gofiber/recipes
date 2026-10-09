@@ -14,9 +14,9 @@ const Fiber = () => (
       <Link className="application-link" to="/react">
         Go to React page
       </Link>
-      <Link className="application-link" to={{ pathname: "https://gofiber.io/" }} target="_blank">
+      <a className="application-link" href="https://gofiber.io/" target="_blank" rel="noreferrer">
         Learn Fiber, a FastHTTP-based Go framework
-      </Link>
+      </a>
     </div>
   </main>
 );

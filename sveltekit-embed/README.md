@@ -37,6 +37,7 @@ The following commands are available to manage the project:
 | `go-build` | Builds the Golang project and creates an `app` file. |
 | `svelte-build` | Builds the SvelteKit project. It first installs the dependencies and then performs the project build. |
 | `all` | Runs both `svelte-build` and `go-build` commands sequentially. |
+| `build` | Same as `all`. This is the target CI runs. |
 
 ## Usage
 

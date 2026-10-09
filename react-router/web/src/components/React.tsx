@@ -14,9 +14,9 @@ const React = () => (
       <Link className="application-link" to="/">
         Go to Fiber page
       </Link>
-      <Link className="application-link" to={{ pathname: "https://reactjs.org" }} target="_blank">
+      <a className="application-link" href="https://reactjs.org" target="_blank" rel="noreferrer">
         Learn React, a JavaScript framework
-      </Link>
+      </a>
     </div>
   </main>
 );

@@ -12,14 +12,15 @@
 	$: lineCount = trimmed.split('\n').length;
 </script>
 
+<!-- eslint-disable svelte/no-at-html-tags -- highlight.js escapes the code it wraps -->
 <div class="flex h-full overflow-hidden bg-gray-900 text-sm {rounded}">
 	{#if lineNumbers}
 		<div
 			aria-hidden="true"
 			class="shrink-0 select-none border-r border-gray-700 px-3 py-4 text-right font-mono leading-6 text-gray-500"
 		>
-			{#each Array(lineCount) as _, i}
-				<div>{i + 1}</div>
+			{#each Array.from({ length: lineCount }, (_, i) => i + 1) as line (line)}
+				<div>{line}</div>
 			{/each}
 		</div>
 	{/if}

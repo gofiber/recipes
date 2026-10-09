@@ -32,8 +32,6 @@ jobs:
     # one warm build cache instead of each rebuilding the fiber dep tree
     runs-on: blacksmith-8vcpu-ubuntu-2404
     timeout-minutes: 60
-    env:
-      GOTOOLCHAIN: auto
     steps:
       - name: Fetch Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -87,6 +85,9 @@ jobs:
           CHANGED_DIRS: ${{ env.changed_dirs }}
         run: |
           set -euo pipefail
+          # setup-go exports GOTOOLCHAIN=local, which beats a job-level env; auto lets
+          # the older matrix leg fetch the toolchain a module's go.mod asks for
+          export GOTOOLCHAIN=auto
           # sed instead of grep: grep exits 1 when it filters everything out, which
           # pipefail would turn into a failed step for a PR that touched no module.
           # shellcheck disable=SC2086 # CHANGED_DIRS is a space-separated list, splitting is intended
@@ -107,3 +108,68 @@ jobs:
                 exit 1
               fi
             ' _ {} < dirs.txt
+
+  # The check name must keep matching `builds` in dependabot_automerge.yml.
+  make-builds:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    timeout-minutes: 30
+    steps:
+      - name: Fetch Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # Fetch all history so diffs can be performed
+          filter: blob:none # --name-only only walks trees; HEAD's blobs arrive lazily
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          cache: false
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      # Whatever a recipe needs beyond `go build` (frontend, codegen) lives in its
+      # Makefile; this job only provides Go and Node and runs the `build` target.
+      - name: Run make build in changed recipes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          has_build() {
+            local mk
+            for mk in GNUmakefile makefile Makefile; do
+              if [[ -f "$1/$mk" ]] && grep -qE '^build[[:space:]]*:' "$1/$mk"; then return 0; fi
+            done
+            return 1
+          }
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            # Walk up to the recipe owning each changed file, like the go.mod lookup above.
+            git diff --no-renames --name-only "$BASE_SHA" "$HEAD_SHA" | while IFS= read -r file; do
+              dir=$(dirname "$file")
+              while [[ "$dir" != "." ]] && ! has_build "$dir"; do dir=$(dirname "$dir"); done
+              if [[ "$dir" != "." ]]; then echo "$dir"; fi
+            done | sort -u > dirs.txt
+          else
+            find . -mindepth 2 \( -name GNUmakefile -o -name makefile -o -name Makefile \) -exec dirname {} \; | sort -u | while IFS= read -r dir; do
+              if has_build "$dir"; then echo "$dir"; fi
+            done > dirs.txt
+          fi
+          echo "Processing $(wc -l < dirs.txt) directories"
+          failed=0
+          while IFS= read -r dir; do
+            echo "::group::make build in $dir"
+            if make -C "$dir" build; then
+              echo "[$dir] ok"
+            else
+              echo "::error::make build failed in $dir"
+              failed=1
+            fi
+            echo "::endgroup::"
+          done < dirs.txt
+          exit "$failed"
