@@ -1,9 +1,11 @@
 github.com/aws/aws-lambda-go v1.55.1 h1:We2cCp4BwqqH/JW+bEEo1FhgG71rslvjfi4y7KmlrR0=
 github.com/aws/aws-lambda-go v1.55.1/go.mod h1:V+NzkHNR6vBC8C1PDloqSLE+7jYWFiPvJJFiCiTm8nE=
-github.com/carlmjohnson/be v0.22.4 h1:CEYQrjQu8ABgEryNXibdk9gvJb7I0yg3iTAK7L4c2bk=
-github.com/carlmjohnson/be v0.22.4/go.mod h1:KAgPUh0HpzWYZZI+IABdo80wTgY43YhbdsiLYAaSI/Q=
-github.com/carlmjohnson/gateway v1.22.2 h1:Nr7JVUSruWG3I6PGGxUTaIGLHSEhCcoppFX0zGxha80=
-github.com/carlmjohnson/gateway v1.22.2/go.mod h1:C2xSaIo4kkvdbTQQI5EhmzzWC1wB/+f5COhlpQ4O8fA=
+github.com/carlmjohnson/gateway v1.26.3 h1:0DpDits698yCCNLVsaae01gTMcHYJmoLO7HPkaoa7I8=
+github.com/carlmjohnson/gateway v1.26.3/go.mod h1:0OtBAg6Ekj0yRmun/392plWg70HmBc79XMSTLyNG9wE=
+github.com/earthboundkid/assert v0.26.6 h1:EZwMt6+i9dsnJ7+VEyDjHjfnlcZyXtYCgzMfxvxOUR0=
+github.com/earthboundkid/assert v0.26.6/go.mod h1:vctZ82uDOVsYzYb4NP94i/+QRzfJKM2UoNjoehSHODI=
+github.com/earthboundkid/gateway/v2 v2.26.1 h1:8UoqhB9ZQOAK3mWRgJuFhfCsnZB7ynOVDTygvdK9TJE=
+github.com/earthboundkid/gateway/v2 v2.26.1/go.mod h1:tz++YAgks600Qj5j62qbnb2zoaoxfcd4xdAVNrqMU4g=
 github.com/fxamacker/cbor/v2 v2.9.4 h1:xwjVlxEMR3S605oUlgBjKLTTeGFciYPGYCtF/35LKGo=
 github.com/fxamacker/cbor/v2 v2.9.4/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/gofiber/fiber/v3 v3.5.0 h1:dk7TOUH6DXJGtOLsN2XEG+0ZML7cznzHILTVozbNEK8=
