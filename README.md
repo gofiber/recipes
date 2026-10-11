@@ -4,6 +4,11 @@ title: 👋 Overview
 sidebar_position: 1
 ---
 
+<p align="center">
+  <img height="125" alt="Fiber Recipes" src="https://raw.githubusercontent.com/gofiber/recipes/master/.github/logo-dark.svg#gh-dark-mode-only" />
+  <img height="125" alt="Fiber Recipes" src="https://raw.githubusercontent.com/gofiber/recipes/master/.github/logo.svg#gh-light-mode-only" />
+</p>
+
 # 🍳 Recipes for [Fiber](https://github.com/gofiber/fiber)
 
 **Welcome to the official Fiber cookbook**!
