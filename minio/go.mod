@@ -2,7 +2,7 @@ module github.com/gofiber/recipes/minio
 
 go 1.26.0
 
-require github.com/gofiber/fiber/v3 v3.5.0
+require github.com/gofiber/fiber/v3 v3.6.0
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -33,6 +33,6 @@ require (
 	github.com/valyala/fasthttp v1.75.0 // indirect
 	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 )
