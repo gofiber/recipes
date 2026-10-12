@@ -3,7 +3,7 @@ module oauth2
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.5.0
+	github.com/gofiber/fiber/v3 v3.6.0
 	github.com/gofiber/template/html/v3 v3.0.10
 	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/encoding v0.5.4
@@ -27,6 +27,6 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 )
