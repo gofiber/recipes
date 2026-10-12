@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/go-sql-driver/mysql v1.10.1
 	github.com/gofiber/contrib/v3/jwt v1.2.5
-	github.com/gofiber/fiber/v3 v3.5.0
+	github.com/gofiber/fiber/v3 v3.6.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 )
 
@@ -25,6 +25,6 @@ require (
 	github.com/valyala/fasthttp v1.75.0 // indirect
 	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 )

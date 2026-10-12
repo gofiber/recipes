@@ -5,7 +5,7 @@ go 1.26.4
 require (
 	entgo.io/ent v0.14.6
 	github.com/go-sql-driver/mysql v1.10.1
-	github.com/gofiber/fiber/v3 v3.5.0
+	github.com/gofiber/fiber/v3 v3.6.0
 )
 
 require (
@@ -37,7 +37,7 @@ require (
 	golang.org/x/mod v0.41.0 // indirect
 	golang.org/x/net v0.60.0 // indirect
 	golang.org/x/sync v0.23.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/tools v0.51.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
