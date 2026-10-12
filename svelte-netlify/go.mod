@@ -4,7 +4,7 @@ go 1.27
 
 require (
 	github.com/carlmjohnson/gateway v1.26.3
-	github.com/gofiber/fiber/v3 v3.5.0
+	github.com/gofiber/fiber/v3 v3.6.0
 )
 
 require (
@@ -23,6 +23,6 @@ require (
 	github.com/valyala/fasthttp v1.75.0 // indirect
 	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 )
