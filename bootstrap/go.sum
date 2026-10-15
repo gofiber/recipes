@@ -18,8 +18,8 @@ github.com/go-playground/validator/v10 v10.30.5 h1:YyCXvVShZbs2Sm3Mb53eNOlhRXctS
 github.com/go-playground/validator/v10 v10.30.5/go.mod h1:wEqiaov48pXX1kjhc3Da8y0M0Dtg/BK7gurFBLgwFrQ=
 github.com/gofiber/contrib/v3/monitor v1.2.2 h1:TLld7FppW5LLiV4QwdEhG8fWSbkfMbO+6pG1HCEa5tM=
 github.com/gofiber/contrib/v3/monitor v1.2.2/go.mod h1:uBWvxXxIS+ozaCtb1C9o+NJjghptiDi6ShWFTbUGcfY=
-github.com/gofiber/fiber/v3 v3.6.0 h1:dmu6zB1SSXINf1flhgMRVaIOQ08vaZaN8JYVSBJI3fI=
-github.com/gofiber/fiber/v3 v3.6.0/go.mod h1:ce/ZWPbiMom+nAEkPv4+NPBEx8b9+MH3g2VV6nvEpgo=
+github.com/gofiber/fiber/v3 v3.6.1 h1:wYjbgqpJm6VErIVLSGzGpX7lLZyTNgElsj8nQ1i+iFo=
+github.com/gofiber/fiber/v3 v3.6.1/go.mod h1:+nxjBal3gw0EPf3gqK5EmtxaxTL01+zbSTagFletlDI=
 github.com/gofiber/schema v1.8.8 h1:md5t65+Z9LttOuj7FdMcQ63D2+6GniT2ganLXwvTJM4=
 github.com/gofiber/schema v1.8.8/go.mod h1:Hzf0L/fTPP1IwOAwKipKflm9C2722aebnSKJCMOgb1I=
 github.com/gofiber/template/html/v3 v3.0.11 h1:HPsgrNVr5bJfWilSJk/nbwRVZlaqVlPZlquRBTytka0=
