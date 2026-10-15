@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.20.9
 	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.79.1
 	github.com/getsentry/sentry-go v0.50.0
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/json-iterator/go v1.1.12
 	gorm.io/driver/postgres v1.6.3
