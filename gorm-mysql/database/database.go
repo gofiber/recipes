@@ -30,6 +30,8 @@ func ConnectDb() {
 	}
 
 	log.Println("connected")
-	db.AutoMigrate(&models.Book{})
+	if err = db.AutoMigrate(&models.Book{}); err != nil {
+		log.Fatal("Failed to run migrations. \n", err)
+	}
 	DBConn = db
 }

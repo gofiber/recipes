@@ -30,8 +30,9 @@ func ConnectDb(config *consts.Config) {
 	log.Println("connected")
 	db.Logger = logger.Default.LogMode(logger.Info)
 	log.Println("running migrations")
-	db.AutoMigrate(&Quote{})
-	db.AutoMigrate(&Course{})
+	if err = db.AutoMigrate(&Quote{}, &Course{}); err != nil {
+		log.Fatal("Failed to run migrations. \n", err)
+	}
 
 	DB = Dbinstance{
 		Db: db,

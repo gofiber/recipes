@@ -27,9 +27,11 @@ func New() *fiber.App {
 	app.Use(swagger.New(swaggerCfg))
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c fiber.Ctx) error {
-		c.JSON(fiber.Map{
+		if err := c.JSON(fiber.Map{
 			"message": "🐣 v1",
-		})
+		}); err != nil {
+			return err
+		}
 		return c.Next()
 	})
 

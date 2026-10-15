@@ -19,26 +19,26 @@ func CreateTodo(db *gorm.DB, todo *Todo) *gorm.DB {
 }
 
 // FindTodo finds a todo with given condition
-func FindTodo(db *gorm.DB, dest interface{}, conds ...interface{}) *gorm.DB {
+func FindTodo(db *gorm.DB, dest any, conds ...any) *gorm.DB {
 	return db.Model(&Todo{}).Take(dest, conds...)
 }
 
 // FindTodoByUser finds a todo with given todo and user identifier
-func FindTodoByUser(db *gorm.DB, dest interface{}, todoIden interface{}, userIden interface{}) *gorm.DB {
+func FindTodoByUser(db *gorm.DB, dest any, todoIden any, userIden any) *gorm.DB {
 	return FindTodo(db, dest, "todos.id = ? AND todos.user = ?", todoIden, userIden)
 }
 
 // FindTodosByUser finds the todos with user's identifier given
-func FindTodosByUser(db *gorm.DB, dest interface{}, userIden interface{}) *gorm.DB {
+func FindTodosByUser(db *gorm.DB, dest any, userIden any) *gorm.DB {
 	return db.Model(&Todo{}).Find(dest, "todos.user = ?", userIden)
 }
 
 // DeleteTodo deletes a todo from todos' table with the given todo and user identifier
-func DeleteTodo(db *gorm.DB, todoIden interface{}, userIden interface{}) *gorm.DB {
+func DeleteTodo(db *gorm.DB, todoIden any, userIden any) *gorm.DB {
 	return db.Unscoped().Delete(&Todo{}, "todos.id = ? AND todos.user = ?", todoIden, userIden)
 }
 
 // UpdateTodo allows to update the todo with the given todoID and userID
-func UpdateTodo(db *gorm.DB, todoIden interface{}, userIden interface{}, data interface{}) *gorm.DB {
+func UpdateTodo(db *gorm.DB, todoIden any, userIden any, data any) *gorm.DB {
 	return db.Model(&Todo{}).Where("todos.id = ? AND todos.user = ?", todoIden, userIden).Updates(data)
 }

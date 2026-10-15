@@ -10,11 +10,10 @@ import (
 var validate = validator.New()
 
 // Validate validates the input struct
-func Validate(payload interface{}) *fiber.Error {
+func Validate(payload any) *fiber.Error {
 	err := validate.Struct(payload)
 	if err != nil {
-		var targetErr *fiber.Error
-		if errors.As(err, &targetErr) {
+		if targetErr, ok := errors.AsType[*fiber.Error](err); ok {
 			return &fiber.Error{
 				Code:    fiber.StatusBadRequest,
 				Message: targetErr.Error(),

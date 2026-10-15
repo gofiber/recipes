@@ -10,7 +10,7 @@ import (
 )
 
 func GenerateEnt() {
-	green.Println("=== Generating Entity Files ===")
+	green("=== Generating Entity Files ===")
 	execCmd("go", "run", "-mod=mod", "entgo.io/ent/cmd/ent", "generate", "./schema", "--target", "./entity")
 }
 
@@ -23,17 +23,17 @@ func All() {
 
 // Golang Commands
 func GoRun() {
-	green.Println("=== Running Golang Project ===")
+	green("=== Running Golang Project ===")
 	execCmd("go", "run", "main.go")
 }
 
 func GoBuild() {
-	green.Println("=== Building Golang Project ===")
+	green("=== Building Golang Project ===")
 	execCmd("go", "build", "-o", "app", "-v")
 }
 
 func GoTest() {
-	green.Println("=== Running Golang Tests ===")
+	green("=== Running Golang Tests ===")
 	execCmd("go", "test", "./handler")
 }
 
@@ -47,7 +47,7 @@ func installTemplateDependencies() {
 
 // SvelteKit Commands
 func SvelteRun() {
-	green.Println("=== Running SvelteKit Project ===")
+	green("=== Running SvelteKit Project ===")
 	installTemplateDependencies()
 	if hasCommand("pnpm") {
 		execCmd("pnpm", "run", "-C", "./template", "dev")
@@ -57,7 +57,7 @@ func SvelteRun() {
 }
 
 func SvelteBuild() {
-	green.Println("=== Building SvelteKit Project ===")
+	green("=== Building SvelteKit Project ===")
 	installTemplateDependencies()
 	if hasCommand("pnpm") {
 		execCmd("pnpm", "run", "-C", "./template", "build")
@@ -138,6 +138,6 @@ func Info() {
 	fmt.Println("Usage: go run ./bin <command>")
 }
 
-var green = color.New(color.FgGreen)
+var green = color.New(color.FgGreen).PrintlnFunc()
 
 // bold  = color.New(color.Bold)

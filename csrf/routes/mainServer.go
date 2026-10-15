@@ -119,7 +119,6 @@ func RegisterRoutes(app *fiber.App) {
 		// Valid login.
 		// Create a new currSession and save their user data in the currSession.
 		currSession, err := sessionStore.Get(c)
-		defer currSession.Save()
 		if err != nil {
 			return err
 		}
@@ -128,6 +127,10 @@ func RegisterRoutes(app *fiber.App) {
 			return err
 		}
 		currSession.Set("User", fiber.Map{"Name": user.Username})
+		err = currSession.Save()
+		if err != nil {
+			return err
+		}
 
 		return c.Redirect().To("/")
 	})
@@ -191,7 +194,10 @@ func requireLogin(c fiber.Ctx) error {
 		return err
 	}
 	user := currSession.Get("User")
-	defer currSession.Save()
+	err = currSession.Save()
+	if err != nil {
+		return err
+	}
 
 	if user == nil {
 		// This request is from a user that is not logged in.

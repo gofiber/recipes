@@ -29,7 +29,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer connRabbitMQ.Close()
+	defer func() {
+		if err := connRabbitMQ.Close(); err != nil {
+			log.Printf("Error closing connection: %v", err)
+		}
+	}()
 
 	// Create a new Fiber instance.
 	app := fiber.New()
@@ -54,7 +58,11 @@ func main() {
 		if err != nil {
 			return err
 		}
-		defer ch.Close()
+		defer func() {
+			if err := ch.Close(); err != nil {
+				log.Printf("Error closing channel: %v", err)
+			}
+		}()
 
 		// With this channel open, we can then start to interact.
 		// With the instance and declare Queues that we can publish and subscribe to.

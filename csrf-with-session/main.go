@@ -27,9 +27,6 @@ type User struct {
 	Password string
 }
 
-// Dummy user database
-var users map[string]User
-
 func main() {
 	// In production, run the app on port 443 with TLS enabled
 	// or run the app behind a reverse proxy that handles TLS.
@@ -292,7 +289,9 @@ func main() {
 		panic(err)
 	}
 
-	app.Listener(ln)
+	if err = app.Listener(ln); err != nil {
+		panic(err)
+	}
 }
 
 // generateSelfSignedCert generates a self-signed certificate and key
@@ -327,17 +326,18 @@ func generateSelfSignedCert(certFile string, keyFile string) error {
 	if err != nil {
 		return err
 	}
-	defer certOut.Close()
 
 	_ = pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
+	if err = certOut.Close(); err != nil {
+		return err
+	}
 
 	keyOut, err := os.Create(keyFile)
 	if err != nil {
 		return err
 	}
-	defer keyOut.Close()
 
 	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 
-	return nil
+	return keyOut.Close()
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"log"
+	"slices"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/extractors"
@@ -57,10 +58,8 @@ func validator(ctx fiber.Ctx, s string) (bool, error) {
 		return false, errMissing
 	}
 
-	for _, val := range authList {
-		if s == val {
-			return true, nil
-		}
+	if slices.Contains(authList, s) {
+		return true, nil
 	}
 
 	return false, errInvalid

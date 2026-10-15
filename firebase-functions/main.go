@@ -16,7 +16,7 @@ func init() {
 
 // Start start Fiber app with normal interface
 func Start(addr string) error {
-	if -1 == strings.IndexByte(addr, ':') {
+	if strings.IndexByte(addr, ':') == -1 {
 		addr = ":" + addr
 	}
 

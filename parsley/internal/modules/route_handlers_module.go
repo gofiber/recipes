@@ -22,7 +22,5 @@ func RegisterRouteHandlers(registry types.ServiceRegistry) error {
 	}
 
 	// RouteHandler implementations are going to be registered here (add more as route handler registrations as needed)
-	registration.RegisterTransient(registry, route_handlers.NewGreeterRouteHandler)
-
-	return nil
+	return registration.RegisterTransient(registry, route_handlers.NewGreeterRouteHandler)
 }

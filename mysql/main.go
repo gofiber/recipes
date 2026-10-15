@@ -59,7 +59,7 @@ func main() {
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
-		defer rows.Close()
+		defer func() { _ = rows.Close() }()
 
 		var employees []Employee
 		for rows.Next() {

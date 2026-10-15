@@ -36,7 +36,7 @@ func (r *mariaDBRepository) GetUsers(ctx context.Context) (*[]User, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Close()
+	defer func() { _ = res.Close() }()
 
 	// Scan all of the results to the 'users' array.
 	// If it's empty, return null.
@@ -72,7 +72,7 @@ func (r *mariaDBRepository) GetUser(ctx context.Context, userID int) (*User, err
 	if err != nil {
 		return nil, err
 	}
-	defer stmt.Close()
+	defer func() { _ = stmt.Close() }()
 
 	// Get one user and insert it to the 'user' struct.
 	// If it's empty, return null.
@@ -95,7 +95,7 @@ func (r *mariaDBRepository) CreateUser(ctx context.Context, user *User) error {
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
+	defer func() { _ = stmt.Close() }()
 
 	// Insert one user.
 	_, err = stmt.ExecContext(ctx, user.Name, user.Address, user.Created, user.Modified)
@@ -114,7 +114,7 @@ func (r *mariaDBRepository) UpdateUser(ctx context.Context, userID int, user *Us
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
+	defer func() { _ = stmt.Close() }()
 
 	// Update one user.
 	_, err = stmt.ExecContext(ctx, user.Name, user.Address, user.Modified, userID)
@@ -133,7 +133,7 @@ func (r *mariaDBRepository) DeleteUser(ctx context.Context, userID int) error {
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
+	defer func() { _ = stmt.Close() }()
 
 	// Delete one user.
 	_, err = stmt.ExecContext(ctx, userID)

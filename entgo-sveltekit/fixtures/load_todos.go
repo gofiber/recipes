@@ -2,6 +2,7 @@ package fixtures
 
 import (
 	"context"
+	"errors"
 
 	"app/config/database"
 	"app/entity"
@@ -12,7 +13,7 @@ func LoadTodos(name string) (err error) {
 	if err != nil {
 		panic(err)
 	}
-	defer client.Close()
+	defer func() { err = errors.Join(err, client.Close()) }()
 	bulk := make([]*entity.TodoCreate, len(todos))
 	for i, todo := range todos {
 		bulk[i] = client.Todo.Create().SetContent(todo.Content).SetCompleted(todo.Completed)

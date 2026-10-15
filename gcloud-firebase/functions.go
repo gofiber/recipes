@@ -23,7 +23,7 @@ func CloudFunctionRouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *ht
 // RouteToFiber route http.Handler to *fiber.App
 func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, rootURL ...string) error {
 	ln := fasthttputil.NewInmemoryListener()
-	defer ln.Close()
+	defer func() { _ = ln.Close() }()
 
 	// Copy request
 	body, err := io.ReadAll(r.Body)
@@ -33,7 +33,7 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 
 	url := fmt.Sprintf("%s://%s%s", "http", "0.0.0.0", r.RequestURI)
 	if len(rootURL) > 0 {
-		url = strings.Replace(url, rootURL[0], "", -1)
+		url = strings.ReplaceAll(url, rootURL[0], "")
 	}
 
 	proxyReq, err := http.NewRequest(r.Method, url, bytes.NewReader(body))
@@ -74,8 +74,8 @@ func RouteToFiber(fiberApp *fiber.App, w http.ResponseWriter, r *http.Request, r
 	}
 	w.WriteHeader(response.StatusCode)
 
-	io.Copy(w, response.Body)
-	response.Body.Close()
+	_, err = io.Copy(w, response.Body)
+	_ = response.Body.Close()
 
-	return nil
+	return err
 }

@@ -11,7 +11,7 @@ import (
 var validate = validator.New()
 
 // Validate validates the input struct
-func Validate(payload interface{}) *fiber.Error {
+func Validate(payload any) *fiber.Error {
 	err := validate.Struct(payload)
 	if err != nil {
 		var errors []string

@@ -24,14 +24,22 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer connRabbitMQ.Close()
+	defer func() {
+		if err := connRabbitMQ.Close(); err != nil {
+			log.Printf("Error closing connection: %v", err)
+		}
+	}()
 
 	// Open a new channel.
 	channel, err := connRabbitMQ.Channel()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer channel.Close()
+	defer func() {
+		if err := channel.Close(); err != nil {
+			log.Printf("Error closing channel: %v", err)
+		}
+	}()
 
 	// Start delivering queued messages.
 	messages, err := channel.Consume(

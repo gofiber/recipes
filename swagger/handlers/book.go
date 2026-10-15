@@ -12,9 +12,9 @@ import (
 
 // ResponseHTTP represents response body of this API
 type ResponseHTTP struct {
-	Success bool        `json:"success"`
-	Data    interface{} `json:"data"`
-	Message string      `json:"message"`
+	Success bool   `json:"success"`
+	Data    any    `json:"data"`
+	Message string `json:"message"`
 }
 
 // GetAllBooks is a function to get all books data from database

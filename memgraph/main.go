@@ -112,7 +112,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer driver.Close(ctx)
+	defer func() {
+		if err := driver.Close(ctx); err != nil {
+			log.Printf("failed to close memgraph driver: %v", err)
+		}
+	}()
 
 	// Seed mock dataset
 	for _, query := range getDatasetCreationQueries() {

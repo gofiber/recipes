@@ -7,7 +7,7 @@ import (
 // ParseBody is helper function for parsing the body.
 // Is any error occurs it will panic.
 // Its just a helper function to avoid writing if condition again n again.
-func ParseBody(ctx fiber.Ctx, body interface{}) *fiber.Error {
+func ParseBody(ctx fiber.Ctx, body any) *fiber.Error {
 	if err := ctx.Bind().Body(body); err != nil {
 		return fiber.ErrBadRequest
 	}
@@ -18,7 +18,7 @@ func ParseBody(ctx fiber.Ctx, body interface{}) *fiber.Error {
 // ParseBodyAndValidate is helper function for parsing the body.
 // Is any error occurs it will panic.
 // Its just a helper function to avoid writing if condition again n again.
-func ParseBodyAndValidate(ctx fiber.Ctx, body interface{}) *fiber.Error {
+func ParseBodyAndValidate(ctx fiber.Ctx, body any) *fiber.Error {
 	if err := ParseBody(ctx, body); err != nil {
 		return err
 	}

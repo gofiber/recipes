@@ -1,0 +1,30 @@
+name: Linter
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  lint:
+    uses: gofiber/.github/.github/workflows/go-lint-multi.yml@main
+    with:
+      # sync with Makefile
+      golangci-lint-version: v2.14.0
+      golangci-lint-args: "--tests=false --timeout=5m"

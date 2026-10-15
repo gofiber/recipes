@@ -17,8 +17,7 @@ func ErrorHandler(c fiber.Ctx, err error) error {
 	code := fiber.StatusInternalServerError
 
 	// Check if it's an fiber.Error type
-	var targetErr *fiber.Error
-	if errors.As(err, &targetErr) {
+	if targetErr, ok := errors.AsType[*fiber.Error](err); ok {
 		code = targetErr.Code
 	}
 

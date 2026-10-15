@@ -19,7 +19,9 @@ func Quotes() {
 	c.OnHTML("li.next a[href]", func(e *colly.HTMLElement) {
 		link := e.Attr("href")
 
-		c.Visit(e.Request.AbsoluteURL(link))
+		if err := c.Visit(e.Request.AbsoluteURL(link)); err != nil {
+			log.Println("Error visiting Page:", err)
+		}
 	})
 
 	c.OnHTML("div.quote", func(e *colly.HTMLElement) {

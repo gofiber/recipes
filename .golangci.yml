@@ -1,0 +1,9 @@
+version: "2"
+
+linters:
+  enable:
+    - modernize
+  exclusions:
+    paths:
+      # swag output lacks the standard "Code generated" header
+      - docs/docs\.go$

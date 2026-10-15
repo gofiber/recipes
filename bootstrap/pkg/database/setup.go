@@ -23,5 +23,7 @@ func SetupDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	DB.AutoMigrate(&models.User{})
+	if err = DB.AutoMigrate(&models.User{}); err != nil {
+		log.Fatal(err)
+	}
 }

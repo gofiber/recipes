@@ -25,7 +25,7 @@ func NewConfig(configFile string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	cfg := &Config{}
 	yd := yaml.NewDecoder(file)
 	err = yd.Decode(cfg)

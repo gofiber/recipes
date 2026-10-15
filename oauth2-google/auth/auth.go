@@ -56,7 +56,7 @@ func GetEmail(token string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to fetch userinfo: %w", err)
 	}
-	defer req.Body.Close()
+	defer func() { _ = req.Body.Close() }()
 	body, err := io.ReadAll(req.Body)
 	if err != nil {
 		return "", fmt.Errorf("failed to read userinfo response: %w", err)

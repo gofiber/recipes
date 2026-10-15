@@ -80,7 +80,7 @@ func (r *mongoRepository) FindAll() ([]*domain.Product, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "repository find all")
 	}
-	defer cur.Close(ctx)
+	defer func() { _ = cur.Close(ctx) }()
 	for cur.Next(ctx) {
 		var item domain.Product
 		if err := cur.Decode(&item); err != nil {

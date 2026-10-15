@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Initialize the firebase app.
-	opt := option.WithCredentialsFile(serviceAccount)
+	opt := option.WithAuthCredentialsFile(option.ServiceAccount, serviceAccount)
 	fireApp, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		log.Fatalf("failed to initialize firebase app: %v", err)

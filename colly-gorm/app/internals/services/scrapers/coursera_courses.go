@@ -27,7 +27,7 @@ func CourseraCourses() {
 			return
 		}
 		link := e.Attr("href")
-		if !strings.HasPrefix(link, "/browse") || strings.Index(link, "=signup") > -1 || strings.Index(link, "=login") > -1 {
+		if !strings.HasPrefix(link, "/browse") || strings.Contains(link, "=signup") || strings.Contains(link, "=login") {
 			return
 		}
 		err := e.Request.Visit(link)
@@ -42,7 +42,7 @@ func CourseraCourses() {
 
 	c.OnHTML(`a[data-click-key]`, func(e *colly.HTMLElement) {
 		courseURL := e.Request.AbsoluteURL(e.Attr("href"))
-		if strings.Index(courseURL, "coursera.org/learn") != -1 {
+		if strings.Contains(courseURL, "coursera.org/learn") {
 			err := detailCollector.Visit(courseURL)
 			if err != nil {
 				return

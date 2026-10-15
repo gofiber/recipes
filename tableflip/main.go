@@ -30,7 +30,9 @@ func main() {
 		sig := make(chan os.Signal, 1)
 		signal.Notify(sig, syscall.SIGHUP)
 		for range sig {
-			upg.Upgrade()
+			if err := upg.Upgrade(); err != nil {
+				log.Printf("upg.Upgrade: %v", err)
+			}
 		}
 	}()
 
@@ -39,7 +41,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("upg.Listen: %v", err)
 	}
-	defer ln.Close()
+	defer func() { _ = ln.Close() }() // normally already closed by the app shutdown
 
 	app := fiber.New()
 	app.Get("/version", func(c fiber.Ctx) error {

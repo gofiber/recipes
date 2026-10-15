@@ -2,10 +2,9 @@ package code
 
 import (
 	"crypto/rand"
+	"crypto/sha3"
 	"encoding/hex"
 	"fmt"
-
-	"golang.org/x/crypto/sha3"
 )
 
 type DefaultCodeGenerator struct{}
@@ -23,7 +22,6 @@ func (g *DefaultCodeGenerator) Generate() (string, error) {
 }
 
 func (g *DefaultCodeGenerator) Hash(code string) string {
-	hash := sha3.New256()
-	hash.Write([]byte(code))
-	return hex.EncodeToString(hash.Sum(nil))
+	sum := sha3.Sum256([]byte(code))
+	return hex.EncodeToString(sum[:])
 }

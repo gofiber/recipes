@@ -112,7 +112,7 @@ func CheckTodo(c fiber.Ctx) error {
 		return err
 	}
 
-	err := dal.UpdateTodo(database.DB, todoID, utils.GetUser(c), map[string]interface{}{"completed": b.Completed}).Error
+	err := dal.UpdateTodo(database.DB, todoID, utils.GetUser(c), map[string]any{"completed": b.Completed}).Error
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}

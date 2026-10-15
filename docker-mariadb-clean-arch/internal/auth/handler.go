@@ -111,11 +111,11 @@ func (h *AuthHandler) signOutUser(c fiber.Ctx) error {
 func (h *AuthHandler) privateRoute(c fiber.Ctx) error {
 	// Give form to our output response.
 	type jwtResponse struct {
-		UserID interface{} `json:"uid"`
-		User   interface{} `json:"user"`
-		Iss    interface{} `json:"iss"`
-		Aud    interface{} `json:"aud"`
-		Exp    interface{} `json:"exp"`
+		UserID any `json:"uid"`
+		User   any `json:"user"`
+		Iss    any `json:"iss"`
+		Aud    any `json:"aud"`
+		Exp    any `json:"exp"`
 	}
 
 	// Prepare our variables to be displayed.

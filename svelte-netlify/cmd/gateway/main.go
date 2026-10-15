@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/carlmjohnson/gateway"
+	"github.com/earthboundkid/gateway/v2"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/adaptor"
 	"github.com/gofiber/fiber/v3/middleware/static"

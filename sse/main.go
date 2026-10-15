@@ -99,7 +99,8 @@ func main() {
 				}
 				mu.Unlock()
 
-				fmt.Fprintf(w, "data: Message: %s\n\n", msg)
+				// bufio.Writer keeps the first write error, Flush below returns it
+				_, _ = fmt.Fprintf(w, "data: Message: %s\n\n", msg)
 
 				if err := w.Flush(); err != nil {
 					// Refreshing page in web browser will establish a new

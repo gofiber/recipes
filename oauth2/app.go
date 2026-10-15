@@ -97,7 +97,9 @@ func main() {
 	// db.Close()
 	// redisConn.Close()
 	// etc.
-	models.MySessionStore.Storage.Close()
+	if err := models.MySessionStore.Storage.Close(); err != nil {
+		models.SYSLOG.Error("failed to close session storage", "err", err)
+	}
 
 	models.SYSLOG.Info("DONE.")
 	fmt.Println("DONE.")

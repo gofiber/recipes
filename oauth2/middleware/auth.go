@@ -120,7 +120,9 @@ func OAUTHProtected(c fiber.Ctx) error {
 	models.SYSLOG.Debug("session oauth-token", "value", tk)
 
 	if tk == nil {
-		sessData.Destroy()
+		if err = sessData.Destroy(); err != nil {
+			return err
+		}
 		models.SYSLOG.Debug("token is nil, redirecting to /index.html")
 		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 	}
@@ -147,7 +149,9 @@ func OAUTHDisconnect(c fiber.Ctx) error {
 	}
 
 	models.SYSLOG.Debug("destroying session")
-	sessData.Destroy()
+	if err = sessData.Destroy(); err != nil {
+		return err
+	}
 
 	return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 }

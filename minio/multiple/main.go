@@ -105,7 +105,7 @@ func main() {
 			buffer := make([]byte, 512)
 			_, err = file.Read(buffer)
 			if err != nil {
-				file.Close()
+				_ = file.Close()
 				failedFiles = append(failedFiles, fiber.Map{
 					"filename": filePart.Filename,
 					"message":  "error reading file",
@@ -120,7 +120,7 @@ func main() {
 			// Reset file pointer
 			_, err = file.Seek(0, 0)
 			if err != nil {
-				file.Close()
+				_ = file.Close()
 				failedFiles = append(failedFiles, fiber.Map{
 					"filename": filePart.Filename,
 					"message":  "error resetting file",
@@ -137,7 +137,7 @@ func main() {
 				filePart.Size,              // File size
 				putOpts,                    // content type for binary files
 			)
-			file.Close() // Close explicitly after each upload, not via defer inside loop
+			_ = file.Close() // Close explicitly after each upload, not via defer inside loop
 			if err != nil {
 				// If the upload fails, add the file to the failed list
 				failedFiles = append(failedFiles, fiber.Map{

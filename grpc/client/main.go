@@ -21,7 +21,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("failed to close grpc connection: %v", err)
+		}
+	}()
 
 	client := proto.NewAddServiceClient(conn)
 

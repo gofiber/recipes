@@ -12,8 +12,8 @@ import (
 // PostgresPool is an interface for interacting with the database connection pool.
 // Needed for mocking the database connection pool in tests.
 type PostgresPool interface {
-	Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error)
-	Exec(ctx context.Context, sql string, args ...interface{}) (pgconn.CommandTag, error)
+	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
+	Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error)
 	Close()
 }
 

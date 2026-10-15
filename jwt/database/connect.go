@@ -36,6 +36,8 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection Opened to Database")
-	DB.AutoMigrate(&model.Product{})
+	if err = DB.AutoMigrate(&model.Product{}); err != nil {
+		panic("failed to migrate database: " + err.Error())
+	}
 	fmt.Println("Database Migrated")
 }

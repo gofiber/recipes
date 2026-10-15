@@ -3,13 +3,12 @@ module github.com/gofiber/recipes/svelte-netlify
 go 1.27
 
 require (
-	github.com/carlmjohnson/gateway v1.26.3
+	github.com/earthboundkid/gateway/v2 v2.26.1
 	github.com/gofiber/fiber/v3 v3.6.1
 )
 
 require (
 	github.com/aws/aws-lambda-go v1.55.1 // indirect
-	github.com/earthboundkid/gateway/v2 v2.26.1 // indirect
 	github.com/gofiber/schema v1.8.8 // indirect
 	github.com/gofiber/utils/v2 v2.6.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect

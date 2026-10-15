@@ -78,7 +78,7 @@ func main() {
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 		}
-		defer cursor.Close(c.Context())
+		defer func() { _ = cursor.Close(c.Context()) }()
 
 		var employees []Employee
 		if err := cursor.All(c.Context(), &employees); err != nil {

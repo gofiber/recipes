@@ -41,5 +41,7 @@ func Run(ctx context.Context) {
 	}()
 
 	<-ctx.Done()
-	app.Shutdown()
+	if err := app.Shutdown(); err != nil {
+		log.Printf("Error shutting down server: %v", err)
+	}
 }

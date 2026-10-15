@@ -1,7 +1,5 @@
 github.com/aws/aws-lambda-go v1.55.1 h1:We2cCp4BwqqH/JW+bEEo1FhgG71rslvjfi4y7KmlrR0=
 github.com/aws/aws-lambda-go v1.55.1/go.mod h1:V+NzkHNR6vBC8C1PDloqSLE+7jYWFiPvJJFiCiTm8nE=
-github.com/carlmjohnson/gateway v1.26.3 h1:0DpDits698yCCNLVsaae01gTMcHYJmoLO7HPkaoa7I8=
-github.com/carlmjohnson/gateway v1.26.3/go.mod h1:0OtBAg6Ekj0yRmun/392plWg70HmBc79XMSTLyNG9wE=
 github.com/earthboundkid/assert v0.26.6 h1:EZwMt6+i9dsnJ7+VEyDjHjfnlcZyXtYCgzMfxvxOUR0=
 github.com/earthboundkid/assert v0.26.6/go.mod h1:vctZ82uDOVsYzYb4NP94i/+QRzfJKM2UoNjoehSHODI=
 github.com/earthboundkid/gateway/v2 v2.26.1 h1:8UoqhB9ZQOAK3mWRgJuFhfCsnZB7ynOVDTygvdK9TJE=

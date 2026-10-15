@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"numtostr/gotodo/app/dal"
 	"numtostr/gotodo/app/routes"
@@ -15,7 +16,9 @@ import (
 
 func main() {
 	database.Connect()
-	database.Migrate(&dal.User{}, &dal.Todo{})
+	if err := database.Migrate(&dal.User{}, &dal.Todo{}); err != nil {
+		log.Fatal(err)
+	}
 
 	app := fiber.New(fiber.Config{ErrorHandler: utils.ErrorHandler})
 
@@ -24,5 +27,5 @@ func main() {
 	routes.AuthRoutes(app)
 	routes.TodoRoutes(app)
 
-	app.Listen(fmt.Sprintf(":%v", config.PORT))
+	log.Fatal(app.Listen(fmt.Sprintf(":%v", config.PORT)))
 }

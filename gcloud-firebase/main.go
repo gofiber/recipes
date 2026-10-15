@@ -73,7 +73,7 @@ func init() {
 		ctx := context.Background()
 		var heroes map[string]Hero
 		if err := heroesRef.Get(ctx, &heroes); err != nil {
-			return c.JSON(map[string]interface{}{
+			return c.JSON(map[string]any{
 				"message": err.Error(),
 			})
 		}
@@ -86,12 +86,12 @@ func init() {
 		id := c.Params("id")
 		var hero Hero
 		if err := heroesRef.Child(id).Get(ctx, &hero); err != nil {
-			return c.JSON(map[string]interface{}{
+			return c.JSON(map[string]any{
 				"message": err.Error(),
 			})
 		}
 		if hero.ID == "" {
-			return c.Status(fiber.StatusNotFound).JSON(map[string]interface{}{
+			return c.Status(fiber.StatusNotFound).JSON(map[string]any{
 				"message": "Not Found",
 			})
 		}
@@ -108,7 +108,7 @@ func Start(addr string) error {
 func HeroesAPI(w http.ResponseWriter, r *http.Request) {
 	err := CloudFunctionRouteToFiber(app, w, r)
 	if err != nil {
-		fmt.Fprintf(w, "err : %v", err)
+		_, _ = fmt.Fprintf(w, "err : %v", err)
 		return
 	}
 }

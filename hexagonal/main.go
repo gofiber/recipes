@@ -35,5 +35,5 @@ func main() {
 	r.Delete("/products/{code}", handler.Delete)
 	r.Get("/products", handler.GetAll)
 	r.Put("/products", handler.Put)
-	r.Listen(":8080")
+	log.Fatal(r.Listen(":8080"))
 }

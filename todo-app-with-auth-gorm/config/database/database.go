@@ -32,6 +32,6 @@ func Connect() {
 }
 
 // Migrate migrates all the database tables
-func Migrate(tables ...interface{}) error {
+func Migrate(tables ...any) error {
 	return DB.AutoMigrate(tables...)
 }

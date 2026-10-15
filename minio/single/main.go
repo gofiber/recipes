@@ -79,7 +79,7 @@ func main() {
 				"message": "error opening file",
 			})
 		}
-		defer file.Close() // Ensure the file is closed after the upload
+		defer func() { _ = file.Close() }() // Ensure the file is closed after the upload
 
 		// Detect content type
 		buffer := make([]byte, 512)

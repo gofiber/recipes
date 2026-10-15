@@ -37,7 +37,7 @@ func GeoLocation(c fiber.Ctx) error {
 			"message": "failed to fetch geo data",
 		})
 	}
-	defer res.Body.Close()
+	defer func() { _ = res.Body.Close() }()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

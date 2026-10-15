@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	"github.com/gofiber/fiber/v3/middleware/logger"
@@ -30,11 +32,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer client.Close()
+	defer func() {
+		if err := client.Close(); err != nil {
+			log.Printf("failed to close database client: %v", err)
+		}
+	}()
 
 	// Create Fiber app
 	app := fiber.New(fiber.Config{AppName: appName})
-	defer app.Shutdown()
 
 	// Middleware
 	app.Use(cors.New(cors.Config{

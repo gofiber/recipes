@@ -93,7 +93,7 @@ func main() {
 				Other:       "{{.Name}} has {{.UnreadEmailCount}} unread emails.",
 			},
 			PluralCount: unreadEmailCount,
-			TemplateData: map[string]interface{}{
+			TemplateData: map[string]any{
 				"Name":             name,
 				"UnreadEmailCount": unreadEmailCount,
 			},

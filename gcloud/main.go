@@ -30,7 +30,7 @@ func init() {
 
 // Start start Fiber app with normal interface
 func Start(addr string) error {
-	if -1 == strings.IndexByte(addr, ':') {
+	if strings.IndexByte(addr, ':') == -1 {
 		addr = ":" + addr
 	}
 
@@ -41,7 +41,7 @@ func Start(addr string) error {
 func MyCloudFunction(w http.ResponseWriter, r *http.Request) {
 	err := CloudFunctionRouteToFiber(app, w, r)
 	if err != nil {
-		fmt.Fprintf(w, "err : %v", err)
+		_, _ = fmt.Fprintf(w, "err : %v", err)
 		return
 	}
 }

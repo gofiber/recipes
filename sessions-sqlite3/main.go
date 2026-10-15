@@ -36,7 +36,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Println(err)
+		}
+	}()
 
 	// Storage package can create this table for you at init time
 	// but for the purpose of this example I created it manually
@@ -124,7 +128,7 @@ func main() {
 			if err != nil {
 				log.Println(err)
 			} else {
-				defer stmt.Close()
+				defer func() { _ = stmt.Close() }()
 				_, err = stmt.Exec(uid, sid)
 				if err != nil {
 					log.Println(err)
@@ -161,7 +165,7 @@ func main() {
 
 			// Decode requested session data
 			gd := gob.NewDecoder(bytes.NewBuffer(data))
-			dm := make(map[string]interface{})
+			dm := make(map[string]any)
 			if err := gd.Decode(&dm); err != nil {
 				log.Println(err)
 			}
@@ -172,11 +176,15 @@ func main() {
 				return c.Status(fiber.StatusUnauthorized).JSON("invalid session")
 			}
 			if uid == dm["uid"] {
-				store.Storage.Delete(req.SID)
+				if err := store.Storage.Delete(req.SID); err != nil {
+					log.Println(err)
+				}
 			}
 		} else {
 			// Destroy current session
-			s.Destroy()
+			if err := s.Destroy(); err != nil {
+				log.Println(err)
+			}
 		}
 
 		return c.JSON(nil)
@@ -227,7 +235,7 @@ func main() {
 				log.Println(err)
 			}
 
-			defer rows.Close()
+			defer func() { _ = rows.Close() }()
 
 			// Loop through sessions
 			for rows.Next() {
@@ -243,7 +251,7 @@ func main() {
 				if exp > time.Now().Unix() {
 					// Decode session data
 					gd := gob.NewDecoder(bytes.NewBuffer(data))
-					dm := make(map[string]interface{})
+					dm := make(map[string]any)
 					if err := gd.Decode(&dm); err != nil {
 						log.Println(err)
 					}

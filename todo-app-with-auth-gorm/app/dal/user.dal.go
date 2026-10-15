@@ -21,11 +21,11 @@ func CreateUser(user *User) *gorm.DB {
 }
 
 // FindUser searches the user's table with the condition given
-func FindUser(dest interface{}, conds ...interface{}) *gorm.DB {
+func FindUser(dest any, conds ...any) *gorm.DB {
 	return database.DB.Model(&User{}).Take(dest, conds...)
 }
 
 // FindUserByEmail searches the user's table with the email given
-func FindUserByEmail(dest interface{}, email string) *gorm.DB {
+func FindUserByEmail(dest any, email string) *gorm.DB {
 	return FindUser(dest, "email = ?", email)
 }

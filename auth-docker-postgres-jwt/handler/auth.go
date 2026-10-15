@@ -72,7 +72,8 @@ func Login(c fiber.Ctx) error {
 
 	identity := input.Identity
 	pass := input.Password
-	userModel, err := new(model.User), *new(error)
+	var userModel *model.User
+	var err error
 
 	if valid(identity) {
 		userModel, err = getUserByEmail(identity)

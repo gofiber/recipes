@@ -80,10 +80,7 @@ func createMessageHandler(c fiber.Ctx) error {
 
 	chunkSize := 1000
 	for i := 0; i < len(reqs); i += chunkSize {
-		end := i + chunkSize
-		if end > len(reqs) {
-			end = len(reqs)
-		}
+		end := min(i+chunkSize, len(reqs))
 		if err := db.Create(reqs[i:end]).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}

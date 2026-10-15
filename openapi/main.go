@@ -15,7 +15,9 @@ func main() {
 		log.Panic("Can't connect database:", err.Error())
 	}
 
-	database.DBConn.AutoMigrate(&models.Book{})
+	if err := database.DBConn.AutoMigrate(&models.Book{}); err != nil {
+		log.Panic("Can't migrate database:", err.Error())
+	}
 
 	app := routes.New()
 	log.Fatal(app.Listen(":3000"))
