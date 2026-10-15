@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/unit-test
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/stretchr/testify v1.12.1
 )
 
