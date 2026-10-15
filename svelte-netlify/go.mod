@@ -4,7 +4,7 @@ go 1.27
 
 require (
 	github.com/carlmjohnson/gateway v1.26.3
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 )
 
 require (
