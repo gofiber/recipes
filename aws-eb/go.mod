@@ -2,7 +2,7 @@ module github.com/gofiber/recipes/aws-eb
 
 go 1.26.0
 
-require github.com/gofiber/fiber/v3 v3.6.0
+require github.com/gofiber/fiber/v3 v3.6.1
 
 require (
 	github.com/gofiber/schema v1.8.8 // indirect
