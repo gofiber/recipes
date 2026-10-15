@@ -2,10 +2,10 @@ github.com/fasthttp/websocket v1.5.12 h1:e4RGPpWW2HTbL3zV0Y/t7g0ub294LkiuXXUuTOU
 github.com/fasthttp/websocket v1.5.12/go.mod h1:I+liyL7/4moHojiOgUOIKEWm9EIxHqxZChS+aMFltyg=
 github.com/fxamacker/cbor/v2 v2.9.6 h1:NHZPxuUjJXQjX9itA785y/5NKSlI4HQ+S7noZsmI7hs=
 github.com/fxamacker/cbor/v2 v2.9.6/go.mod h1:4EaZp6ClVunETjQ4GHmGNzysDK91Lr+r6Yz6tJqzVCw=
-github.com/gofiber/contrib/v3/socketio v1.3.6 h1:R+XPStYZ/cqVgZvIVfH/DRJJWiG9TCR3VdysNvVRt10=
-github.com/gofiber/contrib/v3/socketio v1.3.6/go.mod h1:JukJQZQhl34gXT9Bp50xSoCmi/tMonFS9e0uC0X23rk=
-github.com/gofiber/contrib/v3/websocket v1.2.7 h1:Na87WdkBkMl5wcf1MyD0q8neEmd1We57xSoJfIypmrk=
-github.com/gofiber/contrib/v3/websocket v1.2.7/go.mod h1:L1ELWKh/Tn3sGEjQdLCmnb6HbroXsD83dcRCEwNXwOg=
+github.com/gofiber/contrib/v3/socketio v1.3.7 h1:kKoHuWWnb2j7hzfZ6bOdqu2QVHYp81Teif8/AzJpLpE=
+github.com/gofiber/contrib/v3/socketio v1.3.7/go.mod h1:qCxCkbCXnsJgF7tBV5zA/MThhfw79y1chYb3fhXEwcM=
+github.com/gofiber/contrib/v3/websocket v1.2.8 h1:uG/A/MGzbnXJHRPtKMDWG5LmOLodefhRMrhl9BPyKc8=
+github.com/gofiber/contrib/v3/websocket v1.2.8/go.mod h1:E9TgR1WFzxsd9kIOwqyZHQx9UYKMn1ZyqxV88XITKvQ=
 github.com/gofiber/fiber/v3 v3.6.1 h1:wYjbgqpJm6VErIVLSGzGpX7lLZyTNgElsj8nQ1i+iFo=
 github.com/gofiber/fiber/v3 v3.6.1/go.mod h1:+nxjBal3gw0EPf3gqK5EmtxaxTL01+zbSTagFletlDI=
 github.com/gofiber/schema v1.8.8 h1:md5t65+Z9LttOuj7FdMcQ63D2+6GniT2ganLXwvTJM4=
@@ -28,8 +28,8 @@ github.com/savsgio/gotils v0.0.0-20250924091648-bce9a52d7761 h1:McifyVxygw1d67y6
 github.com/savsgio/gotils v0.0.0-20250924091648-bce9a52d7761/go.mod h1:Vi9gvHvTw4yCUHIznFl5TPULS7aXwgaTByGeBY75Wko=
 github.com/shamaton/msgpack/v3 v3.2.3 h1:0r0aZtrXDFOPpwWJTEOpFq+Ih/JmMLm0pqLN5mSilrw=
 github.com/shamaton/msgpack/v3 v3.2.3/go.mod h1:sgBYvEiyz8JR1NC3yGRoPVME9xXovpnh3l/plW1nfRo=
-github.com/stretchr/objx v0.5.3 h1:jmXUvGomnU1o3W/V5h2VEradbpJDwGrzugQQvL0POH4=
-github.com/stretchr/objx v0.5.3/go.mod h1:rDQraq+vQZU7Fde9LOZLr8Tax6zZvy4kuNKF+QYS+U0=
+github.com/stretchr/objx v0.8.0 h1:rm9oMkeprG/wHifkZP4EuDww9S0mvEaQ/p9cXTNT4cw=
+github.com/stretchr/objx v0.8.0/go.mod h1:xSzHnPHkdEv7vtgdQej8atlCuU1mdX+ELge8bn0hCsE=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 github.com/tinylib/msgp v1.6.5 h1:iAH6XTP7BpzErjBZlujJQXxA+GmRi2YWs6M4KdLtNbE=
