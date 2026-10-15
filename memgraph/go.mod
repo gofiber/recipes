@@ -3,7 +3,7 @@ module memgraph
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/neo4j/neo4j-go-driver/v5 v5.28.5
 )
 
