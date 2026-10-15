@@ -3,7 +3,7 @@ module main
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 	go.mongodb.org/mongo-driver v1.17.10
 )
 
