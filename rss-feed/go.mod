@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/rss-feed
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.6.0
+	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/gofiber/template/mustache/v3 v3.1.3
 )
 
