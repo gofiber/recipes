@@ -24,8 +24,8 @@ github.com/molecule-man/go-brrr v1.3.0 h1:KEGPkUk9PYFw5+Sv/evCOSU5OmMDXCGFqQ9YjR
 github.com/molecule-man/go-brrr v1.3.0/go.mod h1:7ybW6/7gA3oKY45jOfVNjSJDtrr6ea4tzbsTkjmQDC4=
 github.com/montanaflynn/stats v0.13.0 h1:qqY7uKUbPffViAAuGxe4uLma24DGJeD/jpj3Bmtk5Gs=
 github.com/montanaflynn/stats v0.13.0/go.mod h1:xmkP2Ib5njMgVeJreDr/tf5J0G+/i/ijWpSH/3IBRsE=
-github.com/philhofer/fwd v1.2.0 h1:e6DnBTl7vGY+Gz322/ASL4Gyp1FspeMvx1RNDoToZuM=
-github.com/philhofer/fwd v1.2.0/go.mod h1:RqIHx9QI14HlwKwm98g9Re5prTQ6LdeRQn+gXJFxsJM=
+github.com/philhofer/fwd v1.2.1 h1:UtpS73q8bFgy/yH3gCq8LSNvj5gv/FowNOiWZa7uKwQ=
+github.com/philhofer/fwd v1.2.1/go.mod h1:RqIHx9QI14HlwKwm98g9Re5prTQ6LdeRQn+gXJFxsJM=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/shamaton/msgpack/v3 v3.2.3 h1:0r0aZtrXDFOPpwWJTEOpFq+Ih/JmMLm0pqLN5mSilrw=
