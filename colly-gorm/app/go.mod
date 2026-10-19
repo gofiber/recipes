@@ -38,7 +38,7 @@ require (
 	github.com/molecule-man/go-brrr v1.3.0 // indirect
 	github.com/nlnwa/whatwg-url v0.6.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.4.3 // indirect
-	github.com/philhofer/fwd v1.2.0 // indirect
+	github.com/philhofer/fwd v1.2.1 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/spf13/afero v1.15.0 // indirect
