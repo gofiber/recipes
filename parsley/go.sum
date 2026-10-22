@@ -14,8 +14,8 @@ github.com/mattn/go-colorable v0.1.16 h1:+2YjeAe7xP1OQbZW1jERPWWCDLlNqFNCvjiqGiA
 github.com/mattn/go-colorable v0.1.16/go.mod h1:6LmQG8QLFO4G5z1gPvYEzlUgJ2wF+stgPZH1UqBm1s8=
 github.com/mattn/go-isatty v0.0.24 h1:tGZZoVgT/KiqK1c8ocVLeDS8BSWMRd47J3Lbz7vsReI=
 github.com/mattn/go-isatty v0.0.24/go.mod h1:nMCL3Zebbrt45jsMDgnfIwz6ydEQApk5oEI3HqDio6A=
-github.com/matzefriedrich/parsley v1.7.0 h1:UKC0bn1WK8h14bT1owK0JAxR1OelquyqaTOJ7PGCsVU=
-github.com/matzefriedrich/parsley v1.7.0/go.mod h1:Jp46KEODdzT8qqxUKJaahCiGTsnlUCIGGAHnORZPZxs=
+github.com/matzefriedrich/parsley v1.7.2 h1:YYBvK7pRzt6k9A0QOK/22prrdsFQlwOYR3kyiCjSKHk=
+github.com/matzefriedrich/parsley v1.7.2/go.mod h1:mmHNPLFS92vEhCmFjmlon0LK/wApko5V5lU+V61CdA8=
 github.com/molecule-man/go-brrr v1.3.0 h1:KEGPkUk9PYFw5+Sv/evCOSU5OmMDXCGFqQ9YjRB7GeU=
 github.com/molecule-man/go-brrr v1.3.0/go.mod h1:7ybW6/7gA3oKY45jOfVNjSJDtrr6ea4tzbsTkjmQDC4=
 github.com/philhofer/fwd v1.2.1 h1:UtpS73q8bFgy/yH3gCq8LSNvj5gv/FowNOiWZa7uKwQ=
