@@ -53,8 +53,8 @@ github.com/go-playground/universal-translator v0.18.2 h1:LCsMLC9RzmbUMNUPVYD15dm
 github.com/go-playground/universal-translator v0.18.2/go.mod h1:67VZIMp5lQpDWlnStOct22q1bkdJGJqHghbOtmkawxk=
 github.com/go-playground/validator/v10 v10.30.5 h1:YyCXvVShZbs2Sm3Mb53eNOlhRXctSOzW5QJAouCTZL4=
 github.com/go-playground/validator/v10 v10.30.5/go.mod h1:wEqiaov48pXX1kjhc3Da8y0M0Dtg/BK7gurFBLgwFrQ=
-github.com/gofiber/contrib/v3/testcontainers v1.0.13 h1:joxDMcjkFdY4ZdkD9um2w5Knyx+QFzyfqr2AL9aWTLo=
-github.com/gofiber/contrib/v3/testcontainers v1.0.13/go.mod h1:ZvFm+RvfeprEeP7i5xrX5guRSlhn5vfrZAvop/PmO70=
+github.com/gofiber/contrib/v3/testcontainers v1.0.14 h1:LqgJ8DNbR/wAPd1/gamQ2+AFvKhrnhTBK5BK6tBoi5Q=
+github.com/gofiber/contrib/v3/testcontainers v1.0.14/go.mod h1:AELcJVJg0cenypRjd7LvfLilvZekRJ1ngneXh78Y+Us=
 github.com/gofiber/fiber/v3 v3.6.1 h1:wYjbgqpJm6VErIVLSGzGpX7lLZyTNgElsj8nQ1i+iFo=
 github.com/gofiber/fiber/v3 v3.6.1/go.mod h1:+nxjBal3gw0EPf3gqK5EmtxaxTL01+zbSTagFletlDI=
 github.com/gofiber/schema v1.9.0 h1:Dahwvth6qy1ELuHUkxk4ca+pW9zTBlak+Sw7pWJ7Iek=
