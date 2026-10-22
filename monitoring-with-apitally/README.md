@@ -29,13 +29,13 @@ Ensure you have Golang installed.
     go get
     ```
 
-3. Obtain a client ID from [Apitally](https://apitally.io/fiber) by signing up and creating a new app in the dashboard.
+3. Obtain a write token from [Apitally](https://apitally.io/fiber) by signing up and creating a new app in the dashboard. It is shown in the app's setup instructions.
 
 ## Running the application
 
 1. Start the application:
     ```sh
-    APITALLY_CLIENT_ID=your-client-id go run main.go
+    APITALLY_WRITE_TOKEN=your-write-token go run main.go
     ```
 
 2. Make requests to the API:

@@ -71,19 +71,20 @@ func main() {
 	validate := validator.New()
 
 	// Monitoring and request logging with Apitally.
-	// WARNING: LogRequestHeaders, LogRequestBody, LogResponseBody and
-	// CaptureLogs forward full headers, payloads and application logs to
-	// Apitally. They may contain auth tokens, PII or other secrets.
-	// Disable or mask sensitive fields before enabling these in production.
-	cfg := apitally.NewConfig(os.Getenv("APITALLY_CLIENT_ID"))
+	// WARNING: CaptureRequestHeaders, CaptureRequestBody and CaptureResponseBody
+	// forward full headers and payloads to Apitally. They may contain auth
+	// tokens, PII or other secrets. Disable or mask sensitive fields before
+	// enabling these in production.
+	cfg := apitally.NewConfig()
+	cfg.WriteToken = os.Getenv("APITALLY_WRITE_TOKEN")
 	cfg.Env = "dev"
-	cfg.RequestLogging.Enabled = true
-	cfg.RequestLogging.LogRequestHeaders = true
-	cfg.RequestLogging.LogRequestBody = true
-	cfg.RequestLogging.LogResponseBody = true
-	cfg.RequestLogging.CaptureLogs = true
+	cfg.CaptureRequestHeaders = true
+	cfg.CaptureRequestBody = true
+	cfg.CaptureResponseBody = true
 
-	app.Use(apitally.Middleware(app, cfg))
+	// Init registers the Apitally middleware and must run before other
+	// middleware and routes.
+	apitally.Init(app, cfg)
 
 	// API key authentication
 	app.Use(keyauth.New(keyauth.Config{
@@ -107,7 +108,7 @@ func main() {
 		}
 		if err := validate.Struct(req); err != nil {
 			// Capture validation errors in Apitally
-			apitally.CaptureValidationError(c, err)
+			apitally.CaptureError(c, err)
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
