@@ -3,8 +3,8 @@ github.com/MicahParks/keyfunc/v2 v2.1.0/go.mod h1:rW42fi+xgLJ2FRRXAfNx9ZA8WpD4Oe
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fxamacker/cbor/v2 v2.9.6 h1:NHZPxuUjJXQjX9itA785y/5NKSlI4HQ+S7noZsmI7hs=
 github.com/fxamacker/cbor/v2 v2.9.6/go.mod h1:4EaZp6ClVunETjQ4GHmGNzysDK91Lr+r6Yz6tJqzVCw=
-github.com/gofiber/contrib/v3/jwt v1.2.6 h1:k+ouA01n3klqd3ZZHnX0gZlSBi2tzIEzY9lCrZ7wFIc=
-github.com/gofiber/contrib/v3/jwt v1.2.6/go.mod h1:RIRO4tXzjVMLfabsAMnWcdNWJ7Kd5JmIRNk2pEsaW/M=
+github.com/gofiber/contrib/v3/jwt v1.2.7 h1:qJ+pwwiua4gm0SZ/BfOXQ1YGBjx31PiIBnMkYD3Xfxg=
+github.com/gofiber/contrib/v3/jwt v1.2.7/go.mod h1:q8OeXBSwCvQhGY705x/w1UT+CH5VW7ntwgpkpmamNNE=
 github.com/gofiber/fiber/v3 v3.6.1 h1:wYjbgqpJm6VErIVLSGzGpX7lLZyTNgElsj8nQ1i+iFo=
 github.com/gofiber/fiber/v3 v3.6.1/go.mod h1:+nxjBal3gw0EPf3gqK5EmtxaxTL01+zbSTagFletlDI=
 github.com/gofiber/schema v1.9.0 h1:Dahwvth6qy1ELuHUkxk4ca+pW9zTBlak+Sw7pWJ7Iek=
