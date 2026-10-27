@@ -1,4 +1,4 @@
-import { error,loading,todos, type TodoType } from '$lib/store/todos';
+import { error,loading,todos, type TodoType } from '#lib/store/todos.ts';
 import type { PageLoad } from './$types';
 
 export const load = (async ({fetch}) => {

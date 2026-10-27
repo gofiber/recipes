@@ -1,5 +1,5 @@
 <script>
-  import "$lib/assets/post.css";
+  import "#lib/assets/post.css";
 </script>
 
 <slot />

@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.70.3",
+    "@sveltejs/adapter-static": "^4.0.0",
+    "@sveltejs/kit": "^3.0.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
 		"@typescript-eslint/parser": "^8.70.0",
@@ -30,9 +30,12 @@
     "vite": "^8.3.3"
   },
   "engines": {
-    "node": "^20.19 || ^22.13 || >=24"
+    "node": ">=22.17"
   },
   "type": "module",
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  },
   "dependencies": {
   }
 }

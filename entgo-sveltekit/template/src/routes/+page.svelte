@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { todos, add, loading, remove, update, type TodoType } from "$lib/store/todos";
+  import { todos, add, loading, remove, update, type TodoType } from "#lib/store/todos.ts";
 
   let newTodo = "";
 
