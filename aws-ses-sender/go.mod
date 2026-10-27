@@ -27,7 +27,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.43.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.51.5 // indirect
 	github.com/aws/smithy-go v1.28.6 // indirect
-	github.com/gofiber/schema v1.9.0 // indirect
+	github.com/gofiber/schema v1.9.1 // indirect
 	github.com/gofiber/utils/v2 v2.6.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
