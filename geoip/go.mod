@@ -4,13 +4,13 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.6.1
-	github.com/gofiber/template/html/v3 v3.0.11
+	github.com/gofiber/template/html/v3 v3.0.12
 	github.com/valyala/fasthttp v1.77.0
 )
 
 require (
 	github.com/gofiber/schema v1.9.1 // indirect
-	github.com/gofiber/template/v2 v2.1.4 // indirect
+	github.com/gofiber/template/v2 v2.1.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.3 // indirect
