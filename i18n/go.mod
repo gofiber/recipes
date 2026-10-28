@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/gofiber/template/html/v3 v3.0.11
-	github.com/nicksnyder/go-i18n/v2 v2.6.1
+	github.com/nicksnyder/go-i18n/v2 v2.7.0
 	golang.org/x/text v0.43.0
 )
 
