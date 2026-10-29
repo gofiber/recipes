@@ -1,0 +1,23 @@
+schema:
+  - graph/*.graphqls
+
+exec:
+  package: graph
+  layout: single-file
+  filename: graph/generated.go
+
+model:
+  filename: graph/model/models_gen.go
+  package: model
+
+resolver:
+  package: graph
+  layout: follow-schema
+  dir: graph
+  filename_template: "{name}.resolvers.go"
+
+# Map GraphQL Int, which is 32-bit, to int32.
+models:
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int32

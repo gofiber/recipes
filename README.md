@@ -53,6 +53,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GORM](./gorm/README.md) - Using GORM with SQLite database.
 - [GORM MySQL](./gorm-mysql/README.md) - Using GORM with MySQL database.
 - [GORM + PostgreSQL](./gorm-postgres/README.md) - Using GORM with PostgreSQL database.
+- [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
 - [Graceful shutdown](./graceful-shutdown/README.md) - Graceful shutdown of applications.
 - [GraphQL](./graphql/README.md) - Setting up a GraphQL server.
 - [gRPC](./grpc/README.md) - Using Fiber as a client to a gRPC server.

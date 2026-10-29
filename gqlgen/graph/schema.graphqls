@@ -1,0 +1,28 @@
+scalar Time
+
+type Message {
+  id: ID!
+  author: String!
+  text: String!
+  createdAt: Time!
+}
+
+input NewMessage {
+  author: String!
+  text: String!
+}
+
+type Query {
+  "Most recent messages, oldest first. 1 to 100."
+  messages(last: Int! = 20): [Message!]!
+}
+
+type Mutation {
+  "Stores a message and delivers it to every messageAdded subscriber."
+  postMessage(input: NewMessage!): Message!
+}
+
+type Subscription {
+  "Fires once for every postMessage."
+  messageAdded: Message!
+}
