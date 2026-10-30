@@ -8,8 +8,8 @@ cloud.google.com/go/auth/oauth2adapt v0.3.1 h1:BKLDdbWS7pafd820dsyFDF6fPEzIGqr7n
 cloud.google.com/go/auth/oauth2adapt v0.3.1/go.mod h1:B1nM4FJDxoDqAt3PXFG4IflUoQ5kvWAOOM3R+5wAszg=
 cloud.google.com/go/compute/metadata v0.10.0 h1:pyKMUQSwchgkIBBJGdILqQbs/BNJXqwSA7Ej6LAvvtY=
 cloud.google.com/go/compute/metadata v0.10.0/go.mod h1:rGFHRrIif570kSibjFTMbt6/4/tzgJWFGI/HVol4GIk=
-cloud.google.com/go/firestore v1.29.1 h1:GtD5mLezOHovZb9JYagU04bt18YRnSzm6uI9gm6slKM=
-cloud.google.com/go/firestore v1.29.1/go.mod h1:yV4tCwON9BOoG0Mcp8k+N2wgIQQkbdvG7kd5qvggfY0=
+cloud.google.com/go/firestore v1.29.2 h1:sZ837QNitckne/qSWymsrO75kgtbbR2lcMINLv8nZgs=
+cloud.google.com/go/firestore v1.29.2/go.mod h1:yV4tCwON9BOoG0Mcp8k+N2wgIQQkbdvG7kd5qvggfY0=
 cloud.google.com/go/iam v1.15.1 h1:i6EXLKyIi0Sh72p+5+Fz0PfnzB63bkneVpaBCGrjlWs=
 cloud.google.com/go/iam v1.15.1/go.mod h1:nDJ/rfCzLKyBUY1AeiSQwOAJg/AN7zZ2QmNzRTcK2jM=
 cloud.google.com/go/logging v1.20.0 h1:l7yzCB8/JSY5PHT9RsaqdT1jaBGbM6KlSJDX210HlXM=
