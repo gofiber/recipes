@@ -65,10 +65,10 @@ The server listens on `http://localhost:3000`. GraphiQL opens at `http://localho
     {"data":{"messages":[]}}
     ```
 
-2. In a second terminal, open a subscription. The trailing `cat` keeps stdin open, so websocat does not close the socket:
+2. In a second terminal, open a subscription. The command sends `connection_init` and waits a second for `connection_ack`. Then it subscribes, and `cat` keeps the connection open:
 
     ```bash
-    (printf '%s\n' '{"type":"connection_init"}' '{"id":"1","type":"subscribe","payload":{"query":"subscription { messageAdded { id author text createdAt } }"}}'; cat) | websocat --protocol graphql-transport-ws ws://localhost:3000/query
+    (printf '%s\n' '{"type":"connection_init"}'; sleep 1; printf '%s\n' '{"id":"1","type":"subscribe","payload":{"query":"subscription { messageAdded { id author text createdAt } }"}}'; cat) | websocat --protocol graphql-transport-ws ws://localhost:3000/query
     ```
 
     ```json
