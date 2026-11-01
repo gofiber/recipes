@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/spf13/viper"
 )
 
+// Config holds the application configuration loaded from defaults, files, and environment variables.
 type Config struct {
 	Port int    `mapstructure:"port"`
 	Env  string `mapstructure:"env"`
@@ -17,6 +19,8 @@ type Config struct {
 	} `mapstructure:"app"`
 }
 
+// loadConfig initializes Viper, configures default values, reads config.yaml if present,
+// maps environment variables prefixed with APP_, and unmarshals the result into a Config struct.
 func loadConfig() (*Config, error) {
 	v := viper.New()
 
@@ -30,8 +34,9 @@ func loadConfig() (*Config, error) {
 	v.SetDefault("app.name", "Fiber Viper Example")
 	v.SetDefault("app.version", "1.0.0")
 
-	// Read environment variables (e.g. APP_PORT=8080)
+	// Read environment variables (e.g. APP_PORT=8080 or APP_APP_NAME="Custom Name")
 	v.SetEnvPrefix("APP")
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
 	// Read config file if present
@@ -50,6 +55,7 @@ func loadConfig() (*Config, error) {
 	return &cfg, nil
 }
 
+// main boots the Fiber web server using the loaded configuration.
 func main() {
 	cfg, err := loadConfig()
 	if err != nil {

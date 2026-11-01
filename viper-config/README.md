@@ -19,7 +19,7 @@ This recipe demonstrates how to manage layered configurations in a [Fiber](https
 
 ## Prerequisites
 
-- [Go](https://go.dev/) 1.23 or newer.
+- [Go](https://go.dev/) 1.26 or newer.
 
 ## Setup & Running
 
@@ -35,17 +35,27 @@ cd viper-config
 go run main.go
 ```
 
-3. Test with default config file:
+3. In a separate terminal, test the endpoints:
 
 ```bash
 curl http://localhost:3000/
 # Output: {"app":"Fiber Viper Demo","env":"development","port":3000,"version":"1.0.0"}
+
+curl http://localhost:3000/healthz
+# Output: OK
 ```
 
 4. Test overriding settings with environment variables:
 
+Stop the running server (`Ctrl+C`), then start with custom environment variables:
+
 ```bash
-APP_PORT=8080 APP_ENV=production go run main.go
+APP_PORT=8080 APP_ENV=production APP_APP_NAME="Fiber Production" go run main.go
+```
+
+In a separate terminal:
+
+```bash
 curl http://localhost:8080/
-# Output: {"app":"Fiber Viper Demo","env":"production","port":8080,"version":"1.0.0"}
+# Output: {"app":"Fiber Production","env":"production","port":8080,"version":"1.0.0"}
 ```
