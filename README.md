@@ -104,6 +104,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [URL Shortener](./url-shortener-api/README.md) - URL shortening service with a simple API.
 - [Validation](./validation/README.md) - Input validation using go-playground/validator.
 - [Vercel](./vercel/README.md) - Deploy a Go application to Vercel.
+- [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
 - [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
 <!-- AUTO-GENERATED-CONTENT:END -->
