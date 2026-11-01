@@ -31,7 +31,7 @@ func loadConfig() (*Config, error) {
 	// Set defaults
 	v.SetDefault("port", 3000)
 	v.SetDefault("env", "development")
-	v.SetDefault("app.name", "Fiber Viper Example")
+	v.SetDefault("app.name", "Fiber Viper Demo")
 	v.SetDefault("app.version", "1.0.0")
 
 	// Read environment variables (e.g. APP_PORT=8080 or APP_APP_NAME="Custom Name")
