@@ -6,7 +6,7 @@ require github.com/gofiber/fiber/v3 v3.6.1
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/gofiber/schema v1.9.1 // indirect
+	github.com/gofiber/schema v1.9.2 // indirect
 	github.com/gofiber/utils/v2 v2.6.3 // indirect
 	github.com/klauspost/crc32 v1.3.0 // indirect
 	github.com/minio/crc64nvme v1.1.1 // indirect
@@ -15,7 +15,7 @@ require (
 	github.com/philhofer/fwd v1.2.1 // indirect
 	github.com/tinylib/msgp v1.6.5 // indirect
 	github.com/zeebo/xxh3 v1.1.0 // indirect
-	go.yaml.in/yaml/v3 v3.0.5 // indirect
+	go.yaml.in/yaml/v3 v3.0.6 // indirect
 	gopkg.in/ini.v1 v1.67.3 // indirect
 )
 

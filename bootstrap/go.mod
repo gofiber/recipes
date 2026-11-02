@@ -18,7 +18,7 @@ require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-playground/locales v0.14.2 // indirect
 	github.com/go-playground/universal-translator v0.18.2 // indirect
-	github.com/gofiber/schema v1.9.1 // indirect
+	github.com/gofiber/schema v1.9.2 // indirect
 	github.com/gofiber/template/v2 v2.1.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -36,7 +36,7 @@ require (
 	github.com/molecule-man/go-brrr v1.3.1 // indirect
 	github.com/philhofer/fwd v1.2.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20260805114148-88456608a4f6 // indirect
-	github.com/shirou/gopsutil/v4 v4.26.9 // indirect
+	github.com/shirou/gopsutil/v4 v4.26.10 // indirect
 	github.com/tinylib/msgp v1.6.5 // indirect
 	github.com/tklauser/go-sysconf v0.4.0 // indirect
 	github.com/tklauser/numcpus v0.12.0 // indirect
