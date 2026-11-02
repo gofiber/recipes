@@ -65,14 +65,22 @@ The server listens on `http://localhost:3000`. GraphiQL opens at `http://localho
     {"data":{"messages":[]}}
     ```
 
-2. In a second terminal, open a subscription. The command sends `connection_init` and waits a second for `connection_ack`. Then it subscribes, and `cat` keeps the connection open:
+2. In a second terminal, open a websocket session. The command sends `connection_init` at once, because the server closes a connection that sends nothing within 3 seconds. `cat` then passes what you type to the server and keeps the connection open:
 
     ```bash
-    (printf '%s\n' '{"type":"connection_init"}'; sleep 1; printf '%s\n' '{"id":"1","type":"subscribe","payload":{"query":"subscription { messageAdded { id author text createdAt } }"}}'; cat) | websocat --protocol graphql-transport-ws ws://localhost:3000/query
+    (printf '%s\n' '{"type":"connection_init"}'; cat) | websocat --protocol graphql-transport-ws ws://localhost:3000/query
     ```
+
+    Wait for the acknowledgment:
 
     ```json
     {"type":"connection_ack"}
+    ```
+
+    Then paste the subscription and press Enter:
+
+    ```json
+    {"id":"1","type":"subscribe","payload":{"query":"subscription { messageAdded { id author text createdAt } }"}}
     ```
 
 3. Post a message:
