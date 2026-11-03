@@ -1,7 +1,7 @@
 ---
 title: Dynamic Route Management
 keywords: [dynamic routing, route manager, app.stack, runtime routes, fiber v3]
-description: Managing dynamic route registration, inspection with app.Stack(), and route deletion at runtime in Fiber v3.
+description: Managing dynamic route registration via an in-memory registry and a catch-all dispatcher in Fiber v3.
 ---
 
 # Dynamic Route Management
@@ -9,6 +9,8 @@ description: Managing dynamic route registration, inspection with app.Stack(), a
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/dynamic-routing) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/dynamic-routing)
 
 This recipe demonstrates how to manage dynamic routes at runtime in Fiber v3 without restarting the application.
+
+> **Note on Router Thread-Safety**: Fiber v3 can also add and remove real routes at runtime with `app.RebuildTree()` and `app.RemoveRoute()`, but those calls are not thread-safe while the server handles requests. This recipe keeps its routes in a `sync.RWMutex`-protected registry instead and serves them through one `/d/*` handler, so the router itself never changes.
 
 It provides:
 - A thread-safe runtime `RouteManager` using `sync.RWMutex`.

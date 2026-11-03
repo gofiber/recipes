@@ -38,7 +38,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
-- [Dynamic Route Management](./dynamic-routing/README.md) - Managing dynamic route registration, inspection with app.Stack(), and route deletion at runtime in Fiber v3.
+- [Dynamic Route Management](./dynamic-routing/README.md) - Managing dynamic route registration via an in-memory registry and a catch-all dispatcher in Fiber v3.
 - [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
 - [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
