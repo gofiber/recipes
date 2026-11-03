@@ -5,12 +5,15 @@
 package main
 
 import (
+	"crypto/sha256"
+	"crypto/subtle"
 	"log"
 	"os"
 	"strings"
 	"sync"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/keyauth"
 )
 
 // DynamicRoute represents a runtime-managed route configuration.
@@ -70,7 +73,7 @@ func (rm *RouteManager) list() []DynamicRoute {
 	return res
 }
 
-func setupApp(rm *RouteManager) *fiber.App {
+func setupApp(rm *RouteManager, adminKey string) *fiber.App {
 	app := fiber.New()
 
 	// Static core routes
@@ -85,8 +88,18 @@ func setupApp(rm *RouteManager) *fiber.App {
 		return c.SendStatus(fiber.StatusOK)
 	})
 
-	// Admin Route Management APIs
-	admin := app.Group("/admin/routes")
+	// Admin Route Management APIs, protected by a bearer API key
+	adminKeyHash := sha256.Sum256([]byte(adminKey))
+	admin := app.Group("/admin/routes", keyauth.New(keyauth.Config{
+		Validator: func(_ fiber.Ctx, key string) (bool, error) {
+			// Comparing hashes keeps the check constant-time even when the lengths differ.
+			keyHash := sha256.Sum256([]byte(key))
+			if subtle.ConstantTimeCompare(adminKeyHash[:], keyHash[:]) == 1 {
+				return true, nil
+			}
+			return false, keyauth.ErrMissingOrMalformedAPIKey
+		},
+	}))
 
 	// List all routes (both registered dynamic routes and core stack summary)
 	admin.Get("/", func(c fiber.Ctx) error {
@@ -160,7 +173,12 @@ func main() {
 		Response: "Welcome to Fiber v3! Use coupon FIBER3 for 20% off.",
 	})
 
-	app := setupApp(rm)
+	adminKey := os.Getenv("ADMIN_API_KEY")
+	if adminKey == "" {
+		log.Fatal("ADMIN_API_KEY must be set, it protects the /admin/routes API")
+	}
+
+	app := setupApp(rm, adminKey)
 
 	port := os.Getenv("PORT")
 	if port == "" {

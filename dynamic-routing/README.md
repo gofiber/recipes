@@ -14,11 +14,11 @@ This recipe demonstrates how to manage dynamic routes at runtime in Fiber v3 wit
 
 It provides:
 - A thread-safe runtime `RouteManager` using `sync.RWMutex`.
-- Admin management endpoints to register, list, and unregister dynamic routes.
+- Admin management endpoints to register, list, and unregister dynamic routes, protected by the `keyauth` middleware.
 - Route stack inspection using Fiber's native `app.Stack()`.
 - A dynamic dispatcher route (`/d/*`) to evaluate and execute active routes.
 
-> **Note**: The admin routes have no authentication, so anyone who can reach the server can publish content under `/d/*`. Keep them local, or protect the `admin` group with the `basicauth` or `keyauth` middleware.
+> **Note**: The admin routes require the API key from `ADMIN_API_KEY` as a bearer token, because anyone who can call them can publish content under `/d/*`. The server refuses to start without it.
 
 ## Prerequisites
 
@@ -43,6 +43,7 @@ Ensure you have the following installed:
 
 1. In your terminal, start the server:
    ```sh
+   export ADMIN_API_KEY=change-me
    go run main.go
    ```
 
@@ -50,7 +51,8 @@ Ensure you have the following installed:
 
    **List active routes (static stack and dynamic registry):**
    ```sh
-   curl -s http://127.0.0.1:3000/admin/routes | jq .
+   curl -s http://127.0.0.1:3000/admin/routes \
+     -H "Authorization: Bearer $ADMIN_API_KEY" | jq .
    ```
 
    **Access pre-seeded dynamic route:**
@@ -61,6 +63,7 @@ Ensure you have the following installed:
    **Register a new dynamic route at runtime:**
    ```sh
    curl -s -X POST http://127.0.0.1:3000/admin/routes \
+     -H "Authorization: Bearer $ADMIN_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{"name": "flash-sale", "path": "/flash", "response": "Limited time offer 50% off!"}' | jq .
    ```
@@ -74,7 +77,8 @@ Ensure you have the following installed:
 
    **Remove the dynamic route:**
    ```sh
-   curl -s -X DELETE http://127.0.0.1:3000/admin/routes/flash | jq .
+   curl -s -X DELETE http://127.0.0.1:3000/admin/routes/flash \
+     -H "Authorization: Bearer $ADMIN_API_KEY" | jq .
    ```
 
 ## Example Code
