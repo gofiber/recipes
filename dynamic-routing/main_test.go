@@ -12,9 +12,11 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
+const testAdminKey = "test-admin-key"
+
 func Test_DynamicRouteLifecycle(t *testing.T) {
 	rm := newRouteManager()
-	app := setupApp(rm)
+	app := setupApp(rm, testAdminKey)
 
 	// 1. Initial lookup on dynamic endpoint (should be 404)
 	req1 := httptest.NewRequest(http.MethodGet, "/d/features", nil)
@@ -37,6 +39,7 @@ func Test_DynamicRouteLifecycle(t *testing.T) {
 
 	req2 := httptest.NewRequest(http.MethodPost, "/admin/routes", bytes.NewReader(payloadBytes))
 	req2.Header.Set("Content-Type", "application/json")
+	req2.Header.Set("Authorization", "Bearer "+testAdminKey)
 	resp2, err := app.Test(req2)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -68,6 +71,7 @@ func Test_DynamicRouteLifecycle(t *testing.T) {
 
 	// 4. List all routes via GET /admin/routes
 	req4 := httptest.NewRequest(http.MethodGet, "/admin/routes", nil)
+	req4.Header.Set("Authorization", "Bearer "+testAdminKey)
 	resp4, err := app.Test(req4)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -79,6 +83,7 @@ func Test_DynamicRouteLifecycle(t *testing.T) {
 
 	// 5. Delete dynamic route via DELETE /admin/routes/features
 	req5 := httptest.NewRequest(http.MethodDelete, "/admin/routes/features", nil)
+	req5.Header.Set("Authorization", "Bearer "+testAdminKey)
 	resp5, err := app.Test(req5)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -102,7 +107,7 @@ func Test_DynamicRouteLifecycle(t *testing.T) {
 
 func Test_HealthzAndRoot(t *testing.T) {
 	rm := newRouteManager()
-	app := setupApp(rm)
+	app := setupApp(rm, testAdminKey)
 
 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	resp, err := app.Test(req)
@@ -126,11 +131,12 @@ func Test_HealthzAndRoot(t *testing.T) {
 }
 
 func Test_AdminRouteValidation(t *testing.T) {
-	app := setupApp(newRouteManager())
+	app := setupApp(newRouteManager(), testAdminKey)
 	do := func(method, target, body string) int {
 		t.Helper()
 		req := httptest.NewRequest(method, target, strings.NewReader(body))
 		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", "Bearer "+testAdminKey)
 		resp, err := app.Test(req)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -155,5 +161,34 @@ func Test_AdminRouteValidation(t *testing.T) {
 	}
 	if got := do(http.MethodGet, "/d/team/features", ""); got != fiber.StatusNotFound {
 		t.Errorf("after nested delete: expected 404, got %d", got)
+	}
+}
+
+func Test_AdminRequiresKey(t *testing.T) {
+	app := setupApp(newRouteManager(), testAdminKey)
+
+	for _, auth := range []string{"", "Bearer wrong-key", testAdminKey} {
+		req := httptest.NewRequest(http.MethodPost, "/admin/routes", strings.NewReader(`{"path":"/x","response":"x"}`))
+		req.Header.Set("Content-Type", "application/json")
+		if auth != "" {
+			req.Header.Set("Authorization", auth)
+		}
+		resp, err := app.Test(req)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		_ = resp.Body.Close()
+		if resp.StatusCode != fiber.StatusUnauthorized {
+			t.Errorf("Authorization %q: expected 401, got %d", auth, resp.StatusCode)
+		}
+	}
+
+	resp, err := app.Test(httptest.NewRequest(http.MethodGet, "/d/x", nil))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	_ = resp.Body.Close()
+	if resp.StatusCode != fiber.StatusNotFound {
+		t.Errorf("rejected POST must not register a route, got %d", resp.StatusCode)
 	}
 }
