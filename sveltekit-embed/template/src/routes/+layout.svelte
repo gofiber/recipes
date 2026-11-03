@@ -3,7 +3,7 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.css';
 
-	import LightSwitch from '$lib/LightSwitch.svelte';
+	import LightSwitch from '#lib/LightSwitch.svelte';
 </script>
 
 <div class="flex h-full flex-col overflow-hidden">

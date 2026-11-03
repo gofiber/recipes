@@ -8,7 +8,11 @@ import (
 //go:embed all:dist
 var content embed.FS
 
-// All returns the content of the all directory.
+// Dist returns the SvelteKit build with dist/ as its root.
 func Dist() fs.FS {
-	return content
+	sub, err := fs.Sub(content, "dist")
+	if err != nil {
+		panic(err)
+	}
+	return sub
 }

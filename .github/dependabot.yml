@@ -2331,12 +2331,6 @@ updates:
     cooldown:
       default-days: 3
     ignore:
-      # kit 3 needs a migration (config in vite.config.ts, #lib, TypeScript 6) and
-      # adapter-static 4 requires kit 3. Drop both once the templates are migrated.
-      - dependency-name: "@sveltejs/kit"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@sveltejs/adapter-static"
-        update-types: ["version-update:semver-major"]
       # svelte-check, typescript-eslint and kit all stop at TypeScript 6; the 7 bump
       # went through green and broke `check` in both templates.
       - dependency-name: "typescript"

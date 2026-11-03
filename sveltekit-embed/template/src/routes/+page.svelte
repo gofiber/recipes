@@ -1,5 +1,5 @@
 <script>
-	import CodeBlock from '$lib/CodeBlock.svelte';
+	import CodeBlock from '#lib/CodeBlock.svelte';
 	import { gofiber_code, robustRouting, serverStaticFiles } from './lib/store/code';
 </script>
 
