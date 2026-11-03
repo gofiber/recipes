@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -73,5 +75,35 @@ func Test_HealthzRoute(t *testing.T) {
 
 	if resp.StatusCode != fiber.StatusOK {
 		t.Errorf("expected status 200 for /healthz, got %d", resp.StatusCode)
+	}
+}
+
+func Test_RootRouteSendsEarlyHints(t *testing.T) {
+	ln, err := net.Listen("tcp4", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	app := setupApp()
+	go func() { _ = app.Listener(ln, fiber.ListenConfig{DisableStartupMessage: true}) }()
+	defer func() { _ = app.Shutdown() }()
+
+	conn, err := net.Dial("tcp4", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+	if _, err := conn.Write([]byte("GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")); err != nil {
+		t.Fatal(err)
+	}
+	br := bufio.NewReader(conn)
+	resp, err := http.ReadResponse(br, nil) // interim 103
+	if err != nil {
+		t.Fatal(err)
+	}
+	if resp.StatusCode != http.StatusEarlyHints || len(resp.Header.Values("Link")) != 2 {
+		t.Fatalf("got %d %v, want 103 with 2 Link headers", resp.StatusCode, resp.Header.Values("Link"))
+	}
+	if resp, err = http.ReadResponse(br, nil); err != nil || resp.StatusCode != http.StatusOK {
+		t.Fatalf("final response: %v %v", resp, err)
 	}
 }
