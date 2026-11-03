@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -94,6 +95,39 @@ func Test_Proxy_Retry_OnTransientError(t *testing.T) {
 	}
 	if cb.GetState() != circuitbreaker.StateClosed {
 		t.Fatalf("expected circuit closed, got %s", cb.GetState())
+	}
+}
+
+func Test_Proxy_RetryKeepsRequestBody(t *testing.T) {
+	const payload = `{"name":"fiber"}`
+	var attempts atomic.Int32
+	bodies := make(chan string, 4)
+	upstream := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		b, _ := io.ReadAll(r.Body)
+		bodies <- string(b)
+		if attempts.Add(1) == 1 {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+	}))
+	defer upstream.Close()
+
+	app := setupApp(upstream.URL, circuitbreaker.New(circuitbreaker.Config{}), fastBackoff(3))
+	req := httptest.NewRequest(http.MethodPut, "/proxy/items/1", strings.NewReader(payload))
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := app.Test(req, fiber.TestConfig{Timeout: 2 * time.Second})
+	if err != nil {
+		t.Fatalf("app.Test: %v", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusOK || attempts.Load() != 2 {
+		t.Fatalf("got %d after %d attempts, want 200 after 2", resp.StatusCode, attempts.Load())
+	}
+	close(bodies)
+	for b := range bodies {
+		if b != payload {
+			t.Fatalf("upstream got body %q, want %q on every attempt", b, payload)
+		}
 	}
 }
 
