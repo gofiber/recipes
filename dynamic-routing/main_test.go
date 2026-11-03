@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gofiber/fiber/v3"
@@ -121,5 +122,38 @@ func Test_HealthzAndRoot(t *testing.T) {
 	defer respRoot.Body.Close()
 	if respRoot.StatusCode != fiber.StatusOK {
 		t.Errorf("expected 200, got %d", respRoot.StatusCode)
+	}
+}
+
+func Test_AdminRouteValidation(t *testing.T) {
+	app := setupApp(newRouteManager())
+	do := func(method, target, body string) int {
+		t.Helper()
+		req := httptest.NewRequest(method, target, strings.NewReader(body))
+		req.Header.Set("Content-Type", "application/json")
+		resp, err := app.Test(req)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		_ = resp.Body.Close()
+		return resp.StatusCode
+	}
+
+	if got := do(http.MethodPost, "/admin/routes", `{"path":"rel","response":"x"}`); got != fiber.StatusBadRequest {
+		t.Errorf("path without leading slash: expected 400, got %d", got)
+	}
+
+	nested := `{"path":"/team/features","response":"x"}`
+	if got := do(http.MethodPost, "/admin/routes", nested); got != fiber.StatusCreated {
+		t.Fatalf("expected 201, got %d", got)
+	}
+	if got := do(http.MethodPost, "/admin/routes", nested); got != fiber.StatusConflict {
+		t.Errorf("duplicate path: expected 409, got %d", got)
+	}
+	if got := do(http.MethodDelete, "/admin/routes/team/features", ""); got != fiber.StatusOK {
+		t.Errorf("nested delete: expected 200, got %d", got)
+	}
+	if got := do(http.MethodGet, "/d/team/features", ""); got != fiber.StatusNotFound {
+		t.Errorf("after nested delete: expected 404, got %d", got)
 	}
 }

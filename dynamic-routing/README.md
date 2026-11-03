@@ -18,6 +18,8 @@ It provides:
 - Route stack inspection using Fiber's native `app.Stack()`.
 - A dynamic dispatcher route (`/d/*`) to evaluate and execute active routes.
 
+> **Note**: The admin routes have no authentication, so anyone who can reach the server can publish content under `/d/*`. Keep them local, or protect the `admin` group with the `basicauth` or `keyauth` middleware.
+
 ## Prerequisites
 
 Ensure you have the following installed:
@@ -63,6 +65,8 @@ Ensure you have the following installed:
      -d '{"name": "flash-sale", "path": "/flash", "response": "Limited time offer 50% off!"}' | jq .
    ```
 
+   The path must start with `/`. Registering a path that already exists returns `409 Conflict`.
+
    **Execute the newly registered dynamic route:**
    ```sh
    curl -s http://127.0.0.1:3000/d/flash | jq .
@@ -89,7 +93,6 @@ type DynamicRoute struct {
 	Name     string `json:"name"`
 	Path     string `json:"path"`
 	Response string `json:"response"`
-	Enabled  bool   `json:"enabled"`
 }
 
 type RouteManager struct {

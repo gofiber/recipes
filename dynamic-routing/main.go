@@ -7,6 +7,7 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/gofiber/fiber/v3"
@@ -17,7 +18,6 @@ type DynamicRoute struct {
 	Name     string `json:"name"`
 	Path     string `json:"path"`
 	Response string `json:"response"`
-	Enabled  bool   `json:"enabled"`
 }
 
 // RouteManager manages runtime dynamic routes thread-safely.
@@ -32,10 +32,15 @@ func newRouteManager() *RouteManager {
 	}
 }
 
-func (rm *RouteManager) add(r DynamicRoute) {
+// add reports false when the path is already registered.
+func (rm *RouteManager) add(r DynamicRoute) bool {
 	rm.mu.Lock()
 	defer rm.mu.Unlock()
+	if _, exists := rm.routes[r.Path]; exists {
+		return false
+	}
 	rm.routes[r.Path] = r
+	return true
 }
 
 func (rm *RouteManager) remove(path string) bool {
@@ -104,12 +109,13 @@ func setupApp(rm *RouteManager) *fiber.App {
 		if err := c.Bind().Body(&req); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid payload"})
 		}
-		if req.Path == "" || req.Response == "" {
-			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "path and response are required"})
+		// The dispatcher looks up "/" + the wildcard, so a path without the slash could never match.
+		if !strings.HasPrefix(req.Path, "/") || req.Response == "" {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "path starting with / and response are required"})
 		}
-
-		req.Enabled = true
-		rm.add(req)
+		if !rm.add(req) {
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{"error": "Route already registered"})
+		}
 
 		return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 			"message": "Route registered successfully",
@@ -118,9 +124,9 @@ func setupApp(rm *RouteManager) *fiber.App {
 	})
 
 	// Remove/unregister a dynamic route at runtime
-	admin.Delete("/:name", func(c fiber.Ctx) error {
-		name := c.Params("name")
-		path := "/" + name
+	// A wildcard, not :name, so nested paths such as /team/features can be removed too.
+	admin.Delete("/*", func(c fiber.Ctx) error {
+		path := "/" + c.Params("*")
 		if rm.remove(path) {
 			return c.JSON(fiber.Map{"message": "Route removed", "path": path})
 		}
@@ -131,8 +137,8 @@ func setupApp(rm *RouteManager) *fiber.App {
 	app.Get("/d/*", func(c fiber.Ctx) error {
 		subPath := "/" + c.Params("*")
 		route, exists := rm.get(subPath)
-		if !exists || !route.Enabled {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Dynamic route not found or disabled"})
+		if !exists {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Dynamic route not found"})
 		}
 		return c.JSON(fiber.Map{
 			"route":    route.Name,
@@ -152,7 +158,6 @@ func main() {
 		Name:     "welcome-promo",
 		Path:     "/promo",
 		Response: "Welcome to Fiber v3! Use coupon FIBER3 for 20% off.",
-		Enabled:  true,
 	})
 
 	app := setupApp(rm)
