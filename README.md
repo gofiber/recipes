@@ -79,6 +79,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
+- [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
 - [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
