@@ -39,6 +39,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
 - [Dynamic Route Management](./dynamic-routing/README.md) - Managing dynamic route registration via an in-memory registry and a catch-all dispatcher in Fiber v3.
+- [Early Hints (HTTP 103)](./early-hints/README.md) - Demonstrating HTTP 103 Early Hints in Fiber v3 to preload critical assets before delivering the final response.
 - [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
 - [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
@@ -54,6 +55,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GORM](./gorm/README.md) - Using GORM with SQLite database.
 - [GORM MySQL](./gorm-mysql/README.md) - Using GORM with MySQL database.
 - [GORM + PostgreSQL](./gorm-postgres/README.md) - Using GORM with PostgreSQL database.
+- [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
 - [Graceful shutdown](./graceful-shutdown/README.md) - Graceful shutdown of applications.
 - [GraphQL](./graphql/README.md) - Setting up a GraphQL server.
 - [gRPC](./grpc/README.md) - Using Fiber as a client to a gRPC server.
@@ -80,6 +82,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
+- [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
 - [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
@@ -105,6 +108,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [URL Shortener](./url-shortener-api/README.md) - URL shortening service with a simple API.
 - [Validation](./validation/README.md) - Input validation using go-playground/validator.
 - [Vercel](./vercel/README.md) - Deploy a Go application to Vercel.
+- [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
 - [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
 <!-- AUTO-GENERATED-CONTENT:END -->

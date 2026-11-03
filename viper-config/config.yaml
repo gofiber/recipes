@@ -1,0 +1,5 @@
+# port and service.version are not set here, so they keep their defaults.
+env: staging
+
+service:
+  name: "Fiber Viper (from config.yaml)"
