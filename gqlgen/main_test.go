@@ -572,6 +572,27 @@ func TestOtherSubprotocolsRefused(t *testing.T) {
 	}
 }
 
+func TestForeignOriginRefused(t *testing.T) {
+	addr, _, _ := startServer(t, maxConns, nil)
+	d := websocket.Dialer{Subprotocols: []string{"graphql-transport-ws"}, HandshakeTimeout: 5 * time.Second}
+	c, resp, err := d.Dial("ws://"+addr+"/query", http.Header{"Origin": {"https://evil.example"}})
+	if err == nil {
+		_ = c.Close()
+		t.Fatal("upgraded a foreign origin, want refusal")
+	}
+	if resp == nil || resp.StatusCode != http.StatusForbidden {
+		t.Fatalf("response %v, err %v, want 403", resp, err)
+	}
+	_ = resp.Body.Close()
+
+	c, resp, err = d.Dial("ws://"+addr+"/query", http.Header{"Origin": {"http://localhost:3000"}})
+	if err != nil {
+		t.Fatalf("listed origin refused: %v", err)
+	}
+	_ = resp.Body.Close()
+	_ = c.Close()
+}
+
 func TestReusedSubscriptionIDsEndOnDisconnect(t *testing.T) {
 	addr, _, hub := startServer(t, maxConns, nil)
 	ws := dial(t, addr)

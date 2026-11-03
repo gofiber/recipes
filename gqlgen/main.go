@@ -119,6 +119,9 @@ func newApp(ctx context.Context, srv *handler.Server, conns *connGroup) *fiber.A
 			return !websocket.IsWebSocketUpgrade(c)
 		},
 		Subprotocols: []string{wsSubprotocol},
+		// Browsers always send Origin; websocat and other CLI clients do not.
+		Origins:          []string{"http://localhost:3000", "http://127.0.0.1:3000"},
+		AllowEmptyOrigin: true,
 	}))
 	// gqlgen treats any request with an Upgrade header, h2c included, as a websocket request.
 	httpHandler := adaptor.HTTPHandler(srv)

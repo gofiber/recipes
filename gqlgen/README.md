@@ -123,10 +123,10 @@ The server listens on `http://localhost:3000`. GraphiQL opens at `http://localho
 - The history keeps the last 100 messages. `messages(last: n)` accepts 1 to 100.
 - Every subscriber has a buffer of 16 messages. A subscriber that falls further behind is evicted and receives `complete`, so a slow client never blocks `postMessage`.
 - The server accepts at most 10000 websocket connections, 10000 open subscriptions in total and 10 subscriptions per connection. Extra connections are closed with code 1013, try again later.
-- Every operation is limited to 1000 parser tokens and a complexity of 500, since gqlgen sets no cost limit by default. `complexity.go` computes the cost like `extension.FixedComplexityLimit`, but walks each named fragment only once.
+- Every operation is limited to 1000 parser tokens and a complexity of 500, since gqlgen sets no cost limit by default. `complexity.go` computes the cost like `extension.FixedComplexityLimit`, but walks each named fragment only once. It does not handle interfaces or unions, which this schema does not use. Add them before you copy it into a schema that has them, or the score comes out too low.
 - `MissingPongOk: true` keeps clients that do not answer pings, such as websocat, connected. Set it to `false` in production so dead peers are dropped.
 - Websocket operations do not see the HTTP request headers. Authentication for subscriptions belongs in `transport.Websocket.InitFunc`, which reads the `connection_init` payload.
-- An empty `websocket.Config.Origins` allows every origin. Set it for browser clients in production. Once it lists specific origins, clients that send no `Origin` header, such as websocat or the Go dialer, are refused unless `AllowEmptyOrigin` is `true`.
+- `websocket.Config.Origins` lists `http://localhost:3000` and `http://127.0.0.1:3000`, so pages on other sites cannot open subscriptions. Replace them with your frontend's origin. An empty list would allow every origin. `AllowEmptyOrigin: true` keeps clients that send no `Origin` header, such as websocat or the Go dialer, working; browsers always send one.
 
 ## Graceful Shutdown
 
