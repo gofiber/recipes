@@ -1,12 +1,17 @@
+---
+title: Proxy Resilience
+keywords: [proxy, retry, circuit breaker, backoff, resilience]
+description: Implementing retry and circuit breaker patterns in proxy middleware.
+---
+
 # Proxy Resilience (Retry and Circuit Breaker)
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/gofiber/recipes/proxy-resilience.svg)](https://pkg.go.dev/github.com/gofiber/recipes/proxy-resilience)
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/proxy-resilience) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/proxy-resilience)
 
-An enterprise-ready recipe demonstrating how to build resilient proxy architectures in **Fiber v3** using:
-1. **Exponential Backoff Retry** (`github.com/gofiber/fiber/v3/addon/retry`) to automatically retry transient upstream network blips and 5xx errors.
-2. **Circuit Breaker** pattern (`Closed` ➔ `Open` ➔ `Half-Open`) to fail fast with HTTP `503 Service Unavailable` when an upstream dependency degrades or crashes, protecting downstream resources from cascading failure.
+This recipe shows how to make a Fiber v3 proxy route resilient with:
 
----
+1. **Exponential backoff retry** (`github.com/gofiber/fiber/v3/addon/retry`) for transient network errors and upstream 5xx responses.
+2. **A circuit breaker** ([`github.com/gofiber/contrib/v3/circuitbreaker`](https://github.com/gofiber/contrib/tree/main/v3/circuitbreaker)) that fails fast with `503 Service Unavailable` while the upstream is down, so a failing dependency is not hammered further.
 
 ## Architecture Overview
 
@@ -37,16 +42,14 @@ An enterprise-ready recipe demonstrating how to build resilient proxy architectu
                  [Trip Circuit OPEN]
 ```
 
----
-
 ## Features
 
-- **Stateful Circuit Breaker**: Tracks consecutive failures (`MaxFailures`), transitions to `Open` state upon threshold breach, and enters `Half-Open` state after cooldown duration (`Timeout`).
-- **Configurable Backoff**: Leverages Fiber's built-in `addon/retry` with customizable `InitialInterval`, `Multiplier`, and `MaxRetryCount`.
-- **SSRF & Private IP Awareness**: Demonstrates safe upstream proxying using Fiber v3's `proxy.Do`.
-- **Inspection Endpoint**: Real-time circuit breaker status check at `/circuit/status`.
+- **Circuit breaker**: `circuitbreaker.Middleware` opens after `FailureThreshold` failed requests, answers `503` while open, and after `Timeout` lets one probe request through (`429` for the rest) to decide whether to close again. A request counts as failed when it ends with a 5xx status.
+- **Retry with backoff**: `addon/retry` retries with a configurable `InitialInterval`, `Multiplier` and `MaxRetryCount`. Only idempotent methods are retried, so a `POST` never runs twice upstream.
+- **Clean error responses**: when the retries run out, the upstream response is discarded and the client gets a `502` with a JSON error.
+- **Status endpoint**: `cb.HealthHandler()` at `/circuit/status`.
 
----
+> **Note**: `proxy.Do` refuses upstreams that resolve to private, loopback or link-local addresses, which protects against SSRF. Internal services, such as Kubernetes service IPs, therefore need `proxy.WithSecurityPolicy(proxy.SecurityPolicy{AllowPrivateIPs: true})`. Enable it only when the upstream address is not controlled by the client, as in this recipe, where it is fixed in `main.go`.
 
 ## Quickstart
 
@@ -56,33 +59,32 @@ An enterprise-ready recipe demonstrating how to build resilient proxy architectu
 go run .
 ```
 
-The service will start listening on `:3000`.
+The service listens on `:3000` and proxies to `https://httpbin.org`.
 
-### 2. Check Circuit Status
+### 2. Check the circuit status
 
 ```bash
 curl -i http://localhost:3000/circuit/status
 ```
 
 Response:
+
 ```json
-{
-  "state": "CLOSED"
-}
+{"healthy":true,"state":"closed"}
 ```
 
-### 3. Proxy a Request to Upstream
+While the circuit is open, the endpoint answers `503` with `"state":"open"`.
+
+### 3. Proxy a request to the upstream
 
 ```bash
-curl -i http://localhost:3000/proxy/get
+curl -i "http://localhost:3000/proxy/get?hello=fiber"
 ```
 
----
-
 ## Running Tests
-
-Run the complete regression test suite:
 
 ```bash
 go test -v ./...
 ```
+
+The tests use `httptest` upstreams and the breaker's `Clock` option, so the half-open recovery runs without waiting for the timeout.

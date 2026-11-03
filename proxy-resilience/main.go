@@ -1,55 +1,49 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/gofiber/contrib/v3/circuitbreaker"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/addon/retry"
 	"github.com/gofiber/fiber/v3/middleware/proxy"
 )
 
-func setupApp(upstreamURL string, cb *CircuitBreaker, backoff *retry.ExponentialBackoff) *fiber.App {
+func setupApp(upstreamURL string, cb *circuitbreaker.CircuitBreaker, backoff *retry.ExponentialBackoff) *fiber.App {
 	app := fiber.New()
 
-	app.Get("/circuit/status", func(c fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"state": cb.State().String(),
-		})
-	})
+	app.Get("/circuit/status", cb.HealthHandler())
 
-	app.All("/proxy/*", func(c fiber.Ctx) error {
-		path := c.Params("*")
-		target := fmt.Sprintf("%s/%s", upstreamURL, path)
-
-		err := cb.Execute(func() error {
-			return backoff.Retry(func() error {
-				if proxyErr := proxy.Do(c, target); proxyErr != nil {
-					return proxyErr
-				}
-				// Treat upstream 5xx errors as retriable server failures
-				if c.Response().StatusCode() >= fiber.StatusInternalServerError {
-					return fmt.Errorf("upstream server error: %d", c.Response().StatusCode())
-				}
-				return nil
-			})
-		})
-
-		if err != nil {
-			if errors.Is(err, ErrCircuitOpen) {
-				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
-					"error":   "upstream unavailable",
-					"circuit": cb.State().String(),
-				})
+	app.All("/proxy/*", circuitbreaker.Middleware(cb), func(c fiber.Ctx) error {
+		target := upstreamURL + "/" + c.Params("*")
+		if q := c.Request().URI().QueryString(); len(q) > 0 {
+			target += "?" + string(q)
+		}
+		attempt := func() error {
+			if err := proxy.Do(c, target); err != nil {
+				return err
 			}
-			return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
-				"error":   err.Error(),
-				"circuit": cb.State().String(),
-			})
+			if c.Response().StatusCode() >= fiber.StatusInternalServerError {
+				return fmt.Errorf("upstream server error: %d", c.Response().StatusCode())
+			}
+			return nil
 		}
 
+		var err error
+		// Retrying a POST could run it twice upstream.
+		if fiber.IsMethodIdempotent(c.Method()) {
+			err = backoff.Retry(attempt)
+		} else {
+			err = attempt()
+		}
+		if err != nil {
+			// Drop the upstream headers, such as Content-Encoding, before writing our own body.
+			c.Response().Reset()
+			// The breaker counts this 502 as a failure.
+			return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"error": err.Error()})
+		}
 		return nil
 	})
 
@@ -57,9 +51,9 @@ func setupApp(upstreamURL string, cb *CircuitBreaker, backoff *retry.Exponential
 }
 
 func main() {
-	cb := NewCircuitBreaker(CircuitBreakerConfig{
-		MaxFailures: 3,
-		Timeout:     5 * time.Second,
+	cb := circuitbreaker.New(circuitbreaker.Config{
+		FailureThreshold: 3,
+		Timeout:          5 * time.Second,
 	})
 
 	backoff := retry.NewExponentialBackoff(retry.Config{
