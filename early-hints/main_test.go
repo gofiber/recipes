@@ -6,8 +6,10 @@ import (
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -92,6 +94,9 @@ func Test_RootRouteSendsEarlyHints(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer conn.Close()
+	if err := conn.SetDeadline(time.Now().Add(5 * time.Second)); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := conn.Write([]byte("GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")); err != nil {
 		t.Fatal(err)
 	}
@@ -100,8 +105,12 @@ func Test_RootRouteSendsEarlyHints(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp.StatusCode != http.StatusEarlyHints || len(resp.Header.Values("Link")) != 2 {
-		t.Fatalf("got %d %v, want 103 with 2 Link headers", resp.StatusCode, resp.Header.Values("Link"))
+	wantLinks := []string{
+		"</css/main.css>; rel=preload; as=style",
+		"</js/bundle.js>; rel=preload; as=script",
+	}
+	if resp.StatusCode != http.StatusEarlyHints || !slices.Equal(resp.Header.Values("Link"), wantLinks) {
+		t.Fatalf("got %d %v, want 103 with %v", resp.StatusCode, resp.Header.Values("Link"), wantLinks)
 	}
 	if resp, err = http.ReadResponse(br, nil); err != nil || resp.StatusCode != http.StatusOK {
 		t.Fatalf("final response: %v %v", resp, err)
