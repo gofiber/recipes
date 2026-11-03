@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -11,12 +12,12 @@ import (
 
 // Config holds the application configuration loaded from defaults, files, and environment variables.
 type Config struct {
-	Port int    `mapstructure:"port"`
-	Env  string `mapstructure:"env"`
-	App  struct {
+	Port    int    `mapstructure:"port"`
+	Env     string `mapstructure:"env"`
+	Service struct {
 		Name    string `mapstructure:"name"`
 		Version string `mapstructure:"version"`
-	} `mapstructure:"app"`
+	} `mapstructure:"service"`
 }
 
 // loadConfig initializes Viper, configures default values, reads config.yaml if present,
@@ -28,20 +29,19 @@ func loadConfig() (*Config, error) {
 	v.SetConfigType("yaml")
 	v.AddConfigPath(".")
 
-	// Set defaults
 	v.SetDefault("port", 3000)
 	v.SetDefault("env", "development")
-	v.SetDefault("app.name", "Fiber Viper Demo")
-	v.SetDefault("app.version", "1.0.0")
+	v.SetDefault("service.name", "Fiber Viper Demo")
+	v.SetDefault("service.version", "1.0.0")
 
-	// Read environment variables (e.g. APP_PORT=8080 or APP_APP_NAME="Custom Name")
+	// APP_PORT or APP_SERVICE_NAME override a key. Unmarshal sees env values
+	// only for keys Viper already knows, so every key needs a default.
 	v.SetEnvPrefix("APP")
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
-	// Read config file if present
 	if err := v.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+		if _, ok := errors.AsType[viper.ConfigFileNotFoundError](err); !ok {
 			return nil, fmt.Errorf("error reading config file: %w", err)
 		}
 		log.Println("Config file not found, using default and environment variables")
@@ -66,8 +66,8 @@ func main() {
 
 	app.Get("/", func(c fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"app":     cfg.App.Name,
-			"version": cfg.App.Version,
+			"service": cfg.Service.Name,
+			"version": cfg.Service.Version,
 			"env":     cfg.Env,
 			"port":    cfg.Port,
 		})
@@ -78,6 +78,6 @@ func main() {
 	})
 
 	addr := fmt.Sprintf(":%d", cfg.Port)
-	log.Printf("Starting %s on %s in %s mode\n", cfg.App.Name, addr, cfg.Env)
+	log.Printf("Starting %s on %s in %s mode\n", cfg.Service.Name, addr, cfg.Env)
 	log.Fatal(app.Listen(addr))
 }

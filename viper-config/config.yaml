@@ -1,6 +1,5 @@
-port: 3000
-env: development
+# port and service.version are not set here, so they keep their defaults.
+env: staging
 
-app:
-  name: "Fiber Viper Demo"
-  version: "1.0.0"
+service:
+  name: "Fiber Viper (from config.yaml)"

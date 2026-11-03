@@ -39,23 +39,27 @@ go run main.go
 
 ```bash
 curl http://localhost:3000/
-# Output: {"app":"Fiber Viper Demo","env":"development","port":3000,"version":"1.0.0"}
+# Output: {"env":"staging","port":3000,"service":"Fiber Viper (from config.yaml)","version":"1.0.0"}
 
 curl http://localhost:3000/healthz
 # Output: OK
 ```
+
+`env` and `service` come from `config.yaml`, `port` and `version` from the defaults in `main.go`.
 
 4. Test overriding settings with environment variables:
 
 Stop the running server (`Ctrl+C`), then start with custom environment variables:
 
 ```bash
-APP_PORT=8080 APP_ENV=production APP_APP_NAME="Fiber Production" go run main.go
+APP_PORT=8080 APP_ENV=production APP_SERVICE_NAME="Fiber Production" go run main.go
 ```
 
 In a separate terminal:
 
 ```bash
 curl http://localhost:8080/
-# Output: {"app":"Fiber Production","env":"production","port":8080,"version":"1.0.0"}
+# Output: {"env":"production","port":8080,"service":"Fiber Production","version":"1.0.0"}
 ```
+
+Viper's `Unmarshal` only sees environment values for keys it already knows, which is why every key in `loadConfig` has a default.
