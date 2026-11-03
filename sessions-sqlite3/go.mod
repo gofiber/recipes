@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.6.1
-	github.com/gofiber/storage/sqlite3/v2 v2.3.1
+	github.com/gofiber/storage/sqlite3/v2 v2.3.2
 	github.com/gofiber/template/html/v3 v3.0.12
 	github.com/mattn/go-sqlite3 v1.14.52
 )
