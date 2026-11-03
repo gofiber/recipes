@@ -235,6 +235,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -449,6 +471,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -654,6 +698,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -858,6 +924,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -1065,6 +1153,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -1269,6 +1379,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -1476,6 +1608,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -1679,6 +1833,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -1884,6 +2060,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "gomod"
     open-pull-requests-limit: 15
@@ -2093,6 +2291,28 @@ updates:
       fasthttp-core-modules:
         patterns:
           - "github.com/valyala/bytebufferpool"
+      grpc-xds-modules:
+        patterns:
+          - "github.com/spiffe/**"
+          - "github.com/go-jose/**"
+          - "github.com/cncf/xds/go"
+          - "github.com/planetscale/vtprotobuf"
+      rabbitmq-modules:
+        patterns:
+          - "github.com/rabbitmq/**"
+      neo4j-modules:
+        patterns:
+          - "github.com/neo4j/**"
+      moby-modules:
+        patterns:
+          - "github.com/moby/**"
+          - "github.com/docker/**"
+          - "github.com/containerd/**"
+          - "github.com/opencontainers/**"
+          - "github.com/Microsoft/go-winio"
+      antchfx-modules:
+        patterns:
+          - "github.com/antchfx/**"
 
   - package-ecosystem: "npm"
     open-pull-requests-limit: 15
