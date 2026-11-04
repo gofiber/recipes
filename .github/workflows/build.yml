@@ -75,11 +75,11 @@ jobs:
           } >> "$GITHUB_ENV"
 
 
-      # vet and build run per module in one pass: once the shared build cache is warm
+      # tidy check, vet and build run per module in one pass: once the shared build cache is warm
       # a single module barely keeps one core busy, so the modules are what we spread.
       # Output is prefixed because parallel invocations interleave; xargs exits 123
       # as soon as any module failed.
-      - name: Vet and build changed modules
+      - name: Tidy check, vet and build changed modules
         shell: bash
         env:
           CHANGED_DIRS: ${{ env.changed_dirs }}
@@ -101,7 +101,7 @@ jobs:
               [ -f "$dir/go.mod" ] || { echo "[$dir] skipped, no go.mod"; exit 0; }
               set -o pipefail
               cd "$dir" || exit 1
-              if { go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"; then
+              if { go mod tidy -diff && go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"; then
                 echo "[$dir] ok"
               else
                 echo "[$dir] FAILED"
