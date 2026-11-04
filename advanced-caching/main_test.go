@@ -121,18 +121,37 @@ func TestAdvancedCaching_BypassHeader(t *testing.T) {
 	storage := newMemStorage()
 	app, _ := SetupApp(AppConfig{Storage: storage})
 
+	// 1. Initial request misses and populates cache
 	req1 := httptest.NewRequest(http.MethodGet, "/api/items", nil)
 	resp1, err := app.Test(req1)
 	require.NoError(t, err)
 	assert.Equal(t, "miss", resp1.Header.Get("X-Cache-Status"))
 
-	// Request with Cache-Control: no-cache should bypass cache
+	body1, err := io.ReadAll(resp1.Body)
+	require.NoError(t, err)
+
+	time.Sleep(2 * time.Millisecond)
+
+	// 2. Request with Cache-Control: no-cache bypasses stored entry, fetches fresh, and stores it
 	reqBypass := httptest.NewRequest(http.MethodGet, "/api/items", nil)
 	reqBypass.Header.Set("Cache-Control", "no-cache")
 	respBypass, err := app.Test(reqBypass)
 	require.NoError(t, err)
-	// Bypassed middleware doesn't set X-Cache-Status hit
-	assert.NotEqual(t, "hit", respBypass.Header.Get("X-Cache-Status"))
+	assert.Equal(t, "miss", respBypass.Header.Get("X-Cache-Status"))
+
+	bodyRefreshed, err := io.ReadAll(respBypass.Body)
+	require.NoError(t, err)
+	assert.NotEqual(t, string(body1), string(bodyRefreshed))
+
+	// 3. Subsequent normal request hits the refreshed cache entry
+	reqHit := httptest.NewRequest(http.MethodGet, "/api/items", nil)
+	respHit, err := app.Test(reqHit)
+	require.NoError(t, err)
+	assert.Equal(t, "hit", respHit.Header.Get("X-Cache-Status"))
+
+	bodyHit, err := io.ReadAll(respHit.Body)
+	require.NoError(t, err)
+	assert.Equal(t, string(bodyRefreshed), string(bodyHit))
 }
 
 func TestAdvancedCaching_TagBasedInvalidation(t *testing.T) {

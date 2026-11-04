@@ -9,7 +9,7 @@ description: Demonstrates advanced caching strategies in Fiber v3 including dete
 This recipe illustrates production-ready caching patterns using Fiber v3's built-in `middleware/cache`:
 
 1. **Deterministic & Isolated Cache Keys**: Compute partitioned cache keys incorporating request path, query string, authenticated role, and tenant ID to prevent cache cross-pollution.
-2. **Conditional Bypassing**: Respect client-side directives (`Cache-Control: no-cache, no-store`) and mutation methods.
+2. **Native Cache-Control Support**: Leverages Fiber's built-in `middleware/cache` support for `Cache-Control: no-cache, no-store` and HTTP method constraints (caching only GET/HEAD requests by default) without custom wrappers.
 3. **Dynamic Cache Invalidation**: Tag-based cache invalidation using `CacheInvalidator` without tearing down or rebooting the server.
 4. **Cache Status Introspection**: Return `X-Cache-Status` (`hit` or `miss`) headers for monitoring and observability.
 

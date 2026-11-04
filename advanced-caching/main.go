@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -73,20 +72,14 @@ func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
 		storage = cfg[0].Storage
 	}
 
-	// 1. Advanced Caching Middleware with KeyGenerator, CacheInvalidator & Conditional Caching
+	// 1. Advanced Caching Middleware with KeyGenerator & CacheInvalidator.
+	// HTTP method restrictions (GET/HEAD only) and Cache-Control directives (no-cache, no-store)
+	// are handled automatically by middleware/cache out of the box.
 	cacheMiddleware := cache.New(cache.Config{
 		Expiration:   30 * time.Second,
 		CacheHeader:  "X-Cache-Status",
 		Storage:      storage,
 		KeyGenerator: generateDynamicKey,
-		Next: func(c fiber.Ctx) bool {
-			// Skip caching for mutations or when client explicitly bypasses cache
-			if c.Method() != fiber.MethodGet && c.Method() != fiber.MethodHead {
-				return true
-			}
-			cacheControl := c.Get("Cache-Control")
-			return strings.Contains(cacheControl, "no-cache") || strings.Contains(cacheControl, "no-store")
-		},
 		CacheInvalidator: func(c fiber.Ctx) bool {
 			tag := c.Query("category")
 			if tag == "" {
