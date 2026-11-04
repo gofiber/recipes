@@ -1,0 +1,241 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+	"sync"
+	"time"
+
+	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/fiber/v3"
+)
+
+// SessionState holds the shared mutable state for a given session/entity.
+type SessionState struct {
+	ID        string            `json:"id"`
+	Data      map[string]string `json:"data"`
+	UpdatedAt time.Time         `json:"updated_at"`
+}
+
+// StateManager orchestrates thread-safe access to shared session state
+// and coordinates real-time broadcasts across connected WebSocket clients.
+type StateManager struct {
+	stateMu  sync.RWMutex
+	sessions map[string]*SessionState
+
+	clientMu sync.RWMutex
+	clients  map[string]map[*websocket.Conn]bool
+}
+
+// NewStateManager creates an initialized thread-safe StateManager.
+func NewStateManager() *StateManager {
+	return &StateManager{
+		sessions: make(map[string]*SessionState),
+		clients:  make(map[string]map[*websocket.Conn]bool),
+	}
+}
+
+// Get returns a thread-safe snapshot copy of the session state.
+func (sm *StateManager) Get(sessionID string) (*SessionState, bool) {
+	sm.stateMu.RLock()
+	defer sm.stateMu.RUnlock()
+
+	state, exists := sm.sessions[sessionID]
+	if !exists {
+		return nil, false
+	}
+
+	// Return a deep copy to prevent race conditions with concurrent readers/writers
+	dataCopy := make(map[string]string, len(state.Data))
+	for k, v := range state.Data {
+		dataCopy[k] = v
+	}
+
+	return &SessionState{
+		ID:        state.ID,
+		Data:      dataCopy,
+		UpdatedAt: state.UpdatedAt,
+	}, true
+}
+
+// Set updates a key-value pair in the session state.
+// Crucially, it clones string inputs to prevent memory corruption caused by
+// Fiber/fasthttp's zero-allocation request buffer reuse (see gofiber/fiber#3195).
+func (sm *StateManager) Set(sessionID, key, value string) *SessionState {
+	// Guard against zero-allocation buffer reuse: clone string slices into permanent heap memory
+	cleanID := strings.Clone(sessionID)
+	cleanKey := strings.Clone(key)
+	cleanVal := strings.Clone(value)
+
+	sm.stateMu.Lock()
+	state, exists := sm.sessions[cleanID]
+	if !exists {
+		state = &SessionState{
+			ID:   cleanID,
+			Data: make(map[string]string),
+		}
+		sm.sessions[cleanID] = state
+	}
+	state.Data[cleanKey] = cleanVal
+	state.UpdatedAt = time.Now().UTC()
+
+	// Create snapshot for return and broadcast
+	dataCopy := make(map[string]string, len(state.Data))
+	for k, v := range state.Data {
+		dataCopy[k] = v
+	}
+	snapshot := &SessionState{
+		ID:        cleanID,
+		Data:      dataCopy,
+		UpdatedAt: state.UpdatedAt,
+	}
+	sm.stateMu.Unlock()
+
+	// Broadcast snapshot to all active WebSocket clients subscribed to this session
+	sm.Broadcast(cleanID, snapshot)
+
+	return snapshot
+}
+
+// Register attaches an active WebSocket connection to a session.
+func (sm *StateManager) Register(sessionID string, conn *websocket.Conn) {
+	cleanID := strings.Clone(sessionID)
+	sm.clientMu.Lock()
+	defer sm.clientMu.Unlock()
+
+	if _, exists := sm.clients[cleanID]; !exists {
+		sm.clients[cleanID] = make(map[*websocket.Conn]bool)
+	}
+	sm.clients[cleanID][conn] = true
+}
+
+// Unregister removes a disconnected WebSocket connection from a session.
+func (sm *StateManager) Unregister(sessionID string, conn *websocket.Conn) {
+	sm.clientMu.Lock()
+	defer sm.clientMu.Unlock()
+
+	if conns, exists := sm.clients[sessionID]; exists {
+		delete(conns, conn)
+		if len(conns) == 0 {
+			delete(sm.clients, sessionID)
+		}
+	}
+}
+
+// Broadcast serializes state and pushes it to every active WebSocket connection for sessionID.
+func (sm *StateManager) Broadcast(sessionID string, state *SessionState) {
+	msg, err := json.Marshal(state)
+	if err != nil {
+		return
+	}
+
+	sm.clientMu.RLock()
+	conns := make([]*websocket.Conn, 0, len(sm.clients[sessionID]))
+	for conn := range sm.clients[sessionID] {
+		conns = append(conns, conn)
+	}
+	sm.clientMu.RUnlock()
+
+	for _, conn := range conns {
+		_ = conn.WriteMessage(websocket.TextMessage, msg)
+	}
+}
+
+// UpdatePayload represents an incoming state modification request.
+type UpdatePayload struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// SetupApp constructs the Fiber application configured with shared state routes.
+func SetupApp(customManager ...*StateManager) (*fiber.App, *StateManager) {
+	var manager *StateManager
+	if len(customManager) > 0 && customManager[0] != nil {
+		manager = customManager[0]
+	} else {
+		manager = NewStateManager()
+	}
+
+	app := fiber.New()
+
+	// 1. WebSocket Upgrade Guard
+	app.Use("/ws", func(c fiber.Ctx) error {
+		if websocket.IsWebSocketUpgrade(c) {
+			return c.Next()
+		}
+		return fiber.ErrUpgradeRequired
+	})
+
+	// 2. WebSocket Route: Subscribes to session updates & allows real-time state mutation
+	app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
+		sessionID := c.Params("id")
+		manager.Register(sessionID, c)
+		defer manager.Unregister(sessionID, c)
+
+		// Send initial state dump on connect if session already exists
+		if state, exists := manager.Get(sessionID); exists {
+			if msg, err := json.Marshal(state); err == nil {
+				_ = c.WriteMessage(websocket.TextMessage, msg)
+			}
+		}
+
+		for {
+			_, msg, err := c.ReadMessage()
+			if err != nil {
+				break
+			}
+
+			var payload UpdatePayload
+			if err := json.Unmarshal(msg, &payload); err == nil && payload.Key != "" {
+				manager.Set(sessionID, payload.Key, payload.Value)
+			}
+		}
+	}))
+
+	// 3. REST API: Read shared session state
+	app.Get("/api/sessions/:id", func(c fiber.Ctx) error {
+		sessionID := c.Params("id")
+		state, exists := manager.Get(sessionID)
+		if !exists {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": "session not found",
+			})
+		}
+		return c.JSON(state)
+	})
+
+	// 4. REST API: Mutate shared session state & broadcast to WebSocket subscribers
+	app.Post("/api/sessions/:id", func(c fiber.Ctx) error {
+		sessionID := c.Params("id")
+		var payload UpdatePayload
+		if err := c.Bind().JSON(&payload); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": "invalid request body",
+			})
+		}
+		if payload.Key == "" {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": "key is required",
+			})
+		}
+
+		// Mutate state and broadcast
+		updated := manager.Set(sessionID, payload.Key, payload.Value)
+		return c.Status(fiber.StatusOK).JSON(updated)
+	})
+
+	app.Get("/health", func(c fiber.Ctx) error {
+		return c.SendStatus(http.StatusOK)
+	})
+
+	return app, manager
+}
+
+func main() {
+	app, _ := SetupApp()
+	fmt.Println("WebSocket Shared State Server listening on :3000")
+	log.Fatal(app.Listen(":3000"))
+}
