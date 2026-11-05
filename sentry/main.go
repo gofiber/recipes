@@ -8,32 +8,9 @@ import (
 	"time"
 
 	"github.com/getsentry/sentry-go"
+	fibersentry "github.com/gofiber/contrib/v3/sentry"
 	"github.com/gofiber/fiber/v3"
 )
-
-// AppConfig holds optional configuration for the Fiber app.
-type AppConfig struct {
-	Client *sentry.Client
-}
-
-// SentryMiddleware attaches an isolated Sentry Hub with request metadata to each request context.
-func SentryMiddleware(client *sentry.Client) fiber.Handler {
-	return func(c fiber.Ctx) error {
-		hub := sentry.NewHub(client, sentry.NewScope())
-
-		scope := hub.Scope()
-		scope.SetTag("http.method", c.Method())
-		scope.SetTag("http.route", c.Route().Path)
-		scope.SetTag("client_ip", c.IP())
-
-		if userID := c.Get("X-User-ID"); userID != "" {
-			scope.SetUser(sentry.User{ID: userID})
-		}
-
-		c.SetContext(sentry.SetHubOnContext(c.Context(), hub))
-		return c.Next()
-	}
-}
 
 // SentryRecover recovers from panics, captures the stack trace in Sentry,
 // and returns a structured 500 JSON response with the Sentry EventID.
@@ -41,7 +18,7 @@ func SentryRecover() fiber.Handler {
 	return func(c fiber.Ctx) (err error) {
 		defer func() {
 			if r := recover(); r != nil {
-				hub := sentry.GetHubFromContext(c.Context())
+				hub := fibersentry.GetHubFromContext(c)
 				var eventID *sentry.EventID
 				if hub != nil {
 					eventID = hub.RecoverWithContext(c.Context(), r)
@@ -78,7 +55,7 @@ func SentryErrorHandler(c fiber.Ctx, err error) error {
 
 	// Only capture unhandled server errors (5xx) to Sentry to avoid noise from 4xx client errors
 	if code >= fiber.StatusInternalServerError {
-		hub := sentry.GetHubFromContext(c.Context())
+		hub := fibersentry.GetHubFromContext(c)
 		if hub != nil {
 			if eventID := hub.CaptureException(err); eventID != nil {
 				resp["event_id"] = string(*eventID)
@@ -89,20 +66,26 @@ func SentryErrorHandler(c fiber.Ctx, err error) error {
 	return c.Status(code).JSON(resp)
 }
 
-// SetupApp initializes the Fiber app with Sentry middleware and error handling.
-func SetupApp(cfg ...AppConfig) *fiber.App {
-	var client *sentry.Client
-	if len(cfg) > 0 && cfg[0].Client != nil {
-		client = cfg[0].Client
-	} else {
-		client = sentry.CurrentHub().Client()
-	}
-
+// SetupApp initializes the Fiber app with contrib/v3/sentry middleware, recovery, and custom error handling.
+func SetupApp() *fiber.App {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: SentryErrorHandler,
 	})
 
-	app.Use(SentryMiddleware(client))
+	// 1. Official contrib/v3/sentry middleware: clones a per-request hub, attaches deep-copied HTTP request data
+	app.Use(fibersentry.New())
+
+	// 2. Attach user context to the per-request hub when authenticated headers are present
+	app.Use(func(c fiber.Ctx) error {
+		if userID := c.Get("X-User-ID"); userID != "" {
+			if hub := fibersentry.GetHubFromContext(c); hub != nil {
+				hub.Scope().SetUser(sentry.User{ID: userID})
+			}
+		}
+		return c.Next()
+	})
+
+	// 3. Panic recovery handler placed inside fibersentry.New(): recovers panics, logs to Sentry, returns 500 JSON with event_id
 	app.Use(SentryRecover())
 
 	app.Get("/", func(c fiber.Ctx) error {

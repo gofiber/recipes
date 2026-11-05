@@ -12,18 +12,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func setupTestApp(t *testing.T) (*sentry.MockTransport, *sentry.Client) {
+func setupTestApp(t *testing.T) *sentry.MockTransport {
 	transport := &sentry.MockTransport{}
-	client, err := sentry.NewClient(sentry.ClientOptions{
+	err := sentry.Init(sentry.ClientOptions{
 		Transport: transport,
 	})
 	require.NoError(t, err)
-	return transport, client
+	return transport
 }
 
 func TestSentry_SuccessfulRequest(t *testing.T) {
-	transport, client := setupTestApp(t)
-	app := SetupApp(AppConfig{Client: client})
+	transport := setupTestApp(t)
+	app := SetupApp()
 
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	resp, err := app.Test(req)
@@ -35,8 +35,8 @@ func TestSentry_SuccessfulRequest(t *testing.T) {
 }
 
 func TestSentry_ClientErrorIgnored(t *testing.T) {
-	transport, client := setupTestApp(t)
-	app := SetupApp(AppConfig{Client: client})
+	transport := setupTestApp(t)
+	app := SetupApp()
 
 	// 1. Test 400 Bad Request
 	req400 := httptest.NewRequest(http.MethodGet, "/users/invalid", nil)
@@ -55,8 +55,8 @@ func TestSentry_ClientErrorIgnored(t *testing.T) {
 }
 
 func TestSentry_ServerErrorCaptured(t *testing.T) {
-	transport, client := setupTestApp(t)
-	app := SetupApp(AppConfig{Client: client})
+	transport := setupTestApp(t)
+	app := SetupApp()
 
 	req := httptest.NewRequest(http.MethodGet, "/error", nil)
 	req.Header.Set("X-User-ID", "user-123")
@@ -79,21 +79,22 @@ func TestSentry_ServerErrorCaptured(t *testing.T) {
 	require.True(t, ok)
 	assert.NotEmpty(t, eventID)
 
-	// Verify Sentry event captured with tags and user context
+	// Verify Sentry event captured with request URL and user context
 	events := transport.Events()
 	require.Len(t, events, 1)
 
 	event := events[0]
 	assert.Equal(t, string(event.EventID), eventID)
 	assert.Equal(t, "user-123", event.User.ID)
-	assert.Equal(t, "GET", event.Tags["http.method"])
+	require.NotNil(t, event.Request)
+	assert.Equal(t, "GET", event.Request.Method)
 	require.NotEmpty(t, event.Exception)
 	assert.Contains(t, event.Exception[0].Value, "database connection failed")
 }
 
 func TestSentry_PanicRecovery(t *testing.T) {
-	transport, client := setupTestApp(t)
-	app := SetupApp(AppConfig{Client: client})
+	transport := setupTestApp(t)
+	app := SetupApp()
 
 	req := httptest.NewRequest(http.MethodGet, "/panic", nil)
 	req.Header.Set("X-User-ID", "user-admin")
@@ -116,7 +117,7 @@ func TestSentry_PanicRecovery(t *testing.T) {
 	require.True(t, ok)
 	assert.NotEmpty(t, eventID)
 
-	// Verify panic captured by Sentry
+	// Verify panic captured by Sentry exactly once
 	events := transport.Events()
 	require.Len(t, events, 1)
 
@@ -125,4 +126,6 @@ func TestSentry_PanicRecovery(t *testing.T) {
 	assert.Equal(t, "user-admin", event.User.ID)
 	assert.Equal(t, sentry.LevelFatal, event.Level)
 	assert.Contains(t, event.Message, "nil pointer dereference")
+	require.NotNil(t, event.Request)
+	assert.Equal(t, "GET", event.Request.Method)
 }
