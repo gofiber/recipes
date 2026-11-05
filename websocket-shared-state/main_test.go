@@ -5,11 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"sync"
 	"testing"
+	"time"
 
+	fastws "github.com/fasthttp/websocket"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -170,4 +173,50 @@ func TestSharedState_ValidationErrors(t *testing.T) {
 
 	body, _ := io.ReadAll(respNoKey.Body)
 	assert.Contains(t, string(body), "key is required")
+}
+
+func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
+	app, _ := SetupApp()
+
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	require.NoError(t, err)
+	defer ln.Close()
+
+	go func() {
+		_ = app.Listener(ln)
+	}()
+
+	addr := ln.Addr().String()
+	wsURL := fmt.Sprintf("ws://%s/ws/room-live", addr)
+
+	// Dial WebSocket client
+	conn, resp, err := fastws.DefaultDialer.Dial(wsURL, nil)
+	require.NoError(t, err)
+	defer conn.Close()
+	if resp != nil && resp.Body != nil {
+		_ = resp.Body.Close()
+	}
+
+	// Send REST mutation
+	postBody, err := json.Marshal(UpdatePayload{
+		Key:   "broadcast_key",
+		Value: "delivered_val",
+	})
+	require.NoError(t, err)
+
+	httpResp, err := http.Post(fmt.Sprintf("http://%s/api/sessions/room-live", addr), "application/json", bytes.NewReader(postBody))
+	require.NoError(t, err)
+	defer httpResp.Body.Close()
+	assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+
+	// Assert WebSocket receives the broadcast
+	_ = conn.SetReadDeadline(time.Now().Add(2 * time.Second))
+	_, msg, err := conn.ReadMessage()
+	require.NoError(t, err)
+
+	var received SessionState
+	err = json.Unmarshal(msg, &received)
+	require.NoError(t, err)
+	assert.Equal(t, "room-live", received.ID)
+	assert.Equal(t, "delivered_val", received.Data["broadcast_key"])
 }

@@ -49,7 +49,20 @@ wscat -c ws://localhost:3000/ws/room-101
 
 If the session already has state, the server immediately sends a state snapshot upon connection.
 
-### 2. Read State via REST API
+### 2. Mutate State via REST API (Initial State)
+
+```bash
+curl -i -X POST http://localhost:3000/api/sessions/room-101 \
+  -H "Content-Type: application/json" \
+  -d '{"key": "status", "value": "active"}'
+```
+
+Returns:
+```json
+{"id":"room-101","data":{"status":"active"},"updated_at":"2026-11-04T15:00:00Z"}
+```
+
+### 3. Read State via REST API
 
 ```bash
 curl -i http://localhost:3000/api/sessions/room-101
@@ -60,7 +73,9 @@ Returns:
 {"id":"room-101","data":{"status":"active"},"updated_at":"2026-11-04T15:00:00Z"}
 ```
 
-### 3. Mutate State via REST API (Broadcasts to WebSocket)
+### 4. Real-Time State Mutation & Broadcast to Subscribers
+
+Update the session state:
 
 ```bash
 curl -i -X POST http://localhost:3000/api/sessions/room-101 \
@@ -73,13 +88,14 @@ Every connected WebSocket client subscribed to `room-101` immediately receives:
 {
   "id": "room-101",
   "data": {
+    "status": "active",
     "order_step": "shipped"
   },
   "updated_at": "2026-11-04T15:00:01Z"
 }
 ```
 
-### 4. Mutate State via WebSocket Message
+### 5. Mutate State via WebSocket Message
 
 Send a JSON message through the `wscat` terminal:
 ```json

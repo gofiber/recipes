@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"maps"
 	"net/http"
 	"strings"
 	"sync"
@@ -50,9 +51,7 @@ func (sm *StateManager) Get(sessionID string) (*SessionState, bool) {
 
 	// Return a deep copy to prevent race conditions with concurrent readers/writers
 	dataCopy := make(map[string]string, len(state.Data))
-	for k, v := range state.Data {
-		dataCopy[k] = v
-	}
+	maps.Copy(dataCopy, state.Data)
 
 	return &SessionState{
 		ID:        state.ID,
@@ -84,9 +83,7 @@ func (sm *StateManager) Set(sessionID, key, value string) *SessionState {
 
 	// Create snapshot for return and broadcast
 	dataCopy := make(map[string]string, len(state.Data))
-	for k, v := range state.Data {
-		dataCopy[k] = v
-	}
+	maps.Copy(dataCopy, state.Data)
 	snapshot := &SessionState{
 		ID:        cleanID,
 		Data:      dataCopy,
