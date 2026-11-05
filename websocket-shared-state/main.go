@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/contrib/v3/websocket/event"
 	"github.com/gofiber/fiber/v3"
 )
 
@@ -28,14 +29,14 @@ type StateManager struct {
 	sessions map[string]*SessionState
 
 	clientMu sync.RWMutex
-	clients  map[string]map[*websocket.Conn]bool
+	clients  map[string]map[string]bool // sessionID -> set of client UUIDs
 }
 
 // NewStateManager creates an initialized thread-safe StateManager.
 func NewStateManager() *StateManager {
 	return &StateManager{
 		sessions: make(map[string]*SessionState),
-		clients:  make(map[string]map[*websocket.Conn]bool),
+		clients:  make(map[string]map[string]bool),
 	}
 }
 
@@ -97,32 +98,33 @@ func (sm *StateManager) Set(sessionID, key, value string) *SessionState {
 	return snapshot
 }
 
-// Register attaches an active WebSocket connection to a session.
-func (sm *StateManager) Register(sessionID string, conn *websocket.Conn) {
+// Register attaches an active WebSocket connection UUID to a session.
+func (sm *StateManager) Register(sessionID, uuid string) {
 	cleanID := strings.Clone(sessionID)
+	cleanUUID := strings.Clone(uuid)
 	sm.clientMu.Lock()
 	defer sm.clientMu.Unlock()
 
 	if _, exists := sm.clients[cleanID]; !exists {
-		sm.clients[cleanID] = make(map[*websocket.Conn]bool)
+		sm.clients[cleanID] = make(map[string]bool)
 	}
-	sm.clients[cleanID][conn] = true
+	sm.clients[cleanID][cleanUUID] = true
 }
 
-// Unregister removes a disconnected WebSocket connection from a session.
-func (sm *StateManager) Unregister(sessionID string, conn *websocket.Conn) {
+// Unregister removes a disconnected WebSocket connection UUID from a session.
+func (sm *StateManager) Unregister(sessionID, uuid string) {
 	sm.clientMu.Lock()
 	defer sm.clientMu.Unlock()
 
-	if conns, exists := sm.clients[sessionID]; exists {
-		delete(conns, conn)
-		if len(conns) == 0 {
+	if uuids, exists := sm.clients[sessionID]; exists {
+		delete(uuids, uuid)
+		if len(uuids) == 0 {
 			delete(sm.clients, sessionID)
 		}
 	}
 }
 
-// Broadcast serializes state and pushes it to every active WebSocket connection for sessionID.
+// Broadcast serializes state and pushes it to every active WebSocket connection for sessionID via event.EmitToList.
 func (sm *StateManager) Broadcast(sessionID string, state *SessionState) {
 	msg, err := json.Marshal(state)
 	if err != nil {
@@ -130,14 +132,14 @@ func (sm *StateManager) Broadcast(sessionID string, state *SessionState) {
 	}
 
 	sm.clientMu.RLock()
-	conns := make([]*websocket.Conn, 0, len(sm.clients[sessionID]))
-	for conn := range sm.clients[sessionID] {
-		conns = append(conns, conn)
+	uuids := make([]string, 0, len(sm.clients[sessionID]))
+	for u := range sm.clients[sessionID] {
+		uuids = append(uuids, u)
 	}
 	sm.clientMu.RUnlock()
 
-	for _, conn := range conns {
-		_ = conn.WriteMessage(websocket.TextMessage, msg)
+	if len(uuids) > 0 {
+		event.EmitToList(uuids, msg, websocket.TextMessage)
 	}
 }
 
@@ -166,28 +168,27 @@ func SetupApp(customManager ...*StateManager) (*fiber.App, *StateManager) {
 		return fiber.ErrUpgradeRequired
 	})
 
-	// 2. WebSocket Route: Subscribes to session updates & allows real-time state mutation
-	app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
-		sessionID := c.Params("id")
-		manager.Register(sessionID, c)
-		defer manager.Unregister(sessionID, c)
+	// 2. WebSocket Route: Subscribes to session updates & allows real-time state mutation using contrib/v3/websocket/event
+	app.Get("/ws/:id", event.New(func(kws *event.Websocket) {
+		sessionID := kws.Params("id")
+		uuid := kws.GetUUID()
+		manager.Register(sessionID, uuid)
 
-		// Send initial state dump on connect if session already exists
+		kws.On(event.EventDisconnect, func(*event.EventPayload) {
+			manager.Unregister(sessionID, uuid)
+		})
+
+		kws.On(event.EventMessage, func(ep *event.EventPayload) {
+			var payload UpdatePayload
+			if err := json.Unmarshal(ep.Data, &payload); err == nil && payload.Key != "" {
+				manager.Set(sessionID, payload.Key, payload.Value)
+			}
+		})
+
+		// Send initial state snapshot on connect if session already exists
 		if state, exists := manager.Get(sessionID); exists {
 			if msg, err := json.Marshal(state); err == nil {
-				_ = c.WriteMessage(websocket.TextMessage, msg)
-			}
-		}
-
-		for {
-			_, msg, err := c.ReadMessage()
-			if err != nil {
-				break
-			}
-
-			var payload UpdatePayload
-			if err := json.Unmarshal(msg, &payload); err == nil && payload.Key != "" {
-				manager.Set(sessionID, payload.Key, payload.Value)
+				kws.Emit(msg, websocket.TextMessage)
 			}
 		}
 	}))

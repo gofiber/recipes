@@ -26,6 +26,8 @@ github.com/savsgio/gotils v0.0.0-20250924091648-bce9a52d7761 h1:McifyVxygw1d67y6
 github.com/savsgio/gotils v0.0.0-20250924091648-bce9a52d7761/go.mod h1:Vi9gvHvTw4yCUHIznFl5TPULS7aXwgaTByGeBY75Wko=
 github.com/shamaton/msgpack/v3 v3.2.6 h1:i8I++0ehiIO8yK4+ZU6j5MIWFz5e8J6EeJvdM/qeyTw=
 github.com/shamaton/msgpack/v3 v3.2.6/go.mod h1:sgBYvEiyz8JR1NC3yGRoPVME9xXovpnh3l/plW1nfRo=
+github.com/stretchr/objx v0.8.0 h1:rm9oMkeprG/wHifkZP4EuDww9S0mvEaQ/p9cXTNT4cw=
+github.com/stretchr/objx v0.8.0/go.mod h1:xSzHnPHkdEv7vtgdQej8atlCuU1mdX+ELge8bn0hCsE=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 github.com/tinylib/msgp v1.6.5 h1:iAH6XTP7BpzErjBZlujJQXxA+GmRi2YWs6M4KdLtNbE=
@@ -36,6 +38,8 @@ github.com/valyala/fasthttp v1.77.0 h1:6mxBJdHabRmU4Cmw79Uqhgvjzsp6pjOaQk2t8COfl
 github.com/valyala/fasthttp v1.77.0/go.mod h1:m8oTPC8riDDky07invpl+Gz3RixnAN5BbwyUuVB5H2o=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
+go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
+go.uber.org/goleak v1.3.0/go.mod h1:CoHD4mav9JJNrW/WLlf7HGZPjdw8EucARQHekz1X6bE=
 go.yaml.in/yaml/v3 v3.0.6 h1:zcDfvjXEqTQmpjniUBLc91xYJMB2c4QOFxEF/LCEckM=
 go.yaml.in/yaml/v3 v3.0.6/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=
 golang.org/x/crypto v0.58.0 h1:COkYLr4k7nDI4r6QtMML2AfzeIswWHAJthLS6K/M/54=

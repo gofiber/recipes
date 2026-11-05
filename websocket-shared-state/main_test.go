@@ -220,3 +220,56 @@ func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
 	assert.Equal(t, "room-live", received.ID)
 	assert.Equal(t, "delivered_val", received.Data["broadcast_key"])
 }
+
+func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
+	app, _ := SetupApp()
+
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	require.NoError(t, err)
+	defer ln.Close()
+
+	go func() {
+		_ = app.Listener(ln)
+	}()
+
+	addr := ln.Addr().String()
+	wsURL := fmt.Sprintf("ws://%s/ws/room-concurrent", addr)
+
+	conn, resp, err := fastws.DefaultDialer.Dial(wsURL, nil)
+	require.NoError(t, err)
+	defer conn.Close()
+	if resp != nil && resp.Body != nil {
+		_ = resp.Body.Close()
+	}
+
+	const numMessages = 50
+	var wg sync.WaitGroup
+	wg.Add(numMessages)
+
+	for i := 0; i < numMessages; i++ {
+		go func(idx int) {
+			defer wg.Done()
+			payload, _ := json.Marshal(UpdatePayload{
+				Key:   fmt.Sprintf("key-%d", idx),
+				Value: fmt.Sprintf("val-%d", idx),
+			})
+			r, postErr := http.Post(fmt.Sprintf("http://%s/api/sessions/room-concurrent", addr), "application/json", bytes.NewReader(payload))
+			if postErr == nil {
+				_ = r.Body.Close()
+			}
+		}(i)
+	}
+
+	receivedCount := 0
+	_ = conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+	for receivedCount < numMessages {
+		_, _, readErr := conn.ReadMessage()
+		if readErr != nil {
+			break
+		}
+		receivedCount++
+	}
+
+	wg.Wait()
+	assert.Equal(t, numMessages, receivedCount)
+}
