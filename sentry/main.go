@@ -124,14 +124,20 @@ func SetupApp() *fiber.App {
 	return app
 }
 
-func main() {
-	dsn := os.Getenv("SENTRY_DSN")
-	err := sentry.Init(sentry.ClientOptions{
+// SentryOptions returns production Sentry client configuration.
+func SentryOptions(dsn string) sentry.ClientOptions {
+	return sentry.ClientOptions{
 		Dsn:              dsn,
+		AttachStacktrace: true,
 		TracesSampleRate: 1.0,
 		Environment:      "production",
 		Release:          "recipe-sentry@1.0.0",
-	})
+	}
+}
+
+func main() {
+	dsn := os.Getenv("SENTRY_DSN")
+	err := sentry.Init(SentryOptions(dsn))
 	if err != nil {
 		log.Fatalf("sentry.Init: %s", err)
 	}

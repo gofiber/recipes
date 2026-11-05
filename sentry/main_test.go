@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/getsentry/sentry-go"
@@ -14,9 +15,9 @@ import (
 
 func setupTestApp(t *testing.T) *sentry.MockTransport {
 	transport := &sentry.MockTransport{}
-	err := sentry.Init(sentry.ClientOptions{
-		Transport: transport,
-	})
+	opts := SentryOptions("")
+	opts.Transport = transport
+	err := sentry.Init(opts)
 	require.NoError(t, err)
 	return transport
 }
@@ -117,7 +118,7 @@ func TestSentry_PanicRecovery(t *testing.T) {
 	require.True(t, ok)
 	assert.NotEmpty(t, eventID)
 
-	// Verify panic captured by Sentry exactly once
+	// Verify panic captured by Sentry exactly once with stack trace
 	events := transport.Events()
 	require.Len(t, events, 1)
 
@@ -128,4 +129,15 @@ func TestSentry_PanicRecovery(t *testing.T) {
 	assert.Contains(t, event.Message, "nil pointer dereference")
 	require.NotNil(t, event.Request)
 	assert.Equal(t, "GET", event.Request.Method)
+
+	require.NotEmpty(t, event.Threads)
+	require.NotNil(t, event.Threads[0].Stacktrace)
+	hasHandlerFrame := false
+	for _, frame := range event.Threads[0].Stacktrace.Frames {
+		if strings.HasPrefix(frame.Function, "SetupApp.") {
+			hasHandlerFrame = true
+			break
+		}
+	}
+	assert.True(t, hasHandlerFrame, "stacktrace should include SetupApp handler frame")
 }
