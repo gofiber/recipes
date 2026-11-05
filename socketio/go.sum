@@ -2,8 +2,8 @@ github.com/fasthttp/websocket v1.5.12 h1:e4RGPpWW2HTbL3zV0Y/t7g0ub294LkiuXXUuTOU
 github.com/fasthttp/websocket v1.5.12/go.mod h1:I+liyL7/4moHojiOgUOIKEWm9EIxHqxZChS+aMFltyg=
 github.com/fxamacker/cbor/v2 v2.10.0 h1:HVF3T5vYwLqO81ebPirWEPNv2SMrUMD3HLnKgEr6uWE=
 github.com/fxamacker/cbor/v2 v2.10.0/go.mod h1:uSwlToFuT9BZAKRxxVm3qQC8DR4tlWl7D6pf20iRYH4=
-github.com/gofiber/contrib/v3/socketio v1.3.9 h1:y9b0sOlktcqEKNkeRGrotfIvB8C3/RQQrEAmfhZ8oTY=
-github.com/gofiber/contrib/v3/socketio v1.3.9/go.mod h1:30Ovt3qdAjxeh2ZYeblT15oIi4gwc3fwpeHsbw2W2VI=
+github.com/gofiber/contrib/v3/socketio v1.3.10 h1:iic+Ud1nEugB3zd2EBnpn2ydojBylTgIaToLrWC4PLg=
+github.com/gofiber/contrib/v3/socketio v1.3.10/go.mod h1:6cm5GOv3N7NO1i46gqLkIU5JtWpwQUEmme15tZIgrl8=
 github.com/gofiber/contrib/v3/websocket v1.2.12 h1:3jpKRoqTY4rdq5lAeTXc762JtKbvrWuxX4JkrNS3EF8=
 github.com/gofiber/contrib/v3/websocket v1.2.12/go.mod h1:tOI7AiJKlz9XbGw7BLv8tAkwikdNOkoNWZ7lMPOLokc=
 github.com/gofiber/fiber/v3 v3.6.1 h1:wYjbgqpJm6VErIVLSGzGpX7lLZyTNgElsj8nQ1i+iFo=
