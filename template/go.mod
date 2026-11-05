@@ -4,13 +4,13 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.6.1
-	github.com/gofiber/template/django/v4 v4.0.13
+	github.com/gofiber/template/django/v4 v4.0.14
 )
 
 require (
 	github.com/flosch/pongo2/v6 v6.1.0 // indirect
 	github.com/gofiber/schema v1.9.3 // indirect
-	github.com/gofiber/template/v2 v2.1.5 // indirect
+	github.com/gofiber/template/v2 v2.1.6 // indirect
 	github.com/gofiber/utils/v2 v2.6.4 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.3 // indirect
