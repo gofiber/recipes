@@ -115,6 +115,32 @@ func TestAdvancedCaching_TenantAndRoleIsolation(t *testing.T) {
 	resp2, err := app.Test(req2)
 	require.NoError(t, err)
 	assert.Equal(t, "miss", resp2.Header.Get("X-Cache-Status"))
+
+	// Collision resistance: (tenant c, role a:b) vs (tenant b:c, role a)
+	reqCol1 := httptest.NewRequest(http.MethodGet, "/api/items?category=sec", nil)
+	reqCol1.Header.Set("X-Tenant-ID", "c")
+	reqCol1.Header.Set("X-User-Role", "a:b")
+	respCol1, err := app.Test(reqCol1)
+	require.NoError(t, err)
+	assert.Equal(t, "miss", respCol1.Header.Get("X-Cache-Status"))
+
+	reqCol2 := httptest.NewRequest(http.MethodGet, "/api/items?category=sec", nil)
+	reqCol2.Header.Set("X-Tenant-ID", "b:c")
+	reqCol2.Header.Set("X-User-Role", "a")
+	respCol2, err := app.Test(reqCol2)
+	require.NoError(t, err)
+	assert.Equal(t, "miss", respCol2.Header.Get("X-Cache-Status"))
+
+	// Query canonicalization: ?a=1&b=2 and ?b=2&a=1 must hit the same cache entry
+	reqQ1 := httptest.NewRequest(http.MethodGet, "/api/items?a=1&b=2", nil)
+	respQ1, err := app.Test(reqQ1)
+	require.NoError(t, err)
+	assert.Equal(t, "miss", respQ1.Header.Get("X-Cache-Status"))
+
+	reqQ2 := httptest.NewRequest(http.MethodGet, "/api/items?b=2&a=1", nil)
+	respQ2, err := app.Test(reqQ2)
+	require.NoError(t, err)
+	assert.Equal(t, "hit", respQ2.Header.Get("X-Cache-Status"))
 }
 
 func TestAdvancedCaching_BypassHeader(t *testing.T) {

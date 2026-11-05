@@ -1,9 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -44,19 +41,6 @@ func (r *InvalidationRegistry) IsInvalidated(tag string, entryTimestamp time.Tim
 	return !entryTimestamp.After(invTime)
 }
 
-// generateDynamicKey computes a deterministic cache key that segments by role,
-// authenticated tenant/user, and query parameters.
-func generateDynamicKey(c fiber.Ctx) string {
-	role := c.Get("X-User-Role", "anonymous")
-	tenant := c.Get("X-Tenant-ID", "global")
-	path := c.Path()
-	rawQuery := string(c.Request().URI().QueryString())
-
-	rawKey := fmt.Sprintf("%s:%s:%s?%s", role, tenant, path, rawQuery)
-	hash := sha256.Sum256([]byte(rawKey))
-	return hex.EncodeToString(hash[:])
-}
-
 // AppConfig configures the Fiber application and cache behavior.
 type AppConfig struct {
 	Storage fiber.Storage
@@ -72,14 +56,15 @@ func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
 		storage = cfg[0].Storage
 	}
 
-	// 1. Advanced Caching Middleware with KeyGenerator & CacheInvalidator.
-	// HTTP method restrictions (GET/HEAD only) and Cache-Control directives (no-cache, no-store)
+	// 1. Advanced Caching Middleware with KeyHeaders & CacheInvalidator.
+	// HTTP method restrictions (GET/HEAD only), Cache-Control directives (no-cache, no-store),
+	// canonical query sorting (?a=1&b=2 == ?b=2&a=1), and header segment escaping
 	// are handled automatically by middleware/cache out of the box.
 	cacheMiddleware := cache.New(cache.Config{
-		Expiration:   30 * time.Second,
-		CacheHeader:  "X-Cache-Status",
-		Storage:      storage,
-		KeyGenerator: generateDynamicKey,
+		Expiration:  30 * time.Second,
+		CacheHeader: "X-Cache-Status",
+		Storage:     storage,
+		KeyHeaders:  []string{"Accept", "Accept-Encoding", "Accept-Language", "X-Tenant-ID", "X-User-Role"},
 		CacheInvalidator: func(c fiber.Ctx) bool {
 			tag := c.Query("category")
 			if tag == "" {
