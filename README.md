@@ -111,6 +111,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
 - [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
+- [WebSocket Shared State](./websocket-shared-state/README.md) - Managing thread-safe shared state and real-time broadcasts across WebSocket connections and HTTP handlers.
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## 👩‍🍳 Have a delicious recipe?
