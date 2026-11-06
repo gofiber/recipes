@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/99designs/gqlgen v0.17.98
 	github.com/fasthttp/websocket v1.5.12
-	github.com/gofiber/contrib/v3/websocket v1.2.12
+	github.com/gofiber/contrib/v3/websocket v1.2.13
 	github.com/gofiber/fiber/v3 v3.6.1
 	github.com/vektah/gqlparser/v2 v2.5.64
 )
