@@ -66,8 +66,8 @@ github.com/valyala/fasthttp v1.77.0 h1:6mxBJdHabRmU4Cmw79Uqhgvjzsp6pjOaQk2t8COfl
 github.com/valyala/fasthttp v1.77.0/go.mod h1:m8oTPC8riDDky07invpl+Gz3RixnAN5BbwyUuVB5H2o=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
-github.com/zclconf/go-cty v1.19.0 h1:IV8WdqYZc2c5rLX9bEoLNXKojBAp0MZPBHMIrCoa/s4=
-github.com/zclconf/go-cty v1.19.0/go.mod h1:12W89jGn3JCOIQi7infWr9m80rOkb5RNYJqXMZcN4c8=
+github.com/zclconf/go-cty v1.20.0 h1:V2Mh9pu2xWPATCY7US3LnGBNSq/AAZDsqQZmmOAV7DI=
+github.com/zclconf/go-cty v1.20.0/go.mod h1:12W89jGn3JCOIQi7infWr9m80rOkb5RNYJqXMZcN4c8=
 github.com/zclconf/go-cty-debug v0.0.0-20240509010212-0d6042c53940 h1:4r45xpDWB6ZMSMNJFMOjqrGHynW3DIBuR2H9j0ug+Mo=
 github.com/zclconf/go-cty-debug v0.0.0-20240509010212-0d6042c53940/go.mod h1:CmBdvvj3nqzfzJ6nTCIwDTPZ56aVGvDrmztiO5g3qrM=
 github.com/zclconf/go-cty-yaml v1.2.0 h1:GDyL4+e/Qe/S0B7YaecMLbVvAR/Mp21CXMOSiCTOi1M=
