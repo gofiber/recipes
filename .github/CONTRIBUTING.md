@@ -2,34 +2,42 @@
 
 Thank you for considering contributing to this project! To ensure a smooth and efficient process, please follow these guidelines.
 
+The [organization-wide contributing guidelines](https://github.com/gofiber/.github/blob/main/CONTRIBUTING.md) and the [code of conduct](https://github.com/gofiber/.github/blob/main/CODE_OF_CONDUCT.md) apply here as well; this file adds the rules for examples.
+
 ## Adding a New Example
 
 1. **Create a Directory**: Create a new directory for your example in the root of the repository. Please do not use a "fiber" prefix in the directory name.
 
 2. **Add a `README.md`**: Each example must include a `README.md` file in its directory. This file should contain the following:
 
-  - **Docusaurus Metadata**: Add the following metadata at the top of the `README.md` file:
-    ```markdown
-    ---
-    title: Your Example Title
-    keywords: [keyword1, keyword2, keyword3]
-    ---
-    ```
+   - **Docusaurus Metadata**: Add the following metadata at the top of the `README.md` file:
 
-    - `title`: A short and descriptive title for your example.
-    - `keywords`: A list of relevant keywords (excluding "fiber").
+     ```markdown
+     ---
+     title: Your Example Title
+     keywords: [keyword1, keyword2, keyword3]
+     description: One sentence about what the example demonstrates.
+     ---
+     ```
 
-  - **Content**: The `README.md` should provide a detailed explanation of the example, including:
-    - The idea behind the example.
-    - The components used in the example.
-    - Instructions on how to run the example.
-    - Any other relevant information.
+     - `title`: A short and descriptive title for your example.
+     - `keywords`: A list of relevant keywords (excluding "fiber").
+     - `description`: A short description, used in the overview table of contents.
+
+   - **Content**: The `README.md` should provide a detailed explanation of the example, including:
+     - The idea behind the example.
+     - The components used in the example.
+     - Instructions on how to run the example.
+     - Any other relevant information.
 
 3. **Update the Overview**: After adding your example, run the following command in the root directory to update the overview table of contents:
-    ```bash
-    make generate
-    ```
+
+   ```bash
+   make generate
+   ```
 
 4. **Add a `Makefile` if `go build` is not enough**: An example with a frontend or a code generation step must ship a `Makefile` whose `build` target builds everything the example needs. CI runs `make build` for every changed example that has one. It only provides Go and Node, so the target has to fetch any other tool itself, for example with a pinned `npx --yes pnpm@10.34.6`. See `sveltekit-embed/makefile`.
+
+5. **Check the Example Locally**: CI runs `go mod tidy -diff`, `go vet ./...` and `go build -race ./...` in every changed example, so run them in your example's directory before you open the pull request.
 
 By following these guidelines, you help maintain the quality and consistency of the project. Thank you for your contributions!

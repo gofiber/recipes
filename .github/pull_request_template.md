@@ -3,7 +3,7 @@ Thanks for contributing an example. Please fill in what applies and delete
 the rest. See .github/CONTRIBUTING.md for the full requirements.
 -->
 
-## What does this change?
+# What does this change?
 
 <!-- A short description. If it adds an example, say what it demonstrates. -->
 
@@ -19,7 +19,8 @@ the rest. See .github/CONTRIBUTING.md for the full requirements.
 - [ ] `README.md` present, with the Docusaurus front matter (`title`, `keywords`, `description`)
 - [ ] `README.md` explains the idea, the components used and how to run it
 - [ ] `make generate` run, so the overview table of contents is up to date
-- [ ] Example passes `go build ./...` and `go vet ./...`
+- [ ] If `go build` is not enough (frontend, code generation): a `Makefile` with a `build` target
+- [ ] Example passes `go mod tidy -diff`, `go vet ./...` and `go build -race ./...`
 - [ ] Example was run locally and behaves as the README describes
 
 ## Anything reviewers should know
