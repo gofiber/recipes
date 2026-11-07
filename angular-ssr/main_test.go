@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
+	"sync"
 	"testing"
 )
 
@@ -36,9 +38,40 @@ func TestAPIHealth(t *testing.T) {
 	}
 }
 
+func TestStaticAssetsDelivery(t *testing.T) {
+	app := App("")
+
+	// Request static JS asset
+	req := httptest.NewRequest("GET", "/main.js", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "angular chunk") {
+		t.Errorf("expected JS content, got %q", string(body))
+	}
+}
+
 func TestSSRProxyForwarding(t *testing.T) {
-	// Mock Angular SSR Node backend
+	var mu sync.Mutex
+	var receivedPath string
+
+	// Mock Angular SSR Node backend recording exact path and query
 	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		receivedPath = r.URL.RequestURI()
+		mu.Unlock()
+
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("<!DOCTYPE html><html><body><h1>Server Rendered Angular</h1></body></html>"))
@@ -47,7 +80,7 @@ func TestSSRProxyForwarding(t *testing.T) {
 
 	app := App(mockSSR.URL)
 
-	req := httptest.NewRequest("GET", "/about", nil)
+	req := httptest.NewRequest("GET", "/dashboard?tab=overview", nil)
 	resp, err := app.Test(req)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -65,5 +98,47 @@ func TestSSRProxyForwarding(t *testing.T) {
 	expected := "<!DOCTYPE html><html><body><h1>Server Rendered Angular</h1></body></html>"
 	if string(body) != expected {
 		t.Errorf("body = %q, want %q", string(body), expected)
+	}
+
+	mu.Lock()
+	gotPath := receivedPath
+	mu.Unlock()
+
+	if gotPath != "/dashboard?tab=overview" {
+		t.Errorf("mock received URI = %q, want %q", gotPath, "/dashboard?tab=overview")
+	}
+}
+
+func TestSSRProxyFailureFallbackToSPA(t *testing.T) {
+	// Pointing to a dead port so proxy immediately fails and triggers SPA fallback
+	app := App("http://127.0.0.1:59999")
+
+	req := httptest.NewRequest("GET", "/about", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "Client SPA") {
+		t.Errorf("expected SPA fallback content, got %q", string(body))
+	}
+}
+
+func TestResolveConfig(t *testing.T) {
+	// Default case
+	t.Setenv("SSR_ENDPOINT", "")
+	t.Setenv("PORT", "")
+	endpoint, port := resolveConfig()
+	if endpoint != "" || port != "3000" {
+		t.Errorf("default resolveConfig() = (%q, %q), want ('', '3000')", endpoint, port)
 	}
 }
