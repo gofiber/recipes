@@ -5,10 +5,19 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"sync"
 	"testing"
+
+	"github.com/gofiber/fiber/v3/middleware/proxy"
 )
+
+func TestMain(m *testing.M) {
+	// SSR_ENDPOINT is set by the operator, not the client
+	proxy.WithSecurityPolicy(proxy.SecurityPolicy{AllowPrivateIPs: true})
+	os.Exit(m.Run())
+}
 
 func TestAPIHealth(t *testing.T) {
 	app := App("")
@@ -121,6 +130,45 @@ func TestSSRProxyFailureFallbackToSPA(t *testing.T) {
 
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "Client SPA") {
+		t.Errorf("expected SPA fallback content, got %q", string(body))
+	}
+}
+
+func TestSSRProxy5xxFallbackResetsHeaders(t *testing.T) {
+	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Encoding", "gzip")
+		w.Header().Set("Set-Cookie", "session=evil; Path=/")
+		w.WriteHeader(http.StatusInternalServerError)
+		_, _ = w.Write([]byte(`{"error":"internal ssr error"}`))
+	}))
+	defer mockSSR.Close()
+
+	app := App(mockSSR.URL)
+
+	req := httptest.NewRequest("GET", "/failing-ssr", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	if enc := resp.Header.Get("Content-Encoding"); enc != "" {
+		t.Errorf("Content-Encoding = %q, want empty", enc)
+	}
+	if cookie := resp.Header.Get("Set-Cookie"); cookie != "" {
+		t.Errorf("Set-Cookie = %q, want empty", cookie)
 	}
 
 	body, err := io.ReadAll(resp.Body)

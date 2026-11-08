@@ -53,6 +53,7 @@ func App(nodeSSREndpoint string) *fiber.App {
 			err := proxy.DoTimeout(c, nodeSSREndpoint+c.OriginalURL(), 5*time.Second)
 			if err != nil || c.Response().StatusCode() >= fiber.StatusInternalServerError {
 				// Gracefully fallback to client-side SPA index when SSR backend is unreachable or errors
+				c.Response().Reset()
 				return spaHandler(c)
 			}
 			return nil
@@ -83,6 +84,9 @@ func resolveConfig() (ssrEndpoint string, port string) {
 
 // main initializes and starts the Fiber application.
 func main() {
+	// SSR_ENDPOINT is set by the operator, not the client
+	proxy.WithSecurityPolicy(proxy.SecurityPolicy{AllowPrivateIPs: true})
+
 	ssrEndpoint, port := resolveConfig()
 	app := App(ssrEndpoint)
 

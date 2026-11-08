@@ -20,7 +20,7 @@ In an Angular SSR deployment:
 
 ## Prerequisites
 
-- [Go](https://golang.org/doc/install) 1.23 or higher
+- [Go](https://golang.org/doc/install) 1.26 or higher
 - [Node.js](https://nodejs.org/) (v20+ LTS) and [Angular CLI](https://angular.dev/) (optional, if building your own Angular project from scratch)
 
 ## Project Structure
