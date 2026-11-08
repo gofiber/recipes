@@ -69,7 +69,7 @@ func TestSentry_ServerErrorCaptured(t *testing.T) {
 	bodyBytes, err := io.ReadAll(resp.Body)
 	require.NoError(t, err)
 
-	var result map[string]interface{}
+	var result map[string]any
 	err = json.Unmarshal(bodyBytes, &result)
 	require.NoError(t, err)
 
@@ -107,7 +107,7 @@ func TestSentry_PanicRecovery(t *testing.T) {
 	bodyBytes, err := io.ReadAll(resp.Body)
 	require.NoError(t, err)
 
-	var result map[string]interface{}
+	var result map[string]any
 	err = json.Unmarshal(bodyBytes, &result)
 	require.NoError(t, err)
 
