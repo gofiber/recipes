@@ -3,7 +3,7 @@ module github.com/gofiber/recipes/postgresql
 go 1.26.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.6.1
+	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/jackc/pgx/v5 v5.12.0
 )
 

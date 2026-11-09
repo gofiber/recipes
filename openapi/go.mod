@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/danielgtaylor/huma/v2 v2.40.0
-	github.com/gofiber/fiber/v3 v3.6.1
+	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/postgres v1.6.3
 	gorm.io/gorm v1.31.2
