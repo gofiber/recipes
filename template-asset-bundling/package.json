@@ -8,9 +8,9 @@
     "clean": "rm -rf ./public/assets"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "4.3.3",
+    "@tailwindcss/postcss": "4.3.4",
     "parcel": "2.16.4",
     "postcss": "8.5.32",
-    "tailwindcss": "4.3.3"
+    "tailwindcss": "4.3.4"
   }
 }
