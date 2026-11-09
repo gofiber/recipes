@@ -20,7 +20,7 @@ This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fi
 
 ## Prerequisites
 
-- Bun
+- Node.js
 - Go 1.25+
 - Wrangler CLI
 - Cloudflare account with Container Workers access
@@ -30,19 +30,19 @@ This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fi
 1. Install dependencies:
 
 ```bash
-bun install
+npm install
 ```
 
 2. Run locally:
 
 ```bash
-bun run dev
+npm run dev
 ```
 
 3. Deploy to Cloudflare:
 
 ```bash
-bun run deploy
+npm run deploy
 ```
 
 ## Project Structure

@@ -2379,29 +2379,6 @@ updates:
           - "parcel"
           - "esbuild"
 
-  # `bun.lock` is not covered by the npm ecosystem above and needs its own
-  # entry, otherwise Dependabot never updates it. cloudflare-workers/bun.lock
-  # had drifted far enough that it no longer satisfied its own package.json.
-  - package-ecosystem: "bun"
-    open-pull-requests-limit: 15
-    directories:
-      # not "**/*": on a pnpm or npm directory bun bumps package.json only
-      - "/cloudflare-workers"
-    labels:
-      - "🤖 Dependencies"
-    schedule:
-      interval: "daily"
-    cooldown:
-      default-days: 3
-    groups:
-      # majors stay separate PRs, inside a group they would hold back the automerge
-      workers-modules:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
     directories:
