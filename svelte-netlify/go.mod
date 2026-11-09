@@ -4,7 +4,7 @@ go 1.27
 
 require (
 	github.com/earthboundkid/gateway/v2 v2.26.1
-	github.com/gofiber/fiber/v3 v3.6.1
+	github.com/gofiber/fiber/v3 v3.7.0
 )
 
 require (
