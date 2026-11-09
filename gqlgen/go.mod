@@ -29,7 +29,7 @@ require (
 	github.com/tinylib/msgp v1.6.5 // indirect
 	github.com/urfave/cli/v3 v3.14.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.77.0 // indirect
+	github.com/valyala/fasthttp v1.78.0 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/mod v0.42.0 // indirect
 	golang.org/x/net v0.62.0 // indirect
