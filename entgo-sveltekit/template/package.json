@@ -19,7 +19,7 @@
 		"@typescript-eslint/parser": "^8.70.0",
 		"eslint": "^10.11.0",
 		"eslint-plugin-svelte": "^3.23.0",
-		"globals": "^17.13.0",
+		"globals": "^17.14.0",
     "@tailwindcss/vite": "^4.3.3",
     "esbuild": "^0.28.2",
     "svelte": "^5.57.1",
