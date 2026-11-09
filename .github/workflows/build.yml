@@ -5,13 +5,21 @@ on:
     branches:
       - master
       - main
-    paths-ignore:
-      - "**.md"
+    paths:
+      - "**"
+      - "!**.md"
+      - "!.github/dependabot.yml"
+      - "!.github/workflows/**"
+      - ".github/workflows/build.yml"
   pull_request:
     branches:
       - '*'
-    paths-ignore:
-      - "**.md"
+    paths:
+      - "**"
+      - "!**.md"
+      - "!.github/dependabot.yml"
+      - "!.github/workflows/**"
+      - ".github/workflows/build.yml"
   workflow_dispatch:
 
 concurrency:
