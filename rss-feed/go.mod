@@ -11,7 +11,7 @@ require (
 	github.com/cbroglie/mustache v1.4.2 // indirect
 	github.com/gofiber/schema v1.9.4 // indirect
 	github.com/gofiber/template/v2 v2.1.6 // indirect
-	github.com/gofiber/utils/v2 v2.6.4 // indirect
+	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/mattn/go-colorable v0.1.16 // indirect
