@@ -8,8 +8,8 @@ github.com/gofiber/template/html/v3 v3.1.0 h1:5nT5lCFQq3qzCoPMUoAOHbnI17HdFAoLMH
 github.com/gofiber/template/html/v3 v3.1.0/go.mod h1:InutWAhoZDBjRWXqGRxiKcziNcY467ev94Je0Tv1pLg=
 github.com/gofiber/template/v2 v2.1.6 h1:ezUPGrFTN+gNH4WyJOqt7dV/bmB6JuPDsb3Al8nfGWs=
 github.com/gofiber/template/v2 v2.1.6/go.mod h1:gZaluA2I9hSz5VMQr1z5fjmU/0rvLHweKL0Of3ToAwI=
-github.com/gofiber/utils/v2 v2.6.4 h1:VsC3hEFZXk2JO6I/+FZ1OdZzMX4COPgwwrFaDAey3+o=
-github.com/gofiber/utils/v2 v2.6.4/go.mod h1:SpYvWEQlYmZzzpuSfQX0gUiPSoxpOKldiEmVDzdl8Ds=
+github.com/gofiber/utils/v2 v2.6.5 h1:rU+8ao6LKi3fKOA3sEjfLv1T+2C2IwomeVmEKaqkr4A=
+github.com/gofiber/utils/v2 v2.6.5/go.mod h1:OqPxdhDW7fPz0dupDanqf4e5O15IyFKy724y/EY9RI4=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/klauspost/compress v1.20.4 h1:dD0v/bvxtjCBqQu6sx1TNWkalEY5lNTIe+HY9w8TeNI=
