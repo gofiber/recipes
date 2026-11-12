@@ -53,8 +53,8 @@ github.com/go-playground/universal-translator v0.18.2 h1:LCsMLC9RzmbUMNUPVYD15dm
 github.com/go-playground/universal-translator v0.18.2/go.mod h1:67VZIMp5lQpDWlnStOct22q1bkdJGJqHghbOtmkawxk=
 github.com/go-playground/validator/v10 v10.30.6 h1:E+mymlPNRzAMNz1FShrRvLeGWcprF5w305eLLgWieuo=
 github.com/go-playground/validator/v10 v10.30.6/go.mod h1:jPLL8SKCXGe/g87QmEyNw3NO28nmGt5GCnZnufm7rj4=
-github.com/gofiber/contrib/v3/testcontainers v1.0.16 h1:85MKjDO/nz/dHLSRntzXwGefF2jM/Z+WKkgQ/63hbSE=
-github.com/gofiber/contrib/v3/testcontainers v1.0.16/go.mod h1:VJaH5e6ymbksbJt6dFjW0Jjs0tXi0hzJK5r6zHcINZo=
+github.com/gofiber/contrib/v3/testcontainers v1.0.17 h1:ifYxpXKXafJkxFAuPEe7kHNiuiOAjjNQNVhs+y48rK8=
+github.com/gofiber/contrib/v3/testcontainers v1.0.17/go.mod h1:uhEJx54vxRpkua56K66fWO0jyBJZN/j/lrbTr8exSN0=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.9.4 h1:IVNXN2WyVHmUn/S186e/rdnGlb1LFrhZ1hjndTYvn8w=
@@ -145,8 +145,8 @@ github.com/testcontainers/testcontainers-go v0.45.0 h1:ss9Stm9KDX6JLgGL4jr2fC5dw
 github.com/testcontainers/testcontainers-go v0.45.0/go.mod h1:VMJZ7M+qhgfEHWNbtjm596OyEOraULSTDaus/h0hmJI=
 github.com/testcontainers/testcontainers-go/modules/postgres v0.45.0 h1:XsZa4fjEGqWVM3psvyJx04+dG3ZOPV0KkwFhJRqzcJM=
 github.com/testcontainers/testcontainers-go/modules/postgres v0.45.0/go.mod h1:v59yuxG94bpGrtq6MTMmrH1It+196bg7mtGwtDx1QEY=
-github.com/testcontainers/testcontainers-go/modules/redis v0.44.0 h1:43EH7N6yB5B2tY/9uhPit487tMLm5iQiyKQaXWXNbnk=
-github.com/testcontainers/testcontainers-go/modules/redis v0.44.0/go.mod h1:k4nnCSzm3z8yRMBKBn3rhsllbFjjhVn/2JjWNxxArg8=
+github.com/testcontainers/testcontainers-go/modules/redis v0.45.0 h1:U7GClvzAxLc7pjDfFxw3K6+odTa8NbxEa31svO5gl/Q=
+github.com/testcontainers/testcontainers-go/modules/redis v0.45.0/go.mod h1:06G3YVRf2RHAFNKwtFYhVd4CYgnXLWXmckaJNWI4fGY=
 github.com/tinylib/msgp v1.6.5 h1:iAH6XTP7BpzErjBZlujJQXxA+GmRi2YWs6M4KdLtNbE=
 github.com/tinylib/msgp v1.6.5/go.mod h1:RSp0LW9oSxFut3KzESt5Voq4GVWyS+PSulT77roAqEA=
 github.com/tklauser/go-sysconf v0.4.0 h1:7H0uAN+7RkwWRaxhYXDLqa5V3LPrJeV8wmD9dRUgPQU=
