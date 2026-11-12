@@ -16,8 +16,8 @@ github.com/go-playground/universal-translator v0.18.2 h1:LCsMLC9RzmbUMNUPVYD15dm
 github.com/go-playground/universal-translator v0.18.2/go.mod h1:67VZIMp5lQpDWlnStOct22q1bkdJGJqHghbOtmkawxk=
 github.com/go-playground/validator/v10 v10.30.6 h1:E+mymlPNRzAMNz1FShrRvLeGWcprF5w305eLLgWieuo=
 github.com/go-playground/validator/v10 v10.30.6/go.mod h1:jPLL8SKCXGe/g87QmEyNw3NO28nmGt5GCnZnufm7rj4=
-github.com/gofiber/contrib/v3/monitor v1.2.5 h1:mRq/Jtx3eNnpgmqiva2vE/CJaDfAPMZdafwE+/E1YTg=
-github.com/gofiber/contrib/v3/monitor v1.2.5/go.mod h1:VJxEkDV/s3DsR9BnTReBSEEHqR6E1bkWEuHgAaBSW+Y=
+github.com/gofiber/contrib/v3/monitor v1.2.6 h1:n85qCEH2yXmAQmrDLu5LvgYnlvGsiOMky45GumLFiww=
+github.com/gofiber/contrib/v3/monitor v1.2.6/go.mod h1:YEjC++m1AONI0VfGDtkEmPFyX9aVNtMcJaNoQirLOVA=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.9.4 h1:IVNXN2WyVHmUn/S186e/rdnGlb1LFrhZ1hjndTYvn8w=
