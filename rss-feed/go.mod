@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.7.0
-	github.com/gofiber/template/mustache/v3 v3.1.5
+	github.com/gofiber/template/mustache/v3 v3.1.6
 )
 
 require (
