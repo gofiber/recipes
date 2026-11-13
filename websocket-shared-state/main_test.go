@@ -175,8 +175,19 @@ func TestSharedState_ValidationErrors(t *testing.T) {
 	assert.Contains(t, string(body), "key is required")
 }
 
+// waitForSubscriber blocks until the server has registered a connection for sessionID,
+// so a mutation sent right after Dial is not broadcast to nobody.
+func waitForSubscriber(t *testing.T, sm *StateManager, sessionID string) {
+	t.Helper()
+	require.Eventually(t, func() bool {
+		sm.clientMu.RLock()
+		defer sm.clientMu.RUnlock()
+		return len(sm.clients[sessionID]) > 0
+	}, 2*time.Second, 5*time.Millisecond)
+}
+
 func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
-	app, _ := SetupApp()
+	app, manager := SetupApp()
 
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
 	require.NoError(t, err)
@@ -196,6 +207,7 @@ func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
 	if resp != nil && resp.Body != nil {
 		_ = resp.Body.Close()
 	}
+	waitForSubscriber(t, manager, "room-live")
 
 	// Send REST mutation
 	postBody, err := json.Marshal(UpdatePayload{
@@ -222,7 +234,7 @@ func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
 }
 
 func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
-	app, _ := SetupApp()
+	app, manager := SetupApp()
 
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
 	require.NoError(t, err)
@@ -241,6 +253,7 @@ func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
 	if resp != nil && resp.Body != nil {
 		_ = resp.Body.Close()
 	}
+	waitForSubscriber(t, manager, "room-concurrent")
 
 	const numMessages = 50
 	var wg sync.WaitGroup
@@ -261,15 +274,29 @@ func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
 	}
 
 	receivedCount := 0
+	var latest SessionState
 	_ = conn.SetReadDeadline(time.Now().Add(5 * time.Second))
 	for receivedCount < numMessages {
-		_, _, readErr := conn.ReadMessage()
+		_, msg, readErr := conn.ReadMessage()
 		if readErr != nil {
 			break
 		}
 		receivedCount++
+
+		var snapshot SessionState
+		require.NoError(t, json.Unmarshal(msg, &snapshot))
+		if snapshot.Version > latest.Version {
+			latest = snapshot
+		}
 	}
 
 	wg.Wait()
 	assert.Equal(t, numMessages, receivedCount)
+
+	// Frames may arrive out of order; the highest version is the current state.
+	final, ok := manager.Get("room-concurrent")
+	require.True(t, ok)
+	assert.Equal(t, uint64(numMessages), final.Version)
+	assert.Equal(t, final.Version, latest.Version)
+	assert.Equal(t, final.Data, latest.Data)
 }

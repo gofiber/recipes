@@ -17,9 +17,12 @@ import (
 
 // SessionState holds the shared mutable state for a given session/entity.
 type SessionState struct {
-	ID        string            `json:"id"`
-	Data      map[string]string `json:"data"`
-	UpdatedAt time.Time         `json:"updated_at"`
+	ID   string            `json:"id"`
+	Data map[string]string `json:"data"`
+	// Version grows with every mutation. Broadcasts run outside the lock and can
+	// arrive out of order, so clients keep the snapshot with the highest version.
+	Version   uint64    `json:"version"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // StateManager orchestrates thread-safe access to shared session state
@@ -57,58 +60,53 @@ func (sm *StateManager) Get(sessionID string) (*SessionState, bool) {
 	return &SessionState{
 		ID:        state.ID,
 		Data:      dataCopy,
+		Version:   state.Version,
 		UpdatedAt: state.UpdatedAt,
 	}, true
 }
 
 // Set updates a key-value pair in the session state.
-// Crucially, it clones string inputs to prevent memory corruption caused by
-// Fiber/fasthttp's zero-allocation request buffer reuse (see gofiber/fiber#3195).
+// Its arguments must not alias request buffers; callers clone them (see gofiber/fiber#3195).
 func (sm *StateManager) Set(sessionID, key, value string) *SessionState {
-	// Guard against zero-allocation buffer reuse: clone string slices into permanent heap memory
-	cleanID := strings.Clone(sessionID)
-	cleanKey := strings.Clone(key)
-	cleanVal := strings.Clone(value)
-
 	sm.stateMu.Lock()
-	state, exists := sm.sessions[cleanID]
+	state, exists := sm.sessions[sessionID]
 	if !exists {
 		state = &SessionState{
-			ID:   cleanID,
+			ID:   sessionID,
 			Data: make(map[string]string),
 		}
-		sm.sessions[cleanID] = state
+		sm.sessions[sessionID] = state
 	}
-	state.Data[cleanKey] = cleanVal
+	state.Data[key] = value
+	state.Version++
 	state.UpdatedAt = time.Now().UTC()
 
 	// Create snapshot for return and broadcast
 	dataCopy := make(map[string]string, len(state.Data))
 	maps.Copy(dataCopy, state.Data)
 	snapshot := &SessionState{
-		ID:        cleanID,
+		ID:        sessionID,
 		Data:      dataCopy,
+		Version:   state.Version,
 		UpdatedAt: state.UpdatedAt,
 	}
 	sm.stateMu.Unlock()
 
 	// Broadcast snapshot to all active WebSocket clients subscribed to this session
-	sm.Broadcast(cleanID, snapshot)
+	sm.Broadcast(sessionID, snapshot)
 
 	return snapshot
 }
 
 // Register attaches an active WebSocket connection UUID to a session.
 func (sm *StateManager) Register(sessionID, uuid string) {
-	cleanID := strings.Clone(sessionID)
-	cleanUUID := strings.Clone(uuid)
 	sm.clientMu.Lock()
 	defer sm.clientMu.Unlock()
 
-	if _, exists := sm.clients[cleanID]; !exists {
-		sm.clients[cleanID] = make(map[string]bool)
+	if _, exists := sm.clients[sessionID]; !exists {
+		sm.clients[sessionID] = make(map[string]bool)
 	}
-	sm.clients[cleanID][cleanUUID] = true
+	sm.clients[sessionID][uuid] = true
 }
 
 // Unregister removes a disconnected WebSocket connection UUID from a session.
@@ -170,6 +168,7 @@ func SetupApp(customManager ...*StateManager) (*fiber.App, *StateManager) {
 
 	// 2. WebSocket Route: Subscribes to session updates & allows real-time state mutation using contrib/v3/websocket/event
 	app.Get("/ws/:id", event.New(func(kws *event.Websocket) {
+		// contrib/websocket copies params at upgrade, so this is safe to keep.
 		sessionID := kws.Params("id")
 		uuid := kws.GetUUID()
 		manager.Register(sessionID, uuid)
@@ -207,7 +206,8 @@ func SetupApp(customManager ...*StateManager) (*fiber.App, *StateManager) {
 
 	// 4. REST API: Mutate shared session state & broadcast to WebSocket subscribers
 	app.Post("/api/sessions/:id", func(c fiber.Ctx) error {
-		sessionID := c.Params("id")
+		// Params point into the reused request buffer; a stored map key needs its own copy (gofiber/fiber#3195).
+		sessionID := strings.Clone(c.Params("id"))
 		var payload UpdatePayload
 		if err := c.Bind().JSON(&payload); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

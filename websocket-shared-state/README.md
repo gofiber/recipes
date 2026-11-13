@@ -13,8 +13,8 @@ This recipe demonstrates thread-safe shared state management and real-time state
 ## Architectural Highlights
 
 1. **Thread-Safe State Manager**: Encapsulates session data with `sync.RWMutex` providing atomic mutations and read snapshots.
-2. **Zero-Allocation Safety**: Explicitly clones request string slices (`strings.Clone`) to prevent memory corruption when storing context data in long-lived in-memory maps (addressing community report [gofiber/fiber#3195](https://github.com/gofiber/fiber/issues/3195)).
-3. **Multi-Client State Synchronization**: Connect multiple WebSocket clients to the same session ID. State mutations (via REST or WebSocket) are immediately broadcast to all active subscribers.
+2. **Zero-Allocation Safety**: The REST handler clones the session ID from `c.Params` (`strings.Clone`) before it becomes a long-lived map key, because Fiber's zero-allocation strings point into reused request buffers (community report [gofiber/fiber#3195](https://github.com/gofiber/fiber/issues/3195)). Values decoded by `json.Unmarshal` and `kws.Params` in the WebSocket handler are already copies.
+3. **Multi-Client State Synchronization**: Connect multiple WebSocket clients to the same session ID. State mutations (via REST or WebSocket) are immediately broadcast to all active subscribers. Every snapshot carries a `version` that grows with each mutation; under concurrent updates broadcasts can arrive out of order, so clients keep the snapshot with the highest version.
 4. **Clean Connection Lifecycle**: Handles client unregistration upon connection drops without memory leaks or race conditions.
 
 ## Project Structure
@@ -59,7 +59,7 @@ curl -i -X POST http://localhost:3000/api/sessions/room-101 \
 
 Returns:
 ```json
-{"id":"room-101","data":{"status":"active"},"updated_at":"2026-11-04T15:00:00Z"}
+{"id":"room-101","data":{"status":"active"},"version":1,"updated_at":"2026-11-04T15:00:00Z"}
 ```
 
 ### 3. Read State via REST API
@@ -70,7 +70,7 @@ curl -i http://localhost:3000/api/sessions/room-101
 
 Returns:
 ```json
-{"id":"room-101","data":{"status":"active"},"updated_at":"2026-11-04T15:00:00Z"}
+{"id":"room-101","data":{"status":"active"},"version":1,"updated_at":"2026-11-04T15:00:00Z"}
 ```
 
 ### 4. Real-Time State Mutation & Broadcast to Subscribers
@@ -91,6 +91,7 @@ Every connected WebSocket client subscribed to `room-101` immediately receives:
     "status": "active",
     "order_step": "shipped"
   },
+  "version": 2,
   "updated_at": "2026-11-04T15:00:01Z"
 }
 ```
