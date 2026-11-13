@@ -19,6 +19,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 <!-- AUTO-GENERATED-CONTENT:START -->
 - [404 Handler](./404-handler/README.md) - Custom 404 error page handling.
+- [Advanced Caching](./advanced-caching/README.md) - Demonstrates advanced caching strategies in Fiber v3 including deterministic key generation, tenant isolation, client bypass, and tag-based invalidation.
 - [Air Live Reloading](./air/README.md) - Live reloading for Go applications.
 - [Asynq](./asynq/README.md) - Enqueue background jobs from Fiber and process them with an Asynq worker.
 - [Auth + Docker + Postgres + JWT](./auth-docker-postgres-jwt/README.md) - Authentication with Docker, Postgres, and JWT.
