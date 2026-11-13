@@ -63,6 +63,10 @@ func SetupApp(adminKey string) (*fiber.App, *InvalidationRegistry) {
 	// CacheInvalidator only sees the request, not the stored entry, so it cannot tell
 	// stale entries from fresh ones. A generation in the key can: old entries just expire.
 	tagGeneration := func(c fiber.Ctx) error {
+		// The cache key sorts repeated values, so ?category=a&category=b would share an entry with its reverse.
+		if len(c.Request().URI().QueryArgs().PeekMulti("category")) > 1 {
+			return fiber.NewError(fiber.StatusBadRequest, "category must be given at most once")
+		}
 		c.Request().Header.Set(cacheGenerationHeader, registry.Generation(c.Query("category", "general")))
 		return c.Next()
 	}

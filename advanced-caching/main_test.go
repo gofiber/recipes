@@ -90,6 +90,14 @@ func TestAdvancedCaching_TenantAndRoleIsolation(t *testing.T) {
 	assert.Equal(t, "hit", respQ2.Header.Get("X-Cache-Status"))
 }
 
+func TestAdvancedCaching_RejectsRepeatedCategory(t *testing.T) {
+	app, _ := SetupApp(testAdminKey)
+
+	resp, err := app.Test(httptest.NewRequest(http.MethodGet, "/api/items?category=books&category=tech", nil))
+	require.NoError(t, err)
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+}
+
 func TestAdvancedCaching_BypassHeader(t *testing.T) {
 	app, _ := SetupApp(testAdminKey)
 
