@@ -74,7 +74,8 @@ func TestSentry_ServerErrorCaptured(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, float64(http.StatusInternalServerError), result["status"])
-	assert.Contains(t, result["error"], "database connection failed")
+	assert.Equal(t, "Internal Server Error", result["error"])
+	assert.NotContains(t, string(bodyBytes), "database connection failed")
 
 	eventID, ok := result["event_id"].(string)
 	require.True(t, ok)

@@ -9,7 +9,7 @@ description: Demonstrates custom error handling and panic recovery in Fiber v3 i
 This recipe demonstrates production-ready error handling and monitoring patterns in Fiber v3 integrated with [Sentry](https://sentry.io):
 
 1. **Per-Request Sentry Hub**: Leverages official `github.com/gofiber/contrib/v3/sentry` middleware to clone a dedicated Sentry Hub for each request with deep-copied request data and authenticated user identity (`X-User-ID`).
-2. **Selective Error Reporting**: Custom `fiber.ErrorHandler` captures internal server errors (`status >= 500`) to Sentry while avoiding alert noise from expected client errors (`4xx`, such as validation failures or 404s).
+2. **Selective Error Reporting**: Custom `fiber.ErrorHandler` captures internal server errors (`status >= 500`) to Sentry while avoiding alert noise from expected client errors (`4xx`, such as validation failures or 404s). For 5xx responses the client only gets the generic status text; the error details stay in Sentry.
 3. **Panic Recovery**: Catches unexpected runtime panics, forwards the fatal stack trace to Sentry, and returns a graceful 500 JSON response to the client.
 4. **Sentry Event ID Correlation**: Injects the Sentry `event_id` into error responses so clients can reference specific incident IDs in support inquiries or logs.
 
@@ -33,7 +33,7 @@ export SENTRY_DSN="https://your-dsn@sentry.io/project-id"
 go run main.go
 ```
 
-The application starts on port `:3000`.
+The application starts on port `:3000`. On `Ctrl+C` (or `SIGTERM`) it shuts down gracefully and flushes pending Sentry events before exiting.
 
 ### 1. Normal Request (200 OK)
 
@@ -61,7 +61,7 @@ Returns HTTP 400:
 
 ### 3. Server-Side Error (500 Internal Server Error)
 
-Unhandled internal exceptions are captured in Sentry and return an `event_id`:
+Unhandled internal exceptions are captured in Sentry with the full error message, while the client gets a generic message and the `event_id`:
 
 ```bash
 curl -i -H "X-User-ID: user-42" http://localhost:3000/error
@@ -70,7 +70,7 @@ curl -i -H "X-User-ID: user-42" http://localhost:3000/error
 Returns HTTP 500:
 ```json
 {
-  "error": "database connection failed: timeout connecting to replica",
+  "error": "Internal Server Error",
   "event_id": "4b6840742f104d49a239be9b6b797b5e",
   "status": 500
 }

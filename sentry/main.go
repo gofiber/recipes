@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/getsentry/sentry-go"
@@ -54,6 +57,8 @@ func SentryErrorHandler(c fiber.Ctx, err error) error {
 
 	// Only capture unhandled server errors (5xx) to Sentry to avoid noise from 4xx client errors
 	if code >= fiber.StatusInternalServerError {
+		// The details go to Sentry; clients get the event_id to quote instead.
+		resp["error"] = http.StatusText(code)
 		hub := fibersentry.GetHubFromContext(c)
 		if hub != nil {
 			if eventID := hub.CaptureException(err); eventID != nil {
@@ -140,8 +145,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("sentry.Init: %s", err)
 	}
-	defer sentry.Flush(2 * time.Second)
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
 	app := SetupApp()
-	log.Fatal(app.Listen(":3000"))
+	// Listen returns on SIGINT/SIGTERM, so pending events are flushed before the process exits.
+	err = app.Listen(":3000", fiber.ListenConfig{GracefulContext: ctx})
+	sentry.Flush(2 * time.Second)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
