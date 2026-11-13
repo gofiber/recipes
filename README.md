@@ -90,6 +90,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
 - [Seenode](./seenode/README.md) - Deploying to Seenode cloud platform.
+- [Sentry](./sentry/README.md) - Custom error handling and panic recovery integrated with Sentry.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
