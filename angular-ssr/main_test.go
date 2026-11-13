@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"testing"
@@ -19,8 +20,24 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+// testBrowserDir stands in for the `ng build` output, so the Go tests do not need Node.
+func testBrowserDir(t *testing.T) string {
+	t.Helper()
+	dir := t.TempDir()
+	files := map[string]string{
+		"index.csr.html": "<!DOCTYPE html><html><body><app-root>Client SPA</app-root></body></html>",
+		"main.js":        "console.log('angular chunk');",
+	}
+	for name, content := range files {
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(content), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	return dir
+}
+
 func TestAPIHealth(t *testing.T) {
-	app := App("")
+	app := App("", testBrowserDir(t))
 
 	req := httptest.NewRequest("GET", "/api/health", nil)
 	resp, err := app.Test(req)
@@ -48,7 +65,7 @@ func TestAPIHealth(t *testing.T) {
 }
 
 func TestStaticAssetsDelivery(t *testing.T) {
-	app := App("")
+	app := App("", testBrowserDir(t))
 
 	// Request static JS asset
 	req := httptest.NewRequest("GET", "/main.js", nil)
@@ -87,7 +104,7 @@ func TestSSRProxyForwarding(t *testing.T) {
 	}))
 	defer mockSSR.Close()
 
-	app := App(mockSSR.URL)
+	app := App(mockSSR.URL, testBrowserDir(t))
 
 	req := httptest.NewRequest("GET", "/dashboard?tab=overview", nil)
 	resp, err := app.Test(req)
@@ -120,7 +137,7 @@ func TestSSRProxyForwarding(t *testing.T) {
 
 func TestSSRProxyFailureFallbackToSPA(t *testing.T) {
 	// Pointing to a dead port so proxy immediately fails and triggers SPA fallback
-	app := App("http://127.0.0.1:59999")
+	app := App("http://127.0.0.1:59999", testBrowserDir(t))
 
 	req := httptest.NewRequest("GET", "/about", nil)
 	resp, err := app.Test(req)
@@ -152,7 +169,7 @@ func TestSSRProxy5xxFallbackResetsHeaders(t *testing.T) {
 	}))
 	defer mockSSR.Close()
 
-	app := App(mockSSR.URL)
+	app := App(mockSSR.URL, testBrowserDir(t))
 
 	req := httptest.NewRequest("GET", "/failing-ssr", nil)
 	resp, err := app.Test(req)
@@ -178,6 +195,43 @@ func TestSSRProxy5xxFallbackResetsHeaders(t *testing.T) {
 
 	if !strings.Contains(string(body), "Client SPA") {
 		t.Errorf("expected SPA fallback content, got %q", string(body))
+	}
+}
+
+func TestSSRServesPagesAndItsOwn404s(t *testing.T) {
+	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			w.WriteHeader(http.StatusNotFound)
+			_, _ = w.Write([]byte("angular 404 page"))
+			return
+		}
+		_, _ = w.Write([]byte("server rendered home"))
+	}))
+	defer mockSSR.Close()
+
+	app := App(mockSSR.URL, testBrowserDir(t))
+
+	tests := []struct {
+		path string
+		code int
+		body string
+	}{
+		{"/", http.StatusOK, "server rendered home"},
+		{"/missing.png", http.StatusNotFound, "angular 404 page"},
+		{"/users/john.doe", http.StatusNotFound, "angular 404 page"},
+	}
+	for _, tt := range tests {
+		resp, err := app.Test(httptest.NewRequest("GET", tt.path, nil))
+		if err != nil {
+			t.Fatalf("%s: unexpected error: %v", tt.path, err)
+		}
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatalf("%s: failed to read body: %v", tt.path, err)
+		}
+		if resp.StatusCode != tt.code || string(body) != tt.body {
+			t.Errorf("%s = %d %q, want %d %q", tt.path, resp.StatusCode, body, tt.code, tt.body)
+		}
 	}
 }
 

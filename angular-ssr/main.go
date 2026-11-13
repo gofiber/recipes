@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -11,12 +12,15 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/static"
 )
 
+// browserDist is where `ng build` writes the client bundle (see web/angular.json).
+const browserDist = "./web/dist/web/browser"
+
 // App creates and configures the Fiber application for serving Angular SSR.
-// In Angular SSR (Universal), static browser assets (JS, CSS, images, fonts)
-// are served directly by Fiber from ./dist/browser, while dynamic page routes
-// are forwarded to the Node.js SSR engine with a bounded timeout.
-// If the SSR engine is unavailable or disabled, it falls back to serving the client-side SPA index.html.
-func App(nodeSSREndpoint string) *fiber.App {
+// In Angular SSR, static browser assets (JS, CSS, images, fonts) are served
+// directly by Fiber from browserDir, while page routes are forwarded to the
+// Node.js SSR engine with a bounded timeout. If the SSR engine is unavailable
+// or disabled, Angular's client-side rendering shell (index.csr.html) is served.
+func App(nodeSSREndpoint, browserDir string) *fiber.App {
 	app := fiber.New()
 
 	// 1. Native API routes handled directly by Fiber
@@ -28,23 +32,14 @@ func App(nodeSSREndpoint string) *fiber.App {
 		})
 	})
 
-	// 2. Serve static browser assets (JS chunks, CSS, fonts, favicon, icons)
-	// We check if the requested file exists in dist/browser; if not, pass to the next route/SSR handler.
-	spaHandler := static.New("./dist/browser/index.html")
-	staticAssets := static.New("./dist/browser", static.Config{
-		IndexNames: []string{}, // Do not automatically serve index.html for root/dirs so SSR can render pages
-	})
+	// 2. Serve static browser assets (JS chunks, CSS, fonts, favicon, icons).
+	// Only paths with a file extension are assets, so pages (including "/") reach SSR;
+	// a missing file falls through to the next handler.
+	app.Use(static.New(browserDir, static.Config{
+		Next: func(c fiber.Ctx) bool { return !strings.Contains(c.Path(), ".") },
+	}))
 
-	app.Use(func(c fiber.Ctx) error {
-		path := c.Path()
-		// If requesting a specific file with an extension, attempt static delivery
-		if strings.Contains(path, ".") {
-			if err := staticAssets(c); err == nil && c.Response().StatusCode() != fiber.StatusNotFound {
-				return nil
-			}
-		}
-		return c.Next()
-	})
+	spaHandler := static.New(filepath.Join(browserDir, "index.csr.html"))
 
 	// 3. Fallback / SSR Proxy: Forward HTML page requests to Angular SSR backend with a timeout
 	if nodeSSREndpoint != "" {
@@ -52,14 +47,14 @@ func App(nodeSSREndpoint string) *fiber.App {
 			// Bounded proxy timeout of 5 seconds to prevent hung requests
 			err := proxy.DoTimeout(c, nodeSSREndpoint+c.OriginalURL(), 5*time.Second)
 			if err != nil || c.Response().StatusCode() >= fiber.StatusInternalServerError {
-				// Gracefully fallback to client-side SPA index when SSR backend is unreachable or errors
+				// Gracefully fallback to client-side rendering when SSR backend is unreachable or errors
 				c.Response().Reset()
 				return spaHandler(c)
 			}
 			return nil
 		})
 	} else {
-		// Pure client-side SPA mode
+		// Pure client-side rendering mode
 		app.Use(spaHandler)
 	}
 
@@ -88,7 +83,7 @@ func main() {
 	proxy.WithSecurityPolicy(proxy.SecurityPolicy{AllowPrivateIPs: true})
 
 	ssrEndpoint, port := resolveConfig()
-	app := App(ssrEndpoint)
+	app := App(ssrEndpoint, browserDist)
 
 	log.Printf("Starting Fiber Angular SSR server on port %s (SSR backend: %s)", port, ssrEndpoint)
 	log.Fatal(app.Listen(":" + port))

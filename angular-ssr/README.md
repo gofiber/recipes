@@ -8,80 +8,86 @@ description: Serving Angular with Server-Side Rendering (SSR) using Fiber v3 and
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/angular-ssr)
 
-This recipe demonstrates how to integrate **Angular Server-Side Rendering (SSR / Angular Universal)** with **Go Fiber v3**.
+This recipe demonstrates how to put **Go Fiber v3** in front of an **Angular Server-Side Rendering (SSR)** application. The Angular app in `web/` was created with `ng new web --ssr` and trimmed to a single page that tells you where it was rendered.
 
 ## Architecture
 
-In an Angular SSR deployment:
-1. **Static Browser Assets**: Built frontend chunks (`*.js`, `*.css`, fonts, images) are served directly by Fiber via high-performance zero-copy static middleware (`middleware/static`).
-2. **Dynamic / Page Routes**: HTML requests are routed via reverse proxy (`middleware/proxy`) to the Angular SSR Node.js server (`http://127.0.0.1:4000`) with a bounded timeout, ensuring full SEO and fast initial page load.
-3. **Backend API Endpoints**: Fiber handles native Go API routes under `/api/*` with sub-millisecond response times.
-4. **Resilience / Fallback**: If the SSR server is offline or fails, Fiber automatically falls back to serving the client-side SPA `index.html`.
+1. **Static Browser Assets**: Built frontend files (`*.js`, `*.css`, `favicon.ico`, ...) are served directly by Fiber from `web/dist/web/browser` via `middleware/static`. Only paths with a file extension are treated as assets, so every page (including `/`) reaches SSR.
+2. **Page Routes**: All other requests are forwarded via `middleware/proxy` to the Angular SSR Node.js server (`http://127.0.0.1:4000`) with a bounded timeout. Its responses, including its own 404 pages, are passed through.
+3. **Backend API Endpoints**: Fiber handles native Go API routes under `/api/*`.
+4. **Resilience / Fallback**: If the SSR server is offline or answers with a 5xx, Fiber serves Angular's client-side rendering shell `index.csr.html` instead, and the page renders in the browser.
 
 ## Prerequisites
 
 - [Go](https://golang.org/doc/install) 1.26 or higher
-- [Node.js](https://nodejs.org/) (v20+ LTS) and [Angular CLI](https://angular.dev/) (optional, if building your own Angular project from scratch)
+- [Node.js](https://nodejs.org/) 24 and npm
 
 ## Project Structure
 
 ```
 .
-├── dist/
-│   └── browser/        # Built Angular browser assets
-│       ├── index.html
-│       ├── main.js
-│       └── styles.css
+├── web/                         # Angular workspace (ng new web --ssr)
+│   ├── angular.json
+│   ├── package.json
+│   └── src/
+│       ├── app/                 # App component and SSR route config
+│       ├── main.ts              # Browser entry point
+│       ├── main.server.ts       # SSR entry point
+│       └── server.ts            # Node.js (Express) SSR server
 ├── go.mod
 ├── go.sum
-├── main.go             # Fiber server & SSR proxy configuration
-├── main_test.go        # Unit and integration test suite
+├── main.go                      # Fiber server & SSR proxy configuration
+├── main_test.go
+├── Makefile
 └── README.md
 ```
 
 ## Running the Application
 
-Always navigate into the `angular-ssr` recipe directory first:
+All commands run in the `angular-ssr` directory.
+
+### 1. Build
 
 ```bash
-cd recipes/angular-ssr
+make build
 ```
 
-### 1. Run Unit Tests
+This installs the npm dependencies, builds the Angular app into `web/dist/web` (`browser/` for the client bundle, `server/` for the SSR server) and builds the Go binary.
+
+### 2. Start the Angular SSR server
+
+```bash
+node web/dist/web/server/server.mjs
+```
+
+It listens on port `4000` (set `PORT` to change it). Angular only accepts requests whose `Host` header is listed in `security.allowedHosts` in `web/angular.json`. The Fiber proxy sends the host of `SSR_ENDPOINT`, so `127.0.0.1` is allowed there; add your host if you point `SSR_ENDPOINT` elsewhere.
+
+### 3. Start Fiber
+
+```bash
+# Optional: custom SSR backend (an empty value serves only the client-side shell) and port
+export SSR_ENDPOINT="http://127.0.0.1:4000"
+export PORT="3000"
+
+go run .
+```
+
+Open `http://localhost:3000`. The HTML comes back server-rendered:
+
+```bash
+curl -s http://localhost:3000/ | grep "Rendered on"
+#   <p>Rendered on the <strong>server</strong>.</p>
+```
+
+In the browser the page switches to "browser" once Angular has hydrated it. Stop the Node.js server and reload: Fiber falls back to `index.csr.html` and the page is rendered in the browser only.
+
+- Health check: `http://localhost:3000/api/health`
+- Static assets: `http://localhost:3000/favicon.ico` and the hashed `main-*.js` / `styles-*.css` files
+
+## Running Tests
+
+The Go tests use a temporary directory as browser bundle and a mock SSR server, so they do not need Node.js:
 
 ```bash
 go test -v ./...
 ```
-
-### 2. Building or Providing Browser Assets
-
-A ready-to-run sample build is included under `./dist/browser`. If you have an existing Angular SSR project:
-```bash
-# In your Angular application workspace:
-ng build --configuration production
-# Place the compiled artifacts into dist/browser:
-cp -r dist/<project-name>/browser/* ./dist/browser/
-```
-
-### 3. Running Angular SSR Backend (Optional)
-
-In production or local testing with Node.js SSR:
-```bash
-# Start your Angular SSR Node server (defaults to port 4000):
-node dist/<project-name>/server/server.mjs
-```
-
-### 4. Start the Fiber Application
-
-```bash
-# Optional: specify custom SSR backend (or leave empty for standalone SPA mode) and port
-export SSR_ENDPOINT="http://127.0.0.1:4000"
-export PORT="3000"
-
-go run main.go
-```
-
-The application will be accessible at `http://localhost:3000`.
-- Health check: `http://localhost:3000/api/health`
-- Static assets: `http://localhost:3000/main.js`, `http://localhost:3000/styles.css`
-- Dynamic routes: Forwarded to Angular SSR backend (or SPA `index.html` fallback).
