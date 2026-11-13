@@ -17,6 +17,8 @@ This recipe demonstrates thread-safe shared state management and real-time state
 3. **Multi-Client State Synchronization**: Connect multiple WebSocket clients to the same session ID. State mutations (via REST or WebSocket) are immediately broadcast to all active subscribers. Every snapshot carries a `version` that grows with each mutation; under concurrent updates broadcasts can arrive out of order, so clients keep the snapshot with the highest version.
 4. **Clean Connection Lifecycle**: Handles client unregistration upon connection drops without memory leaks or race conditions.
 
+Sessions live in process memory and are never evicted, and any client can create them. Before exposing this to untrusted clients, add authentication and a session limit or TTL.
+
 ## Project Structure
 
 ```
@@ -103,7 +105,7 @@ Send a JSON message through the `wscat` terminal:
 {"key": "user_status", "value": "typing"}
 ```
 
-The updated state is stored in the `StateManager` and broadcast to all other peer connections on the session.
+The updated state is stored in the `StateManager` and broadcast to every WebSocket connection subscribed to the session, including the sender.
 
 ## Running Tests
 
