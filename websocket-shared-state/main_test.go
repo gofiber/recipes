@@ -175,15 +175,26 @@ func TestSharedState_ValidationErrors(t *testing.T) {
 	assert.Contains(t, string(body), "key is required")
 }
 
-// waitForSubscriber blocks until the server has registered a connection for sessionID,
-// so a mutation sent right after Dial is not broadcast to nobody.
-func waitForSubscriber(t *testing.T, sm *StateManager, sessionID string) {
+// subscribe seeds sessionID (version 1) and connects to it. The server registers the
+// connection before sending the initial snapshot, so once that is read every later
+// mutation is broadcast to it exactly once.
+func subscribe(t *testing.T, sm *StateManager, addr, sessionID string) *fastws.Conn {
 	t.Helper()
-	require.Eventually(t, func() bool {
-		sm.clientMu.RLock()
-		defer sm.clientMu.RUnlock()
-		return len(sm.clients[sessionID]) > 0
-	}, 2*time.Second, 5*time.Millisecond)
+	sm.Set(sessionID, "seed", "initial")
+
+	conn, resp, err := fastws.DefaultDialer.Dial(fmt.Sprintf("ws://%s/ws/%s", addr, sessionID), nil)
+	require.NoError(t, err)
+	if resp != nil && resp.Body != nil {
+		_ = resp.Body.Close()
+	}
+
+	_ = conn.SetReadDeadline(time.Now().Add(2 * time.Second))
+	_, msg, err := conn.ReadMessage()
+	require.NoError(t, err)
+	var snapshot SessionState
+	require.NoError(t, json.Unmarshal(msg, &snapshot))
+	require.Equal(t, uint64(1), snapshot.Version)
+	return conn
 }
 
 func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
@@ -198,16 +209,8 @@ func TestSharedState_WebSocketBroadcastDelivery(t *testing.T) {
 	}()
 
 	addr := ln.Addr().String()
-	wsURL := fmt.Sprintf("ws://%s/ws/room-live", addr)
-
-	// Dial WebSocket client
-	conn, resp, err := fastws.DefaultDialer.Dial(wsURL, nil)
-	require.NoError(t, err)
+	conn := subscribe(t, manager, addr, "room-live")
 	defer conn.Close()
-	if resp != nil && resp.Body != nil {
-		_ = resp.Body.Close()
-	}
-	waitForSubscriber(t, manager, "room-live")
 
 	// Send REST mutation
 	postBody, err := json.Marshal(UpdatePayload{
@@ -245,15 +248,8 @@ func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
 	}()
 
 	addr := ln.Addr().String()
-	wsURL := fmt.Sprintf("ws://%s/ws/room-concurrent", addr)
-
-	conn, resp, err := fastws.DefaultDialer.Dial(wsURL, nil)
-	require.NoError(t, err)
+	conn := subscribe(t, manager, addr, "room-concurrent")
 	defer conn.Close()
-	if resp != nil && resp.Body != nil {
-		_ = resp.Body.Close()
-	}
-	waitForSubscriber(t, manager, "room-concurrent")
 
 	const numMessages = 50
 	var wg sync.WaitGroup
@@ -296,7 +292,7 @@ func TestSharedState_ConcurrentWebSocketBroadcast(t *testing.T) {
 	// Frames may arrive out of order; the highest version is the current state.
 	final, ok := manager.Get("room-concurrent")
 	require.True(t, ok)
-	assert.Equal(t, uint64(numMessages), final.Version)
+	assert.Equal(t, uint64(numMessages+1), final.Version) // +1 for the seed
 	assert.Equal(t, final.Version, latest.Version)
 	assert.Equal(t, final.Data, latest.Data)
 }
