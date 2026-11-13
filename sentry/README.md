@@ -8,7 +8,7 @@ description: Demonstrates custom error handling and panic recovery in Fiber v3 i
 
 This recipe demonstrates production-ready error handling and monitoring patterns in Fiber v3 integrated with [Sentry](https://sentry.io):
 
-1. **Per-Request Sentry Hub**: Leverages official `github.com/gofiber/contrib/v3/sentry` middleware to clone a dedicated Sentry Hub for each request with deep-copied request data and authenticated user identity (`X-User-ID`).
+1. **Per-Request Sentry Hub**: Leverages official `github.com/gofiber/contrib/v3/sentry` middleware to clone a dedicated Sentry Hub for each request with deep-copied request data. The user ID comes from the client-supplied `X-User-ID` header and is not authenticated; in a real app, take it from your auth middleware instead.
 2. **Selective Error Reporting**: Custom `fiber.ErrorHandler` captures internal server errors (`status >= 500`) to Sentry while avoiding alert noise from expected client errors (`4xx`, such as validation failures or 404s). For 5xx responses the client only gets the generic status text; the error details stay in Sentry.
 3. **Panic Recovery**: Catches unexpected runtime panics, forwards the fatal stack trace to Sentry, and returns a graceful 500 JSON response to the client.
 4. **Sentry Event ID Correlation**: Injects the Sentry `event_id` into error responses so clients can reference specific incident IDs in support inquiries or logs.

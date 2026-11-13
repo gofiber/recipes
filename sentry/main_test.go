@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/getsentry/sentry-go"
+	"github.com/gofiber/fiber/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -92,6 +93,20 @@ func TestSentry_ServerErrorCaptured(t *testing.T) {
 	assert.Equal(t, "GET", event.Request.Method)
 	require.NotEmpty(t, event.Exception)
 	assert.Contains(t, event.Exception[0].Value, "database connection failed")
+}
+
+func TestSentry_TypedNilFiberErrorIsA500(t *testing.T) {
+	transport := setupTestApp(t)
+	app := SetupApp()
+	app.Get("/typed-nil", func(c fiber.Ctx) error {
+		var err *fiber.Error
+		return err
+	})
+
+	resp, err := app.Test(httptest.NewRequest(http.MethodGet, "/typed-nil", nil))
+	require.NoError(t, err)
+	assert.Equal(t, http.StatusInternalServerError, resp.StatusCode)
+	assert.Len(t, transport.Events(), 1)
 }
 
 func TestSentry_PanicRecovery(t *testing.T) {

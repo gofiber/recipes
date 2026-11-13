@@ -47,7 +47,12 @@ func SentryRecover() fiber.Handler {
 func SentryErrorHandler(c fiber.Ctx, err error) error {
 	code := fiber.StatusInternalServerError
 	if fiberErr, ok := errors.AsType[*fiber.Error](err); ok {
-		code = fiberErr.Code
+		if fiberErr != nil {
+			code = fiberErr.Code
+		} else {
+			// A typed-nil *fiber.Error panics in Error(); Fiber's default handler treats it as a 500 too.
+			err = fiber.ErrInternalServerError
+		}
 	}
 
 	resp := fiber.Map{
@@ -79,7 +84,8 @@ func SetupApp() *fiber.App {
 	// 1. Official contrib/v3/sentry middleware: clones a per-request hub, attaches deep-copied HTTP request data
 	app.Use(fibersentry.New())
 
-	// 2. Attach user context to the per-request hub when authenticated headers are present
+	// 2. Attach the user to the per-request hub. X-User-ID is client-supplied and unverified;
+	// a real app takes the ID from its auth middleware.
 	app.Use(func(c fiber.Ctx) error {
 		if userID := c.Get("X-User-ID"); userID != "" {
 			if hub := fibersentry.GetHubFromContext(c); hub != nil {
