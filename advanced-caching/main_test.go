@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -15,61 +14,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// memStorage implements fiber.Storage in-memory for testing purposes.
-type memStorage struct {
-	data map[string][]byte
-}
-
-func newMemStorage() *memStorage {
-	return &memStorage{data: make(map[string][]byte)}
-}
-
-func (m *memStorage) Get(key string) ([]byte, error) {
-	val, ok := m.data[key]
-	if !ok {
-		return nil, nil
-	}
-	return val, nil
-}
-
-func (m *memStorage) GetWithContext(_ context.Context, key string) ([]byte, error) {
-	return m.Get(key)
-}
-
-func (m *memStorage) Set(key string, val []byte, exp time.Duration) error {
-	m.data[key] = val
-	return nil
-}
-
-func (m *memStorage) SetWithContext(_ context.Context, key string, val []byte, exp time.Duration) error {
-	return m.Set(key, val, exp)
-}
-
-func (m *memStorage) Delete(key string) error {
-	delete(m.data, key)
-	return nil
-}
-
-func (m *memStorage) DeleteWithContext(_ context.Context, key string) error {
-	return m.Delete(key)
-}
-
-func (m *memStorage) Reset() error {
-	m.data = make(map[string][]byte)
-	return nil
-}
-
-func (m *memStorage) ResetWithContext(_ context.Context) error {
-	return m.Reset()
-}
-
-func (m *memStorage) Close() error {
-	return nil
-}
+const testAdminKey = "test-admin-key"
 
 func TestAdvancedCaching_HitMissAndHeaders(t *testing.T) {
-	storage := newMemStorage()
-	app, _ := SetupApp(AppConfig{Storage: storage})
+	app, _ := SetupApp(testAdminKey)
 
 	req1 := httptest.NewRequest(http.MethodGet, "/api/items?category=tech", nil)
 	req1.Header.Set("X-Tenant-ID", "tenant-1")
@@ -99,8 +47,7 @@ func TestAdvancedCaching_HitMissAndHeaders(t *testing.T) {
 }
 
 func TestAdvancedCaching_TenantAndRoleIsolation(t *testing.T) {
-	storage := newMemStorage()
-	app, _ := SetupApp(AppConfig{Storage: storage})
+	app, _ := SetupApp(testAdminKey)
 
 	// Tenant 1 request
 	req1 := httptest.NewRequest(http.MethodGet, "/api/items?category=finance", nil)
@@ -144,8 +91,7 @@ func TestAdvancedCaching_TenantAndRoleIsolation(t *testing.T) {
 }
 
 func TestAdvancedCaching_BypassHeader(t *testing.T) {
-	storage := newMemStorage()
-	app, _ := SetupApp(AppConfig{Storage: storage})
+	app, _ := SetupApp(testAdminKey)
 
 	// 1. Initial request misses and populates cache
 	req1 := httptest.NewRequest(http.MethodGet, "/api/items", nil)
@@ -180,40 +126,59 @@ func TestAdvancedCaching_BypassHeader(t *testing.T) {
 	assert.Equal(t, string(bodyRefreshed), string(bodyHit))
 }
 
+func cacheStatus(t *testing.T, app *fiber.App, url string) string {
+	t.Helper()
+	resp, err := app.Test(httptest.NewRequest(http.MethodGet, url, nil))
+	require.NoError(t, err)
+	return resp.Header.Get("X-Cache-Status")
+}
+
+func invalidate(t *testing.T, app *fiber.App, tag, key string) *http.Response {
+	t.Helper()
+	invBody, err := json.Marshal(map[string]string{"tag": tag})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPost, "/api/items/invalidate", bytes.NewReader(invBody))
+	req.Header.Set("Content-Type", fiber.MIMEApplicationJSON)
+	if key != "" {
+		req.Header.Set("Authorization", "Bearer "+key)
+	}
+	resp, err := app.Test(req)
+	require.NoError(t, err)
+	return resp
+}
+
 func TestAdvancedCaching_TagBasedInvalidation(t *testing.T) {
-	storage := newMemStorage()
-	app, _ := SetupApp(AppConfig{Storage: storage})
+	app, _ := SetupApp(testAdminKey)
 
-	// 1. Warm cache for category "hardware"
-	req1 := httptest.NewRequest(http.MethodGet, "/api/items?category=hardware", nil)
-	resp1, err := app.Test(req1)
-	require.NoError(t, err)
-	assert.Equal(t, "miss", resp1.Header.Get("X-Cache-Status"))
-
-	// Verify second request hits
-	req2 := httptest.NewRequest(http.MethodGet, "/api/items?category=hardware", nil)
-	resp2, err := app.Test(req2)
-	require.NoError(t, err)
-	assert.Equal(t, "hit", resp2.Header.Get("X-Cache-Status"))
+	// 1. Warm cache for categories "hardware" and "books"
+	assert.Equal(t, "miss", cacheStatus(t, app, "/api/items?category=hardware"))
+	assert.Equal(t, "hit", cacheStatus(t, app, "/api/items?category=hardware"))
+	assert.Equal(t, "miss", cacheStatus(t, app, "/api/items?category=books"))
 
 	// 2. Invalidate tag "hardware"
-	invBody, _ := json.Marshal(map[string]string{"tag": "hardware"})
-	invReq := httptest.NewRequest(http.MethodPost, "/api/items/invalidate", bytes.NewReader(invBody))
-	invReq.Header.Set("Content-Type", fiber.MIMEApplicationJSON)
-
-	invResp, err := app.Test(invReq)
-	require.NoError(t, err)
+	invResp := invalidate(t, app, "hardware", testAdminKey)
 	assert.Equal(t, http.StatusOK, invResp.StatusCode)
 
-	var invResult map[string]interface{}
-	err = json.NewDecoder(invResp.Body).Decode(&invResult)
-	require.NoError(t, err)
+	var invResult map[string]any
+	require.NoError(t, json.NewDecoder(invResp.Body).Decode(&invResult))
 	assert.Equal(t, "hardware", invResult["invalidated_tag"])
-	assert.Equal(t, "purged", invResult["status"])
+	assert.Equal(t, "invalidated", invResult["status"])
 
-	// 3. Next request should be cache miss again due to CacheInvalidator
-	req3 := httptest.NewRequest(http.MethodGet, "/api/items?category=hardware", nil)
-	resp3, err := app.Test(req3)
-	require.NoError(t, err)
-	assert.Equal(t, "miss", resp3.Header.Get("X-Cache-Status"))
+	// 3. The next request refills the cache, and later ones hit it again
+	assert.Equal(t, "miss", cacheStatus(t, app, "/api/items?category=hardware"))
+	assert.Equal(t, "hit", cacheStatus(t, app, "/api/items?category=hardware"))
+
+	// Other tags keep their entries
+	assert.Equal(t, "hit", cacheStatus(t, app, "/api/items?category=books"))
+}
+
+func TestAdvancedCaching_InvalidationRequiresAPIKey(t *testing.T) {
+	app, _ := SetupApp(testAdminKey)
+
+	assert.Equal(t, "miss", cacheStatus(t, app, "/api/items?category=hardware"))
+
+	assert.Equal(t, http.StatusUnauthorized, invalidate(t, app, "hardware", "").StatusCode)
+	assert.Equal(t, http.StatusUnauthorized, invalidate(t, app, "hardware", "wrong-key").StatusCode)
+
+	assert.Equal(t, "hit", cacheStatus(t, app, "/api/items?category=hardware"))
 }

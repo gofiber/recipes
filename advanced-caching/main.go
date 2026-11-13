@@ -1,86 +1,73 @@
 package main
 
 import (
+	"crypto/sha256"
+	"crypto/subtle"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"sync"
 	"time"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cache"
+	"github.com/gofiber/fiber/v3/middleware/keyauth"
 )
 
-// InvalidationRegistry tracks cache tags and determines invalidation rules.
+// cacheGenerationHeader carries the tag generation into the cache key; any client value is overwritten.
+const cacheGenerationHeader = "X-Cache-Generation"
+
+// InvalidationRegistry hands out a cache generation per tag.
 type InvalidationRegistry struct {
-	mu            sync.RWMutex
-	invalidatedAt map[string]time.Time
+	mu          sync.RWMutex
+	generations map[string]uint64
 }
 
 // NewInvalidationRegistry initializes a thread-safe registry.
 func NewInvalidationRegistry() *InvalidationRegistry {
 	return &InvalidationRegistry{
-		invalidatedAt: make(map[string]time.Time),
+		generations: make(map[string]uint64),
 	}
 }
 
-// InvalidateTag marks all cache entries under a given tag invalid from this moment.
+// InvalidateTag starts a new generation for tag, so its next requests miss the old entries.
 func (r *InvalidationRegistry) InvalidateTag(tag string) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.invalidatedAt[tag] = time.Now()
+	r.generations[tag]++
 }
 
-// IsInvalidated checks if an entry tagged with tag was invalidated after it was generated.
-func (r *InvalidationRegistry) IsInvalidated(tag string, entryTimestamp time.Time) bool {
+// Generation returns the current generation of tag.
+func (r *InvalidationRegistry) Generation(tag string) string {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	invTime, exists := r.invalidatedAt[tag]
-	if !exists {
-		return false
-	}
-	return !entryTimestamp.After(invTime)
-}
-
-// AppConfig configures the Fiber application and cache behavior.
-type AppConfig struct {
-	Storage fiber.Storage
+	return strconv.FormatUint(r.generations[tag], 10)
 }
 
 // SetupApp builds the Fiber app with advanced cache patterns.
-func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
+func SetupApp(adminKey string) (*fiber.App, *InvalidationRegistry) {
 	app := fiber.New()
 	registry := NewInvalidationRegistry()
 
-	var storage fiber.Storage
-	if len(cfg) > 0 && cfg[0].Storage != nil {
-		storage = cfg[0].Storage
-	}
-
-	// 1. Advanced Caching Middleware with KeyHeaders & CacheInvalidator.
+	// 1. Advanced Caching Middleware with KeyHeaders.
 	// HTTP method restrictions (GET/HEAD only), Cache-Control directives (no-cache, no-store),
 	// canonical query sorting (?a=1&b=2 == ?b=2&a=1), and header segment escaping
 	// are handled automatically by middleware/cache out of the box.
 	cacheMiddleware := cache.New(cache.Config{
 		Expiration:  30 * time.Second,
 		CacheHeader: "X-Cache-Status",
-		Storage:     storage,
-		KeyHeaders:  []string{"Accept", "Accept-Encoding", "Accept-Language", "X-Tenant-ID", "X-User-Role"},
-		CacheInvalidator: func(c fiber.Ctx) bool {
-			tag := c.Query("category")
-			if tag == "" {
-				if id := c.Params("id"); id != "" {
-					tag = "item:" + id
-				}
-			}
-			if tag != "" {
-				// If tag was marked invalidated, invalidate the cached entry
-				return registry.IsInvalidated(tag, time.Time{})
-			}
-			return false
-		},
+		KeyHeaders:  []string{"Accept", "Accept-Encoding", "Accept-Language", "X-Tenant-ID", "X-User-Role", cacheGenerationHeader},
 	})
 
-	api := app.Group("/api", cacheMiddleware)
+	// CacheInvalidator only sees the request, not the stored entry, so it cannot tell
+	// stale entries from fresh ones. A generation in the key can: old entries just expire.
+	tagGeneration := func(c fiber.Ctx) error {
+		c.Request().Header.Set(cacheGenerationHeader, registry.Generation(c.Query("category", "general")))
+		return c.Next()
+	}
+
+	api := app.Group("/api", tagGeneration, cacheMiddleware)
 
 	// Sample cached endpoint: items listing segmented by tenant & query
 	api.Get("/items", func(c fiber.Ctx) error {
@@ -107,8 +94,20 @@ func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
 		})
 	})
 
-	// 2. Cache Invalidation Endpoint
-	app.Post("/api/items/invalidate", func(c fiber.Ctx) error {
+	// 2. Cache Invalidation Endpoint, protected by a bearer API key
+	adminKeyHash := sha256.Sum256([]byte(adminKey))
+	requireAdminKey := keyauth.New(keyauth.Config{
+		Validator: func(_ fiber.Ctx, key string) (bool, error) {
+			// Comparing hashes keeps the check constant-time even when the lengths differ.
+			keyHash := sha256.Sum256([]byte(key))
+			if subtle.ConstantTimeCompare(adminKeyHash[:], keyHash[:]) == 1 {
+				return true, nil
+			}
+			return false, keyauth.ErrMissingOrMalformedAPIKey
+		},
+	})
+
+	app.Post("/api/items/invalidate", requireAdminKey, func(c fiber.Ctx) error {
 		var req struct {
 			Tag string `json:"tag"`
 		}
@@ -122,7 +121,7 @@ func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
 
 		return c.JSON(fiber.Map{
 			"invalidated_tag": req.Tag,
-			"status":          "purged",
+			"status":          "invalidated",
 		})
 	})
 
@@ -135,6 +134,11 @@ func SetupApp(cfg ...AppConfig) (*fiber.App, *InvalidationRegistry) {
 }
 
 func main() {
-	app, _ := SetupApp()
+	adminKey := os.Getenv("ADMIN_API_KEY")
+	if adminKey == "" {
+		log.Fatal("ADMIN_API_KEY must be set, it protects POST /api/items/invalidate")
+	}
+
+	app, _ := SetupApp(adminKey)
 	log.Fatal(app.Listen(":3000"))
 }
