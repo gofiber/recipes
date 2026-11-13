@@ -1,0 +1,246 @@
+package main
+
+import (
+	"encoding/json"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+	"testing"
+
+	"github.com/gofiber/fiber/v3/middleware/proxy"
+)
+
+func TestMain(m *testing.M) {
+	// SSR_ENDPOINT is set by the operator, not the client
+	proxy.WithSecurityPolicy(proxy.SecurityPolicy{AllowPrivateIPs: true})
+	os.Exit(m.Run())
+}
+
+// testBrowserDir stands in for the `ng build` output, so the Go tests do not need Node.
+func testBrowserDir(t *testing.T) string {
+	t.Helper()
+	dir := t.TempDir()
+	files := map[string]string{
+		"index.csr.html": "<!DOCTYPE html><html><body><app-root>Client SPA</app-root></body></html>",
+		"main.js":        "console.log('angular chunk');",
+	}
+	for name, content := range files {
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(content), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	return dir
+}
+
+func TestAPIHealth(t *testing.T) {
+	app := App("", testBrowserDir(t))
+
+	req := httptest.NewRequest("GET", "/api/health", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	var data map[string]string
+	if err := json.Unmarshal(body, &data); err != nil {
+		t.Fatalf("failed to parse json: %v", err)
+	}
+
+	if data["status"] != "ok" {
+		t.Errorf("status = %q, want %q", data["status"], "ok")
+	}
+}
+
+func TestStaticAssetsDelivery(t *testing.T) {
+	app := App("", testBrowserDir(t))
+
+	// Request static JS asset
+	req := httptest.NewRequest("GET", "/main.js", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "angular chunk") {
+		t.Errorf("expected JS content, got %q", string(body))
+	}
+}
+
+func TestSSRProxyForwarding(t *testing.T) {
+	var mu sync.Mutex
+	var receivedPath string
+
+	// Mock Angular SSR Node backend recording exact path and query
+	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		receivedPath = r.URL.RequestURI()
+		mu.Unlock()
+
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("<!DOCTYPE html><html><body><h1>Server Rendered Angular</h1></body></html>"))
+	}))
+	defer mockSSR.Close()
+
+	app := App(mockSSR.URL, testBrowserDir(t))
+
+	req := httptest.NewRequest("GET", "/dashboard?tab=overview", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	expected := "<!DOCTYPE html><html><body><h1>Server Rendered Angular</h1></body></html>"
+	if string(body) != expected {
+		t.Errorf("body = %q, want %q", string(body), expected)
+	}
+
+	mu.Lock()
+	gotPath := receivedPath
+	mu.Unlock()
+
+	if gotPath != "/dashboard?tab=overview" {
+		t.Errorf("mock received URI = %q, want %q", gotPath, "/dashboard?tab=overview")
+	}
+}
+
+func TestSSRProxyFailureFallbackToSPA(t *testing.T) {
+	// Pointing to a dead port so proxy immediately fails and triggers SPA fallback
+	app := App("http://127.0.0.1:59999", testBrowserDir(t))
+
+	req := httptest.NewRequest("GET", "/about", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "Client SPA") {
+		t.Errorf("expected SPA fallback content, got %q", string(body))
+	}
+}
+
+func TestSSRProxy5xxFallbackResetsHeaders(t *testing.T) {
+	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Encoding", "gzip")
+		w.Header().Set("Set-Cookie", "session=evil; Path=/")
+		w.WriteHeader(http.StatusInternalServerError)
+		_, _ = w.Write([]byte(`{"error":"internal ssr error"}`))
+	}))
+	defer mockSSR.Close()
+
+	app := App(mockSSR.URL, testBrowserDir(t))
+
+	req := httptest.NewRequest("GET", "/failing-ssr", nil)
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", resp.StatusCode, http.StatusOK)
+	}
+
+	if enc := resp.Header.Get("Content-Encoding"); enc != "" {
+		t.Errorf("Content-Encoding = %q, want empty", enc)
+	}
+	if cookie := resp.Header.Get("Set-Cookie"); cookie != "" {
+		t.Errorf("Set-Cookie = %q, want empty", cookie)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read body: %v", err)
+	}
+
+	if !strings.Contains(string(body), "Client SPA") {
+		t.Errorf("expected SPA fallback content, got %q", string(body))
+	}
+}
+
+func TestSSRServesPagesAndItsOwn404s(t *testing.T) {
+	mockSSR := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			w.WriteHeader(http.StatusNotFound)
+			_, _ = w.Write([]byte("angular 404 page"))
+			return
+		}
+		_, _ = w.Write([]byte("server rendered home"))
+	}))
+	defer mockSSR.Close()
+
+	app := App(mockSSR.URL, testBrowserDir(t))
+
+	tests := []struct {
+		path string
+		code int
+		body string
+	}{
+		{"/", http.StatusOK, "server rendered home"},
+		{"/missing.png", http.StatusNotFound, "angular 404 page"},
+		{"/users/john.doe", http.StatusNotFound, "angular 404 page"},
+	}
+	for _, tt := range tests {
+		resp, err := app.Test(httptest.NewRequest("GET", tt.path, nil))
+		if err != nil {
+			t.Fatalf("%s: unexpected error: %v", tt.path, err)
+		}
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatalf("%s: failed to read body: %v", tt.path, err)
+		}
+		if resp.StatusCode != tt.code || string(body) != tt.body {
+			t.Errorf("%s = %d %q, want %d %q", tt.path, resp.StatusCode, body, tt.code, tt.body)
+		}
+	}
+}
+
+func TestResolveConfig(t *testing.T) {
+	// Default case
+	t.Setenv("SSR_ENDPOINT", "")
+	t.Setenv("PORT", "")
+	endpoint, port := resolveConfig()
+	if endpoint != "" || port != "3000" {
+		t.Errorf("default resolveConfig() = (%q, %q), want ('', '3000')", endpoint, port)
+	}
+}
