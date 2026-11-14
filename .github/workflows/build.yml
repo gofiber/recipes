@@ -62,7 +62,7 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             # Walk up to the module owning each changed file: splitting on the first path
-            # segment resolved nested modules like clean-code/app to a dir with no go.mod,
+            # segment resolved nested modules like envoy-extauthz/app to a dir with no go.mod,
             # so their PRs went green unbuilt. --no-renames so a move also rebuilds the source.
             changed_dirs=$(git diff --no-renames --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | while IFS= read -r file; do
               dir=$(dirname "$file")
