@@ -39,7 +39,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Early Hints (HTTP 103)](./early-hints/README.md) - Demonstrating HTTP 103 Early Hints in Fiber v3 to preload critical assets before delivering the final response.
 - [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
-- [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
 - [Envoy External Authorization](./envoy-extauthz/README.md) - External authorization with Envoy.
 - [File Server](./file-server/README.md) - Serving static files.
 - [Firebase Authentication](./firebase-auth/README.md) - Firebase authentication integration.
@@ -73,7 +72,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
 - [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
-- [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
 - [Sentry](./sentry/README.md) - Custom error handling and panic recovery integrated with Sentry.
@@ -84,7 +82,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Sqlc](./sqlc/README.md) - Using Sqlc to generate Go code from SQL queries.
 - [Server-Sent Events](./sse/README.md) - Implementing Server-Sent Events in an application.
 - [Stream Request Body](./stream-request-body/README.md) - Streaming request bodies.
-- [Svelte Netlify](./svelte-netlify/README.md) - Deploying a Svelte + Fiber application on Netlify.
 - [Sveltekit Embed](./sveltekit-embed/README.md) - A full-stack application built using Sveltekit and Tailwind CSS.
 - [Swagger](./swagger/README.md) - Generate Swagger documentation for your application.
 - [Tableflip Example](./tableflip/README.md) - Use tableflip for graceful upgrades in a Go application.
