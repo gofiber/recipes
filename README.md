@@ -34,7 +34,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Clean Code](./clean-code/README.md) - Implementing clean code in Go.
 - [Cloud Run](./cloud-run/README.md) - Deploying to Google Cloud Run.
 - [Cloudflare Container Workers with Go Fiber](./cloudflare-workers/README.md) - Run a Go Fiber v3 app in a Cloudflare Container Worker with a Worker proxy.
-- [CSRF](./csrf/README.md) - Cross-Site Request Forgery (CSRF) protection.
 - [CSRF + Session](./csrf-with-session/README.md) - Cross-Site Request Forgery (CSRF) protection with session management.
 - [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
