@@ -50,9 +50,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Form Data](./form-data/README.md) - Parsing application/x-www-form-urlencoded bodies into structs, slices and maps.
 - [Google Cloud Firebase](./gcloud-firebase/README.md) - Firebase services on Google Cloud.
 - [GeoIP + MaxMind](./geoip-maxmind/README.md) - Geolocation with GeoIP and MaxMind databases.
-- [GORM](./gorm/README.md) - Using GORM with SQLite database.
-- [GORM MySQL](./gorm-mysql/README.md) - Using GORM with MySQL database.
-- [GORM + PostgreSQL](./gorm-postgres/README.md) - Using GORM with PostgreSQL database.
+- [GORM](./gorm/README.md) - Using GORM with SQLite, MySQL or PostgreSQL.
 - [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
 - [Graceful shutdown](./graceful-shutdown/README.md) - Graceful shutdown of applications.
 - [GraphQL](./graphql/README.md) - Setting up a GraphQL server.

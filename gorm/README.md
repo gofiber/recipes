@@ -1,7 +1,7 @@
 ---
 title: GORM
-keywords: [gorm, sqlite, api, rest]
-description: Using GORM with SQLite database.
+keywords: [gorm, sqlite, mysql, postgres, api, rest]
+description: Using GORM with SQLite, MySQL or PostgreSQL.
 ---
 
 # GORM Example
@@ -67,3 +67,36 @@ curl -X POST http://localhost:3000/api/v1/book -d '{"title": "New Book", "author
 ```sh
 curl -X DELETE http://localhost:3000/api/v1/book/1
 ```
+
+## Using MySQL or PostgreSQL
+
+SQLite keeps this recipe runnable without a database server, but GORM talks to every database through the same API. Only the driver and the connection string change. Install the driver you need:
+
+```sh
+go get gorm.io/driver/mysql
+go get gorm.io/driver/postgres
+```
+
+Then replace the `gorm.Open` call in `initDatabase` in `main.go`.
+
+### MySQL
+
+```go
+import "gorm.io/driver/mysql"
+
+// parseTime=True is required for time.Time fields and charset=utf8mb4 for full UTF-8 support.
+// See https://github.com/go-sql-driver/mysql#dsn-data-source-name for the DSN format.
+dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+database.DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+```
+
+### PostgreSQL
+
+```go
+import "gorm.io/driver/postgres"
+
+dsn := "host=localhost user=postgres password='' dbname=go-db port=5432 sslmode=disable"
+database.DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+```
+
+In both cases, create the database first (for example `createdb go-db` for PostgreSQL). To keep credentials out of the source, read the connection string from the environment, for example `dsn := os.Getenv("DB_DSN")`. `AutoMigrate` then creates the `books` table on startup, as it does for SQLite.
