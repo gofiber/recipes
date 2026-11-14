@@ -21,6 +21,20 @@ This example impliments multiple best-practices for CSRF protection:
     - Expiration: 30 minutes (of inactivity)
     - Cookie names are prefixed with "__Host-" (see [MDN-Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) for more information))
 
+## What CSRF protection stops
+
+In a CSRF attack, a page on another site makes a logged-in user's browser send a state-changing request to your app, for example by auto-submitting a hidden form that transfers funds. The browser attaches the session cookie to that request automatically, so the cookie alone cannot show that the user meant to send it.
+
+The CSRF middleware closes that gap. Every state-changing request must carry a token that is tied to the user's session and that a page on another origin cannot read. A forged request has no valid token, so it is rejected with `403 Forbidden`.
+
+You can see the rejection without a browser. With the server running (see below), send a POST without a token:
+
+```bash
+curl -k -i -X POST https://127.0.0.1:8443/protected -d 'message=hello'
+```
+
+The response is `403 Forbidden`.
+
 ## Requirements
 
 * [git](https://git-scm.com/downloads)
