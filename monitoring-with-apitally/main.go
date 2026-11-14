@@ -1,15 +1,19 @@
 package main
 
 import (
+	"context"
 	"crypto/sha256"
 	"crypto/subtle"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
 	apitally "github.com/apitally/apitally-go/fiber-v3"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/keyauth"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 )
 
 type apiKeyInfo struct {
@@ -68,6 +72,7 @@ func validateAPIKey(c fiber.Ctx, key string) (bool, error) {
 
 func main() {
 	app := fiber.New()
+	app.Use(recover.New())
 	validate := validator.New()
 
 	// Monitoring and request logging with Apitally.
@@ -82,8 +87,8 @@ func main() {
 	cfg.CaptureRequestBody = true
 	cfg.CaptureResponseBody = true
 
-	// Init registers the Apitally middleware and must run before other
-	// middleware and routes.
+	// Init registers the Apitally middleware and must run after the recover
+	// middleware, before other middleware and routes.
 	apitally.Init(app, cfg)
 
 	// API key authentication
@@ -118,5 +123,18 @@ func main() {
 	})
 
 	// Start server
-	log.Fatal(app.Listen(":3000"))
+	go func() {
+		if err := app.Listen(":3000"); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	// Shut down gracefully, so that Apitally can flush pending data
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+	<-ctx.Done()
+
+	if err := app.Shutdown(); err != nil {
+		log.Fatal(err)
+	}
 }
