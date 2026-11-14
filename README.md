@@ -80,7 +80,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Sentry](./sentry/README.md) - Custom error handling and panic recovery integrated with Sentry.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
-- [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
 - [Single Page Application (SPA)](./spa/README.md) - Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
 - [Sqlboiler](./sqlboiler/README.md) - Using Sqlboiler ORM.
 - [Sqlc](./sqlc/README.md) - Using Sqlc to generate Go code from SQL queries.
@@ -99,7 +98,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Vercel](./vercel/README.md) - Deploy a Go application to Vercel.
 - [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
-- [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
 - [WebSocket Shared State](./websocket-shared-state/README.md) - Managing thread-safe shared state and real-time broadcasts across WebSocket connections and HTTP handlers.
 <!-- AUTO-GENERATED-CONTENT:END -->
 

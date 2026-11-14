@@ -106,6 +106,13 @@ func main() {
 }
 ```
 
+## Going further
+
+This recipe echoes each message back to the sender. Two common next steps:
+
+- **Broadcasting to many clients, such as a chat room.** Keep a registry of connections and write to all of them, guarding each connection against concurrent writes and removing clients when they drop. The [WebSocket Shared State](../websocket-shared-state/README.md) recipe shows this pattern together with thread-safe shared state.
+- **The Socket.IO protocol.** If your clients use a Socket.IO library rather than the plain WebSocket API, use the [`socketio`](https://pkg.go.dev/github.com/gofiber/contrib/v3/socketio) package from Fiber contrib, which builds on the `websocket` package used here.
+
 ## Conclusion
 
 This example provides a basic setup for a WebSocket server using Go Fiber. It can be extended and customized further to fit the needs of more complex applications.
