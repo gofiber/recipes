@@ -53,6 +53,21 @@ This project provides a starting point for building a web application with user 
 
 The API should now be running on `http://localhost:3000`.
 
+## Running PostgreSQL with Docker
+
+If you do not have a PostgreSQL server available, start one in a container. The values below match the example `.env` in the setup section, so adjust them together with your `.env` file:
+
+```bash
+docker run --name auth-jwt-db -d \
+  -e POSTGRES_USER=example_user \
+  -e POSTGRES_PASSWORD=example_password \
+  -e POSTGRES_DB=example_db \
+  -p 5432:5432 \
+  postgres:alpine
+```
+
+The container's data is lost when you remove it. Mount a volume at `/var/lib/postgresql/data` (`-v auth-jwt-data:/var/lib/postgresql/data`) to keep it.
+
 ## Database Management
 
 You can manage the database via `psql` with the following command:

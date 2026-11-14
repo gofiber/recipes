@@ -23,7 +23,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Air Live Reloading](./air/README.md) - Live reloading for Go applications.
 - [Angular SSR](./angular-ssr/README.md) - Serving Angular with Server-Side Rendering (SSR) using Fiber v3 and reverse proxy.
 - [Asynq](./asynq/README.md) - Enqueue background jobs from Fiber and process them with an Asynq worker.
-- [Auth + Docker + Postgres + JWT](./auth-docker-postgres-jwt/README.md) - Authentication with Docker, Postgres, and JWT.
 - [Auth + JWT](./auth-jwt/README.md) - Simple JWT authentication.
 - [Autocert](./autocert/README.md) - Automatic TLS certificate management.
 - [AWS Elastic Beanstalk](./aws-eb/README.md) - Deploying to AWS Elastic Beanstalk.
