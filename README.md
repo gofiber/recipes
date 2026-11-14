@@ -68,13 +68,12 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
 - [Monitoring with Apitally](./monitoring-with-apitally/README.md) - A simple REST API with monitoring and request logging using Apitally.
 - [Multiple Ports](./multiple-ports/README.md) - Running an application on multiple ports.
-- [MySQL](./mysql/README.md) - Connecting to a MySQL database.
+- [MySQL + PostgreSQL](./mysql/README.md) - Connecting to MySQL or PostgreSQL with database/sql.
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
 - [OAuth2](./oauth2/README.md) - Implementing GitHub OAuth2 authentication with GoFiber, with notes for Google.
 - [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
-- [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
 - [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
