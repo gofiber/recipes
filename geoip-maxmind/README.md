@@ -8,7 +8,9 @@ description: Geolocation with GeoIP and MaxMind databases.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/geoip-maxmind) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/geoip-maxmind)
 
-This is an alternative method to resolve IP addresses to real-world location data using MaxMind GeoLite2 City databases.
+This recipe resolves IP addresses to real-world location data using a local MaxMind GeoLite2 City database.
+
+Looking addresses up locally avoids the drawbacks of proxying a public geolocation API such as ip-api.com, whose free tier is rate limited and which receives every address you look up.
 
 ## Prerequisites
 Before you run this, you must first download a database from the MaxMind website - https://dev.maxmind.com/geoip/geoip2/geolite2/. To do this, you need to register for a free MaxMind account.
