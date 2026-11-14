@@ -45,7 +45,6 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Firebase Authentication](./firebase-auth/README.md) - Firebase authentication integration.
 - [Firebase Functions](./firebase-functions/README.md) - Using Firebase Functions.
 - [Form Data](./form-data/README.md) - Parsing application/x-www-form-urlencoded bodies into structs, slices and maps.
-- [Google Cloud Firebase](./gcloud-firebase/README.md) - Firebase services on Google Cloud.
 - [GeoIP + MaxMind](./geoip-maxmind/README.md) - Geolocation with GeoIP and MaxMind databases.
 - [GORM](./gorm/README.md) - Using GORM with SQLite, MySQL or PostgreSQL.
 - [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
