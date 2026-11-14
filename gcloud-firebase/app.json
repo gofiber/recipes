@@ -1,9 +1,0 @@
-{
-  "name": "gcloud-fiber-firebase",
-  "env": {
-    "GCP_PROJECT": {
-      "description": "Your Google Cloud Project ID",
-      "required": true
-    }
-  }
-}
