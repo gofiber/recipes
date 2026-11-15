@@ -4,7 +4,6 @@ go 1.26.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.7.0
-	github.com/golang/protobuf v1.5.4
 	google.golang.org/grpc v1.85.0
 	google.golang.org/protobuf v1.36.12
 )
