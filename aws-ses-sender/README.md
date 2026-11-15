@@ -49,7 +49,7 @@ flowchart TD
 ### AWS SES Configuration
 1. Verify sender email/domain in AWS SES console
 2. Request removal from SES sandbox mode (for production)
-3. Create SNS topic and set up SES feedback notifications
+3. Create SNS topic and set up SES feedback notifications. Set `SNS_TOPIC_ARN` (see Configuration) and then subscribe `https://<your server>/v1/events/results` (HTTPS) to the topic. The first message is a subscription confirmation, which is verified like every other message: the server logs a URL, and opening it confirms the subscription
 4. Grant following permissions to IAM user
   - `ses:SendEmail`
   - `ses:SendRawEmail`
@@ -73,8 +73,11 @@ aws-ses-sender/
 │   └── db.go            # Database connection settings
 ├── model/               # Database models
 │   └── email.go         # GORM model definitions
-└── pkg/aws/             # AWS service integration
-    └── ses.go           # SES email sending
+└── pkg/
+    ├── aws/             # AWS service integration
+    │   └── ses.go       # SES email sending
+    ├── sns/             # Verifies the signature of the messages SNS posts
+    └── tracking/        # Signs the links of the open tracking image
 ```
 
 ## Setup
@@ -102,7 +105,12 @@ EMAIL_SENDER=sender@example.com
 # Server and API
 SERVER_PORT=3000
 API_KEY=your_api_key
+# The URL recipients' mail clients use to reach this server, for the open tracking image
 SERVER_HOST=http://localhost:3000
+
+# The SNS topic that delivers the SES feedback. Messages from any other topic are rejected,
+# and so is every message while this is empty. Several ARNs are separated by commas.
+SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-2:123456789012:your-ses-topic
 
 # Database (PostgreSQL)
 DB_HOST=localhost
@@ -175,10 +183,10 @@ GET /v1/topics/:topicId
 
 ### Email Open Tracking
 ```http
-GET /v1/events/open?requestId={requestId}
+GET /v1/events/open?requestId={requestId}&token={token}
 ```
 
-> The open tracking and the SNS result endpoint (below) are not protected by the API key, because recipients' mail clients and AWS SNS have to reach them. Anyone who can reach them can add events, which changes the statistics. Before you rely on those numbers in production, verify the signature of the SNS messages and restrict access to these routes.
+The sender appends an image with this link to every email. It does not need the API key, because the recipient's mail client opens it, but the `token` is an HMAC of the `requestId`, made with `API_KEY`. The request ids are a counter that anyone can count along, so without the token anybody could report any email as opened. A request without a valid token still gets the image and is not recorded. Changing `API_KEY` therefore stops the links in emails that were sent before from being counted.
 
 ### View Sending Statistics
 ```http
@@ -189,3 +197,5 @@ GET /v1/events/counts/sent?hours={hours}
 ```http
 POST /v1/events/results
 ```
+
+SNS posts the SES feedback to this endpoint, which is why it does not use the API key. Instead the server checks every message: it has to come from a topic in `SNS_TOPIC_ARN` and carry a valid signature by a certificate that AWS publishes (`SigningCertURL` has to be an `sns.<region>.amazonaws.com` URL). The topic matters as much as the signature, because anyone with an AWS account can have SNS sign messages for a topic of their own. Anything else is answered with `403 Forbidden` and nothing is stored.

@@ -1,13 +1,16 @@
 package cmd
 
 import (
-	"aws-ses-sender/config"
-	"aws-ses-sender/model"
-	"aws-ses-sender/pkg/aws"
 	"context"
+	"html"
 	"log"
 	"strconv"
 	"time"
+
+	"aws-ses-sender/config"
+	"aws-ses-sender/model"
+	"aws-ses-sender/pkg/aws"
+	"aws-ses-sender/pkg/tracking"
 )
 
 var reqChan = make(chan *model.Request, 1000)
@@ -36,7 +39,8 @@ func RunSender(ctx context.Context) {
 				// Add code for the open event at the end of the body
 				serverHost := config.GetEnv("SERVER_HOST", "http://localhost:3000")
 				content := r.Content
-				content += `<img src="` + serverHost + `/v1/events/open?requestId=` + strconv.Itoa(int(r.ID)) + `">`
+				// The link carries a token that proves it comes from this sender, see the open event handler.
+				content += `<img src="` + html.EscapeString(tracking.URL(serverHost, config.GetEnv("API_KEY"), r.ID)) + `">`
 				ctx, cancel := context.WithTimeout(c, 10*time.Second)
 				defer cancel()
 				msgId, err := sesClient.SendEmail(

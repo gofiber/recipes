@@ -6,6 +6,8 @@ import (
 
 // setV1Routes V1 Routes
 func setV1Routes(app *fiber.App) {
+	snsVerifier = newSNSVerifier()
+
 	v1 := app.Group("/v1")
 	{
 		// Messages

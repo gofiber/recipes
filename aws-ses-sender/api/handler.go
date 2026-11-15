@@ -15,9 +15,28 @@ import (
 
 	"aws-ses-sender/config"
 	"aws-ses-sender/model"
+	"aws-ses-sender/pkg/sns"
+	"aws-ses-sender/pkg/tracking"
 
 	"github.com/gofiber/fiber/v3"
 )
+
+// snsVerifier checks that the messages posted to /v1/events/results come from AWS SNS and from
+// the topic in SNS_TOPIC_ARN. setV1Routes creates it.
+var snsVerifier *sns.Verifier
+
+// newSNSVerifier creates the verifier from SNS_TOPIC_ARN, a comma separated list of topic ARNs.
+func newSNSVerifier() *sns.Verifier {
+	var topics []string
+	for arn := range strings.SplitSeq(config.GetEnv("SNS_TOPIC_ARN"), ",") {
+		topics = append(topics, strings.TrimSpace(arn))
+	}
+	v := sns.NewVerifier(topics...)
+	if !v.Configured() {
+		log.Printf("SNS_TOPIC_ARN is not set: every message posted to /v1/events/results is rejected")
+	}
+	return v
+}
 
 // createMessageHandler Message Handler
 // Handler that receives email sending requests
@@ -94,13 +113,21 @@ func createMessageHandler(c fiber.Ctx) error {
 }
 
 // createOpenEventHandler Open Event Handler
-// Attach an image script to the email and assume it has been read when the image is accessed
+// Attach an image script to the email and assume it has been read when the image is accessed.
+// The link carries a token that the sender signs with API_KEY, so only the links in the emails
+// that were sent count. Every request gets the image, so a mail client never shows a broken one.
 func createOpenEventHandler(c fiber.Ctx) error {
 	reqId := c.Query("requestId")
 	if reqId != "" {
-		// Consider email as opened and create data
-		db := config.GetDB()
-		if reqIdInt, err := strconv.Atoi(reqId); err == nil {
+		reqIdInt, err := strconv.ParseUint(reqId, 10, 63)
+		switch {
+		case err != nil:
+			log.Printf("Invalid requestId: %q", reqId)
+		case !tracking.Valid(config.GetEnv("API_KEY"), uint(reqIdInt), c.Query("token")):
+			log.Printf("Ignoring an open event for request %d: the token is missing or wrong", reqIdInt)
+		default:
+			// Consider email as opened and create data
+			db := config.GetDB()
 			if err := db.Create(&model.Result{
 				RequestId: uint(reqIdInt),
 				Status:    "Open",
@@ -108,8 +135,6 @@ func createOpenEventHandler(c fiber.Ctx) error {
 			}).Error; err != nil {
 				log.Printf("Failed to create open event: %s", err.Error())
 			}
-		} else {
-			log.Printf("Invalid requestId: %s", reqId)
 		}
 	}
 
@@ -125,31 +150,27 @@ func createOpenEventHandler(c fiber.Ctx) error {
 }
 
 // createResultEventHandler Result Event Handler
-// Handler that receives AWS SES results
+// Handler that receives AWS SES results. The endpoint has to be public for SNS to reach it, so
+// it only accepts a message that SNS signed and that comes from the configured topic.
 func createResultEventHandler(c fiber.Ctx) error {
 	msgType := c.Get("x-amz-sns-message-type")
-	if msgType != "Notification" && msgType != "SubscriptionConfirmation" {
+	if msgType != sns.TypeNotification && msgType != sns.TypeSubscriptionConfirmation {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SNS Message Type"})
 	}
 
-	var reqBody struct {
-		Type         string `json:"Type"`
-		Message      string `json:"Message"`
-		MessageId    string `json:"MessageId"`
-		SubscribeURL string `json:"SubscribeURL"`
-	}
-	if err := c.Bind().JSON(&reqBody); err != nil {
+	var reqBody sns.Message
+	if err := json.Unmarshal(c.Body(), &reqBody); err != nil || reqBody.Type != msgType {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Failed to parse SNS message"})
 	}
-
-	if reqBody.Type == "SubscriptionConfirmation" {
-		// Subscription confirmation
-		log.Printf("Subscription confirmation required. Visiting: %s", reqBody.SubscribeURL)
-		return c.JSON(fiber.Map{"message": "Subscription confirmation required"})
+	if err := snsVerifier.Verify(c.Context(), &reqBody); err != nil {
+		log.Printf("Rejected an SNS message: %v", err)
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": "Invalid SNS message"})
 	}
 
-	if reqBody.Type != "Notification" {
-		return c.JSON(fiber.Map{"message": "Other message type received"})
+	if reqBody.Type == sns.TypeSubscriptionConfirmation {
+		// Subscription confirmation. Nothing is done with the URL here, open it to confirm.
+		log.Printf("Subscription confirmation required. Open this URL to confirm: %s", reqBody.SubscribeURL)
+		return c.JSON(fiber.Map{"message": "Subscription confirmation required"})
 	}
 
 	var sesNotification struct {
