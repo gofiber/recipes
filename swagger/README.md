@@ -12,7 +12,7 @@ This project demonstrates how to integrate Swagger for API documentation in a [F
 
 ## Prerequisites
 
-- Go 1.21+
+- Go 1.26+
 - [Swag CLI](https://github.com/swaggo/swag) for generating Swagger docs
 - PostgreSQL (connection configured via environment variables)
 

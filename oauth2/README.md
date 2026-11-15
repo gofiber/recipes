@@ -12,7 +12,7 @@ This project demonstrates how to implement GitHub OAuth2 authentication in a GoF
 
 ## Prerequisites
 
-- Go 1.21+
+- Go 1.26+
 - A [GitHub OAuth App](https://github.com/settings/developers)
   - Set **Authorization callback URL** to `http://localhost:8080/oauth/redirect`
 

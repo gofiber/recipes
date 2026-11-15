@@ -37,7 +37,7 @@ flowchart TD
 ## Requirements
 
 ### Essential Requirements
-- Go 1.25 or higher
+- Go 1.26 or higher
 - AWS account and configuration
   - AWS SES service activated
   - Sender email or domain verification completed

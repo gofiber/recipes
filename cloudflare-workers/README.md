@@ -21,7 +21,7 @@ This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fi
 ## Prerequisites
 
 - Node.js
-- Go 1.25+
+- Go 1.26+
 - Wrangler CLI
 - Cloudflare account with Container Workers access
 
