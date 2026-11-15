@@ -34,10 +34,15 @@ func main() {
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 	// Serve static files
+	dist := template.Dist()
 	app.All("/*", static.New("", static.Config{
-		FS: template.Dist(),
-		// TODO: Migrate to NotFoundHandler (fiber.Handler) - NotFoundFile is deprecated
-		// NotFoundFile: "index.html",
+		FS: dist,
+		// A path that is not a file in the build, such as a client-side route,
+		// gets index.html so the SvelteKit router can handle it. The static
+		// middleware has set the status to 404 by then, so reset it to 200.
+		NotFoundHandler: func(c fiber.Ctx) error {
+			return c.Status(fiber.StatusOK).SendFile("index.html", fiber.SendFile{FS: dist})
+		},
 		IndexNames: []string{"index.html"},
 	}))
 
