@@ -3,6 +3,10 @@
 // The link of the tracking image holds the id of the email request, which is a counter that
 // anyone can count along. Without a signature, anybody could report any email as opened. The
 // token is an HMAC of the id, so only a link that the sender created is counted.
+//
+// The secret has to be a random string of its own. Every email carries a link, so everyone who
+// gets one email can try guesses for the secret offline until the token matches. Do not use a
+// password or an API key for it.
 package tracking
 
 import (
@@ -10,6 +14,7 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/hex"
+	"html"
 	"net/url"
 	"strconv"
 	"strings"
@@ -39,4 +44,14 @@ func URL(serverHost, secret string, requestID uint) string {
 		"token":     {Token(secret, requestID)},
 	}
 	return strings.TrimRight(serverHost, "/") + "/v1/events/open?" + query.Encode()
+}
+
+// Image returns the HTML of the tracking image for the email request, to be put at the end of
+// the body. Without a secret the open event handler would accept no token, so there is no image:
+// the result is empty.
+func Image(serverHost, secret string, requestID uint) string {
+	if secret == "" {
+		return ""
+	}
+	return `<img src="` + html.EscapeString(URL(serverHost, secret, requestID)) + `">`
 }

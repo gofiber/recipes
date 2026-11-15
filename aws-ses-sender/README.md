@@ -112,6 +112,11 @@ SERVER_HOST=http://localhost:3000
 # and so is every message while this is empty. Several ARNs are separated by commas.
 SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-2:123456789012:your-ses-topic
 
+# Signs the links of the open tracking image. Use a long random string of its own, for example
+# the output of `openssl rand -hex 32`, and not the API key. Without it the emails get no
+# tracking image and no opens are recorded.
+TRACKING_SECRET=a_long_random_string
+
 # Database (PostgreSQL)
 DB_HOST=localhost
 DB_PORT=5432
@@ -186,7 +191,11 @@ GET /v1/topics/:topicId
 GET /v1/events/open?requestId={requestId}&token={token}
 ```
 
-The sender appends an image with this link to every email. It does not need the API key, because the recipient's mail client opens it, but the `token` is an HMAC of the `requestId`, made with `API_KEY`. The request ids are a counter that anyone can count along, so without the token anybody could report any email as opened. A request without a valid token still gets the image and is not recorded. Changing `API_KEY` therefore stops the links in emails that were sent before from being counted.
+The sender appends an image with this link to every email. It does not need the API key, because the recipient's mail client opens it, but the `token` is an HMAC of the `requestId`, made with `TRACKING_SECRET`. The request ids are a counter that anyone can count along, so without the token anybody could report any email as opened. A request without a valid token still gets the image and is not recorded.
+
+Every email carries a link, so everyone who receives one can try guesses for the secret offline until the token matches. That is why `TRACKING_SECRET` has to be a random string of its own and not a password or the API key. Changing it stops the links in emails that were sent before from being counted.
+
+The link belongs to one email, but whoever holds it can open it as often as they like, and every valid request adds an `Open` row. Mail clients also fetch images on their own, and some of them prefetch every image through a proxy. Treat the count as a rough measure. This endpoint is public, so for production put a rate limit in front of it, for example in the reverse proxy or with Fiber's limiter middleware.
 
 ### View Sending Statistics
 ```http

@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"image"
 	"image/color"
@@ -114,8 +115,8 @@ func createMessageHandler(c fiber.Ctx) error {
 
 // createOpenEventHandler Open Event Handler
 // Attach an image script to the email and assume it has been read when the image is accessed.
-// The link carries a token that the sender signs with API_KEY, so only the links in the emails
-// that were sent count. Every request gets the image, so a mail client never shows a broken one.
+// The link carries a token that the sender makes with TRACKING_SECRET, so only the links in the
+// emails that were sent count. Every request gets the image, so a mail client never shows a broken one.
 func createOpenEventHandler(c fiber.Ctx) error {
 	reqId := c.Query("requestId")
 	if reqId != "" {
@@ -123,7 +124,7 @@ func createOpenEventHandler(c fiber.Ctx) error {
 		switch {
 		case err != nil:
 			log.Printf("Invalid requestId: %q", reqId)
-		case !tracking.Valid(config.GetEnv("API_KEY"), uint(reqIdInt), c.Query("token")):
+		case !tracking.Valid(config.GetEnv("TRACKING_SECRET"), uint(reqIdInt), c.Query("token")):
 			log.Printf("Ignoring an open event for request %d: the token is missing or wrong", reqIdInt)
 		default:
 			// Consider email as opened and create data
@@ -153,17 +154,13 @@ func createOpenEventHandler(c fiber.Ctx) error {
 // Handler that receives AWS SES results. The endpoint has to be public for SNS to reach it, so
 // it only accepts a message that SNS signed and that comes from the configured topic.
 func createResultEventHandler(c fiber.Ctx) error {
-	msgType := c.Get("x-amz-sns-message-type")
-	if msgType != sns.TypeNotification && msgType != sns.TypeSubscriptionConfirmation {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SNS Message Type"})
-	}
-
-	var reqBody sns.Message
-	if err := json.Unmarshal(c.Body(), &reqBody); err != nil || reqBody.Type != msgType {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Failed to parse SNS message"})
-	}
-	if err := snsVerifier.Verify(c.Context(), &reqBody); err != nil {
+	// Receive hands out the message only after it has been verified.
+	reqBody, err := snsVerifier.Receive(c.Context(), c.Get("x-amz-sns-message-type"), c.Body())
+	if err != nil {
 		log.Printf("Rejected an SNS message: %v", err)
+		if errors.Is(err, sns.ErrMalformed) {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid SNS message"})
+		}
 		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": "Invalid SNS message"})
 	}
 

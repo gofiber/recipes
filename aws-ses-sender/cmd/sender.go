@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"html"
 	"log"
 	"strconv"
 	"time"
@@ -28,6 +27,10 @@ func RunSender(ctx context.Context) {
 		log.Fatalf("Failed to create SES client: %v", err)
 	}
 
+	if config.GetEnv("TRACKING_SECRET") == "" {
+		log.Printf("TRACKING_SECRET is not set: the emails get no tracking image and no opens are recorded")
+	}
+
 	db := config.GetDB()
 	ticker := time.NewTicker(1 * time.Second / time.Duration(rate))
 	for range ticker.C {
@@ -40,7 +43,7 @@ func RunSender(ctx context.Context) {
 				serverHost := config.GetEnv("SERVER_HOST", "http://localhost:3000")
 				content := r.Content
 				// The link carries a token that proves it comes from this sender, see the open event handler.
-				content += `<img src="` + html.EscapeString(tracking.URL(serverHost, config.GetEnv("API_KEY"), r.ID)) + `">`
+				content += tracking.Image(serverHost, config.GetEnv("TRACKING_SECRET"), r.ID)
 				ctx, cancel := context.WithTimeout(c, 10*time.Second)
 				defer cancel()
 				msgId, err := sesClient.SendEmail(

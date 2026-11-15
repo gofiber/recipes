@@ -17,6 +17,7 @@ import (
 	_ "crypto/sha256" // registers SHA-256, which SignatureVersion 2 signs with
 	"crypto/x509"
 	"encoding/base64"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -39,14 +40,21 @@ const (
 const (
 	// maxCertSize bounds what is read from a certificate URL, a real one is about 2 KB.
 	maxCertSize = 64 << 10
-	// maxCachedCerts bounds the certificate cache. Only the few certificates AWS publishes can
-	// get into it, because the URL has to pass checkCertURL first.
+	// maxCachedCerts bounds the certificate cache. Only a certificate that has verified the
+	// signature of a message from a configured topic is cached, so a caller cannot fill it.
 	maxCachedCerts = 32
 )
 
-// certHost matches the hosts that serve SNS signing certificates, for example
-// sns.us-east-1.amazonaws.com and sns.cn-north-1.amazonaws.com.cn.
-var certHost = regexp.MustCompile(`^sns\.[a-z0-9-]+\.amazonaws\.com(\.cn)?$`)
+// certHost matches the hosts that serve SNS signing certificates: sns.<region>.amazonaws.com,
+// for example sns.us-east-1.amazonaws.com, sns.us-gov-west-1.amazonaws.com and
+// sns.cn-north-1.amazonaws.com.cn. The region has the shape of a region, which leaves out
+// names such as sns.s3.amazonaws.com.
+var certHost = regexp.MustCompile(`^sns\.[a-z]{2}(-[a-z]+)+-[0-9]+\.amazonaws\.com(\.cn)?$`)
+
+// ErrMalformed is returned (wrapped) by Receive for a request that is not a well-formed SNS
+// message of a supported type. A message that is well formed but cannot be verified gives
+// another error.
+var ErrMalformed = errors.New("sns: malformed message")
 
 // Message is the JSON document SNS posts. Fields that a message type does not have stay empty.
 type Message struct {
@@ -74,7 +82,7 @@ func (m *Message) stringToSign() (string, error) {
 	case TypeSubscriptionConfirmation, TypeUnsubscribeConfirmation:
 		names = []string{"Message", "MessageId", "SubscribeURL", "Timestamp", "Token", "TopicArn", "Type"}
 	default:
-		return "", fmt.Errorf("sns: unsupported message type %q", m.Type)
+		return "", fmt.Errorf("sns: unsupported message type %.100q", m.Type)
 	}
 
 	values := map[string]string{
@@ -138,6 +146,27 @@ func (v *Verifier) Configured() bool {
 	return len(v.topics) > 0
 }
 
+// Receive reads the body of a request that SNS sent to the endpoint and returns the message
+// only if Verify accepts it, so a handler cannot use a message that was not verified.
+// messageType is the value of the x-amz-sns-message-type header. It has to be Notification or
+// SubscriptionConfirmation, and the body has to say the same. Anything else is ErrMalformed.
+func (v *Verifier) Receive(ctx context.Context, messageType string, body []byte) (*Message, error) {
+	if messageType != TypeNotification && messageType != TypeSubscriptionConfirmation {
+		return nil, fmt.Errorf("%w: unsupported message type %.100q", ErrMalformed, messageType)
+	}
+	var m Message
+	if err := json.Unmarshal(body, &m); err != nil {
+		return nil, fmt.Errorf("%w: %w", ErrMalformed, err)
+	}
+	if m.Type != messageType {
+		return nil, fmt.Errorf("%w: the header says %q and the body says %.100q", ErrMalformed, messageType, m.Type)
+	}
+	if err := v.Verify(ctx, &m); err != nil {
+		return nil, err
+	}
+	return &m, nil
+}
+
 // Verify returns nil only if m comes from one of the Verifier's topics and carries a valid
 // signature by the certificate that it names.
 func (v *Verifier) Verify(ctx context.Context, m *Message) error {
@@ -145,7 +174,7 @@ func (v *Verifier) Verify(ctx context.Context, m *Message) error {
 		return errors.New("sns: no topic is configured")
 	}
 	if _, ok := v.topics[m.TopicARN]; !ok {
-		return fmt.Errorf("sns: message is from topic %q, which is not configured", m.TopicARN)
+		return fmt.Errorf("sns: message is from topic %.100q, which is not configured", m.TopicARN)
 	}
 
 	var hash crypto.Hash
@@ -155,7 +184,7 @@ func (v *Verifier) Verify(ctx context.Context, m *Message) error {
 	case "2":
 		hash = crypto.SHA256
 	default:
-		return fmt.Errorf("sns: unsupported signature version %q", m.SignatureVersion)
+		return fmt.Errorf("sns: unsupported signature version %.100q", m.SignatureVersion)
 	}
 
 	signed, err := m.stringToSign()
@@ -168,9 +197,15 @@ func (v *Verifier) Verify(ctx context.Context, m *Message) error {
 		return errors.New("sns: signature is missing or is not base64")
 	}
 
-	key, err := v.publicKey(ctx, m.SigningCertURL)
+	certURL, err := checkCertURL(m.SigningCertURL)
 	if err != nil {
 		return err
+	}
+	key, cached := v.cachedKey(certURL)
+	if !cached {
+		if key, err = v.download(ctx, certURL); err != nil {
+			return err
+		}
 	}
 
 	h := hash.New()
@@ -178,45 +213,58 @@ func (v *Verifier) Verify(ctx context.Context, m *Message) error {
 	if err := rsa.VerifyPKCS1v15(key, hash, h.Sum(nil), signature); err != nil {
 		return fmt.Errorf("sns: signature does not match: %w", err)
 	}
+
+	// Only now is the certificate known to have signed a message of a configured topic, so only
+	// now is it cached.
+	if !cached {
+		v.remember(certURL, key)
+	}
 	return nil
 }
 
-// checkCertURL accepts only the https URLs of .pem files on the SNS hosts of AWS.
-func checkCertURL(raw string) (*url.URL, error) {
+// checkCertURL accepts only the https URLs of .pem files on the SNS hosts of AWS and returns
+// them in one canonical spelling (lower-case host, no port), which is also the cache key.
+func checkCertURL(raw string) (string, error) {
 	u, err := url.Parse(raw)
 	if err != nil {
-		return nil, fmt.Errorf("sns: invalid signing certificate URL: %w", err)
+		return "", fmt.Errorf("sns: invalid signing certificate URL: %w", err)
 	}
+	host := strings.ToLower(u.Hostname())
 	switch {
 	case u.Scheme != "https":
-		return nil, fmt.Errorf("sns: signing certificate URL %q is not https", raw)
+		return "", fmt.Errorf("sns: signing certificate URL %.100q is not https", raw)
 	case u.User != nil:
-		return nil, fmt.Errorf("sns: signing certificate URL %q has credentials", raw)
+		return "", fmt.Errorf("sns: signing certificate URL %.100q has credentials", raw)
 	case u.Port() != "" && u.Port() != "443":
-		return nil, fmt.Errorf("sns: signing certificate URL %q uses another port", raw)
-	case !certHost.MatchString(strings.ToLower(u.Hostname())):
-		return nil, fmt.Errorf("sns: signing certificate URL %q is not an SNS host", raw)
-	case !strings.HasSuffix(u.Path, ".pem") || u.RawQuery != "" || u.Fragment != "":
-		return nil, fmt.Errorf("sns: signing certificate URL %q is not a .pem file", raw)
+		return "", fmt.Errorf("sns: signing certificate URL %.100q uses another port", raw)
+	case !certHost.MatchString(host):
+		return "", fmt.Errorf("sns: signing certificate URL %.100q is not an SNS host", raw)
+	case !strings.HasSuffix(u.Path, ".pem") || strings.Contains(u.EscapedPath(), "%") || u.RawQuery != "" || u.Fragment != "":
+		return "", fmt.Errorf("sns: signing certificate URL %.100q is not a plain .pem file", raw)
 	}
-	return u, nil
+	return "https://" + host + u.EscapedPath(), nil
 }
 
-// publicKey returns the public key of the certificate at raw, from the cache if it is there.
-func (v *Verifier) publicKey(ctx context.Context, raw string) (*rsa.PublicKey, error) {
-	u, err := checkCertURL(raw)
-	if err != nil {
-		return nil, err
-	}
-
+// cachedKey returns the key of a certificate that has been used before.
+func (v *Verifier) cachedKey(certURL string) (*rsa.PublicKey, bool) {
 	v.mu.Lock()
-	key, ok := v.certs[u.String()]
-	v.mu.Unlock()
-	if ok {
-		return key, nil
-	}
+	defer v.mu.Unlock()
+	key, ok := v.certs[certURL]
+	return key, ok
+}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+// remember caches a key. A full cache stays as it is.
+func (v *Verifier) remember(certURL string, key *rsa.PublicKey) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+	if len(v.certs) < maxCachedCerts {
+		v.certs[certURL] = key
+	}
+}
+
+// download fetches the certificate and returns its public key.
+func (v *Verifier) download(ctx context.Context, certURL string) (*rsa.PublicKey, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, certURL, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -241,15 +289,9 @@ func (v *Verifier) publicKey(ctx context.Context, raw string) (*rsa.PublicKey, e
 	if err != nil {
 		return nil, fmt.Errorf("sns: parsing the signing certificate: %w", err)
 	}
-	key, ok = cert.PublicKey.(*rsa.PublicKey)
+	key, ok := cert.PublicKey.(*rsa.PublicKey)
 	if !ok {
 		return nil, errors.New("sns: the signing certificate does not hold an RSA key")
 	}
-
-	v.mu.Lock()
-	if len(v.certs) < maxCachedCerts {
-		v.certs[u.String()] = key
-	}
-	v.mu.Unlock()
 	return key, nil
 }

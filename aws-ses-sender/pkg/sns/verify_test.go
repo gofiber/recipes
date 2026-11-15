@@ -13,7 +13,10 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/base64"
+	"encoding/json"
 	"encoding/pem"
+	"errors"
+	"fmt"
 	"io"
 	"math/big"
 	"net/http"
@@ -66,16 +69,21 @@ func certPEM(t *testing.T, public any, private crypto.Signer) []byte {
 type transport struct {
 	status   int
 	body     []byte
+	location string // sent as the Location header when set
 	requests atomic.Int32
 }
 
 func (tr *transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	tr.requests.Add(1)
+	header := http.Header{}
+	if tr.location != "" {
+		header.Set("Location", tr.location)
+	}
 	return &http.Response{
 		StatusCode: tr.status,
 		Status:     http.StatusText(tr.status),
 		Body:       io.NopCloser(bytes.NewReader(tr.body)),
-		Header:     http.Header{},
+		Header:     header,
 		Request:    req,
 	}, nil
 }
@@ -355,12 +363,206 @@ func TestCertificateProblems(t *testing.T) {
 	})
 
 	t.Run("redirects are not followed", func(t *testing.T) {
-		v := NewVerifier(testTopic)
-		err := v.Client.CheckRedirect(nil, nil)
-		if err != http.ErrUseLastResponse {
-			t.Errorf("CheckRedirect = %v, want http.ErrUseLastResponse", err)
+		v, tr := newVerifier(t, testTopic)
+		tr.status = http.StatusFound
+		tr.location = "https://sns.ap-northeast-2.amazonaws.com/SimpleNotificationService-elsewhere.pem"
+		if err := v.Verify(ctx, m); err == nil {
+			t.Fatal("Verify accepted a certificate behind a redirect")
+		}
+		if got := tr.requests.Load(); got != 1 {
+			t.Errorf("certificate requests = %d, want 1: the redirect was followed", got)
 		}
 	})
+
+	t.Run("a certificate beyond the size limit is not read", func(t *testing.T) {
+		v, tr := newVerifier(t, testTopic)
+		padding := bytes.Repeat([]byte("x\n"), maxCertSize/2+10) // more bytes than are read, in front of a valid certificate
+		tr.body = append(padding, tr.body...)
+		if err := v.Verify(ctx, m); err == nil {
+			t.Fatal("Verify read a certificate that starts after the size limit")
+		}
+	})
+
+	t.Run("a PEM block that is not a certificate", func(t *testing.T) {
+		v, tr := newVerifier(t, testTopic)
+		block, _ := pem.Decode(tr.body)
+		tr.body = pem.EncodeToMemory(&pem.Block{Type: "TRUSTED CERTIFICATE", Bytes: block.Bytes})
+		if err := v.Verify(ctx, m); err == nil {
+			t.Fatal("Verify accepted a PEM block of another type")
+		}
+	})
+}
+
+func TestCache(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("a certificate is cached only after it verified a message", func(t *testing.T) {
+		v, tr := newVerifier(t, testTopic)
+		bad := signed(t, notification(), "2")
+		bad.Message = "changed after signing"
+		for range 3 {
+			if err := v.Verify(ctx, bad); err == nil {
+				t.Fatal("Verify accepted a changed message")
+			}
+		}
+		if len(v.certs) != 0 {
+			t.Errorf("%d certificates cached by messages that did not verify, want none", len(v.certs))
+		}
+		if got := tr.requests.Load(); got != 3 {
+			t.Errorf("certificate requests = %d, want 3 (nothing was cached)", got)
+		}
+	})
+
+	t.Run("the cache is bounded", func(t *testing.T) {
+		v, _ := newVerifier(t, testTopic)
+		for i := range maxCachedCerts + 8 {
+			m := notification()
+			m.SigningCertURL = fmt.Sprintf("https://sns.ap-northeast-2.amazonaws.com/SimpleNotificationService-%04d.pem", i)
+			if err := v.Verify(ctx, signed(t, m, "2")); err != nil {
+				t.Fatal(err)
+			}
+		}
+		if len(v.certs) > maxCachedCerts {
+			t.Errorf("%d certificates cached, the limit is %d", len(v.certs), maxCachedCerts)
+		}
+	})
+
+	t.Run("one certificate has one entry whatever the spelling of its URL", func(t *testing.T) {
+		v, tr := newVerifier(t, testTopic)
+		spellings := []string{
+			testCertURL,
+			strings.Replace(testCertURL, "sns.ap-northeast-2.amazonaws.com", "SNS.AP-NORTHEAST-2.AMAZONAWS.COM", 1),
+			strings.Replace(testCertURL, ".amazonaws.com/", ".amazonaws.com:443/", 1),
+		}
+		for _, spelling := range spellings {
+			m := notification()
+			m.SigningCertURL = spelling
+			if err := v.Verify(ctx, signed(t, m, "2")); err != nil {
+				t.Fatalf("%s: %v", spelling, err)
+			}
+		}
+		if got := tr.requests.Load(); got != 1 {
+			t.Errorf("certificate requests = %d, want 1", got)
+		}
+		if len(v.certs) != 1 {
+			t.Errorf("%d cache entries, want 1", len(v.certs))
+		}
+	})
+}
+
+func TestReceive(t *testing.T) {
+	ctx := context.Background()
+	body := func(m *Message) []byte {
+		b, err := json.Marshal(m)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return b
+	}
+
+	t.Run("a verified message is returned", func(t *testing.T) {
+		for header, msg := range map[string]Message{
+			TypeNotification:             notification(),
+			TypeSubscriptionConfirmation: subscriptionConfirmation(),
+		} {
+			v, _ := newVerifier(t, testTopic)
+			got, err := v.Receive(ctx, header, body(signed(t, msg, "2")))
+			if err != nil {
+				t.Fatalf("%s: %v", header, err)
+			}
+			if got.Type != header || got.TopicARN != testTopic {
+				t.Errorf("%s: got %+v", header, got)
+			}
+		}
+	})
+
+	t.Run("a request that is not an SNS message", func(t *testing.T) {
+		good := body(signed(t, notification(), "2"))
+		mismatch := body(signed(t, subscriptionConfirmation(), "2"))
+		// A genuine message of a type that the endpoint does not handle: it verifies, so only the
+		// check of the type keeps it out.
+		unsubscribe := subscriptionConfirmation()
+		unsubscribe.Type = TypeUnsubscribeConfirmation
+		unsubscribed := body(signed(t, unsubscribe, "2"))
+		tests := []struct {
+			name, header string
+			body         []byte
+		}{
+			{"no header", "", good},
+			{"unknown type in the header", "Other", good},
+			{"a type that is not accepted", TypeUnsubscribeConfirmation, good},
+			{"a genuine message of a type that is not accepted", TypeUnsubscribeConfirmation, unsubscribed},
+			{"header in another case", "notification", good},
+			{"header and body disagree", TypeNotification, mismatch},
+			{"body that is not JSON", TypeNotification, []byte("nope")},
+			{"empty body", TypeNotification, nil},
+			{"JSON that is not an object", TypeNotification, []byte("[]")},
+		}
+		for _, tc := range tests {
+			v, tr := newVerifier(t, testTopic)
+			m, err := v.Receive(ctx, tc.header, tc.body)
+			if !errors.Is(err, ErrMalformed) {
+				t.Errorf("%s: error = %v, want ErrMalformed", tc.name, err)
+			}
+			if m != nil {
+				t.Errorf("%s: a message was returned", tc.name)
+			}
+			if got := tr.requests.Load(); got != 0 {
+				t.Errorf("%s: %d certificate requests, want none", tc.name, got)
+			}
+		}
+	})
+
+	t.Run("a message that does not verify is not returned", func(t *testing.T) {
+		tampered := signed(t, notification(), "2")
+		tampered.Message = "changed"
+		unsigned := signed(t, notification(), "2")
+		unsigned.Signature = ""
+		foreign := signed(t, notification(), "2")
+		foreign.TopicARN = "arn:aws:sns:ap-northeast-2:999999999999:attacker"
+
+		for name, msg := range map[string]*Message{"tampered": tampered, "unsigned": unsigned, "foreign topic": foreign} {
+			v, _ := newVerifier(t, testTopic)
+			m, err := v.Receive(ctx, TypeNotification, body(msg))
+			if err == nil || errors.Is(err, ErrMalformed) {
+				t.Errorf("%s: error = %v, want a verification error", name, err)
+			}
+			if m != nil {
+				t.Errorf("%s: a message was returned", name)
+			}
+		}
+	})
+}
+
+// What a caller sends ends up in log lines, so an error must not repeat all of it.
+func TestErrorsStayShort(t *testing.T) {
+	ctx := context.Background()
+	huge := strings.Repeat("a", 1<<20)
+	v, _ := newVerifier(t, testTopic)
+
+	foreign := signed(t, notification(), "2")
+	foreign.TopicARN = huge
+
+	version := signed(t, notification(), "2")
+	version.SignatureVersion = huge
+
+	url := signed(t, notification(), "2")
+	url.SigningCertURL = "https://" + huge + ".example/cert.pem"
+
+	for name, m := range map[string]*Message{"topic": foreign, "signature version": version, "certificate URL": url} {
+		err := v.Verify(ctx, m)
+		if err == nil {
+			t.Fatalf("%s: Verify accepted the message", name)
+		}
+		if len(err.Error()) > 400 {
+			t.Errorf("%s: the error is %d bytes long", name, len(err.Error()))
+		}
+	}
+
+	_, err := v.Receive(ctx, huge, nil)
+	if err == nil || len(err.Error()) > 400 {
+		t.Errorf("Receive with a huge header: %v", err)
+	}
 }
 
 func TestCheckCertURL(t *testing.T) {
@@ -368,7 +570,10 @@ func TestCheckCertURL(t *testing.T) {
 		testCertURL,
 		"https://sns.us-east-1.amazonaws.com/SimpleNotificationService-abc.pem",
 		"https://sns.us-gov-west-1.amazonaws.com/SimpleNotificationService-abc.pem",
+		"https://sns.us-gov-east-1.amazonaws.com/SimpleNotificationService-abc.pem",
+		"https://sns.il-central-1.amazonaws.com/SimpleNotificationService-abc.pem",
 		"https://sns.cn-north-1.amazonaws.com.cn/SimpleNotificationService-abc.pem",
+		"https://sns.cn-northwest-1.amazonaws.com.cn/SimpleNotificationService-abc.pem",
 		"https://sns.eu-west-1.amazonaws.com:443/SimpleNotificationService-abc.pem",
 		"https://SNS.EU-WEST-1.AMAZONAWS.COM/SimpleNotificationService-abc.pem",
 	}
@@ -378,6 +583,12 @@ func TestCheckCertURL(t *testing.T) {
 		}
 	}
 
+	// The spelling is canonical: lower-case host, no port.
+	got, err := checkCertURL("https://SNS.AP-NORTHEAST-2.AMAZONAWS.COM:443/SimpleNotificationService-x.pem")
+	if want := "https://sns.ap-northeast-2.amazonaws.com/SimpleNotificationService-x.pem"; err != nil || got != want {
+		t.Errorf("checkCertURL canonical form = %q, %v; want %q", got, err, want)
+	}
+
 	bad := []string{
 		"",
 		"not a url",
@@ -385,6 +596,11 @@ func TestCheckCertURL(t *testing.T) {
 		"ftp://sns.us-east-1.amazonaws.com/cert.pem",
 		"https://example.com/cert.pem",
 		"https://amazonaws.com/cert.pem",
+		"https://sns.amazonaws.com/cert.pem",
+		"https://sns.s3.amazonaws.com/cert.pem",
+		"https://sns.s3-us-west-2.amazonaws.com/cert.pem",
+		"https://sns.us-east-1.amazonaws.com/a%2Fb.pem",
+		"https://sns.us-east-1.amazonaws.com/cert%2Epem",
 		"https://s3.us-east-1.amazonaws.com/cert.pem",
 		"https://sns.us-east-1.amazonaws.com.evil.example/cert.pem",
 		"https://evil-sns.us-east-1.amazonaws.com/cert.pem",
