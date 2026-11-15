@@ -43,8 +43,11 @@ func GetAllBooks(ctx context.Context, _ *struct{}) (*GetAllBooksResponse, error)
 	return &GetAllBooksResponse{Body: books}, nil
 }
 
+// ID is a uint rather than a string on purpose: Huma rejects non-integers with a 422
+// before the handler runs, and GORM would otherwise treat a non-numeric string passed to
+// First() as a raw WHERE clause (SQL injection).
 func GetBookByID(ctx context.Context, params *struct {
-	ID string `path:"id"`
+	ID uint `path:"id"`
 }) (*GetBookByIDResponse, error) {
 	db := database.DBConn
 
@@ -76,7 +79,7 @@ func RegisterBook(ctx context.Context, input *struct{ Body RegisterBookDto }) (*
 }
 
 func UpdateBook(ctx context.Context, input *struct {
-	ID   string `path:"id"`
+	ID   uint `path:"id"`
 	Body RegisterBookDto
 }) (*EmptyResponse, error) {
 	db := database.DBConn
@@ -100,7 +103,7 @@ func UpdateBook(ctx context.Context, input *struct {
 }
 
 func DeleteBook(ctx context.Context, params *struct {
-	ID string `path:"id"`
+	ID uint `path:"id"`
 }) (*EmptyResponse, error) {
 	db := database.DBConn
 

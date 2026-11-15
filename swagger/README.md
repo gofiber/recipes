@@ -43,10 +43,10 @@ This project demonstrates how to integrate Swagger for API documentation in a [F
 Generate (or regenerate) the Swagger documentation from the annotations in your source code:
 
 ```sh
-swag init
+swag init --parseDependency --parseDependencyLevel 1
 ```
 
-This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`.
+This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`. The two flags let `swag` resolve the `gorm.Model` fields embedded in `models.Book`. Without them, recent `swag` versions stop with `cannot find type definition: gorm.Model`.
 
 ## Running the Application
 

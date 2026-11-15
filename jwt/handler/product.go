@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strconv"
+
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
 
@@ -17,7 +19,12 @@ func GetAllProducts(c fiber.Ctx) error {
 
 // GetProduct query product
 func GetProduct(c fiber.Ctx) error {
-	id := c.Params("id")
+	// Parse the id instead of passing the raw string to GORM, which would treat a
+	// non-numeric value as a raw WHERE clause (SQL injection).
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Invalid product ID", "data": nil})
+	}
 	db := database.DB
 	var product model.Product
 	db.Find(&product, id)
@@ -34,13 +41,18 @@ func CreateProduct(c fiber.Ctx) error {
 	if err := c.Bind().Body(product); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't create product", "data": err})
 	}
-	db.Create(&product)
+	if err := db.Create(&product).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Couldn't create product", "data": nil})
+	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Created product", "data": product})
 }
 
 // DeleteProduct delete product
 func DeleteProduct(c fiber.Ctx) error {
-	id := c.Params("id")
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Invalid product ID", "data": nil})
+	}
 	db := database.DB
 
 	var product model.Product

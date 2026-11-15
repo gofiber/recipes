@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"swagger/database"
 	"swagger/models"
@@ -52,12 +53,22 @@ func GetAllBooks(c fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Book ID"
-// @Success 200 {object} ResponseHTTP{data=[]models.Book}
+// @Success 200 {object} ResponseHTTP{data=models.Book}
+// @Failure 400 {object} ResponseHTTP{}
 // @Failure 404 {object} ResponseHTTP{}
 // @Failure 503 {object} ResponseHTTP{}
 // @Router /v1/books/{id} [get]
 func GetBookByID(c fiber.Ctx) error {
-	id := c.Params("id")
+	// Parse the id instead of handing the raw string to GORM, which would treat a
+	// non-numeric value as a raw WHERE clause (SQL injection).
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: "Invalid book ID.",
+			Data:    nil,
+		})
+	}
 	db := database.DBConn
 
 	book := new(models.Book)
@@ -95,6 +106,7 @@ func GetBookByID(c fiber.Ctx) error {
 // @Param book body models.Book true "Register book"
 // @Success 200 {object} ResponseHTTP{data=models.Book}
 // @Failure 400 {object} ResponseHTTP{}
+// @Failure 503 {object} ResponseHTTP{}
 // @Router /v1/books [post]
 func RegisterBook(c fiber.Ctx) error {
 	db := database.DBConn
@@ -108,7 +120,13 @@ func RegisterBook(c fiber.Ctx) error {
 		})
 	}
 
-	db.Create(book)
+	if err := db.Create(book).Error; err != nil {
+		return c.Status(http.StatusServiceUnavailable).JSON(ResponseHTTP{
+			Success: false,
+			Message: err.Error(),
+			Data:    nil,
+		})
+	}
 
 	return c.JSON(ResponseHTTP{
 		Success: true,
@@ -125,11 +143,21 @@ func RegisterBook(c fiber.Ctx) error {
 // @Produce json
 // @Param id path int true "Book ID"
 // @Success 200 {object} ResponseHTTP{}
+// @Failure 400 {object} ResponseHTTP{}
 // @Failure 404 {object} ResponseHTTP{}
 // @Failure 503 {object} ResponseHTTP{}
 // @Router /v1/books/{id} [delete]
 func DeleteBook(c fiber.Ctx) error {
-	id := c.Params("id")
+	// Parse the id instead of handing the raw string to GORM, which would treat a
+	// non-numeric value as a raw WHERE clause (SQL injection).
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: "Invalid book ID.",
+			Data:    nil,
+		})
+	}
 	db := database.DBConn
 
 	book := new(models.Book)
@@ -151,7 +179,13 @@ func DeleteBook(c fiber.Ctx) error {
 		}
 	}
 
-	db.Delete(&book)
+	if err := db.Delete(&book).Error; err != nil {
+		return c.Status(http.StatusServiceUnavailable).JSON(ResponseHTTP{
+			Success: false,
+			Message: err.Error(),
+			Data:    nil,
+		})
+	}
 
 	return c.JSON(ResponseHTTP{
 		Success: true,
