@@ -8,7 +8,7 @@ description: Generate Swagger documentation for your application.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/swagger) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/swagger)
 
-This project demonstrates how to integrate Swagger for API documentation in a [Fiber](https://github.com/gofiber/fiber) application using [`gofiber/contrib/swaggerui`](https://github.com/gofiber/contrib/tree/main/swaggerui) and [`swaggo/swag`](https://github.com/swaggo/swag).
+This project demonstrates how to integrate Swagger for API documentation in a [Fiber](https://github.com/gofiber/fiber) application using [`gofiber/contrib/swaggerui`](https://github.com/gofiber/contrib/tree/main/v3/swaggerui) and [`swaggo/swag`](https://github.com/swaggo/swag).
 
 ## Prerequisites
 
@@ -64,7 +64,7 @@ Open your browser and navigate to:
 http://localhost:3000/docs/docs
 ```
 
-The Swagger UI is served by [`gofiber/contrib/v3/swaggerui`](https://github.com/gofiber/contrib/tree/main/swaggerui) and reads the spec from `./docs/swagger.json`.
+The Swagger UI is served by [`gofiber/contrib/v3/swaggerui`](https://github.com/gofiber/contrib/tree/main/v3/swaggerui) and reads the spec from `./docs/swagger.json`.
 
 ## API Endpoints
 
@@ -118,5 +118,5 @@ curl -X DELETE http://localhost:3000/api/v1/books/1
 ## References
 
 - [Fiber](https://github.com/gofiber/fiber)
-- [gofiber/contrib/swaggerui](https://github.com/gofiber/contrib/tree/main/swaggerui)
+- [gofiber/contrib/swaggerui](https://github.com/gofiber/contrib/tree/main/v3/swaggerui)
 - [Swag Documentation](https://github.com/swaggo/swag)

@@ -14,7 +14,7 @@ This example demonstrates a simple Go Fiber application that includes modules fo
 
 Ensure you have the following installed:
 
-- [Go](https://golang.org/dl/): (version 1.22 or higher) installed
+- [Go](https://golang.org/dl/): (version 1.26 or higher) installed
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/): for running a local MinIO instance
 - [Git](https://git-scm.com/downloads)
 

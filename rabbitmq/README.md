@@ -22,7 +22,7 @@ This example demonstrates how to integrate [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Prerequisites
 
-- [Go](https://golang.org/) 1.21+
+- [Go](https://golang.org/) 1.26+
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
 ## Environment variables

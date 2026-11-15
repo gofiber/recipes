@@ -85,6 +85,27 @@ sql:
       go:
         package: "sqlc"
         out: "database/sqlc"
+        # Lower-case JSON keys.
+        emit_json_tags: true
+        # Nullable columns as pointers. With the default sql.NullString/sql.NullTime types,
+        # a column serializes as {"String":"...","Valid":true} and cannot be decoded from
+        # {"content":"text"}. (emit_pointers_for_null_types would do this too, but it only
+        # works with the pgx driver, and this recipe uses database/sql.)
+        overrides:
+          - column: "post.content"
+            go_type:
+              type: "string"
+              pointer: true
+          - column: "post.created_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
+          - column: "post.updated_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
 ```
 ###### author.sql
 ```sql
@@ -132,7 +153,17 @@ sqlc/
 ├── models.go
 ├── post.sql.go
 ```
-#### 5. Reference
+#### 5. Run the application
+> ##### 🎯 The application reads the database settings from the environment (it does not read a `.env` file), so load the values of `.env.example` first.
+```bash
+$ set -a; source .env.example; set +a
+$ go run .
+```
+```console
+Connected to database
+```
+The server listens on port 3000, see the endpoints below.
+#### 6. Reference
 [sqlc document](https://docs.sqlc.dev/en/stable/)
 
 ## API Endpoints
@@ -170,4 +201,3 @@ curl -X POST http://localhost:3000/api/v1/posts -H "Content-Type: application/js
 
 curl http://localhost:3000/api/v1/posts/1
 ```
-

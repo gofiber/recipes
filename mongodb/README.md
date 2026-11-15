@@ -51,7 +51,7 @@ Ensure you have the following installed:
 
 ## Endpoints
 
-The application is a small employee API over the `employee` collection of the `fiber_test` database. `id` is the MongoDB ObjectID, as a hex string.
+The application is a small employee API over the `employees` collection of the `fiber_test` database. `id` is the MongoDB ObjectID, as a hex string.
 
 | Method | URL            | Description                  | Success |
 | ------ | -------------- | ---------------------------- | ------- |

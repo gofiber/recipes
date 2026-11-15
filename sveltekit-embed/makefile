@@ -18,9 +18,11 @@ info:
 	$(info )
 	$(info Available commands:)
 	$(info - go-build:  Build the Golang project.)
+	$(info - install-template-dependencies:  Install the SvelteKit dependencies.)
 	$(info - svelte-build:  Build the SvelteKit project.)
 	$(info - all:  Run all commands (SvelteBuild, GoBuild).)
 	$(info - build:  Same as all, the target CI runs.)
+	$(info - clean:  Remove the app file and the build output in template/dist.)
 	$(info )
 	$(info Usage: make <command>)
 

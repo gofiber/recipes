@@ -10,7 +10,7 @@ description: A chatroom application using Socket.IO.
 
 This example demonstrates how to create a simple chatroom with Socket.IO. The chatroom supports multiple users and allows them to send messages to each other.
 
-The server uses the [`socketio`](https://github.com/gofiber/contrib/tree/main/socketio) package from Fiber contrib, which implements the Engine.IO v4 / Socket.IO v5 protocol. Clients therefore connect with the official [`socket.io-client`](https://socket.io/docs/v4/client-api/) library (or any other Socket.IO client). A plain WebSocket client does not work: the server expects the Socket.IO handshake first and answers a message sent before it with `Expected SIO CONNECT`. For plain WebSockets, see the [WebSocket](../websocket/README.md) recipe.
+The server uses the [`socketio`](https://github.com/gofiber/contrib/tree/main/v3/socketio) package from Fiber contrib, which implements the Engine.IO v4 / Socket.IO v5 protocol. Clients therefore connect with the official [`socket.io-client`](https://socket.io/docs/v4/client-api/) library (or any other Socket.IO client). A plain WebSocket client does not work: the server expects the Socket.IO handshake first and answers a message sent before it with `Expected SIO CONNECT`. For plain WebSockets, see the [WebSocket](../websocket/README.md) recipe.
 
 ## Prerequisites
 
@@ -95,7 +95,7 @@ bob.once("message", () => {
 });
 ```
 
-It prints:
+It prints the following. The order of the first three lines can vary between runs:
 
 ```
 alice got: Hello user: alice with UUID: <uuid>
@@ -106,5 +106,5 @@ bob got: { from: 'alice', to: 'bob', data: 'hello' }
 
 ## References
 
-- [Socket.IO package for Fiber](https://github.com/gofiber/contrib/tree/main/socketio): polling, acknowledgements, namespaces and handshake auth
+- [Socket.IO package for Fiber](https://github.com/gofiber/contrib/tree/main/v3/socketio): polling, acknowledgements, namespaces and handshake auth
 - [Socket.IO client API](https://socket.io/docs/v4/client-api/)

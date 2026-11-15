@@ -70,7 +70,7 @@ Here is a minimal example of adding huma to a existing Fiber codebase:
 ```go
 import (
    ...
-   "github.com/gofiber/fiber/v2"
+   "github.com/gofiber/fiber/v3"
    "github.com/danielgtaylor/huma/v2"
    "github.com/danielgtaylor/huma/v2/adapters/humafiber"
 )
@@ -84,10 +84,12 @@ func New() *fiber.App {
 }
 ```
 
+The recipe itself registers its routes in a `/v1` group (`huma.NewGroup(api, "/v1")`), so its paths are `/v1/books` and `/v1/books/{id}`.
+
 ### `handlers/book.go`
 
 ```go
-// func GetAllBooks(c *fiber.Ctx) error {} // 👈 your existing code
+// func GetAllBooks(c fiber.Ctx) error {} // 👈 your existing code
 
 // 👇 huma version
 func GetAllBooks(ctx context.Context, _ *struct{}) (*GetAllBooksResponse, error) {

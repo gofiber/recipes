@@ -31,6 +31,12 @@ Ensure you have the following installed and available in your `GOPATH`:
     go get
     ```
 
+3. Create the environment file and add a secret for signing the JWTs. `air` loads `.env`, and the application refuses to start without `TOKEN_KEY`:
+    ```sh
+    cp .env.example .env
+    echo "TOKEN_KEY=$(openssl rand -hex 32)" >> .env
+    ```
+
 ## Running the Application
 
 1. Start the application:
@@ -39,12 +45,6 @@ Ensure you have the following installed and available in your `GOPATH`:
     ```
 
 ## Environment Variables
-
-Copy the example file and review it. The application refuses to start without `TOKEN_KEY`:
-
-```sh
-cp .env.example .env
-```
 
 | Variable | Description | Default |
 | --- | --- | --- |

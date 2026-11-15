@@ -1,6 +1,6 @@
 ---
 title: Single Page Application (SPA)
-keywords: [spa, static, client-side routing, react]
+keywords: [spa, static, client-side routing]
 description: Serving a Single Page Application (SPA) with Fiber, including the index.html fallback for client-side routes.
 ---
 
@@ -100,4 +100,4 @@ The `static` middleware sets the status to `404` before it calls `NotFoundHandle
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [Fiber Static Middleware](https://docs.gofiber.io/api/middleware/static)
+- [Fiber Static Middleware](https://docs.gofiber.io/middleware/static)

@@ -10,7 +10,7 @@ description: A Todo application with authentication using GORM and Postgres.
 
 This project demonstrates a Todo application with authentication using GORM and Testcontainers.
 
-The database is a Postgres instance created using the GoFiber's [Testcontainers Service module](https://github.com/gofiber/contrib/testcontainers). The instance is reused across multiple runs of the application, allowing to develop locally without having to wait for the database to be ready.
+The database is a Postgres instance created using the GoFiber's [Testcontainers Service module](https://github.com/gofiber/contrib/tree/main/v3/testcontainers). The instance is reused across multiple runs of the application, allowing to develop locally without having to wait for the database to be ready.
 
 When using the `air` command to run the application, the database is automatically started alongside the Fiber application, and it's automatically stopped when the air command is interrupted.
 
@@ -36,6 +36,12 @@ Ensure you have the following installed and available in your `GOPATH`:
     go get
     ```
 
+3. Create the environment file and add a secret for signing the JWTs. `air` loads `.env`, and the application refuses to start without `TOKEN_KEY`:
+    ```sh
+    cp .env.example .env
+    echo "TOKEN_KEY=$(openssl rand -hex 32)" >> .env
+    ```
+
 ## Running the Application
 
 1. Start the application:
@@ -45,16 +51,10 @@ Ensure you have the following installed and available in your `GOPATH`:
 
 ## Environment Variables
 
-Copy the example file and review it. The application refuses to start without `TOKEN_KEY`:
-
-```sh
-cp .env.example .env
-```
-
 | Variable | Description | Default |
 | --- | --- | --- |
 | `PORT` | Server listening port | `8000` |
-| `DB` | PostgreSQL connection string | `postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable` |
+| `DB` | PostgreSQL connection string. Only builds without the `dev` tag use it. `air` builds with `-tags dev`, which starts a PostgreSQL container with Testcontainers and ignores `DB` | `postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable` |
 | `TOKEN_KEY` | Secret used to sign the JWTs. Generate a random one with `openssl rand -hex 32` | required |
 | `TOKEN_EXP` | Token lifetime, a [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration) string | `10h` |
 | `TESTCONTAINERS_RYUK_DISABLED` | Disables the Ryuk container so the database container is not removed when the application stops | `true` in `.env.example` |

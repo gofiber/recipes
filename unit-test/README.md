@@ -16,7 +16,7 @@ This project provides a basic setup for unit testing in a Go Fiber application. 
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.26 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure
@@ -160,6 +160,7 @@ import (
 
     "github.com/gofiber/fiber/v3"
     "github.com/stretchr/testify/assert"
+    "github.com/stretchr/testify/require"
 )
 
 func TestIndexRoute(t *testing.T) {
@@ -173,8 +174,8 @@ func TestIndexRoute(t *testing.T) {
     // Perform the request using app.Test
     res, err := app.Test(req, fiber.TestConfig{Timeout: 0, FailOnTimeout: false})
 
-    // Verify that no error occurred. Check this before using res, which is nil on error.
-    assert.Nil(t, err)
+    // Verify that no error occurred. require stops the test here, so res, which is nil on error, is never used.
+    require.NoError(t, err)
     defer res.Body.Close()
 
     // Verify the status code

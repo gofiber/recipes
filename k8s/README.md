@@ -68,7 +68,7 @@ Ensure you have the following installed:
     ```
     The Service is of type `LoadBalancer`. On a cloud cluster it gets an external IP (see `kubectl get svc fiber-k8s-example`). On Minikube that IP stays `<pending>` unless you run `minikube tunnel`, so use the port-forward.
 
-3. Access the application at `http://localhost:3000`. It answers `Hello, World!`. The readiness and liveness probes use `http://localhost:3000/healthz`.
+3. Access the application at `http://localhost:3000`. It answers `Hello, World!`. The readiness and liveness probes request `GET /healthz` on port 3000 of each pod.
 
 4. Remove everything when you are done:
     ```sh

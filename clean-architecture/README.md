@@ -16,7 +16,7 @@ This project provides a starting point for building a web application with a cle
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.26 or higher
 - [MongoDB](https://www.mongodb.com/try/download/community)
 - [Git](https://git-scm.com/downloads)
 
@@ -191,7 +191,8 @@ func main() {
     app := fiber.New()
     bookRepo := book.NewRepo(collection)
     bookService := book.NewService(bookRepo)
-    routes.BookRouter(app, bookService)
+    api := app.Group("/api")
+    routes.BookRouter(api, bookService)
     app.Listen(":3000")
 }
 ```
