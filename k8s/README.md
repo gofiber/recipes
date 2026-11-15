@@ -38,6 +38,11 @@ Ensure you have the following installed:
     ```sh
     docker build -t fiber-k8s-example:latest .
     ```
+    The image is built for the architecture of your machine. If the cluster runs on another one, for example an `amd64` cluster and an Apple silicon laptop, name it with `--platform`:
+    ```sh
+    docker build --platform linux/amd64 -t fiber-k8s-example:latest .
+    ```
+    The Dockerfile compiles the Go program for the requested platform on your machine. The commands of its last stage run in an image of that platform, so building for another architecture also needs Docker's emulation, which Docker Desktop includes.
 
 4. Start Minikube (if using Minikube):
     ```sh
@@ -128,13 +133,15 @@ func main() {
 Here is the `Dockerfile` for the application:
 
 ```Dockerfile
-FROM golang:1.27-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.27-alpine AS builder
+ARG TARGETOS
+ARG TARGETARCH
 WORKDIR /k8s-example
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /bin/k8s-example .
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /bin/k8s-example .
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates

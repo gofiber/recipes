@@ -62,6 +62,8 @@ gcloud services enable run.googleapis.com \
 
 The application should now be running on `http://localhost:3000`.
 
+> **Architecture:** Cloud Run runs `linux/amd64` images. `gcloud builds submit` (below) builds one, and so does `docker build` on an `amd64` machine. On an `arm64` machine, such as an Apple silicon laptop, build the image you push with `docker build --platform linux/amd64 -t cloud-run-example .`. The Dockerfile compiles for the requested platform; its final stage runs commands in an image of that platform, so Docker's emulation has to be available (Docker Desktop includes it).
+
 > **PORT environment variable:** Cloud Run injects the `PORT` env variable at runtime. The application reads `PORT` and falls back to `3000` if unset, so it works both locally and on Cloud Run without any code changes.
 
 ## Deploy to Google Cloud Run
