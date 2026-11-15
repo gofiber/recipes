@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 
 	"local-development/testcontainers/app/dal"
 	"local-development/testcontainers/app/routes"
@@ -34,6 +35,8 @@ func main() {
 		panic(err)
 	}
 
+	// Turn a panic in any handler into a 500 instead of letting it stop the server.
+	app.Use(recover.New())
 	app.Use(logger.New())
 
 	routes.AuthRoutes(app)
