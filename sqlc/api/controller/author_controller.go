@@ -92,10 +92,11 @@ func UpdateAuthor(c fiber.Ctx) error {
 	}
 
 	var author sqlc.UpdateAuthorParams
-	author.ID = int32(authorId)
 	if err := c.Bind().Body(&author); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
+	// Set the id after binding, so an "id" in the request body cannot override the URL.
+	author.ID = int32(authorId)
 
 	updatedAuthor, err := sqlc.New(database.DB).UpdateAuthor(ctx, author)
 	if err != nil {

@@ -146,22 +146,37 @@ sqlc/
 
 ## API Endpoints
 
+All paths are below `/api/v1`, for example `http://localhost:3000/api/v1/posts`. JSON keys are lower-case (`id`, `title`, `created_at`, ...), and the nullable `content`, `created_at` and `updated_at` columns are a plain value or `null`.
+
 ### Authors
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/authors` | List all authors |
-| GET | `/authors/:id` | Get an author by ID |
-| POST | `/authors` | Create a new author |
-| PUT | `/authors/:id` | Update an author |
-| DELETE | `/authors/:id` | Delete an author |
+| GET | `/api/v1/authors` | List all authors |
+| GET | `/api/v1/authors/:id` | Get an author by ID |
+| POST | `/api/v1/authors` | Create a new author |
+| PUT | `/api/v1/authors/:id` | Update an author |
+| DELETE | `/api/v1/authors/:id` | Delete an author |
 
 ### Posts
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/posts` | List all posts |
-| GET | `/posts/:id` | Get a post by ID |
-| POST | `/posts` | Create a new post |
-| PUT | `/posts/:id` | Update a post |
-| DELETE | `/posts/:id` | Delete a post |
+| GET | `/api/v1/posts` | List all posts |
+| GET | `/api/v1/posts/:id` | Get a post by ID |
+| POST | `/api/v1/posts` | Create a new post |
+| PUT | `/api/v1/posts/:id` | Update a post |
+| DELETE | `/api/v1/posts/:id` | Delete a post |
+
+### Example
+
+```bash
+curl -X POST http://localhost:3000/api/v1/authors -H "Content-Type: application/json" \
+  -d '{"email": "ann@example.com", "name": "Ann"}'
+
+curl -X POST http://localhost:3000/api/v1/posts -H "Content-Type: application/json" \
+  -d '{"title": "Hello", "content": "plain text", "author": 1}'
+
+curl http://localhost:3000/api/v1/posts/1
+```
+

@@ -46,6 +46,8 @@ Ensure you have the following installed:
 
 4. Update the `user`, `password` and `dbname` constants at the top of `main.go` to match your database.
 
+    The connection string ends with `?clientFoundRows=true`. MySQL normally reports only the rows an `UPDATE` actually changed, so `PUT /employee/:id` would answer `404` for an existing employee whose values did not change. With this option the driver reports matched rows, and `0` really means that the employee does not exist.
+
 ## Running the Application
 
 1. Start the application:
@@ -100,7 +102,7 @@ The handlers use only `database/sql`, so switching to PostgreSQL is a matter of 
 | --- | --- | --- |
 | Driver import | `_ "github.com/go-sql-driver/mysql"` | `_ "github.com/jackc/pgx/v5/stdlib"` |
 | Driver name for `sql.Open` | `"mysql"` | `"pgx"` |
-| Connection string | `root:password@/fiber_demo` | `host=localhost port=5432 user=postgres password=password dbname=fiber_demo sslmode=disable` |
+| Connection string | `root:password@/fiber_demo?clientFoundRows=true` | `host=localhost port=5432 user=postgres password=password dbname=fiber_demo sslmode=disable` |
 | Query placeholders | `?` | `$1`, `$2`, ... |
 | ID of an inserted row | `result.LastInsertId()` | Add `RETURNING id` to the `INSERT` and read it with `db.QueryRow(...).Scan(&id)`. The pgx driver does not support `LastInsertId`. |
 

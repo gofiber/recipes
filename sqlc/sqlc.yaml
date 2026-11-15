@@ -7,4 +7,24 @@ sql:
       go:
         package: "sqlc"
         out: "database/sqlc"
-      
+        # Lower-case JSON keys.
+        emit_json_tags: true
+        # Nullable columns as pointers. With the default sql.NullString/sql.NullTime types,
+        # a column serializes as {"String":"...","Valid":true} and cannot be decoded from
+        # {"content":"text"}. (emit_pointers_for_null_types would do this too, but it only
+        # works with the pgx driver, and this recipe uses database/sql.)
+        overrides:
+          - column: "post.content"
+            go_type:
+              type: "string"
+              pointer: true
+          - column: "post.created_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
+          - column: "post.updated_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
