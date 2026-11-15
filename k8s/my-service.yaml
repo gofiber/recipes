@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-fiber-app-deployment
+  name: fiber-k8s-example
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-fiber-app
+      app: fiber-k8s-example
   template:
     metadata:
       labels:
-        app: my-fiber-app
+        app: fiber-k8s-example
     spec:
       containers:
-      - name: my-fiber-app
-        image: gcr.io/google-containers/busybox # replace with your container registry url
+      - name: fiber-k8s-example
+        # The image built from this recipe's Dockerfile. On a cluster other than Minikube,
+        # push it to a registry and use the full image name here, for example
+        # registry.example.com/your-team/fiber-k8s-example:1.0.0
+        image: fiber-k8s-example:latest
+        # Use the image that is already on the node instead of pulling it from a registry.
+        # Needed for an image loaded into Minikube with `minikube image load`.
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             memory: "32Mi"
@@ -41,11 +47,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-fiber-app-service
+  name: fiber-k8s-example
 spec:
   type: LoadBalancer
   selector:
-    app: my-fiber-app
+    app: fiber-k8s-example
   ports:
   - port: 3000
     targetPort: 3000
