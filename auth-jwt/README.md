@@ -84,7 +84,7 @@ The following endpoints are available in the API:
 - **POST /api/auth/register**: Register a new user.
 - **POST /api/auth/login**: Authenticate a user and return a JWT.
 - **POST /api/auth/logout**: Logout a user and revoke their JWT.
-- **POST /api/auth/refresh-token**: Refreshes a user token and returns a JWT.
+- **POST /api/auth/refresh-token**: Refreshes a user token and returns a JWT. The body is `{"refresh_token": "..."}`. A refresh token can be used once: the response holds a new one, and the old one is revoked in the same database transaction. When several requests present the same token at the same time, exactly one succeeds and the others get `401`.
 - **GET /api/users/:id**: Get a user (requires a valid JWT).
 - **PATCH /api/users/:id**: Update a user (requires a valid JWT).
 - **DELETE /api/users/:id**: Delete a user (requires a valid JWT).
