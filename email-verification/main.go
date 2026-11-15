@@ -1,14 +1,15 @@
 package main
 
 import (
+	"log"
+	"time"
+
 	"email-verification/api/handlers"
 	"email-verification/application"
 	"email-verification/config"
 	"email-verification/infrastructure/code"
 	"email-verification/infrastructure/email"
 	"email-verification/infrastructure/repository"
-	"log"
-	"time"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/limiter"

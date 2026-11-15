@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"auth-jwt-gorm/models"
 	"strconv"
+
+	"auth-jwt-gorm/models"
 
 	jwtware "github.com/gofiber/contrib/v3/jwt"
 	"github.com/gofiber/fiber/v3"

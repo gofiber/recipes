@@ -1,10 +1,11 @@
 package application
 
 import (
-	"email-verification/config"
-	"email-verification/domain"
 	"fmt"
 	"time"
+
+	"email-verification/config"
+	"email-verification/domain"
 )
 
 type VerificationService struct {

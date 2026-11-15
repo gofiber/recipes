@@ -1,11 +1,12 @@
 package main
 
 import (
+	"log"
+
 	"catalog/api"
 	"catalog/config"
 	"catalog/repository"
 	"catalog/service"
-	"log"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"

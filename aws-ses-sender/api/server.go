@@ -1,10 +1,11 @@
 package api
 
 import (
-	"aws-ses-sender/config"
 	"context"
 	"fmt"
 	"log"
+
+	"aws-ses-sender/config"
 
 	"github.com/gofiber/fiber/v3/middleware/pprof"
 
