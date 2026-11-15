@@ -1,5 +1,7 @@
 services:
   minio:
+    # NOTE: this image name can no longer be pulled (see the README). Replace it with a MinIO
+    # image you have access to, or run any other S3-compatible server on port 9000.
     image: minio/minio:latest
     container_name: minio
     ports:
