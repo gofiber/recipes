@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	"catalog/api"
 	"catalog/config"
@@ -42,6 +43,9 @@ func main() {
 	addr := conf.Server.Port
 	if addr == "" {
 		addr = ":8080"
+	} else if !strings.Contains(addr, ":") {
+		// a bare port such as 8080 is written as ":8080" for Listen
+		addr = ":" + addr
 	}
 	log.Fatal(r.Listen(addr))
 }

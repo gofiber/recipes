@@ -31,7 +31,7 @@ This project presents a simple product catalogue microservice to demonstrate the
     go mod tidy
     ```
 
-3. Configure the MongoDB connection in `config/config.yaml`. The server listens on `server.port` (default `:8080`):
+3. Configure the MongoDB connection in `config/config.yaml`. The server listens on `server.port` (default `:8080`, a bare number such as `8083` works too):
     ```yaml
     database:
       url: "your_mongodb_uri"

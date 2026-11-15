@@ -161,7 +161,8 @@ func main() {
 			if c.Scheme() == "https" {
 				protocol = "https"
 			}
-			fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Hostname(), filePart.Filename)
+			// Host keeps the port, which Hostname would drop
+			fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Host(), filePart.Filename)
 
 			uploadedFiles = append(uploadedFiles, fiber.Map{
 				"filename": filePart.Filename,

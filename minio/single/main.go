@@ -17,6 +17,9 @@ import (
 
 const maxFileSize = 10 * 1024 * 1024 // 10MB
 
+// multipartOverhead is what the multipart framing around a file adds to the request body.
+const multipartOverhead = 1 << 20
+
 func main() {
 	// The bucket name is read once and used both to configure the store and for every
 	// object call below. (minio.ConfigDefault is the library default, not this value.)
@@ -43,13 +46,14 @@ func main() {
 
 	// Create a new Fiber instance
 	// Fiber's default BodyLimit is 4 MiB, which would reject uploads below maxFileSize with a 413
-	// before the handler runs. Allow maxFileSize plus 1 MiB of multipart framing.
-	app := fiber.New(fiber.Config{BodyLimit: maxFileSize + 1<<20})
+	// before the handler runs. Allow maxFileSize plus the multipart framing.
+	app := fiber.New(fiber.Config{BodyLimit: maxFileSize + multipartOverhead})
 
 	// Define the route to handle file uploads
 	app.Post("/upload", func(c fiber.Ctx) error {
-		// Check file size before processing
-		if c.Request().Header.ContentLength() > maxFileSize {
+		// Reject an oversized body before processing it. The body is the file plus the multipart
+		// framing, so the exact limit is checked on the file itself below.
+		if c.Request().Header.ContentLength() > maxFileSize+multipartOverhead {
 			return c.Status(http.StatusRequestEntityTooLarge).JSON(fiber.Map{
 				"message": "file too large",
 			})
@@ -131,7 +135,8 @@ func main() {
 		if c.Scheme() == "https" {
 			protocol = "https"
 		}
-		fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Hostname(), filename)
+		// Host keeps the port, which Hostname would drop
+		fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Host(), filename)
 
 		// Return a successful response with the file details and URL
 		return c.Status(http.StatusOK).JSON(fiber.Map{
