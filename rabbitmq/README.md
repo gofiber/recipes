@@ -41,6 +41,8 @@ Start all services (RabbitMQ, worker, API) with a single command:
 docker compose up --build
 ```
 
+The Dockerfiles start with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
+
 ### Option B: Manual setup
 
 1. Start RabbitMQ:

@@ -32,7 +32,7 @@ docker run --name memgraph -p 7687:7687 -p 7444:7444 -v mg_lib:/var/lib/memgraph
 
 Port `3000` is deliberately not published: the Fiber app in this recipe listens on it. Memgraph Lab, the web UI, is a separate image; see the [Memgraph documentation](https://memgraph.com/docs) if you want it, and map it to a different host port.
 
-Alternatively, `docker compose up --build` starts both Memgraph and the app. Its healthcheck uses `mgconsole`, which the image contains.
+Alternatively, `docker compose up --build` starts both Memgraph and the app. Its healthcheck uses `mgconsole`, which the image contains. The app's Dockerfile starts with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
 
 ## Run the recipe
 

@@ -51,6 +51,8 @@ All three services run in the same Docker network (`envoymesh`). Envoy is the so
 
 `docker compose up --build -d`
 
+The Dockerfiles start with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
+
 ## Test
 
 | Name            | Command                                                           | Status |

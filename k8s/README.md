@@ -44,6 +44,8 @@ Ensure you have the following installed:
     ```
     The Dockerfile compiles the Go program for the requested platform on your machine. The commands of its last stage run in an image of that platform, so building for another architecture also needs Docker's emulation, which Docker Desktop includes.
 
+    The Dockerfile starts with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`.
+
 4. Start Minikube (if using Minikube):
     ```sh
     minikube start
