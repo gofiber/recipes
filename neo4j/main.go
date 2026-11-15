@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/gofiber/fiber/v3"
@@ -62,7 +63,10 @@ func main() {
 	uri := envOrDefault("NEO4J_URI", "neo4j://localhost:7687")
 	user := envOrDefault("NEO4J_USER", "neo4j")
 	password := envOrDefault("NEO4J_PASSWORD", "password")
-	database := envOrDefault("NEO4J_DATABASE", "movies")
+	// "neo4j" is the default database of every installation. The Community Edition (the image in
+	// docker-compose.yml) can only have this one user database, so defaulting to another name
+	// would make every request fail with "database does not exist".
+	database := envOrDefault("NEO4J_DATABASE", "neo4j")
 
 	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, password, ""))
 	if err != nil {
@@ -116,7 +120,12 @@ func main() {
 	})
 
 	app.Get("/movie/:title", func(c fiber.Ctx) error {
-		title := c.Params("title")
+		// Fiber leaves route parameters percent-encoded, so "The%20Matrix" has to be decoded
+		// before it can match the stored title "The Matrix".
+		title, err := url.PathUnescape(c.Params("title"))
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid movie title"})
+		}
 		ctx := c.Context()
 		session := driver.NewSession(ctx, neo4j.SessionConfig{
 			DatabaseName: database,
