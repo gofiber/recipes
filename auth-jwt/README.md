@@ -63,10 +63,10 @@ docker run --name auth-jwt-db -d \
   -e POSTGRES_PASSWORD=example_password \
   -e POSTGRES_DB=example_db \
   -p 5432:5432 \
-  postgres:alpine
+  postgres:18-alpine
 ```
 
-The container's data is lost when you remove it. Mount a volume at `/var/lib/postgresql/data` (`-v auth-jwt-data:/var/lib/postgresql/data`) to keep it.
+The container's data is lost when you remove it. Mount a volume at `/var/lib/postgresql` (`-v auth-jwt-data:/var/lib/postgresql`) to keep it. Postgres 18 keeps its data in a versioned subdirectory of that path, and a mount at `/var/lib/postgresql/data` makes the container exit.
 
 ## Database Management
 

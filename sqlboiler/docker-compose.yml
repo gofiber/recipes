@@ -1,7 +1,6 @@
-version: "3.9"
-services: 
+services:
   postgresql:
-    image: postgres:latest
+    image: postgres:18
     restart: always
     container_name: postgres
     ports:
@@ -11,4 +10,6 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: fiber_demo
     volumes:
-      - ./data/postgres/:/var/lib/postgresql/data
+      # Postgres 18 keeps its data in a versioned subdirectory of /var/lib/postgresql,
+      # so mount that directory. A mount at /var/lib/postgresql/data makes the container exit.
+      - ./data/postgres/:/var/lib/postgresql

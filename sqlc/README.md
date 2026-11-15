@@ -15,38 +15,29 @@ description: Using Sqlc to generate Go code from SQL queries.
 #### 1. Run Postgres
 
 ```bash
-$ docker compose build
+$ docker compose up -d
 ```
+> The compose file mounts `./data/postgres/` at `/var/lib/postgresql`. Postgres 18 keeps its data in a versioned subdirectory of that path, and a mount at `/var/lib/postgresql/data` makes the container exit.
+#### 2. Wait until Postgres is ready
+The first start takes a few seconds. Check the log, which has to end with the line below:
 ```bash
-$ docker compose up
+$ docker compose logs postgresql
 ```
-#### 2. Wait 1-2 minutes
 ```console
-[+] Running 2/0
- ✔ Network sqlc_default       Created                                                                             0.1s
- ✔ Container postgres         Created                                                                             0.0s
-Attaching to postgres
-postgres  |
-postgres  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-postgres  |
-postgres  |
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  starting PostgreSQL 16.0 (Debian 16.0-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  listening on IPv6 address "::", port 5432
-postgres  | 2023-09-28 09:17:50.740 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-postgres  | 2023-09-28 09:17:50.751 UTC [30] LOG:  database system was shut down at 2023-09-28 08:50:35 UTC
-postgres  | 2023-09-28 09:17:50.770 UTC [1] LOG:  database system is ready to accept connections
+postgres  | 2026-11-15 11:23:44.061 UTC [1] LOG:  database system is ready to accept connections
 ```
 #### 3. You have to migrate the database.
 > ##### 🎯 It is a "database-first" ORM as opposed to "code-first" (like gorm/gorp). That means you must first create your database schema.
 > ##### 🎯 I used [golang-migrate](https://github.com/golang-migrate/migrate) to proceed with the migrate.
+> ##### 🎯 Install the `migrate` command with `go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest`.
+> ##### 🎯 The repository already contains this migration, so you can skip step 1 and run the migration (step 2).
 ###### 1. Make Migration files
 ```bash
 $ migrate create -ext sql -dir ./database/migrations -seq create_initial_table
 ```
 ```console
 sqlc/database/migrations/000001_create_initial_table.up.sql
-sqlc/database/migrations/000001_create_initial_table.up.sql
+sqlc/database/migrations/000001_create_initial_table.down.sql
 ```
 ###### 2. Migrate
 ```bash
