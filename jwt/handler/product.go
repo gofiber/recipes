@@ -20,8 +20,9 @@ func GetAllProducts(c fiber.Ctx) error {
 // GetProduct query product
 func GetProduct(c fiber.Ctx) error {
 	// Parse the id instead of passing the raw string to GORM, which would treat a
-	// non-numeric value as a raw WHERE clause (SQL injection).
-	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	// non-numeric value as a raw WHERE clause (SQL injection). 63 bits, because ids are signed
+	// 64-bit integers in the database and a larger id cannot be bound as a query argument.
+	id, err := strconv.ParseUint(c.Params("id"), 10, 63)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Invalid product ID", "data": nil})
 	}
@@ -49,7 +50,8 @@ func CreateProduct(c fiber.Ctx) error {
 
 // DeleteProduct delete product
 func DeleteProduct(c fiber.Ctx) error {
-	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	// Same as in GetProduct: parse the id as a number that fits the database column.
+	id, err := strconv.ParseUint(c.Params("id"), 10, 63)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Invalid product ID", "data": nil})
 	}

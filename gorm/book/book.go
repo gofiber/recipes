@@ -18,9 +18,11 @@ type Book struct {
 
 // bookID parses the :id route parameter. It must not be passed to GORM as a
 // string: GORM treats a non-numeric string as a raw WHERE clause, which would
-// let a request such as /book/1=1 inject SQL.
+// let a request such as /book/1=1 inject SQL. The limit is 63 bits because ids are signed
+// 64-bit integers in the database, so a larger id cannot exist and cannot be bound as a query
+// argument either.
 func bookID(c fiber.Ctx) (uint64, error) {
-	return strconv.ParseUint(c.Params("id"), 10, 64)
+	return strconv.ParseUint(c.Params("id"), 10, 63)
 }
 
 func GetBooks(c fiber.Ctx) error {

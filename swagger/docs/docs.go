@@ -237,10 +237,10 @@ const docTemplate = `{
         "gorm.DeletedAt": {
             "type": "object",
             "properties": {
-                "time": {
+                "Time": {
                     "type": "string"
                 },
-                "valid": {
+                "Valid": {
                     "description": "Valid is true if Time is not NULL",
                     "type": "boolean"
                 }
@@ -261,18 +261,21 @@ const docTemplate = `{
         "models.Book": {
             "type": "object",
             "properties": {
+                "CreatedAt": {
+                    "type": "string"
+                },
+                "DeletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "UpdatedAt": {
+                    "type": "string"
+                },
                 "author": {
                     "type": "string",
                     "example": "Dino"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "publisher": {
                     "type": "string",
@@ -281,9 +284,6 @@ const docTemplate = `{
                 "title": {
                     "type": "string",
                     "example": "Book A"
-                },
-                "updatedAt": {
-                    "type": "string"
                 }
             }
         }

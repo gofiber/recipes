@@ -60,8 +60,9 @@ func GetAllBooks(c fiber.Ctx) error {
 // @Router /v1/books/{id} [get]
 func GetBookByID(c fiber.Ctx) error {
 	// Parse the id instead of handing the raw string to GORM, which would treat a
-	// non-numeric value as a raw WHERE clause (SQL injection).
-	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	// non-numeric value as a raw WHERE clause (SQL injection). 63 bits, because ids are signed
+	// 64-bit integers in the database and a larger id cannot be bound as a query argument.
+	id, err := strconv.ParseUint(c.Params("id"), 10, 63)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
@@ -149,8 +150,9 @@ func RegisterBook(c fiber.Ctx) error {
 // @Router /v1/books/{id} [delete]
 func DeleteBook(c fiber.Ctx) error {
 	// Parse the id instead of handing the raw string to GORM, which would treat a
-	// non-numeric value as a raw WHERE clause (SQL injection).
-	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+	// non-numeric value as a raw WHERE clause (SQL injection). 63 bits, because ids are signed
+	// 64-bit integers in the database and a larger id cannot be bound as a query argument.
+	id, err := strconv.ParseUint(c.Params("id"), 10, 63)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,

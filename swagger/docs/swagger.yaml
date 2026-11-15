@@ -2,9 +2,9 @@ basePath: /api
 definitions:
   gorm.DeletedAt:
     properties:
-      time:
+      Time:
         type: string
-      valid:
+      Valid:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
@@ -18,22 +18,22 @@ definitions:
     type: object
   models.Book:
     properties:
+      CreatedAt:
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      ID:
+        type: integer
+      UpdatedAt:
+        type: string
       author:
         example: Dino
         type: string
-      createdAt:
-        type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
-      id:
-        type: integer
       publisher:
         example: Creative Company
         type: string
       title:
         example: Book A
-        type: string
-      updatedAt:
         type: string
     type: object
 info:

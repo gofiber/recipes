@@ -43,10 +43,10 @@ This project demonstrates how to integrate Swagger for API documentation in a [F
 Generate (or regenerate) the Swagger documentation from the annotations in your source code:
 
 ```sh
-swag init --parseDependency --parseDependencyLevel 1
+swag init --parseDependency --parseDependencyLevel 1 --propertyStrategy pascalcase
 ```
 
-This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`. The two flags let `swag` resolve the `gorm.Model` fields embedded in `models.Book`. Without them, recent `swag` versions stop with `cannot find type definition: gorm.Model`.
+This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`. The first two flags let `swag` resolve the `gorm.Model` fields embedded in `models.Book`. Without them, recent `swag` versions stop with `cannot find type definition: gorm.Model`. `gorm.Model` has no JSON tags, so the API returns its fields as `ID`, `CreatedAt`, `UpdatedAt` and `DeletedAt`. With the default camelCase naming the documented names would be `id`, `createdAt` and so on, and `--propertyStrategy pascalcase` keeps them in line with the responses.
 
 ## Running the Application
 
