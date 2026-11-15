@@ -50,19 +50,20 @@ cd csrf-with-session
 
 And then:
 ```bash
-go mod vendor && go mod download && go mod tidy
+go mod download
 ```
-This command installs the golang dependencies needed to run the project in a new directory named `vendor`.
+This command downloads the golang dependencies needed to run the project.
 
-Once the modules have finished installing, you can run the project like this:
+Once the modules have finished downloading, you can run the project like this:
 ```bash
 go run main.go
 ```
 
-You should see the following if everything is OK:
+You should see Fiber's startup banner with the address of the server if everything is OK:
 ```
-Server started and listening at 127.0.0.1:8443
+INFO Server started on:  https://127.0.0.1:8443
 ```
+On the first start the app also generates a self-signed certificate (`cert.pem` and `key.pem` in the current directory) and prints a message about it.
 
 ## Try the demo
 
@@ -70,7 +71,7 @@ Start the server by running:
 ```bash
 go run main.go
 ```
-Open your browser to and navigate to [127.0.0.1:8443](http://127.0.0.1:8443).
+Open your browser and navigate to [127.0.0.1:8443](https://127.0.0.1:8443). The server only speaks HTTPS, so a link that starts with `http://` does not work.
 
 
 ### Accept the self-signed certificate warning and visit the site.
@@ -106,6 +107,8 @@ Once logged in, you will be able to see the /protected page.
 ### Submit the form on the /protected page
 
 Once logged in, you will be able to see the /protected page. The /protected page contains a form that submits to the /protected page. If you try to submit the form without a valid CSRF token, you will get a 403 Forbidden error.
+
+The form has a "Send CSRF token in form data" checkbox. Submit a message with the box ticked and the page shows your message. Untick the box so that the token is left out of the request, submit again, and you get the 403 Forbidden page.
 
 
 ## CSRF Protection

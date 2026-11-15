@@ -1,2 +1,5 @@
 main
 tmp/
+# built by Air, see .air.linux.conf and .air.windows.conf
+application
+application.exe
