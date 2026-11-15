@@ -14,7 +14,9 @@ import (
 type User struct {
 	ID        uint   `json:"id"        validate:"required"`
 	Firstname string `json:"firstname" validate:"required"`
-	Password  string `json:"-"         validate:"gte=10"` // gte = Greater than or equal
+	// The password has to be readable from the request body for the validator to see it.
+	// (A `json:"-"` tag would hide it from the JSON decoder, so it would always be empty.)
+	Password string `json:"password" validate:"gte=10"` // gte = Greater than or equal
 }
 
 func main() {
@@ -40,8 +42,16 @@ func main() {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
-		return ctx.Status(fiber.StatusOK).JSON(user)
+		// Answer with the validated fields only, never with the password.
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"id":        user.ID,
+			"firstname": user.Firstname,
+		})
 	})
 
-	log.Fatal(app.Listen(config.Config("PORT")))
+	port := config.Config("PORT")
+	if port == "" {
+		port = ":8080"
+	}
+	log.Fatal(app.Listen(port))
 }

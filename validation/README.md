@@ -53,16 +53,26 @@ The application should now be running on `http://localhost:8080`.
 
 ## Example Usage
 
-1. Send a POST request to `http://localhost:8080/validate` with a JSON payload:
+The `POST /test` endpoint reads a JSON body into a `User` and validates it. `id` and `firstname` are required, and `password` must be at least 10 characters long.
+
+1. Send a valid request:
+    ```bash
+    curl -X POST http://localhost:8080/test \
+      -H "Content-Type: application/json" \
+      -d '{"id": 1, "firstname": "Ada", "password": "correct-horse"}'
+    ```
+    The server answers `200` with the validated fields. It never echoes the password:
     ```json
-    {
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "age": 30
-    }
+    {"firstname":"Ada","id":1}
     ```
 
-2. The server will validate the request data and respond with a success message if the data is valid, or an error message if the data is invalid.
+2. Send an invalid request:
+    ```bash
+    curl -X POST http://localhost:8080/test \
+      -H "Content-Type: application/json" \
+      -d '{"id": 1, "firstname": "", "password": "short"}'
+    ```
+    The server answers `400` with a message that names each failing field and rule.
 
 ## Code Overview
 

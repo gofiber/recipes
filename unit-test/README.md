@@ -89,7 +89,7 @@ func TestIndexRoute(t *testing.T) {
    route: "/i-dont-exist",
    expectedError: false,
    expectedCode: 404,
-   expectedBody: "Cannot GET /i-dont-exist",
+   expectedBody: "Not Found",
   },
  }
 
@@ -172,10 +172,10 @@ func TestIndexRoute(t *testing.T) {
 
     // Perform the request using app.Test
     res, err := app.Test(req, fiber.TestConfig{Timeout: 0, FailOnTimeout: false})
-    defer res.Body.Close()
 
-    // Verify that no error occurred
+    // Verify that no error occurred. Check this before using res, which is nil on error.
     assert.Nil(t, err)
+    defer res.Body.Close()
 
     // Verify the status code
     assert.Equal(t, 200, res.StatusCode)

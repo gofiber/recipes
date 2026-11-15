@@ -11,7 +11,7 @@ type handler struct {
 }
 
 func (h *handler) Get(ctx fiber.Ctx) error {
-	code := ctx.Query("code")
+	code := ctx.Params("code")
 	p, err := h.productService.Find(code)
 	if err != nil {
 		return ctx.Status(404).JSON(nil)

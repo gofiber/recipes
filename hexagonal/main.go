@@ -30,10 +30,17 @@ func main() {
 		Format: "[${time}] ${ip}  ${status} - ${latency} ${method} ${path}\n",
 	}))
 
-	r.Get("/products/{code}", handler.Get)
+	// Fiber route parameters are written ":name". A "{code}" segment would only ever match
+	// the literal text "{code}", so these two routes could never be reached.
+	r.Get("/products/:code", handler.Get)
 	r.Post("/products", handler.Post)
-	r.Delete("/products/{code}", handler.Delete)
+	r.Delete("/products/:code", handler.Delete)
 	r.Get("/products", handler.GetAll)
 	r.Put("/products", handler.Put)
-	log.Fatal(r.Listen(":8080"))
+
+	addr := conf.Server.Port
+	if addr == "" {
+		addr = ":8080"
+	}
+	log.Fatal(r.Listen(addr))
 }
