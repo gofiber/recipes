@@ -97,6 +97,8 @@ func main() {
 
 The `static` middleware sets the status to `404` before it calls `NotFoundHandler`, so the handler resets it to `200`. Without that, the browser still shows the page, but crawlers, proxies and monitoring see an error for every client-side route.
 
+A missing file such as `/web/missing.js` gets `index.html` with status `200` as well, as on most SPA hosts. To answer those with a real `404`, return `fiber.ErrNotFound` from the handler when `filepath.Ext(ctx.Path())` is not empty. Client-side routes that contain a dot would then get a `404` too.
+
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)

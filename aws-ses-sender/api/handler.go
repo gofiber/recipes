@@ -1,8 +1,6 @@
 package api
 
 import (
-	"aws-ses-sender/config"
-	"aws-ses-sender/model"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -14,6 +12,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"aws-ses-sender/config"
+	"aws-ses-sender/model"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -48,8 +49,7 @@ func createMessageHandler(c fiber.Ctx) error {
 				scheduledAt = t.UTC()
 				// Ensure scheduled time is in the future
 				if scheduledAt.Before(time.Now().UTC()) {
-					log.Printf("Scheduled time must be in the future")
-					continue
+					return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "scheduledAt must be in the future"})
 				}
 			}
 		}

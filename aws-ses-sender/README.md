@@ -166,6 +166,8 @@ Request body example:
 }
 ```
 
+`scheduledAt` is optional and has to be a time in the future in RFC 3339 format. Without it the message is sent as soon as possible, and a time in the past is answered with `400 Bad Request`.
+
 ### View Topic Sending Statistics
 ```http
 GET /v1/topics/:topicId
@@ -175,6 +177,8 @@ GET /v1/topics/:topicId
 ```http
 GET /v1/events/open?requestId={requestId}
 ```
+
+> The open tracking and the SNS result endpoint (below) are not protected by the API key, because recipients' mail clients and AWS SNS have to reach them. Anyone who can reach them can add events, which changes the statistics. Before you rely on those numbers in production, verify the signature of the SNS messages and restrict access to these routes.
 
 ### View Sending Statistics
 ```http

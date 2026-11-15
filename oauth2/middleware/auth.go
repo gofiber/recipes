@@ -42,7 +42,8 @@ func OAUTHBegin(ctx fiber.Ctx) error {
 
 // OAUTHRedirect performs the GitHub OAUTH2 login sequence and stores the token in a session variable.
 func OAUTHRedirect(ctx fiber.Ctx) error {
-	models.SYSLOG.Debug("entering OAUTHRedirect", "url", ctx.OriginalURL())
+	// Log the path only: the query string carries the authorization code and the state.
+	models.SYSLOG.Debug("entering OAUTHRedirect", "path", ctx.Path())
 	defer models.SYSLOG.Debug("exiting OAUTHRedirect")
 
 	// Validate CSRF state parameter
@@ -54,7 +55,8 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 	}
 	storedState, _ := sess.Get("oauth-state").(string)
 	if stateParam == "" || stateParam != storedState {
-		models.SYSLOG.Warn("CSRF state mismatch", "got", stateParam, "want", storedState)
+		// The state is a secret tied to the session, so neither value is logged.
+		models.SYSLOG.Warn("CSRF state mismatch")
 		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": "invalid state parameter"})
 	}
 	// Clear state after use

@@ -62,7 +62,7 @@ The Go Fiber application provides the following API routes:
 
 | Route | Description |
 | --- | --- |
-| `/*` | Serves the SvelteKit build that is embedded in the binary (`template.Dist()`). If a path is not a file in the build, such as a client-side route, it serves `index.html` with status 200, so the SvelteKit router can handle it. |
+| `/*` | Serves the SvelteKit build that is embedded in the binary (`template.Dist()`). If a path is not a file in the build, such as a client-side route, it serves `index.html` with status 200, so the SvelteKit router can handle it. A missing file such as `/_app/missing.js` gets `index.html` as well. |
 
 Go Dependencies
 ---------------

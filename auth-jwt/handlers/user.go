@@ -160,7 +160,6 @@ func (uh *UserHandler) DeleteUser(c fiber.Ctx) error {
 		})
 	}
 
-	c.Locals("user", nil)
 	c.ClearCookie("jwt")
 
 	return c.JSON(fiber.Map{
