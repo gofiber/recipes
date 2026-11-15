@@ -1,4 +1,4 @@
-module main
+module https-pkcs12-tls
 
 go 1.26.0
 

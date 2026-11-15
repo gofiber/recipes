@@ -40,22 +40,15 @@ Ensure you have the following installed and available in your `GOPATH`:
 
 ## Environment Variables
 
-Create a `.env` file in the root directory and add the following variables:
+Copy the example file and review it. The application refuses to start without `TOKEN_KEY`:
 
-```shell
-# PORT returns the server listening port
-# default: 5000
-PORT=
-
-# DB returns the name of the sqlite database
-# default: gotodo.db
-DB=
-
-# TOKENKEY returns the jwt token secret
-TOKENKEY=
-
-# TOKENEXP returns the jwt token expiration duration.
-# Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
-# default: 10h
-TOKENEXP=
+```sh
+cp .env.example .env
 ```
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `PORT` | Server listening port | `5000` |
+| `DB` | Name of the SQLite database file | `gotodo.db` |
+| `TOKEN_KEY` | Secret used to sign the JWTs. Generate a random one with `openssl rand -hex 32` | required |
+| `TOKEN_EXP` | Token lifetime, a [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration) string | `10h` |

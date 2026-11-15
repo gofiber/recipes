@@ -124,7 +124,7 @@ The CSRF middleware has a `SingleUseToken` configuration option that can be used
 
 ## Session Storage
 
-Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/api/middleware/session) for more information.
+Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/middleware/session) for more information.
 
 
 ### Note on pre-sessions

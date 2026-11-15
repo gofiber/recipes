@@ -19,7 +19,9 @@ When using the `air` command to run the application, the database is automatical
 Ensure you have the following installed and available in your `GOPATH`:
 
 - Golang
+- [Docker](https://docs.docker.com/get-docker/), which Testcontainers uses to start the PostgreSQL container
 - [Air](https://github.com/air-verse/air) for hot reloading
+- [Godotenv](https://github.com/joho/godotenv) CLI, which `.air.conf` uses to load `.env`
 
 ## Installation
 
@@ -43,25 +45,16 @@ Ensure you have the following installed and available in your `GOPATH`:
 
 ## Environment Variables
 
-Create a `.env` file in the root directory and add the following variables:
+Copy the example file and review it. The application refuses to start without `TOKEN_KEY`:
 
-```shell
-# PORT returns the server listening port
-# default: 8000
-PORT=
-
-# DB returns the name of the PostgreSQL database
-# default: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
-
-# TOKENKEY returns the jwt token secret
-TOKENKEY=
-
-# TOKENEXP returns the jwt token expiration duration.
-# Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
-# default: 10h
-TOKENEXP=
-
-# TESTCONTAINERS_RYUK_DISABLED disables the Ryuk container, to avoid removing the database container when the application is stopped.
-# default: true
-TESTCONTAINERS_RYUK_DISABLED=true
+```sh
+cp .env.example .env
 ```
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `PORT` | Server listening port | `8000` |
+| `DB` | PostgreSQL connection string | `postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable` |
+| `TOKEN_KEY` | Secret used to sign the JWTs. Generate a random one with `openssl rand -hex 32` | required |
+| `TOKEN_EXP` | Token lifetime, a [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration) string | `10h` |
+| `TESTCONTAINERS_RYUK_DISABLED` | Disables the Ryuk container so the database container is not removed when the application stops | `true` in `.env.example` |

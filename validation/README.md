@@ -24,7 +24,7 @@ This project provides a basic setup for validating request data in a Go Fiber ap
 - `main.go`: The main application entry point.
 - `config/env.go`: Configuration file for environment variables.
 - `go.mod`: The Go module file.
-- `.env`: Environment variables file.
+- `.env.example`: Example environment variables file. Copy it to `.env`.
 
 ## Setup
 
@@ -39,9 +39,9 @@ This project provides a basic setup for validating request data in a Go Fiber ap
     go mod download
     ```
 
-3. Create a `.env` file in the root directory with the following content:
-    ```dotenv
-    PORT=":8080"
+3. Copy the example environment file (it sets `PORT=":8080"`):
+    ```bash
+    cp .env.example .env
     ```
 
 4. Run the application:

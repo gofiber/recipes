@@ -17,6 +17,7 @@ This project got inspired by the [swagger recipe](https://github.com/gofiber/rec
 Ensure you have the following installed:
 
 - Golang
+- PostgreSQL, reachable with the credentials you put in `.env`
 
 ## Setup
 
@@ -30,6 +31,11 @@ Ensure you have the following installed:
 2. Download Go modules:
    ```sh
    go mod tidy
+   ```
+
+3. Copy the example environment file and set your PostgreSQL connection details (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_NAME`, `DB_PORT`):
+   ```sh
+   cp .env.example .env
    ```
 
 ## Running the Application

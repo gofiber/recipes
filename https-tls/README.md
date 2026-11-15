@@ -66,7 +66,7 @@ func main() {
     app := fiber.New()
 
     app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString(c.Protocol()) // => https
+        return c.SendString(c.Scheme()) // => https
     })
 
     // Create tls certificate
