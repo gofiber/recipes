@@ -18,11 +18,15 @@ import (
 const maxFileSize = 10 * 1024 * 1024 // 10MB
 
 func main() {
+	// The bucket name is read once and used both to configure the store and for every
+	// object call below. (minio.ConfigDefault is the library default, not this value.)
+	bucket := getEnv("FIBER_MINIO_BUCKET", "fiber-bucket")
+
 	// Initialize the MinIO client
 	store := minio.New(minio.Config{
 		Endpoint: getEnv("FIBER_MINIO_ENDPOINT", "localhost:9000"),
 		Secure:   getEnv("FIBER_MINIO_USE_SSL", "false") == "true",
-		Bucket:   getEnv("FIBER_MINIO_BUCKET", "fiber-bucket"),
+		Bucket:   bucket,
 		Region:   getEnv("FIBER_MINIO_REGION", "us-east-1"),
 		Credentials: minio.Credentials{
 			AccessKeyID:     getEnv("FIBER_MINIO_ACCESS_KEY", "minioadmin"),
@@ -38,7 +42,9 @@ func main() {
 	}
 
 	// Create a new Fiber instance
-	app := fiber.New()
+	// Fiber's default BodyLimit is 4 MiB, which would reject uploads below maxFileSize with a 413
+	// before the handler runs. Allow maxFileSize plus 1 MiB of multipart framing.
+	app := fiber.New(fiber.Config{BodyLimit: maxFileSize + 1<<20})
 
 	// Define the route to handle file uploads
 	app.Post("/upload", func(c fiber.Ctx) error {
@@ -104,11 +110,11 @@ func main() {
 		// Upload the file to MinIO
 		uploadInfo, err := store.Conn().PutObject(
 			c.Context(),
-			minio.ConfigDefault.Bucket, // Bucket name
-			filename,                   // File name in the MinIO bucket
-			file,                       // File data to upload
-			formFile.Size,              // File size
-			putOpts,                    // content type for binary files
+			bucket,        // Bucket name
+			filename,      // File name in the MinIO bucket
+			file,          // File data to upload
+			formFile.Size, // File size
+			putOpts,       // content type for binary files
 		)
 		// If the upload fails, return Error
 		if err != nil {
@@ -122,7 +128,7 @@ func main() {
 
 		// Create a URL to access the uploaded file
 		protocol := "http"
-		if c.Protocol() == "https" {
+		if c.Scheme() == "https" {
 			protocol = "https"
 		}
 		fileURL := fmt.Sprintf("%s://%s/file/%s", protocol, c.Hostname(), filename)
@@ -148,7 +154,7 @@ func main() {
 		}
 
 		// Check if the file exists in the MinIO bucket
-		_, err := store.Conn().StatObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		_, err := store.Conn().StatObject(c.Context(), bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusNotFound).JSON(fiber.Map{
 				"message": "file not found",
@@ -156,7 +162,7 @@ func main() {
 		}
 
 		// Retrieve the file from MinIO
-		object, err := store.Conn().GetObject(c.Context(), minio.ConfigDefault.Bucket, filename, minio.ConfigDefault.GetObjectOptions)
+		object, err := store.Conn().GetObject(c.Context(), bucket, filename, minio.ConfigDefault.GetObjectOptions)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "error retrieving file",

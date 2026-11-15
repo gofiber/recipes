@@ -40,7 +40,7 @@ This project demonstrates how to implement GitHub OAuth2 authentication in a GoF
 go run app.go
 ```
 
-Then open `http://localhost:8080` in your browser.
+Then open `http://localhost:8080` in your browser and click **Login with GitHub**.
 
 ## Environment Variables
 
@@ -67,6 +67,8 @@ GitHub  → GET /oauth/redirect?code=...&state=...
 
 GET /protected → OAUTHProtected middleware checks session token
 ```
+
+GitHub answers a bad, expired or already used `code` with HTTP 200 and a JSON body that has an `error` field and no `access_token`. The callback checks for that before it stores anything in the session.
 
 ## Example: GitHub OAuth2 token exchange
 

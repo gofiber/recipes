@@ -15,12 +15,19 @@ var DB *gorm.DB
 
 // ConnectDB connect to db
 func ConnectDB() {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+	// DB_SSLMODE is documented in the README: disable, require, verify-full, ...
+	sslMode := config.Config("DB_SSLMODE")
+	if sslMode == "" {
+		sslMode = "disable"
+	}
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		config.Config("DB_HOST"),
 		config.Config("DB_PORT"),
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"),
-		config.Config("DB_NAME"))
+		config.Config("DB_NAME"),
+		sslMode)
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

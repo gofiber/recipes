@@ -9,6 +9,7 @@ import (
 
 	"auth-jwt-gorm/services"
 
+	jwtware "github.com/gofiber/contrib/v3/jwt"
 	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -78,7 +79,7 @@ func setJWTCookie(c fiber.Ctx, token string) {
 		Value:    token,
 		Expires:  getAccessTokenExpiry(token),
 		HTTPOnly: true,
-		Secure:   c.Protocol() == "https",
+		Secure:   c.Scheme() == "https",
 		SameSite: "Lax",
 	})
 }
@@ -139,8 +140,9 @@ func (ah *AuthHandler) Login(c fiber.Ctx) error {
 }
 
 func (ah *AuthHandler) Logout(c fiber.Ctx) error {
-	tok, ok := c.Locals("user").(*jwt.Token)
-	if !ok {
+	// The JWT middleware stores the verified token in the request context, not in Locals.
+	tok := jwtware.FromContext(c)
+	if tok == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid authentication token",
@@ -189,7 +191,7 @@ func (ah *AuthHandler) Logout(c fiber.Ctx) error {
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: true,
-		Secure:   c.Protocol() == "https",
+		Secure:   c.Scheme() == "https",
 		SameSite: "Lax",
 	})
 

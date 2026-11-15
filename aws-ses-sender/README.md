@@ -136,7 +136,15 @@ SENTRY_DSN=your_sentry_dsn
    go run main.go
    ```
 
+   Or run it with Docker. The image does not contain your `.env`, so pass the variables at run time:
+   ```bash
+   docker build -t aws-ses-sender .
+   docker run --rm --env-file .env -p 3000:3000 aws-ses-sender
+   ```
+
 ## API Endpoints
+
+`POST /v1/messages`, `GET /v1/topics/:topicId`, `GET /v1/events/counts/sent` and the `/debug/pprof` profiling endpoints require the header `x-api-key: <API_KEY>`.
 
 ### Email Sending Request
 ```http
@@ -152,7 +160,7 @@ Request body example:
       "emails": ["recipient1@example.com", "recipient2@example.com"],
       "subject": "Special Promotion Notice",
       "content": "<h1>Hello!</h1><p>Check out our special promotion details.</p>",
-      "scheduledAt": "2024-12-25T10:00:00+09:00"
+      "scheduledAt": "2030-12-25T10:00:00+09:00"
     }
   ]
 }

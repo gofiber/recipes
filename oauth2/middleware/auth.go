@@ -90,6 +90,18 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 
 	models.SYSLOG.Debug("received GitHub token response", "status", resp.StatusCode())
 
+	// GitHub answers a bad, expired or already used code with HTTP 200 and a body that has
+	// an "error" field and no access token. Storing that empty token would make the session
+	// look authenticated, so reject it here.
+	if t == nil || t.Error != "" || t.AccessToken == "" {
+		reason := ""
+		if t != nil {
+			reason = t.Error
+		}
+		models.SYSLOG.Warn("GitHub did not return an access token", "error", reason)
+		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "GitHub rejected the authorization code"})
+	}
+
 	// Store token data in the session (reuse the session fetched above)
 	sess.Set("oauth-scope", t.Scope)
 	sess.Set("oauth-token-type", t.TokenType)
@@ -103,7 +115,7 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 	return ctx.Redirect().Status(fiber.StatusFound).To("/welcome.html")
 }
 
-// OAUTHProtected processes access attempts; if the session stored token is NULL then it sends to start page.
+// OAUTHProtected processes access attempts; if the session has no token then it sends to start page.
 func OAUTHProtected(c fiber.Ctx) error {
 	models.SYSLOG.Debug("entering OAUTHProtected", "url", c.OriginalURL())
 	defer models.SYSLOG.Debug("exiting OAUTHProtected")
@@ -116,14 +128,15 @@ func OAUTHProtected(c fiber.Ctx) error {
 
 	models.SYSLOG.Debug("session fresh?", "fresh", sessData.Fresh())
 
-	tk := sessData.Get("oauth-token")
-	models.SYSLOG.Debug("session oauth-token", "value", tk)
+	// Never log the token itself. An empty or missing token means "not logged in".
+	token, _ := sessData.Get("oauth-token").(string)
+	models.SYSLOG.Debug("session oauth-token", "present", token != "")
 
-	if tk == nil {
+	if token == "" {
 		if err = sessData.Destroy(); err != nil {
 			return err
 		}
-		models.SYSLOG.Debug("token is nil, redirecting to /index.html")
+		models.SYSLOG.Debug("no token, redirecting to /index.html")
 		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To("/index.html")
 	}
 

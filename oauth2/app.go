@@ -38,7 +38,9 @@ func main() {
 	models.ClientID = config.Config("CLIENT_ID")
 	models.ClientSecret = config.Config("CLIENT_SECRET")
 	models.MySessionStore = session.NewStore(session.Config{
-		CookieSecure: true,
+		CookieSecure:   true,
+		CookieHTTPOnly: true,  // the session cookie is not needed by scripts
+		CookieSameSite: "Lax", // still sent on the top-level redirect back from GitHub
 	})
 
 	fmt.Println("Starting app ...")

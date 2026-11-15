@@ -1,11 +1,12 @@
 package middleware
 
 import (
+	"errors"
 	"os"
-	"strings"
 
 	jwtware "github.com/gofiber/contrib/v3/jwt"
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/extractors"
 )
 
 // Protected protect routes
@@ -21,7 +22,8 @@ func Protected() fiber.Handler {
 			status := fiber.StatusUnauthorized
 			message := "Invalid or expired JWT"
 
-			if strings.Contains(strings.ToLower(err.Error()), "missing or malformed jwt") {
+			// No token in the request at all (the extractor found nothing to read).
+			if errors.Is(err, extractors.ErrNotFound) {
 				status = fiber.StatusBadRequest
 				message = "Missing or malformed JWT"
 			}
