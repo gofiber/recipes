@@ -78,7 +78,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
-- [Single Page Application (SPA)](./spa/README.md) - Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
+- [Single Page Application (SPA)](./spa/README.md) - Serving a Single Page Application (SPA) with Fiber, including the index.html fallback for client-side routes.
 - [Sqlboiler](./sqlboiler/README.md) - Using Sqlboiler ORM.
 - [Sqlc](./sqlc/README.md) - Using Sqlc to generate Go code from SQL queries.
 - [Server-Sent Events](./sse/README.md) - Implementing Server-Sent Events in an application.
