@@ -104,6 +104,14 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "GitHub rejected the authorization code"})
 	}
 
+	// Give the logged-in session a new id. The id that came with this request is no secret: it
+	// may have been planted in the browser before the login (session fixation), and the attacker
+	// who knows it would then share the login. Regenerate also removes the old id from the store.
+	if err := sess.Regenerate(); err != nil {
+		models.SYSLOG.Error("session regenerate error", "err", err)
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
 	// Store token data in the session (reuse the session fetched above)
 	sess.Set("oauth-scope", t.Scope)
 	sess.Set("oauth-token-type", t.TokenType)

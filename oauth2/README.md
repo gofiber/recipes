@@ -62,11 +62,14 @@ Browser → GET /oauth/begin
 GitHub  → GET /oauth/redirect?code=...&state=...
         → validates CSRF state
         → exchanges code for access token via GitHub API
+        → gives the session a new id
         → stores token in session
         → redirects to /welcome.html
 
 GET /protected → OAUTHProtected middleware checks session token
 ```
+
+The new session id keeps the login from being shared. The id that arrives with the callback is not secret: it can be planted in the victim's browser before the login ("session fixation"), and an attacker who knows it would otherwise be logged in as the victim too. With the new id, the old one is removed from the store and stops working.
 
 GitHub answers a bad, expired or already used `code` with HTTP 200 and a JSON body that has an `error` field and no `access_token`. The callback checks for that before it stores anything in the session.
 
