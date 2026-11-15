@@ -19,7 +19,7 @@ func GetPosts(c fiber.Ctx) error {
 
 	posts, err := sqlc.New(database.DB).GetPosts(ctx)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(posts)
@@ -40,7 +40,7 @@ func GetPost(c fiber.Ctx) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.Status(fiber.StatusNotFound).SendString("post not found")
 		}
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(post)
@@ -57,7 +57,10 @@ func NewPost(c fiber.Ctx) error {
 
 	newPost, err := sqlc.New(database.DB).NewPost(ctx, post)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		if isForeignKeyViolation(err) {
+			return c.Status(fiber.StatusUnprocessableEntity).SendString("author does not exist")
+		}
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(newPost)
@@ -74,7 +77,7 @@ func DeletePost(c fiber.Ctx) error {
 	}
 
 	if err := sqlc.New(database.DB).DeletePost(ctx, int32(postId)); err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).SendString("Post deleted")
@@ -100,7 +103,10 @@ func UpdatePost(c fiber.Ctx) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.Status(fiber.StatusNotFound).SendString("post not found")
 		}
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		if isForeignKeyViolation(err) {
+			return c.Status(fiber.StatusUnprocessableEntity).SendString("author does not exist")
+		}
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).SendString("Post updated")

@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"strconv"
-
 	"fiber-sqlboiler/database"
 	"fiber-sqlboiler/models"
 
@@ -13,20 +11,19 @@ import (
 func GetPosts(c fiber.Ctx) error {
 	posts, err := models.Posts().All(c.Context(), database.DB)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusOK).JSON(posts)
 }
 
 func GetPost(c fiber.Ctx) error {
-	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid post id")
 	}
 	post, err := models.FindPost(c.Context(), database.DB, postId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "post")
 	}
 	return c.Status(fiber.StatusOK).JSON(post)
 }
@@ -37,32 +34,33 @@ func NewPost(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 	if err := post.Insert(c.Context(), database.DB, boil.Infer()); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		if isForeignKeyViolation(err) {
+			return c.Status(fiber.StatusUnprocessableEntity).JSON("author does not exist")
+		}
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusCreated).JSON(post)
 }
 
 func DeletePost(c fiber.Ctx) error {
-	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid post id")
 	}
 	post, err := models.FindPost(c.Context(), database.DB, postId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "post")
 	}
 	if _, err := post.Delete(c.Context(), database.DB); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.SendStatus(fiber.StatusOK)
 }
 
 func UpdatePost(c fiber.Ctx) error {
-	id := c.Params("id")
-	postId, err := strconv.Atoi(id)
+	postId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid post id")
 	}
 
 	newPost := models.Post{}
@@ -72,13 +70,13 @@ func UpdatePost(c fiber.Ctx) error {
 
 	post, err := models.FindPost(c.Context(), database.DB, postId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "post")
 	}
 
 	post.Title = newPost.Title
 	post.Content = newPost.Content
 	if _, err := post.Update(c.Context(), database.DB, boil.Infer()); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusOK).JSON(post)
 }

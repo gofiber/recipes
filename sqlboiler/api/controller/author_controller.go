@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"strconv"
-
 	"fiber-sqlboiler/database"
 	"fiber-sqlboiler/models"
 
@@ -13,20 +11,19 @@ import (
 func GetAuthors(c fiber.Ctx) error {
 	authors, err := models.Authors().All(c.Context(), database.DB)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusOK).JSON(authors)
 }
 
 func GetAuthor(c fiber.Ctx) error {
-	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid author id")
 	}
 	author, err := models.FindAuthor(c.Context(), database.DB, authorId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "author")
 	}
 	return c.Status(fiber.StatusOK).JSON(author)
 }
@@ -37,32 +34,33 @@ func NewAuthor(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 	if err := author.Insert(c.Context(), database.DB, boil.Infer()); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusCreated).JSON(author)
 }
 
 func DeleteAuthor(c fiber.Ctx) error {
-	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid author id")
 	}
 	author, err := models.FindAuthor(c.Context(), database.DB, authorId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "author")
 	}
 	if _, err := author.Delete(c.Context(), database.DB); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		if isForeignKeyViolation(err) {
+			return c.Status(fiber.StatusConflict).JSON("author still has posts, delete them first")
+		}
+		return internalError(c, err)
 	}
 	return c.SendStatus(fiber.StatusOK)
 }
 
 func UpdateAuthor(c fiber.Ctx) error {
-	id := c.Params("id")
-	authorId, err := strconv.Atoi(id)
+	authorId, err := parseID(c)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON("invalid author id")
 	}
 
 	newAuthor := models.Author{}
@@ -72,12 +70,12 @@ func UpdateAuthor(c fiber.Ctx) error {
 
 	author, err := models.FindAuthor(c.Context(), database.DB, authorId)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(err.Error())
+		return lookupFailed(c, err, "author")
 	}
 
 	author.Name = newAuthor.Name
 	if _, err := author.Update(c.Context(), database.DB, boil.Infer()); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return internalError(c, err)
 	}
 	return c.Status(fiber.StatusOK).JSON(author)
 }

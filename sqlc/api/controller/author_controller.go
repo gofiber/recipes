@@ -19,7 +19,7 @@ func GetAuthors(c fiber.Ctx) error {
 
 	authors, err := sqlc.New(database.DB).GetAuthors(ctx)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(authors)
@@ -40,7 +40,7 @@ func GetAuthor(c fiber.Ctx) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.Status(fiber.StatusNotFound).SendString("author not found")
 		}
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(author)
@@ -57,7 +57,7 @@ func NewAuthor(c fiber.Ctx) error {
 
 	newAuthor, err := sqlc.New(database.DB).NewAuthor(ctx, author)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(newAuthor)
@@ -75,7 +75,10 @@ func DeleteAuthor(c fiber.Ctx) error {
 
 	err = sqlc.New(database.DB).DeleteAuthor(ctx, int32(authorId))
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		if isForeignKeyViolation(err) {
+			return c.Status(fiber.StatusConflict).SendString("author still has posts, delete them first")
+		}
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).SendString("Author successfully deleted")
@@ -103,7 +106,7 @@ func UpdateAuthor(c fiber.Ctx) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.Status(fiber.StatusNotFound).SendString("author not found")
 		}
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return internalError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(updatedAuthor)

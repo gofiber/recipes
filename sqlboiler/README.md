@@ -130,6 +130,8 @@ The server listens on port 3000.
 | `PUT` | `/api/v1/posts/:id` | Update the `title` and `content` of a post |
 | `DELETE` | `/api/v1/posts/:id` | Delete a post |
 
+The answers to a request that cannot be served are `400` for an id that is not a 32-bit number, `404` when the author or post does not exist, `422` when a post names an author that does not exist, and `409` when you delete an author who still has posts. Any other failure is a `500` with the text `internal server error`. The details of the database error are only written to the server log, because the driver messages name tables and constraints.
+
 ```bash
 $ curl -X POST localhost:3000/api/v1/authors -H 'Content-Type: application/json' -d '{"name":"Ada","email":"ada@example.com"}'
 ```
