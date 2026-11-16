@@ -84,13 +84,14 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
+- [Prometheus Monitoring](./prometheus/README.md) - Demonstrates how to instrument Fiber v3 applications and export Prometheus metrics.
 - [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
 - [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
 - [Seenode](./seenode/README.md) - Deploying to Seenode cloud platform.
-- [Sentry](./sentry/README.md) - Custom error handling and panic recovery integrated with Sentry.
+- [Custom Error Handling with Sentry](./sentry/README.md) - Demonstrates custom error handling and panic recovery in Fiber v3 integrated with Sentry.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
@@ -114,7 +115,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
 - [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
-- [WebSocket Shared State](./websocket-shared-state/README.md) - Managing thread-safe shared state and real-time broadcasts across WebSocket connections and HTTP handlers.
+- [WebSocket Shared State](./websocket-shared-state/README.md) - Demonstrates thread-safe shared state management and real-time broadcasting across multiple WebSocket connections and HTTP handlers in Fiber v3.
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## 👩‍🍳 Have a delicious recipe?
