@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.13.0 // indirect
+	github.com/PuerkitoBio/goquery v1.14.0 // indirect
 	github.com/andybalholm/cascadia v1.3.5 // indirect
 	github.com/antchfx/htmlquery v1.3.7 // indirect
 	github.com/antchfx/xmlquery v1.5.2 // indirect
