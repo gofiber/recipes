@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/getsentry/sentry-go v0.50.0
-	github.com/gofiber/contrib/v3/sentry v1.1.15
+	github.com/gofiber/contrib/v3/sentry v1.1.17
 	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/stretchr/testify v1.12.1
 )
