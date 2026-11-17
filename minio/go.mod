@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/gofiber/fiber/v3 v3.7.0
-	github.com/gofiber/storage/minio v0.6.3
+	github.com/gofiber/storage/minio v0.6.4
 )
 
 require (
