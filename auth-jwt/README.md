@@ -16,7 +16,7 @@ This project provides a starting point for building a web application with user 
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Setup

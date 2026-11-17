@@ -34,7 +34,6 @@ jobs:
     strategy:
       matrix:
         go-version:
-          - "1.26.x"
           - "1.27.x"
     # 8 vCPU: the build step fans the 91 modules out over the cores, and they share
     # one warm build cache instead of each rebuilding the fiber dep tree
@@ -94,7 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           # setup-go exports GOTOOLCHAIN=local, which beats a job-level env; auto lets
-          # the older matrix leg fetch the toolchain a module's go.mod asks for
+          # go fetch the toolchain a module's go.mod asks for when it is newer
           export GOTOOLCHAIN=auto
           # sed instead of grep: grep exits 1 when it filters everything out, which
           # pipefail would turn into a failed step for a PR that touched no module.

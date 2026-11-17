@@ -14,7 +14,7 @@ The server uses the [`socketio`](https://github.com/gofiber/contrib/tree/main/v3
 
 ## Prerequisites
 
-- Go 1.26 or higher
+- Go 1.27 or higher
 - Go modules
 - Node.js, to run the example client below
 

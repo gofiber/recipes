@@ -12,7 +12,7 @@ This is a sample program demonstrating how to use GORM as an ORM to connect to a
 
 ## Prerequisites
 
-- Go 1.26 or higher
+- Go 1.27 or higher
 - Go modules
 
 ## Setup

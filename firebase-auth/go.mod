@@ -1,6 +1,6 @@
 module main
 
-go 1.26.0
+go 1.27.0
 
 require (
 	firebase.google.com/go v3.13.0+incompatible

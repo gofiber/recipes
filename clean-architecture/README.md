@@ -16,7 +16,7 @@ This project provides a starting point for building a web application with a cle
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [MongoDB](https://www.mongodb.com/try/download/community)
 - [Git](https://git-scm.com/downloads)
 

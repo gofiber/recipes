@@ -16,7 +16,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 - [Air](https://github.com/air-verse/air)
 

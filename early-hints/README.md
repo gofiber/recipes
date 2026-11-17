@@ -16,7 +16,7 @@ Early Hints ([RFC 8297](https://datatracker.ietf.org/doc/html/rfc8297)) allows t
 
 Ensure you have the following installed:
 
-- Go 1.26.0 or newer
+- Go 1.27.0 or newer
 - [Fiber v3](https://github.com/gofiber/fiber) package (`github.com/gofiber/fiber/v3`)
 
 > **Note**: Fiber sends the `HTTP 103 Early Hints` response on HTTP/1.1 requests. However, most modern web browsers only process Early Hints when served over **HTTP/2** or **HTTP/3**. In production, the preloading benefit typically requires a reverse proxy or CDN that terminates HTTP/2 or HTTP/3 to the browser and forwards the upstream 103 status. Check that yours does before relying on it. For local testing, running `curl -v http://127.0.0.1:3000/` demonstrates the interim 103 response followed by the final 200 OK. Older or non-browser HTTP/1.1 clients that do not support interim 1xx responses may fail to process the stream correctly.

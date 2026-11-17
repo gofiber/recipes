@@ -21,7 +21,7 @@ This example demonstrates how to use [Go Fiber v3](https://github.com/gofiber/fi
 ## Prerequisites
 
 - Node.js
-- Go 1.26+
+- Go 1.27+
 - Wrangler CLI
 - Docker, which Wrangler uses to build the container image. The Dockerfile needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop
 - Cloudflare account with Container Workers access

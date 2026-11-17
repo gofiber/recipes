@@ -101,4 +101,4 @@ go run main.go
 ## Dependencies
 
 - [Fiber v3](https://github.com/gofiber/fiber)
-- Go 1.26+
+- Go 1.27+

@@ -19,7 +19,7 @@ This recipe demonstrates how to put **Go Fiber v3** in front of an **Angular Ser
 
 ## Prerequisites
 
-- [Go](https://golang.org/doc/install) 1.26 or higher
+- [Go](https://golang.org/doc/install) 1.27 or higher
 - [Node.js](https://nodejs.org/) 24 and npm
 
 ## Project Structure

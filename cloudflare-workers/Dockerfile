@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.26.0
+ARG GO_VERSION=1.27
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine AS build
 
 # Set by BuildKit to the platform the image is built for (Cloudflare Containers run linux/amd64).

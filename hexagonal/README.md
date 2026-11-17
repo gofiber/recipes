@@ -14,7 +14,7 @@ This project presents a simple product catalogue microservice to demonstrate the
 
 ## Prerequisites
 
-- Go 1.26 or higher
+- Go 1.27 or higher
 - MongoDB
 - Go modules
 

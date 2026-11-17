@@ -1,6 +1,6 @@
 module main
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/gofiber/contrib/v3/socketio v1.3.11

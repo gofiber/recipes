@@ -24,7 +24,7 @@ It provides:
 
 Ensure you have the following installed:
 
-- Go 1.26.0 or newer
+- Go 1.27.0 or newer
 - [Fiber v3](https://github.com/gofiber/fiber) package (`github.com/gofiber/fiber/v3`)
 
 ## Setup

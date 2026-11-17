@@ -1,6 +1,6 @@
 module github.com/gofiber/recipes/websocket-shared-state
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/fasthttp/websocket v1.5.12

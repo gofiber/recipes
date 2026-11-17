@@ -1,6 +1,6 @@
 module github.com/gofiber/recipes/proxy-resilience
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/gofiber/contrib/v3/circuitbreaker v1.1.10

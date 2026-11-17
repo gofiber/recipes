@@ -16,7 +16,7 @@ This project provides a starting point for deploying a Go Fiber application to G
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Docker](https://www.docker.com/get-started)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [Git](https://git-scm.com/downloads)

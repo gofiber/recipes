@@ -16,7 +16,7 @@ This project provides a basic setup for unit testing in a Go Fiber application. 
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure
