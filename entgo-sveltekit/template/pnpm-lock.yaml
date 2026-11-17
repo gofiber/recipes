@@ -1058,8 +1058,8 @@ packages:
     resolution: {integrity: sha512-wWBro/7hJ40ye6TPiXkUQoXKCw23xSsjriUvqd7Uls9Sso3oLiON1flc18cCdnjgCRXw4fBVqUJJeOdDTh3P3g==}
     engines: {node: '>=4'}
 
-  postcss@8.5.32:
-    resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
+  postcss@8.5.33:
+    resolution: {integrity: sha512-RVHEU9/Pp1Fnjr/MpAJsZoADukCKhfIi15OunEYiGktIkYLkPVvC1sioWolGDS7XByMTx9m/IGbro0Js13zhnQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -1765,9 +1765,9 @@ snapshots:
       esutils: 2.0.3
       globals: 16.5.0
       known-css-properties: 0.37.0
-      postcss: 8.5.32
-      postcss-load-config: 3.1.4(postcss@8.5.32)
-      postcss-safe-parser: 7.0.1(postcss@8.5.32)
+      postcss: 8.5.33
+      postcss-load-config: 3.1.4(postcss@8.5.33)
+      postcss-safe-parser: 7.0.1(postcss@8.5.33)
       semver: 7.8.5
       svelte-eslint-parser: 1.10.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))
     optionalDependencies:
@@ -2051,27 +2051,27 @@ snapshots:
 
   picomatch@4.0.7: {}
 
-  postcss-load-config@3.1.4(postcss@8.5.32):
+  postcss-load-config@3.1.4(postcss@8.5.33):
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.3
     optionalDependencies:
-      postcss: 8.5.32
+      postcss: 8.5.33
 
-  postcss-safe-parser@7.0.1(postcss@8.5.32):
+  postcss-safe-parser@7.0.1(postcss@8.5.33):
     dependencies:
-      postcss: 8.5.32
+      postcss: 8.5.33
 
-  postcss-scss@4.0.9(postcss@8.5.32):
+  postcss-scss@4.0.9(postcss@8.5.33):
     dependencies:
-      postcss: 8.5.32
+      postcss: 8.5.33
 
   postcss-selector-parser@7.1.7:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss@8.5.32:
+  postcss@8.5.33:
     dependencies:
       nanoid: 3.3.20
       picocolors: 1.1.1
@@ -2146,8 +2146,8 @@ snapshots:
       eslint-scope: 8.4.0
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
-      postcss: 8.5.32
-      postcss-scss: 4.0.9(postcss@8.5.32)
+      postcss: 8.5.33
+      postcss-scss: 4.0.9(postcss@8.5.33)
       postcss-selector-parser: 7.1.7
       semver: 7.8.5
     optionalDependencies:
@@ -2206,7 +2206,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.32
+      postcss: 8.5.33
       rolldown: 1.2.18
       tinyglobby: 0.2.17
     optionalDependencies:
