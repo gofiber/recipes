@@ -1,6 +1,6 @@
 module ent-mysql
 
-go 1.26.4
+go 1.26.0
 
 require (
 	entgo.io/ent v0.14.6
@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	ariga.io/atlas v1.3.0 // indirect
+	ariga.io/atlas v1.2.2 // indirect
 	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
