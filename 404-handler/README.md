@@ -16,7 +16,7 @@ In web applications, it's common to encounter requests to routes that do not exi
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Running the Example

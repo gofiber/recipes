@@ -8,11 +8,11 @@ description: Generate Swagger documentation for your application.
 
 [![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/swagger) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/swagger)
 
-This project demonstrates how to integrate Swagger for API documentation in a [Fiber](https://github.com/gofiber/fiber) application using [`gofiber/contrib/swaggerui`](https://github.com/gofiber/contrib/tree/main/swaggerui) and [`swaggo/swag`](https://github.com/swaggo/swag).
+This project demonstrates how to integrate Swagger for API documentation in a [Fiber](https://github.com/gofiber/fiber) application using [`gofiber/contrib/swaggerui`](https://github.com/gofiber/contrib/tree/main/v3/swaggerui) and [`swaggo/swag`](https://github.com/swaggo/swag).
 
 ## Prerequisites
 
-- Go 1.21+
+- Go 1.27+
 - [Swag CLI](https://github.com/swaggo/swag) for generating Swagger docs
 - PostgreSQL (connection configured via environment variables)
 
@@ -43,10 +43,10 @@ This project demonstrates how to integrate Swagger for API documentation in a [F
 Generate (or regenerate) the Swagger documentation from the annotations in your source code:
 
 ```sh
-swag init
+swag init --parseDependency --parseDependencyLevel 1 --propertyStrategy pascalcase
 ```
 
-This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`.
+This writes `docs/docs.go`, `docs/swagger.json`, and `docs/swagger.yaml`. The first two flags let `swag` resolve the `gorm.Model` fields embedded in `models.Book`. Without them, recent `swag` versions stop with `cannot find type definition: gorm.Model`. `gorm.Model` has no JSON tags, so the API returns its fields as `ID`, `CreatedAt`, `UpdatedAt` and `DeletedAt`. With the default camelCase naming the documented names would be `id`, `createdAt` and so on, and `--propertyStrategy pascalcase` keeps them in line with the responses.
 
 ## Running the Application
 
@@ -64,7 +64,7 @@ Open your browser and navigate to:
 http://localhost:3000/docs/docs
 ```
 
-The Swagger UI is served by [`gofiber/contrib/v3/swaggerui`](https://github.com/gofiber/contrib/tree/main/swaggerui) and reads the spec from `./docs/swagger.json`.
+The Swagger UI is served by [`gofiber/contrib/v3/swaggerui`](https://github.com/gofiber/contrib/tree/main/v3/swaggerui) and reads the spec from `./docs/swagger.json`.
 
 ## API Endpoints
 
@@ -118,5 +118,5 @@ curl -X DELETE http://localhost:3000/api/v1/books/1
 ## References
 
 - [Fiber](https://github.com/gofiber/fiber)
-- [gofiber/contrib/swaggerui](https://github.com/gofiber/contrib/tree/main/swaggerui)
+- [gofiber/contrib/swaggerui](https://github.com/gofiber/contrib/tree/main/v3/swaggerui)
 - [Swag Documentation](https://github.com/swaggo/swag)

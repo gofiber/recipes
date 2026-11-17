@@ -1,10 +1,11 @@
 package api
 
 import (
-	"aws-ses-sender/config"
 	"context"
 	"fmt"
 	"log"
+
+	"aws-ses-sender/config"
 
 	"github.com/gofiber/fiber/v3/middleware/pprof"
 
@@ -25,6 +26,9 @@ func Run(ctx context.Context) {
 	)
 
 	// Middleware
+	// pprof exposes heap, goroutine and CPU profiles, so it needs the same API key
+	// as the rest of the API. The key check must be registered before pprof.
+	app.Use("/debug/pprof", apiKeyAuth)
 	app.Use(pprof.New())
 	app.Use(recoverer.New())
 	app.Use(logger.New(logger.Config{

@@ -38,8 +38,10 @@ Ensure you have the following installed:
     export NEO4J_URI=neo4j://localhost:7687
     export NEO4J_USER=neo4j
     export NEO4J_PASSWORD=password
-    export NEO4J_DATABASE=movies
+    export NEO4J_DATABASE=neo4j
     ```
+
+    `NEO4J_DATABASE` defaults to `neo4j`, the database that every installation has. The Community Edition used by the Docker Compose file supports only that one user database. With the Enterprise Edition or Aura you can create another one (`CREATE DATABASE movies`) and set `NEO4J_DATABASE=movies`.
 
     Or start Neo4j via Docker Compose:
 
@@ -56,7 +58,7 @@ Ensure you have the following installed:
 
 ## Example
 
-Here is an example of how to connect to a Neo4j database in a Fiber application:
+This is the whole `main.go` of the recipe. It connects to Neo4j, stores movies with `POST /movie` and reads them back with `GET /movie/:title`:
 
 ```go
 package main
@@ -65,12 +67,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
+// Movie represent the movie schema
 type Movie struct {
 	Title    string `json:"title"`
 	Tagline  string `json:"tagline"`
@@ -78,18 +82,54 @@ type Movie struct {
 	Director string `json:"director"`
 }
 
-func envOrDefault(key, fallback string) string {
-	if v := os.Getenv(key); v != "" {
-		return v
+func movieFromRecord(record *neo4j.Record) (Movie, error) {
+	row := record.AsMap()
+
+	title, ok := row["title"].(string)
+	if !ok {
+		return Movie{}, fmt.Errorf("invalid title type: %T", row["title"])
 	}
-	return fallback
+
+	tagline, ok := row["tagline"].(string)
+	if !ok {
+		return Movie{}, fmt.Errorf("invalid tagline type: %T", row["tagline"])
+	}
+
+	director, ok := row["director"].(string)
+	if !ok {
+		return Movie{}, fmt.Errorf("invalid director type: %T", row["director"])
+	}
+
+	released, ok := row["released"].(int64)
+	if !ok {
+		return Movie{}, fmt.Errorf("invalid released type: %T", row["released"])
+	}
+
+	return Movie{
+		Title:    title,
+		Tagline:  tagline,
+		Released: released,
+		Director: director,
+	}, nil
+}
+
+func envOrDefault(key, fallback string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+
+	return value
 }
 
 func main() {
 	uri := envOrDefault("NEO4J_URI", "neo4j://localhost:7687")
 	user := envOrDefault("NEO4J_USER", "neo4j")
 	password := envOrDefault("NEO4J_PASSWORD", "password")
-	database := envOrDefault("NEO4J_DATABASE", "movies")
+	// "neo4j" is the default database of every installation. The Community Edition (the image in
+	// docker-compose.yml) can only have this one user database, so defaulting to another name
+	// would make every request fail with "database does not exist".
+	database := envOrDefault("NEO4J_DATABASE", "neo4j")
 
 	driver, err := neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, password, ""))
 	if err != nil {
@@ -105,6 +145,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Create a Fiber app
 	app := fiber.New()
 
 	app.Post("/movie", func(c fiber.Ctx) error {
@@ -118,59 +159,71 @@ func main() {
 			DatabaseName: database,
 			AccessMode:   neo4j.AccessModeWrite,
 		})
-		defer func() { _ = session.Close(ctx) }()
+		defer func() {
+			_ = session.Close(ctx)
+		}()
 
 		query := `CREATE (n:Movie {title: $title, tagline: $tagline, released: $released, director: $director})`
+		params := map[string]any{
+			"title":    movie.Title,
+			"tagline":  movie.Tagline,
+			"released": movie.Released,
+			"director": movie.Director,
+		}
+
 		_, err := session.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
-			_, runErr := tx.Run(ctx, query, map[string]any{
-				"title": movie.Title, "tagline": movie.Tagline,
-				"released": movie.Released, "director": movie.Director,
-			})
+			_, runErr := tx.Run(ctx, query, params)
 			return nil, runErr
 		})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
+
 		return c.Status(fiber.StatusCreated).JSON(movie)
 	})
 
 	app.Get("/movie/:title", func(c fiber.Ctx) error {
-		title := c.Params("title")
+		// Fiber leaves route parameters percent-encoded, so "The%20Matrix" has to be decoded
+		// before it can match the stored title "The Matrix".
+		title, err := url.PathUnescape(c.Params("title"))
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid movie title"})
+		}
 		ctx := c.Context()
 		session := driver.NewSession(ctx, neo4j.SessionConfig{
 			DatabaseName: database,
 			AccessMode:   neo4j.AccessModeRead,
 		})
-		defer func() { _ = session.Close(ctx) }()
+		defer func() {
+			_ = session.Close(ctx)
+		}()
 
 		query := `MATCH (n:Movie {title: $title})
 		          RETURN n.title AS title, n.tagline AS tagline, n.released AS released, n.director AS director`
-		result, err := session.ExecuteRead(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
-			res, runErr := tx.Run(ctx, query, map[string]any{"title": title})
+		resultValue, err := session.ExecuteRead(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+			result, runErr := tx.Run(ctx, query, map[string]any{"title": title})
 			if runErr != nil {
 				return nil, runErr
 			}
-			if !res.Next(ctx) {
-				if res.Err() != nil {
-					return nil, res.Err()
+
+			if !result.Next(ctx) {
+				if result.Err() != nil {
+					return nil, result.Err()
 				}
 				return nil, nil
 			}
-			row := res.Record().AsMap()
-			return Movie{
-				Title:    row["title"].(string),
-				Tagline:  row["tagline"].(string),
-				Released: row["released"].(int64),
-				Director: row["director"].(string),
-			}, nil
+
+			return movieFromRecord(result.Record())
 		})
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
-		if result == nil {
+
+		if resultValue == nil {
 			return c.SendStatus(fiber.StatusNotFound)
 		}
-		return c.Status(fiber.StatusOK).JSON(result)
+
+		return c.Status(fiber.StatusOK).JSON(resultValue)
 	})
 
 	log.Fatal(app.Listen(":3000"))

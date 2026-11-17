@@ -16,7 +16,7 @@ This project provides a basic setup for handling file uploads in a Go Fiber appl
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure

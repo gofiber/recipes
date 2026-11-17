@@ -37,7 +37,11 @@ Ensure you have the following installed:
     go run main.go
     ```
 
-2. Access the file server at `http://localhost:3000`.
+2. Open one of the files in the `files` directory:
+    - `http://localhost:3000/hello.txt`
+    - `http://localhost:3000/gopher.gif`
+
+    Only the files in that directory are served, so `http://localhost:3000/` itself answers `404 Not Found`.
 
 ## Example
 

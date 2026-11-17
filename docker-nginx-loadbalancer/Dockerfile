@@ -1,5 +1,9 @@
 # STEP 1 build executable binary
-FROM golang:alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:alpine AS builder
+
+# Set by BuildKit to the platform the image is built for.
+ARG TARGETOS
+ARG TARGETARCH
 
 RUN adduser -D -g '' appuser
 RUN mkdir /app
@@ -16,7 +20,7 @@ RUN go mod download
 COPY main.go .
 
 # build the binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/app .
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/app .
 
 RUN chmod 0555 /go/bin/app
 

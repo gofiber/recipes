@@ -1,13 +1,15 @@
 package cmd
 
 import (
-	"aws-ses-sender/config"
-	"aws-ses-sender/model"
-	"aws-ses-sender/pkg/aws"
 	"context"
 	"log"
 	"strconv"
 	"time"
+
+	"aws-ses-sender/config"
+	"aws-ses-sender/model"
+	"aws-ses-sender/pkg/aws"
+	"aws-ses-sender/pkg/tracking"
 )
 
 var reqChan = make(chan *model.Request, 1000)
@@ -25,6 +27,10 @@ func RunSender(ctx context.Context) {
 		log.Fatalf("Failed to create SES client: %v", err)
 	}
 
+	if config.GetEnv("TRACKING_SECRET") == "" {
+		log.Printf("TRACKING_SECRET is not set: the emails get no tracking image and no opens are recorded")
+	}
+
 	db := config.GetDB()
 	ticker := time.NewTicker(1 * time.Second / time.Duration(rate))
 	for range ticker.C {
@@ -36,7 +42,8 @@ func RunSender(ctx context.Context) {
 				// Add code for the open event at the end of the body
 				serverHost := config.GetEnv("SERVER_HOST", "http://localhost:3000")
 				content := r.Content
-				content += `<img src="` + serverHost + `/v1/events/open?requestId=` + strconv.Itoa(int(r.ID)) + `">`
+				// The link carries a token that proves it comes from this sender, see the open event handler.
+				content += tracking.Image(serverHost, config.GetEnv("TRACKING_SECRET"), r.ID)
 				ctx, cancel := context.WithTimeout(c, 10*time.Second)
 				defer cancel()
 				msgId, err := sesClient.SendEmail(

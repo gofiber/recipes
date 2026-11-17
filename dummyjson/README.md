@@ -16,7 +16,7 @@ This is a basic Go application using the Fiber framework to create a proxy serve
 
 Ensure you have the following installed:
 
-- Go 1.25 or newer, required by Fiber v3
+- Go 1.27 or newer, as set in `go.mod`
 - [Fiber](https://github.com/gofiber/fiber) package
 
 ## Setup

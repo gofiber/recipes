@@ -28,7 +28,11 @@ const index = `<!DOCTYPE html>
 if(typeof(EventSource) !== "undefined") {
   var source = new EventSource("/sse");
   source.onmessage = function(event) {
-    document.getElementById("result").innerHTML += event.data + "<br>";
+    // Add the message as text. Assigning it to innerHTML would run any markup that
+    // was sent to /publish.
+    var result = document.getElementById("result");
+    result.appendChild(document.createTextNode(event.data));
+    result.appendChild(document.createElement("br"));
   };
 } else {
   document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
@@ -74,16 +78,15 @@ func main() {
 		c.Set("Connection", "keep-alive")
 		c.Set("Transfer-Encoding", "chunked")
 
+		// The stream writer runs after this handler has returned, when c may already be
+		// serving another request, so read what it needs from c before starting it. The
+		// channel is closed when the server shuts down. c.Context() would not do: unless
+		// the application set a context it is an empty one, whose Done channel is nil.
+		done := c.RequestCtx().Done()
+
 		return c.Status(fiber.StatusOK).SendStreamWriter(func(w *bufio.Writer) {
 			var i int
 			for {
-				// Check for client disconnect before doing any work.
-				select {
-				case <-c.Context().Done():
-					return
-				default:
-				}
-
 				i++
 
 				var msg string
@@ -109,7 +112,14 @@ func main() {
 					fmt.Printf("Error while flushing: %v. Closing http connection.\n", err)
 					return
 				}
-				time.Sleep(2 * time.Second)
+
+				// Wait for the next message, but stop right away when the server is shutting
+				// down. A client that goes away is noticed through the flush error above.
+				select {
+				case <-done:
+					return
+				case <-time.After(2 * time.Second):
+				}
 			}
 		})
 	})

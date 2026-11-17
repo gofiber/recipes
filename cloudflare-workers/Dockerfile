@@ -1,7 +1,11 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.26.0
-FROM golang:${GO_VERSION}-alpine AS build
+ARG GO_VERSION=1.27
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine AS build
+
+# Set by BuildKit to the platform the image is built for (Cloudflare Containers run linux/amd64).
+ARG TARGETOS
+ARG TARGETARCH
 
 # Set destination for COPY
 WORKDIR /app
@@ -14,7 +18,7 @@ RUN go mod download
 COPY container_src/ ./
 
 # Build with optimizations
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
     -ldflags="-w -s" \
     -o /server
 

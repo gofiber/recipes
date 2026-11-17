@@ -17,6 +17,7 @@ This project got inspired by the [swagger recipe](https://github.com/gofiber/rec
 Ensure you have the following installed:
 
 - Golang
+- PostgreSQL, reachable with the credentials you put in `.env`
 
 ## Setup
 
@@ -30,6 +31,11 @@ Ensure you have the following installed:
 2. Download Go modules:
    ```sh
    go mod tidy
+   ```
+
+3. Copy the example environment file and set your PostgreSQL connection details (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_NAME`, `DB_PORT`):
+   ```sh
+   cp .env.example .env
    ```
 
 ## Running the Application
@@ -64,7 +70,7 @@ Here is a minimal example of adding huma to a existing Fiber codebase:
 ```go
 import (
    ...
-   "github.com/gofiber/fiber/v2"
+   "github.com/gofiber/fiber/v3"
    "github.com/danielgtaylor/huma/v2"
    "github.com/danielgtaylor/huma/v2/adapters/humafiber"
 )
@@ -78,10 +84,12 @@ func New() *fiber.App {
 }
 ```
 
+The recipe itself registers its routes in a `/v1` group (`huma.NewGroup(api, "/v1")`), so its paths are `/v1/books` and `/v1/books/{id}`.
+
 ### `handlers/book.go`
 
 ```go
-// func GetAllBooks(c *fiber.Ctx) error {} // 👈 your existing code
+// func GetAllBooks(c fiber.Ctx) error {} // 👈 your existing code
 
 // 👇 huma version
 func GetAllBooks(ctx context.Context, _ *struct{}) (*GetAllBooksResponse, error) {

@@ -1,9 +1,11 @@
 package handlers
 
 import (
-	"auth-jwt-gorm/models"
 	"strconv"
 
+	"auth-jwt-gorm/models"
+
+	jwtware "github.com/gofiber/contrib/v3/jwt"
 	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -55,8 +57,9 @@ func (uh *UserHandler) GetUser(c fiber.Ctx) error {
 		return err
 	}
 
-	tok, ok := c.Locals("user").(*jwt.Token)
-	if !ok || !validToken(tok, idString) {
+	// The JWT middleware stores the verified token in the request context, not in Locals.
+	tok := jwtware.FromContext(c)
+	if tok == nil || !validToken(tok, idString) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -97,8 +100,9 @@ func (uh *UserHandler) UpdateUser(c fiber.Ctx) error {
 		return err
 	}
 
-	tok, ok := c.Locals("user").(*jwt.Token)
-	if !ok || !validToken(tok, idString) {
+	// The JWT middleware stores the verified token in the request context, not in Locals.
+	tok := jwtware.FromContext(c)
+	if tok == nil || !validToken(tok, idString) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -129,8 +133,9 @@ func (uh *UserHandler) DeleteUser(c fiber.Ctx) error {
 		return err
 	}
 
-	tok, ok := c.Locals("user").(*jwt.Token)
-	if !ok || !validToken(tok, idString) {
+	// The JWT middleware stores the verified token in the request context, not in Locals.
+	tok := jwtware.FromContext(c)
+	if tok == nil || !validToken(tok, idString) {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid token id",
@@ -155,7 +160,6 @@ func (uh *UserHandler) DeleteUser(c fiber.Ctx) error {
 		})
 	}
 
-	c.Locals("user", nil)
 	c.ClearCookie("jwt")
 
 	return c.JSON(fiber.Map{

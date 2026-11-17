@@ -23,46 +23,34 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Air Live Reloading](./air/README.md) - Live reloading for Go applications.
 - [Angular SSR](./angular-ssr/README.md) - Serving Angular with Server-Side Rendering (SSR) using Fiber v3 and reverse proxy.
 - [Asynq](./asynq/README.md) - Enqueue background jobs from Fiber and process them with an Asynq worker.
-- [Auth + Docker + Postgres + JWT](./auth-docker-postgres-jwt/README.md) - Authentication with Docker, Postgres, and JWT.
 - [Auth + JWT](./auth-jwt/README.md) - Simple JWT authentication.
 - [Autocert](./autocert/README.md) - Automatic TLS certificate management.
 - [AWS Elastic Beanstalk](./aws-eb/README.md) - Deploying to AWS Elastic Beanstalk.
 - [AWS SAM Container](./aws-sam-container/README.md) - Containerized serverless applications with AWS SAM.
 - [AWS SES Email Sender](./aws-ses-sender/README.md) - AWS SES-based Golang email delivery service. Provides email dispatch processing, status tracking, scheduled sending, and result analysis capabilities.
-- [Bootstrap](./bootstrap/README.md) - Integrating Bootstrap.
+- [Bootstrap](./bootstrap/README.md) - A starter project with Fiber, GORM, a validator and environment configuration.
 - [Clean Architecture](./clean-architecture/README.md) - Implementing clean architecture in Go.
-- [Clean Code](./clean-code/README.md) - Implementing clean code in Go.
 - [Cloud Run](./cloud-run/README.md) - Deploying to Google Cloud Run.
 - [Cloudflare Container Workers with Go Fiber](./cloudflare-workers/README.md) - Run a Go Fiber v3 app in a Cloudflare Container Worker with a Worker proxy.
-- [Colly Gorm](./colly-gorm/README.md) - Web scraping with Colly and GORM.
-- [CSRF](./csrf/README.md) - Cross-Site Request Forgery (CSRF) protection.
 - [CSRF + Session](./csrf-with-session/README.md) - Cross-Site Request Forgery (CSRF) protection with session management.
-- [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
 - [Dynamic Route Management](./dynamic-routing/README.md) - Managing dynamic route registration via an in-memory registry and a catch-all dispatcher in Fiber v3.
 - [Early Hints (HTTP 103)](./early-hints/README.md) - Demonstrating HTTP 103 Early Hints in Fiber v3 to preload critical assets before delivering the final response.
 - [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
-- [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
 - [Envoy External Authorization](./envoy-extauthz/README.md) - External authorization with Envoy.
 - [File Server](./file-server/README.md) - Serving static files.
 - [Firebase Authentication](./firebase-auth/README.md) - Firebase authentication integration.
 - [Firebase Functions](./firebase-functions/README.md) - Using Firebase Functions.
 - [Form Data](./form-data/README.md) - Parsing application/x-www-form-urlencoded bodies into structs, slices and maps.
-- [Firebase GCloud](./gcloud/README.md) - Integrating Firebase with Google Cloud.
-- [Google Cloud Firebase](./gcloud-firebase/README.md) - Firebase services on Google Cloud.
-- [GeoIP](./geoip/README.md) - Geolocation using ip-api.com.
 - [GeoIP + MaxMind](./geoip-maxmind/README.md) - Geolocation with GeoIP and MaxMind databases.
-- [GORM](./gorm/README.md) - Using GORM with SQLite database.
-- [GORM MySQL](./gorm-mysql/README.md) - Using GORM with MySQL database.
-- [GORM + PostgreSQL](./gorm-postgres/README.md) - Using GORM with PostgreSQL database.
+- [GORM](./gorm/README.md) - Using GORM with SQLite, MySQL or PostgreSQL.
 - [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
 - [Graceful shutdown](./graceful-shutdown/README.md) - Graceful shutdown of applications.
 - [GraphQL](./graphql/README.md) - Setting up a GraphQL server.
 - [gRPC](./grpc/README.md) - Using Fiber as a client to a gRPC server.
 - [Hello World](./hello-world/README.md) - A simple "Hello, World!" application.
-- [Heroku](./heroku/README.md) - Deploying to Heroku.
 - [Hexagonal Architecture](./hexagonal/README.md) - A Hexagonal Software Architecture in Golang and MongoDB.
 - [HTTPS with PKCS12 TLS](./https-pkcs12-tls/README.md) - Setting up an HTTPS server with PKCS12 TLS certificates.
 - [HTTPS with TLS](./https-tls/README.md) - Setting up an HTTPS server with self-signed TLS certificates.
@@ -75,31 +63,26 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
 - [Monitoring with Apitally](./monitoring-with-apitally/README.md) - A simple REST API with monitoring and request logging using Apitally.
 - [Multiple Ports](./multiple-ports/README.md) - Running an application on multiple ports.
-- [MySQL](./mysql/README.md) - Connecting to a MySQL database.
+- [MySQL + PostgreSQL](./mysql/README.md) - Connecting to MySQL or PostgreSQL with database/sql.
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
-- [OAuth2](./oauth2/README.md) - Implementing GitHub OAuth2 authentication with GoFiber.
-- [Google OAuth2](./oauth2-google/README.md) - Implementing Google OAuth2 authentication.
+- [OAuth2](./oauth2/README.md) - Implementing GitHub OAuth2 authentication with GoFiber, with notes for Google.
 - [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
-- [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
 - [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
-- [React](./react-router/README.md) - Using React.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
 - [RSS Feed](./rss-feed/README.md) - Generating an RSS feed.
-- [Seenode](./seenode/README.md) - Deploying to Seenode cloud platform.
-- [Sentry](./sentry/README.md) - Custom error handling and panic recovery integrated with Sentry.
+- [Custom Error Handling with Sentry](./sentry/README.md) - Demonstrates custom error handling and panic recovery in Fiber v3 integrated with Sentry.
 - [Server Timing](./server-timing/README.md) - Adding Server Timing headers to an application.
 - [Sessions + SQLite3](./sessions-sqlite3/README.md) - Using SQLite3 as a storage engine for user sessions.
 - [Socketio](./socketio/README.md) - A chatroom application using Socket.IO.
-- [Single Page Application (SPA)](./spa/README.md) - Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
+- [Single Page Application (SPA)](./spa/README.md) - Serving a Single Page Application (SPA) with Fiber, including the index.html fallback for client-side routes.
 - [Sqlboiler](./sqlboiler/README.md) - Using Sqlboiler ORM.
 - [Sqlc](./sqlc/README.md) - Using Sqlc to generate Go code from SQL queries.
 - [Server-Sent Events](./sse/README.md) - Implementing Server-Sent Events in an application.
 - [Stream Request Body](./stream-request-body/README.md) - Streaming request bodies.
-- [Svelte Netlify](./svelte-netlify/README.md) - Deploying a Svelte + Fiber application on Netlify.
 - [Sveltekit Embed](./sveltekit-embed/README.md) - A full-stack application built using Sveltekit and Tailwind CSS.
 - [Swagger](./swagger/README.md) - Generate Swagger documentation for your application.
 - [Tableflip Example](./tableflip/README.md) - Use tableflip for graceful upgrades in a Go application.
@@ -108,13 +91,11 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Todo App + Auth + GORM](./todo-app-with-auth-gorm/README.md) - A Todo application with authentication using GORM.
 - [Unit Testing](./unit-test/README.md) - Writing unit tests for a Go Fiber application.
 - [File Upload](./upload-file/README.md) - Handling file uploads in a Go application.
-- [URL Shortener](./url-shortener-api/README.md) - URL shortening service with a simple API.
 - [Validation](./validation/README.md) - Input validation using go-playground/validator.
 - [Vercel](./vercel/README.md) - Deploy a Go application to Vercel.
 - [Viper Configuration](./viper-config/README.md) - Manage layered application configuration in Fiber using Viper with YAML and environment variables.
 - [WebSocket](./websocket/README.md) - Real-time communication application using WebSockets.
-- [WebSocket Chat](./websocket-chat/README.md) - Real-time chat application using WebSockets.
-- [WebSocket Shared State](./websocket-shared-state/README.md) - Managing thread-safe shared state and real-time broadcasts across WebSocket connections and HTTP handlers.
+- [WebSocket Shared State](./websocket-shared-state/README.md) - Demonstrates thread-safe shared state management and real-time broadcasting across multiple WebSocket connections and HTTP handlers in Fiber v3.
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## 👩‍🍳 Have a delicious recipe?

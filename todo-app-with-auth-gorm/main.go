@@ -12,6 +12,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 )
 
 func main() {
@@ -22,6 +23,8 @@ func main() {
 
 	app := fiber.New(fiber.Config{ErrorHandler: utils.ErrorHandler})
 
+	// Turn a panic in any handler into a 500 instead of letting it stop the server.
+	app.Use(recover.New())
 	app.Use(logger.New())
 
 	routes.AuthRoutes(app)

@@ -6,6 +6,8 @@ description: Demonstrates advanced caching strategies in Fiber v3 including dete
 
 # Advanced Caching in Fiber v3
 
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/advanced-caching) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/advanced-caching)
+
 This recipe illustrates production-ready caching patterns using Fiber v3's built-in `middleware/cache`:
 
 1. **Deterministic & Isolated Cache Keys**: Uses native `KeyHeaders` (`Accept`, `Accept-Encoding`, `Accept-Language`, `X-Tenant-ID`, `X-User-Role`) to partition cache keys with built-in header escaping and canonical query sorting (`?a=1&b=2` matches `?b=2&a=1`), preventing delimiter collisions and cross-tenant pollution.

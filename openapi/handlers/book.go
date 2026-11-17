@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"math"
 
 	"openapi/database"
 	"openapi/models"
@@ -9,6 +10,12 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"gorm.io/gorm"
 )
+
+// idExists reports whether id can be the id of a book. Ids are signed 64-bit integers in the
+// database, so a larger one cannot exist and cannot be bound as a query argument either.
+func idExists(id uint) bool {
+	return uint64(id) <= math.MaxInt64
+}
 
 type GetAllBooksResponse struct {
 	Body []models.Book `json:"body"`
@@ -43,9 +50,15 @@ func GetAllBooks(ctx context.Context, _ *struct{}) (*GetAllBooksResponse, error)
 	return &GetAllBooksResponse{Body: books}, nil
 }
 
+// ID is a uint rather than a string on purpose: Huma rejects non-integers with a 422
+// before the handler runs, and GORM would otherwise treat a non-numeric string passed to
+// First() as a raw WHERE clause (SQL injection).
 func GetBookByID(ctx context.Context, params *struct {
-	ID string `path:"id"`
+	ID uint `path:"id"`
 }) (*GetBookByIDResponse, error) {
+	if !idExists(params.ID) {
+		return nil, huma.Error404NotFound("book not found")
+	}
 	db := database.DBConn
 
 	book := new(models.Book)
@@ -76,9 +89,12 @@ func RegisterBook(ctx context.Context, input *struct{ Body RegisterBookDto }) (*
 }
 
 func UpdateBook(ctx context.Context, input *struct {
-	ID   string `path:"id"`
+	ID   uint `path:"id"`
 	Body RegisterBookDto
 }) (*EmptyResponse, error) {
+	if !idExists(input.ID) {
+		return nil, huma.Error404NotFound("book not found")
+	}
 	db := database.DBConn
 
 	book := new(models.Book)
@@ -100,8 +116,11 @@ func UpdateBook(ctx context.Context, input *struct {
 }
 
 func DeleteBook(ctx context.Context, params *struct {
-	ID string `path:"id"`
+	ID uint `path:"id"`
 }) (*EmptyResponse, error) {
+	if !idExists(params.ID) {
+		return nil, huma.Error404NotFound("book not found")
+	}
 	db := database.DBConn
 
 	book := new(models.Book)

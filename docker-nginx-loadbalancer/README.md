@@ -30,5 +30,6 @@ To get a local copy up and running, follow these steps:
   ```bash
   docker compose up --build
   ```
+  The Dockerfile starts with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
 5. Access the application at `http://localhost:8080/hello`.
 

@@ -33,6 +33,9 @@ go.work
 # Ignore main binaries
 **/main
 
+# Ignore the binary built from overview.go at the repo root
+/recipes
+
 # Ignore certificates in csrf-with-session example
 csrf-with-session/cert.pem
 csrf-with-session/key.pem

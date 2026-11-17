@@ -34,8 +34,10 @@ type Employee struct {
 // Connect function
 func Connect() error {
 	var err error
-	// Use DSN string to open
-	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, dbname))
+	// Use DSN string to open. clientFoundRows=true makes UPDATE report the rows it matched
+	// instead of the rows it changed. Without it, updating a row with the values it already
+	// has reports 0 affected rows, and the PUT handler would answer 404 for an existing employee.
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s?clientFoundRows=true", user, password, dbname))
 	if err != nil {
 		return err
 	}

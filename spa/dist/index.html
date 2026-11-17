@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fiber SPA</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0 auto;
+        max-width: 40rem;
+        padding: 1rem;
+      }
+      nav {
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.5rem;
+      }
+      nav a[aria-current="page"] {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/web" data-link>Home</a>
+      <a href="/web/about" data-link>About</a>
+      <a href="/web/users/42" data-link>User 42</a>
+    </nav>
+    <main id="view"></main>
+
+    <script>
+      // A minimal client-side router. Every route lives under /web, the path the
+      // Fiber server serves this file from. Reloading or opening /web/about
+      // directly works because the server answers unknown paths with this file.
+      const view = document.getElementById("view");
+
+      const routes = [
+        {
+          pattern: /^\/web\/?$/,
+          render: () => ["Home", "This page is served by Fiber from dist/index.html."],
+        },
+        {
+          pattern: /^\/web\/about\/?$/,
+          render: () => ["About", "Reload this page: the server falls back to index.html."],
+        },
+        {
+          pattern: /^\/web\/users\/(\d+)\/?$/,
+          render: (match) => ["User " + match[1], "The id comes from the URL path."],
+        },
+      ];
+
+      function render() {
+        let title = "Not found";
+        let text = "No client-side route matches " + location.pathname + ".";
+        for (const route of routes) {
+          const match = route.pattern.exec(location.pathname);
+          if (match) {
+            [title, text] = route.render(match);
+            break;
+          }
+        }
+
+        const heading = document.createElement("h1");
+        heading.textContent = title;
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        view.replaceChildren(heading, paragraph);
+
+        document.title = title + " - Fiber SPA";
+        for (const link of document.querySelectorAll("nav a")) {
+          const current = link.pathname === location.pathname;
+          if (current) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+        }
+      }
+
+      // Navigate without a page load.
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest("a[data-link]");
+        if (!link) return;
+        event.preventDefault();
+        history.pushState({}, "", link.href);
+        render();
+      });
+      window.addEventListener("popstate", render);
+
+      render();
+    </script>
+  </body>
+</html>

@@ -7,7 +7,8 @@ services:
     environment:
       - MEMGRAPH_TELEMETRY_ENABLED=false
     healthcheck:
-      test: ["CMD", "mg_client", "--use-ssl=False", "-e", "RETURN 1;"]
+      # The image ships mgconsole, not mg_client.
+      test: ["CMD-SHELL", "echo 'RETURN 1;' | mgconsole"]
       interval: 10s
       timeout: 5s
       retries: 5

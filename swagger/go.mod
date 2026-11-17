@@ -1,9 +1,8 @@
 module swagger
 
-go 1.26.0
+go 1.27.0
 
 require (
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/gofiber/contrib/v3/swaggerui v1.0.18
 	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/swaggo/swag v1.16.6

@@ -34,7 +34,6 @@ jobs:
     strategy:
       matrix:
         go-version:
-          - "1.26.x"
           - "1.27.x"
     # 8 vCPU: the build step fans the 91 modules out over the cores, and they share
     # one warm build cache instead of each rebuilding the fiber dep tree
@@ -62,7 +61,7 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             # Walk up to the module owning each changed file: splitting on the first path
-            # segment resolved nested modules like clean-code/app to a dir with no go.mod,
+            # segment resolved nested modules like envoy-extauthz/app to a dir with no go.mod,
             # so their PRs went green unbuilt. --no-renames so a move also rebuilds the source.
             changed_dirs=$(git diff --no-renames --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | while IFS= read -r file; do
               dir=$(dirname "$file")
@@ -83,18 +82,18 @@ jobs:
           } >> "$GITHUB_ENV"
 
 
-      # tidy check, vet and build run per module in one pass: once the shared build cache is warm
-      # a single module barely keeps one core busy, so the modules are what we spread.
+      # tidy check, vet, build and test run per module in one pass: once the shared build cache is
+      # warm a single module barely keeps one core busy, so the modules are what we spread.
       # Output is prefixed because parallel invocations interleave; xargs exits 123
       # as soon as any module failed.
-      - name: Tidy check, vet and build changed modules
+      - name: Tidy check, vet, build and test changed modules
         shell: bash
         env:
           CHANGED_DIRS: ${{ env.changed_dirs }}
         run: |
           set -euo pipefail
           # setup-go exports GOTOOLCHAIN=local, which beats a job-level env; auto lets
-          # the older matrix leg fetch the toolchain a module's go.mod asks for
+          # go fetch the toolchain a module's go.mod asks for when it is newer
           export GOTOOLCHAIN=auto
           # sed instead of grep: grep exits 1 when it filters everything out, which
           # pipefail would turn into a failed step for a PR that touched no module.
@@ -109,7 +108,13 @@ jobs:
               [ -f "$dir/go.mod" ] || { echo "[$dir] skipped, no go.mod"; exit 0; }
               set -o pipefail
               cd "$dir" || exit 1
-              if { go mod tidy -diff && go vet ./... && go build -race ./...; } 2>&1 | sed "s|^|[$dir] |"; then
+              # Tests that start containers with Testcontainers need a Docker daemon. Without
+              # one the module is not tested, and the log says so.
+              test_cmd="go test -race ./..."
+              if grep -q testcontainers go.mod && ! docker info > /dev/null 2>&1; then
+                test_cmd="echo skipping go test: this module needs Docker and there is no Docker daemon"
+              fi
+              if { go mod tidy -diff && go vet ./... && go build -race ./... && $test_cmd; } 2>&1 | sed "s|^|[$dir] |"; then
                 echo "[$dir] ok"
               else
                 echo "[$dir] FAILED"

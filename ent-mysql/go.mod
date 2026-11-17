@@ -1,6 +1,6 @@
 module ent-mysql
 
-go 1.26.4
+go 1.27.0
 
 require (
 	entgo.io/ent v0.14.6

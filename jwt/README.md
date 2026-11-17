@@ -12,8 +12,9 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 
 ## Prerequisites
 
-- Go 1.25 or higher
+- Go 1.27 or higher
 - Go modules
+- PostgreSQL. The product endpoints store their data there.
 
 ## Setup
 
@@ -28,6 +29,19 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
     go mod tidy
     ```
 
+3. Copy the sample environment file and fill it in. `SECRET` signs and verifies the tokens (for example `openssl rand -hex 32`). The application refuses to start without it, and it also needs a `.env` file to be present:
+    ```sh
+    cp .env.sample .env
+    ```
+    ```env
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_USER=postgres
+    DB_PASSWORD=your_password
+    DB_NAME=your_database
+    SECRET=your_secret
+    ```
+
 ## Running the Application
 
 1. Run the application:
@@ -39,23 +53,39 @@ This example demonstrates how to use JSON Web Tokens (JWT) for authentication in
 
 ## Endpoints
 
-| Method | URL           | Description                |
-| ------ | ------------- | -------------------------- |
-| POST   | /login        | Authenticates a user and returns a JWT |
-| GET    | /restricted   | Accesses a restricted route with JWT   |
+| Method | URL               | Auth | Description                                    |
+| ------ | ----------------- | ---- | ---------------------------------------------- |
+| GET    | /api              | no   | Status check                                   |
+| POST   | /api/auth/login   | no   | Returns a JWT for the demo user                |
+| GET    | /api/product      | no   | Lists all products                             |
+| GET    | /api/product/:id  | no   | Gets a product by ID                           |
+| POST   | /api/product      | JWT  | Creates a product                              |
+| DELETE | /api/product/:id  | JWT  | Deletes a product                              |
+
+The login handler accepts one hard-coded demo user, `ender` with the password `ender`. A real application checks the credentials against its own user store.
 
 ## Example Requests
 
 ### Login
 ```sh
-curl -X POST http://localhost:3000/login -d '{"username": "user", "password": "pass"}' -H "Content-Type: application/json"
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"identity": "ender", "password": "ender"}'
 ```
 
-### Access Restricted Route
+The token is in the `data` field of the response.
+
+### Create a Product
 ```sh
-curl -X GET http://localhost:3000/restricted -H "Authorization: Bearer <your_jwt_token>"
+curl -X POST http://localhost:3000/api/product \
+  -H "Authorization: Bearer <your_jwt_token>" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Widget", "description": "A widget", "amount": 3}'
 ```
 
-## Postman Collection
+### Get a Product
+```sh
+curl http://localhost:3000/api/product/1
+```
 
-You can find Postman examples [here](https://www.getpostman.com/collections/0e83876e0f2a0c8ecd70).
+A request to a protected route without a token answers `400`, and one with an invalid or expired token answers `401`.

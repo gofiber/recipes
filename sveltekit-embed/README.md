@@ -12,6 +12,11 @@ description: A full-stack application built using Sveltekit and Tailwind CSS.
 
 This application is a full-stack project built using Sveltekit, Tailwind CSS, Fiber. It showcases the construction of a monolithic architecture for a full-stack application.
 
+## Prerequisites
+
+- Go
+- Node.js 22.17 or newer (see `engines` in `template/package.json`). The makefile runs pnpm through `npx`, so nothing else has to be installed.
+
 ## Run the Project
 
 To run the project, follow these steps:
@@ -35,9 +40,11 @@ The following commands are available to manage the project:
 | --- | --- |
 | `info` | Info command. Displays the available commands and the purpose of the application. |
 | `go-build` | Builds the Golang project and creates an `app` file. |
-| `svelte-build` | Builds the SvelteKit project. It first installs the dependencies and then performs the project build. |
+| `install-template-dependencies` | Installs the dependencies of the SvelteKit project with the pinned pnpm version and the frozen lockfile. |
+| `svelte-build` | Builds the SvelteKit project into `template/dist`. It first installs the dependencies and then performs the project build. |
 | `all` | Runs both `svelte-build` and `go-build` commands sequentially. |
 | `build` | Same as `all`. This is the target CI runs. |
+| `clean` | Removes the `app` file and the build output in `template/dist`. |
 
 ## Usage
 
@@ -55,7 +62,7 @@ The Go Fiber application provides the following API routes:
 
 | Route | Description |
 | --- | --- |
-| `/*` | Serves static files from the specified directory (`template.Dist()`). If a file is not found, it serves `index.html`. |
+| `/*` | Serves the SvelteKit build that is embedded in the binary (`template.Dist()`). If a path is not a file in the build, such as a client-side route, it serves `index.html` with status 200, so the SvelteKit router can handle it. A missing file such as `/_app/missing.js` gets `index.html` as well. |
 
 Go Dependencies
 ---------------

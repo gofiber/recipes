@@ -17,7 +17,7 @@ func main() {
 
 	// Routes
 	app.Get("/", func(c fiber.Ctx) error {
-		return c.SendString(c.Protocol()) // => https
+		return c.SendString(c.Scheme()) // => https
 	})
 
 	// Create tls certificate

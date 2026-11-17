@@ -46,7 +46,9 @@ func successHandler(ctx fiber.Ctx) error {
 func errHandler(ctx fiber.Ctx, err error) error {
 	ctx.Status(fiber.StatusForbidden)
 
-	if errors.Is(err, errMissing) {
+	// keyauth reports a request without the header as its own error and never calls the
+	// validator for it, so the "missing" case has to be recognised here.
+	if errors.Is(err, errMissing) || errors.Is(err, keyauth.ErrMissingOrMalformedAPIKey) {
 		return ctx.JSON(errMissing)
 	}
 

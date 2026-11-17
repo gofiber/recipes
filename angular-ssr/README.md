@@ -6,7 +6,7 @@ description: Serving Angular with Server-Side Rendering (SSR) using Fiber v3 and
 
 # Angular SSR with Fiber v3
 
-[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/angular-ssr)
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/angular-ssr) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/angular-ssr)
 
 This recipe demonstrates how to put **Go Fiber v3** in front of an **Angular Server-Side Rendering (SSR)** application. The Angular app in `web/` was created with `ng new web --ssr` and trimmed to a single page that tells you where it was rendered.
 
@@ -19,7 +19,7 @@ This recipe demonstrates how to put **Go Fiber v3** in front of an **Angular Ser
 
 ## Prerequisites
 
-- [Go](https://golang.org/doc/install) 1.26 or higher
+- [Go](https://golang.org/doc/install) 1.27 or higher
 - [Node.js](https://nodejs.org/) 24 and npm
 
 ## Project Structure

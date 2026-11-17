@@ -1,11 +1,12 @@
 package services
 
 import (
-	"auth-jwt-gorm/models"
 	"errors"
 	"fmt"
 	"strconv"
 	"time"
+
+	"auth-jwt-gorm/models"
 
 	"github.com/golang-jwt/jwt/v5"
 	"gorm.io/gorm"
@@ -110,7 +111,6 @@ func (s *AuthService) ValidateToken(tokenString string) (jwt.MapClaims, error) {
 		}
 		return s.jwtSecret, nil
 	})
-
 	if err != nil {
 		if errors.Is(err, jwt.ErrTokenExpired) {
 			return nil, ErrExpiredToken
@@ -184,16 +184,13 @@ func (s *AuthService) RefreshAccessToken(refreshTokenString string) (accessToken
 		return "", "", err
 	}
 
-	remainingTTL := time.Until(token.ExpiresAt)
-	if remainingTTL <= 0 {
-		return "", "", ErrExpiredToken
+	// The checks above only look at what was read a moment ago. Another request may have used
+	// this refresh token since, so the token is revoked and replaced in one step that only one
+	// request can win.
+	newToken, err := s.refreshTokenRepo.RotateRefreshToken(token)
+	if errors.Is(err, models.ErrRefreshTokenUnusable) {
+		return "", "", ErrInvalidToken
 	}
-
-	if err := s.refreshTokenRepo.RevokeRefreshToken(refreshTokenString); err != nil {
-		return "", "", err
-	}
-
-	newToken, err := s.refreshTokenRepo.CreateRefreshToken(user.ID, remainingTTL)
 	if err != nil {
 		return "", "", err
 	}

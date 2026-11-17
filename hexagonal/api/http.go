@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/url"
+
 	"catalog/domain"
 
 	"github.com/gofiber/fiber/v3"
@@ -10,8 +12,17 @@ type handler struct {
 	productService domain.Service
 }
 
+// productCode returns the :code route parameter. Fiber leaves it percent-encoded, so a code
+// such as "a b" arrives as "a%20b" and has to be decoded before it is used as a key.
+func productCode(ctx fiber.Ctx) (string, error) {
+	return url.PathUnescape(ctx.Params("code"))
+}
+
 func (h *handler) Get(ctx fiber.Ctx) error {
-	code := ctx.Query("code")
+	code, err := productCode(ctx)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(nil)
+	}
 	p, err := h.productService.Find(code)
 	if err != nil {
 		return ctx.Status(404).JSON(nil)
@@ -44,8 +55,11 @@ func (h *handler) Put(ctx fiber.Ctx) error {
 }
 
 func (h *handler) Delete(ctx fiber.Ctx) error {
-	code := ctx.Params("code")
-	err := h.productService.Delete(code)
+	code, err := productCode(ctx)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(nil)
+	}
+	err = h.productService.Delete(code)
 	if err != nil {
 		return ctx.Status(500).JSON(nil)
 	}

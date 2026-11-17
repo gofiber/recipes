@@ -21,6 +21,20 @@ This example impliments multiple best-practices for CSRF protection:
     - Expiration: 30 minutes (of inactivity)
     - Cookie names are prefixed with "__Host-" (see [MDN-Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) for more information))
 
+## What CSRF protection stops
+
+In a CSRF attack, a page on another site makes a logged-in user's browser send a state-changing request to your app, for example by auto-submitting a hidden form that transfers funds. The browser attaches the session cookie to that request automatically, so the cookie alone cannot show that the user meant to send it.
+
+The CSRF middleware closes that gap. Every state-changing request must carry a token that is tied to the user's session and that a page on another origin cannot read. A forged request has no valid token, so it is rejected with `403 Forbidden`.
+
+You can see the rejection without a browser. With the server running (see below), send a POST without a token:
+
+```bash
+curl -k -i -X POST https://127.0.0.1:8443/protected -d 'message=hello'
+```
+
+The response is `403 Forbidden`.
+
 ## Requirements
 
 * [git](https://git-scm.com/downloads)
@@ -36,19 +50,20 @@ cd csrf-with-session
 
 And then:
 ```bash
-go mod vendor && go mod download && go mod tidy
+go mod download
 ```
-This command installs the golang dependencies needed to run the project in a new directory named `vendor`.
+This command downloads the golang dependencies needed to run the project.
 
-Once the modules have finished installing, you can run the project like this:
+Once the modules have finished downloading, you can run the project like this:
 ```bash
 go run main.go
 ```
 
-You should see the following if everything is OK:
+You should see Fiber's startup banner with the address of the server if everything is OK:
 ```
-Server started and listening at 127.0.0.1:8443
+INFO Server started on:  https://127.0.0.1:8443
 ```
+On the first start the app also generates a self-signed certificate (`cert.pem` and `key.pem` in the current directory) and prints a message about it.
 
 ## Try the demo
 
@@ -56,7 +71,7 @@ Start the server by running:
 ```bash
 go run main.go
 ```
-Open your browser to and navigate to [127.0.0.1:8443](http://127.0.0.1:8443).
+Open your browser and navigate to [127.0.0.1:8443](https://127.0.0.1:8443). The server only speaks HTTPS, so a link that starts with `http://` does not work.
 
 
 ### Accept the self-signed certificate warning and visit the site.
@@ -93,6 +108,8 @@ Once logged in, you will be able to see the /protected page.
 
 Once logged in, you will be able to see the /protected page. The /protected page contains a form that submits to the /protected page. If you try to submit the form without a valid CSRF token, you will get a 403 Forbidden error.
 
+The form has a "Send CSRF token in form data" checkbox. Submit a message with the box ticked and the page shows your message. Untick the box so that the token is left out of the request, submit again, and you get the 403 Forbidden page.
+
 
 ## CSRF Protection
 
@@ -110,7 +127,7 @@ The CSRF middleware has a `SingleUseToken` configuration option that can be used
 
 ## Session Storage
 
-Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/api/middleware/session) for more information.
+Sessions are stored in memory for this example, but you can use any session store you like. See the [Fiber session documentation](https://docs.gofiber.io/middleware/session) for more information.
 
 
 ### Note on pre-sessions

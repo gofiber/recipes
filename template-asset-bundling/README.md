@@ -14,7 +14,7 @@ This example demonstrates how to integrate asset bundling into a Go web applicat
 
 Ensure you have the following installed:
 
-- [Go](https://golang.org/dl/) 1.21+
+- [Go](https://golang.org/dl/) 1.27+
 - [Node.js](https://nodejs.org/) 18+ and npm
 
 ## Project Structure

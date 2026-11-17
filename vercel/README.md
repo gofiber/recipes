@@ -16,7 +16,7 @@ This project provides a starting point for deploying a Go Fiber application to V
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 - [Vercel CLI](https://vercel.com/download)
 - A folder named `public` with one or more static files to be served

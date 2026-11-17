@@ -67,4 +67,4 @@ func main() {
 ## References
 
 - [Fiber Documentation](https://docs.gofiber.io)
-- [Fiber Recover Middleware Documentation](https://docs.gofiber.io/api/middleware/recover)
+- [Fiber Recover Middleware Documentation](https://docs.gofiber.io/middleware/recover)

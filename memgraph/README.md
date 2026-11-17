@@ -27,8 +27,12 @@ The easiest way to run Memgraph is to use Docker.
 Once docker is installed on your machine, you can run Memgraph with the following command:
 
 ```
-docker run –name memgraph -it -p 7687:7687 -p 7444:7444 -p 3000:3000 -v mg_lib:/var/lib/memgraph memgraph/memgraph-platform
+docker run --name memgraph -p 7687:7687 -p 7444:7444 -v mg_lib:/var/lib/memgraph memgraph/memgraph
 ```
+
+Port `3000` is deliberately not published: the Fiber app in this recipe listens on it. Memgraph Lab, the web UI, is a separate image; see the [Memgraph documentation](https://memgraph.com/docs) if you want it, and map it to a different host port.
+
+Alternatively, `docker compose up --build` starts both Memgraph and the app. Its healthcheck uses `mgconsole`, which the image contains. The app's Dockerfile starts with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
 
 ## Run the recipe
 
@@ -42,7 +46,7 @@ go run ./main.go
 This will do the following:
 
 1. Connect Fiber backend to Memgraph database
-2. Generate mock data to populate the database
+2. Generate mock data to populate the database. **Every start first deletes all nodes in the database** (`MATCH (n) DETACH DELETE n`), so do not point the recipe at a database whose data you want to keep
 3. Define two request handlers: one for getting the graph and one for getting developer nodes
 
 ## Test the recipe

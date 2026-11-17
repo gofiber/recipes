@@ -1,14 +1,15 @@
 package main
 
 import (
+	"log"
+	"time"
+
 	"email-verification/api/handlers"
 	"email-verification/application"
 	"email-verification/config"
 	"email-verification/infrastructure/code"
 	"email-verification/infrastructure/email"
 	"email-verification/infrastructure/repository"
-	"log"
-	"time"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/limiter"
@@ -33,7 +34,11 @@ func main() {
 		limiter.New(limiter.Config{Max: 5, Expiration: 1 * time.Minute}),
 		verificationHandler.SendVerification,
 	)
-	app.Post("/verify/check/:email/:code", verificationHandler.CheckVerification)
+	// Without a limit on checks, the six hex digit code could be guessed within its lifetime.
+	app.Post("/verify/check/:email/:code",
+		limiter.New(limiter.Config{Max: 5, Expiration: 1 * time.Minute}),
+		verificationHandler.CheckVerification,
+	)
 
 	log.Fatal(app.Listen(":3000"))
 }

@@ -18,13 +18,13 @@ It provides:
 - Route stack inspection using Fiber's native `app.Stack()`.
 - A dynamic dispatcher route (`/d/*`) to evaluate and execute active routes.
 
-> **Note**: The admin routes require the API key from `ADMIN_API_KEY` as a bearer token, because anyone who can call them can publish content under `/d/*`. The server refuses to start without it. The key travels in plain text over HTTP, so put TLS in front (`app.ListenTLS` or a reverse proxy) before the server is reachable from other hosts.
+> **Note**: The admin routes require the API key from `ADMIN_API_KEY` as a bearer token, because anyone who can call them can publish content under `/d/*`. The server refuses to start without it. The key travels in plain text over HTTP, so put TLS in front (`app.Listen` with `fiber.ListenConfig{CertFile: ..., CertKeyFile: ...}`, or a reverse proxy) before the server is reachable from other hosts.
 
 ## Prerequisites
 
 Ensure you have the following installed:
 
-- Go 1.26.0 or newer
+- Go 1.27.0 or newer
 - [Fiber v3](https://github.com/gofiber/fiber) package (`github.com/gofiber/fiber/v3`)
 
 ## Setup

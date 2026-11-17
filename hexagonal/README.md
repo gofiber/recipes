@@ -14,7 +14,7 @@ This project presents a simple product catalogue microservice to demonstrate the
 
 ## Prerequisites
 
-- Go 1.25 or higher
+- Go 1.27 or higher
 - MongoDB
 - Go modules
 
@@ -31,12 +31,14 @@ This project presents a simple product catalogue microservice to demonstrate the
     go mod tidy
     ```
 
-3. Configure the MongoDB connection in the `config.yaml` file:
+3. Configure the MongoDB connection in `config/config.yaml`. The server listens on `server.port` (default `:8080`, a bare number such as `8083` works too):
     ```yaml
     database:
       url: "your_mongodb_uri"
       db: "your_db_name"
       timeout: 30
+    server:
+      port: ":8080"
     ```
 
 ## Running the Application
@@ -50,39 +52,41 @@ This project presents a simple product catalogue microservice to demonstrate the
 
 ## Endpoints
 
-| Method | URL              | Description                      |
-| ------ | ---------------- | -------------------------------- |
-| GET    | /api/v1/products | Retrieves all products           |
-| GET    | /api/v1/product/:id | Retrieves a product by ID       |
-| POST   | /api/v1/product  | Creates a new product            |
-| PUT    | /api/v1/product/:id | Updates an existing product     |
-| DELETE | /api/v1/product/:id | Deletes a product               |
+A product has a `code` (its identifier), a `name` and a `price`.
+
+| Method | URL                  | Description                            |
+| ------ | -------------------- | -------------------------------------- |
+| GET    | /products            | Retrieves all products                 |
+| GET    | /products/:code      | Retrieves a product by code            |
+| POST   | /products            | Creates a new product                  |
+| PUT    | /products            | Updates the product with the same code |
+| DELETE | /products/:code      | Deletes a product                      |
 
 ## Example Requests
 
-### Get All Products
-```sh
-curl -X GET http://localhost:8080/api/v1/products
-```
-
-### Get Product by ID
-```sh
-curl -X GET http://localhost:8080/api/v1/product/1
-```
-
 ### Create a New Product
 ```sh
-curl -X POST http://localhost:8080/api/v1/product -d '{"name": "New Product", "price": 100}' -H "Content-Type: application/json"
+curl -X POST http://localhost:8080/products -d '{"code": "p-1", "name": "New Product", "price": 100}' -H "Content-Type: application/json"
+```
+
+### Get All Products
+```sh
+curl -X GET http://localhost:8080/products
+```
+
+### Get Product by Code
+```sh
+curl -X GET http://localhost:8080/products/p-1
 ```
 
 ### Update a Product
 ```sh
-curl -X PUT http://localhost:8080/api/v1/product/1 -d '{"name": "Updated Product", "price": 150}' -H "Content-Type: application/json"
+curl -X PUT http://localhost:8080/products -d '{"code": "p-1", "name": "Updated Product", "price": 150}' -H "Content-Type: application/json"
 ```
 
 ### Delete a Product
 ```sh
-curl -X DELETE http://localhost:8080/api/v1/product/1
+curl -X DELETE http://localhost:8080/products/p-1
 ```
 
 ## Hexagonal Architecture

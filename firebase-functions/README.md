@@ -88,10 +88,11 @@ func (r *Routes) insertMessage(c fiber.Ctx) error {
  if err := c.Bind().JSON(&body); err != nil {
   return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
  }
- if err := r.mainRepository.InsertMessage(&body); err != nil {
+ id, err := r.mainRepository.InsertMessage(&body)
+ if err != nil {
   return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
  }
- return c.Status(fiber.StatusCreated).JSON(fiber.Map{"id": body})
+ return c.Status(fiber.StatusCreated).JSON(fiber.Map{"id": id})
 }
 ```
 
@@ -150,10 +151,13 @@ type MainRepository struct {
  DB *firestore.Client
 }
 
-func (r *MainRepository) InsertMessage(body *models.MessageInputBody) error {
+// InsertMessage stores the message and returns the id of the new document.
+func (r *MainRepository) InsertMessage(body *models.MessageInputBody) (string, error) {
 	id := uuid.New().String()
-	_, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body)
-	return err
+	if _, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body); err != nil {
+		return "", err
+	}
+	return id, nil
 }
 ```
 
@@ -316,7 +320,7 @@ Deploy your Cloud Function using the following commands, replacing `<YourProject
 
 ```bash
 gcloud config set project <YourProjectID>
-gcloud functions deploy MyCloudFunction --runtime go122 --trigger-http
+gcloud functions deploy MyCloudFunction --runtime go122 --entry-point ServerFunction --trigger-http
 ```
 
 ## Conclusion

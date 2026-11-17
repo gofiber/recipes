@@ -16,7 +16,7 @@ Ensure you have the following installed:
 
 - Golang
 - [Fiber](https://github.com/gofiber/fiber) package
-- PKCS12 certificate file (`cert.p12`)
+- OpenSSL, only if you want to create your own PKCS12 file (a demo `security/server.p12` is included)
 
 ## Setup
 
@@ -31,7 +31,15 @@ Ensure you have the following installed:
     go get
     ```
 
-3. Place your PKCS12 certificate file (`server.p12`) in the `security/` directory.
+3. A self-signed demo certificate is included as `security/server.p12` (password `changeit`, common name `app.fiber.local`, valid for ten years). To use your own, export a PKCS12 file from a PEM key and certificate:
+    ```sh
+    openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+      -keyout key.pem -out cert.pem -subj "/CN=localhost"
+    openssl pkcs12 -export -certpbe PBE-SHA1-3DES -keypbe PBE-SHA1-3DES -macalg sha1 \
+      -inkey key.pem -in cert.pem -name server -passout pass:changeit \
+      -out security/server.p12
+    ```
+    The extra flags matter. `golang.org/x/crypto/pkcs12` is frozen and only reads the older 3DES and SHA-1 algorithms, while OpenSSL 3 exports AES and SHA-256 by default, which the package cannot decode. For files in the newer format, use [`software.sslmate.com/src/go-pkcs12`](https://pkg.go.dev/software.sslmate.com/src/go-pkcs12) instead.
 
 4. Optionally set the PKCS12 password via environment variable (defaults to `changeit`):
     ```sh

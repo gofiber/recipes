@@ -16,7 +16,7 @@ This project provides a starting point for building a web application with user 
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Setup
@@ -53,6 +53,21 @@ This project provides a starting point for building a web application with user 
 
 The API should now be running on `http://localhost:3000`.
 
+## Running PostgreSQL with Docker
+
+If you do not have a PostgreSQL server available, start one in a container. The values below match the example `.env` in the setup section, so adjust them together with your `.env` file:
+
+```bash
+docker run --name auth-jwt-db -d \
+  -e POSTGRES_USER=example_user \
+  -e POSTGRES_PASSWORD=example_password \
+  -e POSTGRES_DB=example_db \
+  -p 5432:5432 \
+  postgres:18-alpine
+```
+
+The container's data is lost when you remove it. Mount a volume at `/var/lib/postgresql` (`-v auth-jwt-data:/var/lib/postgresql`) to keep it. Postgres 18 keeps its data in a versioned subdirectory of that path, and a mount at `/var/lib/postgresql/data` makes the container exit.
+
 ## Database Management
 
 You can manage the database via `psql` with the following command:
@@ -69,7 +84,7 @@ The following endpoints are available in the API:
 - **POST /api/auth/register**: Register a new user.
 - **POST /api/auth/login**: Authenticate a user and return a JWT.
 - **POST /api/auth/logout**: Logout a user and revoke their JWT.
-- **POST /api/auth/refresh-token**: Refreshes a user token and returns a JWT.
+- **POST /api/auth/refresh-token**: Refreshes a user token and returns a JWT. The body is `{"refresh_token": "..."}`. A refresh token can be used once: the response holds a new one, and the old one is revoked in the same database transaction. When several requests present the same token at the same time, exactly one succeeds and the others get `401`.
 - **GET /api/users/:id**: Get a user (requires a valid JWT).
 - **PATCH /api/users/:id**: Update a user (requires a valid JWT).
 - **DELETE /api/users/:id**: Delete a user (requires a valid JWT).

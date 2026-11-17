@@ -16,7 +16,7 @@ This project provides a basic setup for validating request data in a Go Fiber ap
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Project Structure
@@ -24,7 +24,7 @@ This project provides a basic setup for validating request data in a Go Fiber ap
 - `main.go`: The main application entry point.
 - `config/env.go`: Configuration file for environment variables.
 - `go.mod`: The Go module file.
-- `.env`: Environment variables file.
+- `.env.example`: Example environment variables file. Copy it to `.env`.
 
 ## Setup
 
@@ -39,9 +39,9 @@ This project provides a basic setup for validating request data in a Go Fiber ap
     go mod download
     ```
 
-3. Create a `.env` file in the root directory with the following content:
-    ```dotenv
-    PORT=":8080"
+3. Copy the example environment file (it sets `PORT=":8080"`):
+    ```bash
+    cp .env.example .env
     ```
 
 4. Run the application:
@@ -53,16 +53,26 @@ The application should now be running on `http://localhost:8080`.
 
 ## Example Usage
 
-1. Send a POST request to `http://localhost:8080/validate` with a JSON payload:
+The `POST /test` endpoint reads a JSON body into a `User` and validates it. `id` and `firstname` are required, and `password` must be at least 10 characters long.
+
+1. Send a valid request:
+    ```bash
+    curl -X POST http://localhost:8080/test \
+      -H "Content-Type: application/json" \
+      -d '{"id": 1, "firstname": "Ada", "password": "correct-horse"}'
+    ```
+    The server answers `200` with the validated fields. It never echoes the password:
     ```json
-    {
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "age": 30
-    }
+    {"firstname":"Ada","id":1}
     ```
 
-2. The server will validate the request data and respond with a success message if the data is valid, or an error message if the data is invalid.
+2. Send an invalid request:
+    ```bash
+    curl -X POST http://localhost:8080/test \
+      -H "Content-Type: application/json" \
+      -d '{"id": 1, "firstname": "", "password": "short"}'
+    ```
+    The server answers `400` with a message that names each failing field and rule.
 
 ## Code Overview
 
