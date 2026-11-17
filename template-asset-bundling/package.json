@@ -10,7 +10,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.5",
     "parcel": "2.16.4",
-    "postcss": "8.5.32",
+    "postcss": "8.5.33",
     "tailwindcss": "4.3.5"
   }
 }
