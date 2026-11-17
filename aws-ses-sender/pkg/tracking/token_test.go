@@ -26,6 +26,36 @@ func TestTokenVectors(t *testing.T) {
 	}
 }
 
+func TestParseID(t *testing.T) {
+	valid := map[string]uint{"0": 0, "1": 1, "42": 42, "4294967295": 4294967295}
+	for in, want := range valid {
+		got, err := ParseID(in)
+		if err != nil || got != want {
+			t.Errorf("ParseID(%q) = %d, %v; want %d", in, got, err, want)
+		}
+	}
+
+	for _, in := range []string{
+		"", " 1", "1 ", "-1", "+1", "1.5", "1e3", "0x10", "1_000", "abc", "1,2",
+		"18446744073709551616", // one more than the largest uint64
+	} {
+		if got, err := ParseID(in); err == nil {
+			t.Errorf("ParseID(%q) = %d, want an error", in, got)
+		}
+	}
+
+	// The limit is the size of uint, so converting to uint never truncates. A 32-bit build, where
+	// 4294967301 would have become 5, rejects the number.
+	got, err := ParseID("4294967301")
+	if strconv.IntSize == 32 {
+		if err == nil {
+			t.Errorf("on a 32-bit build ParseID(4294967301) = %d, want an error", got)
+		}
+	} else if err != nil || uint64(got) != 4294967301 {
+		t.Errorf("ParseID(4294967301) = %d, %v; want 4294967301", got, err)
+	}
+}
+
 func TestToken(t *testing.T) {
 	const secret = "api-key"
 

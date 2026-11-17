@@ -116,17 +116,17 @@ func createMessageHandler(c fiber.Ctx) error {
 func createOpenEventHandler(c fiber.Ctx) error {
 	reqId := c.Query("requestId")
 	if reqId != "" {
-		reqIdInt, err := strconv.ParseUint(reqId, 10, 63)
+		id, err := tracking.ParseID(reqId)
 		switch {
 		case err != nil:
 			log.Printf("Invalid requestId: %q", reqId)
-		case !tracking.Valid(config.GetEnv("TRACKING_SECRET"), uint(reqIdInt), c.Query("token")):
-			log.Printf("Ignoring an open event for request %d: the token is missing or wrong", reqIdInt)
+		case !tracking.Valid(config.GetEnv("TRACKING_SECRET"), id, c.Query("token")):
+			log.Printf("Ignoring an open event for request %d: the token is missing or wrong", id)
 		default:
 			// Consider email as opened and create data
 			db := config.GetDB()
 			if err := db.Create(&model.Result{
-				RequestId: uint(reqIdInt),
+				RequestId: id,
 				Status:    "Open",
 				Raw:       "{}",
 			}).Error; err != nil {

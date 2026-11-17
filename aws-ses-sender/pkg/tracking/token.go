@@ -20,6 +20,15 @@ import (
 	"strings"
 )
 
+// ParseID reads the requestId of a tracking link, a plain decimal number. It parses to the size
+// of uint (bit size 0), so converting the result to uint cannot truncate it on a 32-bit build,
+// where a larger number is an error. An id that does not exist fails Valid later, because
+// only the sender can sign it.
+func ParseID(s string) (uint, error) {
+	id, err := strconv.ParseUint(s, 10, 0)
+	return uint(id), err
+}
+
 // Token returns the token for the link of the email request with the given id.
 func Token(secret string, requestID uint) string {
 	mac := hmac.New(sha256.New, []byte(secret))
