@@ -6,8 +6,6 @@ import (
 
 // setV1Routes V1 Routes
 func setV1Routes(app *fiber.App) {
-	snsVerifier = newSNSVerifier()
-
 	v1 := app.Group("/v1")
 	{
 		// Messages
@@ -19,6 +17,6 @@ func setV1Routes(app *fiber.App) {
 		// Events
 		v1.Get("/events/open", createOpenEventHandler)
 		v1.Get("/events/counts/sent", apiKeyAuth, getSentCountHandler)
-		v1.Post("/events/results", createResultEventHandler)
+		v1.Post("/events/results", createResultEventHandler(newSNSVerifier()))
 	}
 }

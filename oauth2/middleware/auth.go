@@ -21,6 +21,7 @@ func OAUTHBegin(ctx fiber.Ctx) error {
 		models.SYSLOG.Error("session error in OAUTHBegin", "err", err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
+	defer sess.Release()
 
 	// Generate a random CSRF state token
 	b := make([]byte, 16)
@@ -53,6 +54,7 @@ func OAUTHRedirect(ctx fiber.Ctx) error {
 		models.SYSLOG.Error("session error in OAUTHRedirect", "err", err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
+	defer sess.Release()
 	storedState, _ := sess.Get("oauth-state").(string)
 	if stateParam == "" || stateParam != storedState {
 		// The state is a secret tied to the session, so neither value is logged.
@@ -135,6 +137,7 @@ func OAUTHProtected(c fiber.Ctx) error {
 		models.SYSLOG.Error("session exception", "err", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
+	defer sessData.Release()
 
 	models.SYSLOG.Debug("session fresh?", "fresh", sessData.Fresh())
 
@@ -170,6 +173,7 @@ func OAUTHDisconnect(c fiber.Ctx) error {
 		models.SYSLOG.Error("session exception", "err", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
+	defer sessData.Release()
 
 	models.SYSLOG.Debug("destroying session")
 	if err = sessData.Destroy(); err != nil {

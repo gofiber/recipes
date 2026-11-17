@@ -22,10 +22,6 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-// snsVerifier checks that the messages posted to /v1/events/results come from AWS SNS and from
-// the topic in SNS_TOPIC_ARN. setV1Routes creates it.
-var snsVerifier *sns.Verifier
-
 // newSNSVerifier creates the verifier from SNS_TOPIC_ARN, a comma separated list of topic ARNs.
 func newSNSVerifier() *sns.Verifier {
 	var topics []string
@@ -151,11 +147,18 @@ func createOpenEventHandler(c fiber.Ctx) error {
 }
 
 // createResultEventHandler Result Event Handler
-// Handler that receives AWS SES results. The endpoint has to be public for SNS to reach it, so
-// it only accepts a message that SNS signed and that comes from the configured topic.
-func createResultEventHandler(c fiber.Ctx) error {
+// Returns the handler that receives AWS SES results. The endpoint has to be public for SNS to
+// reach it, so it only accepts a message that the verifier accepts: one that SNS signed and that
+// comes from a topic in SNS_TOPIC_ARN.
+func createResultEventHandler(verifier *sns.Verifier) fiber.Handler {
+	return func(c fiber.Ctx) error {
+		return handleResultEvent(c, verifier)
+	}
+}
+
+func handleResultEvent(c fiber.Ctx, verifier *sns.Verifier) error {
 	// Receive hands out the message only after it has been verified.
-	reqBody, err := snsVerifier.Receive(c.Context(), c.Get("x-amz-sns-message-type"), c.Body())
+	reqBody, err := verifier.Receive(c.Context(), c.Get("x-amz-sns-message-type"), c.Body())
 	if err != nil {
 		log.Printf("Rejected an SNS message: %v", err)
 		if errors.Is(err, sns.ErrMalformed) {
