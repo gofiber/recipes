@@ -3,7 +3,7 @@ module main
 go 1.27.0
 
 require (
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/gofiber/fiber/v3 v3.7.0
 )
 
