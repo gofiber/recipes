@@ -70,6 +70,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [Prefork](./prefork/README.md) - Running an application in prefork mode.
+- [Prometheus Monitoring](./prometheus/README.md) - Demonstrates how to instrument Fiber v3 applications and export Prometheus metrics.
 - [Proxy Resilience](./proxy-resilience/README.md) - Implementing retry and circuit breaker patterns in proxy middleware.
 - [RabbitMQ](./rabbitmq/README.md) - Using RabbitMQ with Fiber to publish messages to a queue.
 - [Recover Middleware](./recover/README.md) - Recover middleware for error handling.
