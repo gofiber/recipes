@@ -26,8 +26,9 @@ func (r *Routes) insertMessage(c fiber.Ctx) error {
 	if err := c.Bind().JSON(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-	if err := r.mainRepository.InsertMessage(&body); err != nil {
+	id, err := r.mainRepository.InsertMessage(&body)
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"id": body})
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"id": id})
 }

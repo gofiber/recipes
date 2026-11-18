@@ -1,8 +1,0 @@
-.git
-.vscode
-build/
-node_modules/
-.dockerignore
-.gitignore
-Dockerfile
-README.md

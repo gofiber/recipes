@@ -1,6 +1,6 @@
 module numtostr/gotodo
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/go-playground/validator/v10 v10.30.6
@@ -15,7 +15,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.16 // indirect
 	github.com/go-playground/locales v0.14.2 // indirect
 	github.com/go-playground/universal-translator v0.18.2 // indirect
-	github.com/gofiber/schema v1.9.4 // indirect
+	github.com/gofiber/schema v1.9.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/tinylib/msgp v1.6.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.79.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
 )

@@ -9,12 +9,14 @@ func setV1Routes(app *fiber.App) {
 	v1 := app.Group("/v1")
 	{
 		// Messages
-		v1.Post("/messages", createMessageHandler, apiKeyAuth)
+		// Handlers run in the order they are listed, and these handlers never call
+		// c.Next(), so apiKeyAuth has to come first or it would never run.
+		v1.Post("/messages", apiKeyAuth, createMessageHandler)
 		// Topics
-		v1.Get("/topics/:topicId", getResultCountHandler, apiKeyAuth)
+		v1.Get("/topics/:topicId", apiKeyAuth, getResultCountHandler)
 		// Events
 		v1.Get("/events/open", createOpenEventHandler)
-		v1.Get("/events/counts/sent", getSentCountHandler, apiKeyAuth)
-		v1.Post("/events/results", createResultEventHandler)
+		v1.Get("/events/counts/sent", apiKeyAuth, getSentCountHandler)
+		v1.Post("/events/results", createResultEventHandler(newSNSVerifier()))
 	}
 }

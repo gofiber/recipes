@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<note>
-    <language>{{{Lang}}}</language>
-    <title>{{{Title}}}</title>
-    <greeting>{{{Greetings}}}</greeting>
-</note>
+<rss version="2.0">
+    <channel>
+        <title>{{Title}}</title>
+        <link>{{Link}}</link>
+        <description>{{Description}}</description>
+        <language>{{Lang}}</language>
+        {{#Items}}
+        <item>
+            <title>{{Title}}</title>
+            <link>{{Link}}</link>
+            <description>{{Description}}</description>
+            <guid isPermaLink="true">{{Link}}</guid>
+            <pubDate>{{PubDate}}</pubDate>
+        </item>
+        {{/Items}}
+    </channel>
+</rss>

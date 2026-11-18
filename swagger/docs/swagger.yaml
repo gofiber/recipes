@@ -1,9 +1,16 @@
 basePath: /api
 definitions:
+  gorm.DeletedAt:
+    properties:
+      Time:
+        type: string
+      Valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
   handlers.ResponseHTTP:
     properties:
-      data:
-        type: object
+      data: {}
       message:
         type: string
       success:
@@ -11,6 +18,14 @@ definitions:
     type: object
   models.Book:
     properties:
+      CreatedAt:
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      ID:
+        type: integer
+      UpdatedAt:
+        type: string
       author:
         example: Dino
         type: string
@@ -85,6 +100,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.ResponseHTTP'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
       summary: Register a new book
       tags:
       - books
@@ -104,6 +123,10 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
+        "400":
+          description: Bad Request
           schema:
             $ref: '#/definitions/handlers.ResponseHTTP'
         "404":
@@ -137,10 +160,12 @@ paths:
             - $ref: '#/definitions/handlers.ResponseHTTP'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/models.Book'
-                  type: array
+                  $ref: '#/definitions/models.Book'
               type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ResponseHTTP'
         "404":
           description: Not Found
           schema:

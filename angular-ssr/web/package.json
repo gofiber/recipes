@@ -27,7 +27,7 @@
     "@angular/cli": "^22.2.7",
     "@angular/compiler-cli": "^22.2.0",
     "@types/express": "^5.0.1",
-    "@types/node": "^22.12.0",
+    "@types/node": "^26.6.6",
     "typescript": "~6.0.2"
   }
 }

@@ -14,9 +14,7 @@ func HTMLPages(c fiber.Ctx) error {
 	p := c.Path()
 	switch p {
 	case "/index.html":
-		return c.Render("index", fiber.Map{
-			"ClientID": models.ClientID,
-		})
+		return c.Render("index", fiber.Map{})
 
 	case "/welcome.html":
 		sessData, err := models.MySessionStore.Get(c)

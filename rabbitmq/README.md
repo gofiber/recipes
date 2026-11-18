@@ -22,7 +22,7 @@ This example demonstrates how to integrate [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Prerequisites
 
-- [Go](https://golang.org/) 1.21+
+- [Go](https://golang.org/) 1.27+
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
 ## Environment variables
@@ -40,6 +40,8 @@ Start all services (RabbitMQ, worker, API) with a single command:
 ```bash
 docker compose up --build
 ```
+
+The Dockerfiles start with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
 
 ### Option B: Manual setup
 

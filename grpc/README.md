@@ -12,7 +12,7 @@ A sample program to showcase fiber as a client to a gRPC server.
 
 ## Prerequisites
 
-- Go 1.25 or higher
+- Go 1.27 or higher
 - Go modules
 
 ## Setup
@@ -40,7 +40,7 @@ A sample program to showcase fiber as a client to a gRPC server.
     go run client/main.go
     ```
 
-3. The server will start on `http://localhost:3000`.
+3. The Fiber client listens on `http://localhost:3000` and calls the gRPC server on `localhost:4040`.
 
 ## Endpoints
 
@@ -60,30 +60,24 @@ A sample program to showcase fiber as a client to a gRPC server.
 
 ## Regenerating Proto Files
 
-If you modify `proto/service.proto`, regenerate the Go bindings with one of the following methods:
+If you modify `proto/service.proto`, regenerate the Go bindings. You need [protoc](https://grpc.io/docs/protoc-installation/) and the two Go plugins:
 
-### Using protoc
-
-Install the required tools:
 ```sh
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
 
-Then regenerate:
+Then run this in the `grpc` directory:
 ```sh
 protoc --go_out=. --go_opt=paths=source_relative \
        --go-grpc_out=. --go-grpc_opt=paths=source_relative \
        proto/service.proto
 ```
 
-### Using buf
+This writes `proto/service.pb.go` (the messages) and `proto/service_grpc.pb.go` (the client and server code). Keep these two details in mind when you change the proto file or the server:
 
-Install buf: https://buf.build/docs/installation
-
-```sh
-buf generate
-```
+- The `go_package` option in `service.proto` has to be a full import path followed by the package name (`github.com/gofiber/recipes/fiber-grpc/proto;proto`). `protoc-gen-go` rejects a short path such as `proto;service` with `The import path must contain at least one period ('.') or forward slash ('/') character`.
+- `protoc-gen-go-grpc` requires the server to embed `proto.UnimplementedAddServiceServer`, as `server/main.go` does. Without it the server does not compile (`missing method mustEmbedUnimplementedAddServiceServer`).
 
 ## Additional Information
 

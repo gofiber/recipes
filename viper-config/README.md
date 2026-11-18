@@ -19,7 +19,7 @@ This recipe demonstrates how to manage layered configurations in a [Fiber](https
 
 ## Prerequisites
 
-- [Go](https://go.dev/) 1.26 or newer.
+- [Go](https://go.dev/) 1.27 or newer.
 
 ## Setup & Running
 

@@ -16,7 +16,7 @@ This project provides a starting point for building a web application with a cle
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [MongoDB](https://www.mongodb.com/try/download/community)
 - [Git](https://git-scm.com/downloads)
 
@@ -24,7 +24,7 @@ This project provides a starting point for building a web application with a cle
 
 - `api/`: Contains the HTTP handlers, routes, and presenters.
 - `pkg/`: Contains the core business logic and entities.
-- `cmd/`: Contains the main application entry point.
+- `main.go`: The application entry point. It connects to MongoDB and sets up the routes.
 
 ## Setup
 
@@ -34,9 +34,9 @@ This project provides a starting point for building a web application with a cle
     cd recipes/clean-architecture
     ```
 
-2. Set the environment variables in a `.env` file (see `.env.example`):
-    ```env
-    MONGO_URI=mongodb://localhost:27017
+2. Optionally set the MongoDB connection string. The application reads `MONGO_URI` from the environment (it does not load a `.env` file) and defaults to `mongodb://localhost:27017`:
+    ```bash
+    export MONGO_URI=mongodb://localhost:27017
     ```
 
 3. Install the dependencies:
@@ -55,31 +55,31 @@ The API should now be running on `http://localhost:3000`.
 
 The following endpoints are available in the API:
 
-- **GET /books**: List all books.
-- **POST /books**: Add a new book.
-- **PUT /books**: Update an existing book.
-- **DELETE /books**: Remove a book.
+- **GET /api/books**: List all books.
+- **POST /api/books**: Add a new book.
+- **PUT /api/books**: Update an existing book.
+- **DELETE /api/books**: Remove a book.
 
 ## Example Usage
 
 1. Add a new book:
     ```bash
-    curl -X POST http://localhost:3000/books -d '{"title":"Book Title", "author":"Author Name"}' -H "Content-Type: application/json"
+    curl -X POST http://localhost:3000/api/books -d '{"title":"Book Title", "author":"Author Name"}' -H "Content-Type: application/json"
     ```
 
 2. List all books:
     ```bash
-    curl http://localhost:3000/books
+    curl http://localhost:3000/api/books
     ```
 
 3. Update a book:
     ```bash
-    curl -X PUT http://localhost:3000/books -d '{"id":"<book_id>", "title":"Updated Title", "author":"Updated Author"}' -H "Content-Type: application/json"
+    curl -X PUT http://localhost:3000/api/books -d '{"id":"<book_id>", "title":"Updated Title", "author":"Updated Author"}' -H "Content-Type: application/json"
     ```
 
 4. Remove a book:
     ```bash
-    curl -X DELETE http://localhost:3000/books -d '{"id":"<book_id>"}' -H "Content-Type: application/json"
+    curl -X DELETE http://localhost:3000/api/books -d '{"id":"<book_id>"}' -H "Content-Type: application/json"
     ```
 
 Replace `<book_id>` with the actual ID of the book.
@@ -103,15 +103,15 @@ Clean Architecture is a software design philosophy that emphasizes the separatio
   - Contains the HTTP handlers, routes, and presenters. This layer is responsible for converting data from the use cases into a format suitable for the web framework (Fiber in this case).
 
 4. **Frameworks and Drivers (External Interfaces)**
-  - Located in the `cmd` directory.
-  - Contains the main application entry point and any external dependencies like the web server setup.
+  - Located in `main.go`.
+  - Contains the application entry point and any external dependencies like the database connection and the web server setup.
 
 ### Example Breakdown
 
 - **Entities**: The `entities.Book` struct represents the core business model for a book.
 - **Use Cases**: The `book.Service` interface defines the methods for interacting with books, such as `InsertBook`, `UpdateBook`, `RemoveBook`, and `FetchBooks`.
 - **Interface Adapters**: The `handlers` package contains the HTTP handlers that interact with the `book.Service` to process HTTP requests and responses.
-- **Frameworks and Drivers**: The `cmd/main.go` file initializes the Fiber application and sets up the routes using the `routes.BookRouter` function.
+- **Frameworks and Drivers**: The `main.go` file initializes the Fiber application and sets up the routes using the `routes.BookRouter` function.
 
 ### Code Example
 
@@ -191,7 +191,8 @@ func main() {
     app := fiber.New()
     bookRepo := book.NewRepo(collection)
     bookService := book.NewService(bookRepo)
-    routes.BookRouter(app, bookService)
+    api := app.Group("/api")
+    routes.BookRouter(api, bookService)
     app.Listen(":3000")
 }
 ```

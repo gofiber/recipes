@@ -48,6 +48,7 @@ cp .env.example .env
 | `SMTP_PORT` | No       | `587`          | SMTP server port             |
 | `SMTP_USER` | **Yes**  | —              | SMTP username / email address |
 | `SMTP_PASS` | **Yes**  | —              | SMTP password or app-password |
+| `CODE_EXPIRATION` | No | `1m`        | How long a code stays valid, a Go duration such as `5m` |
 
 The application exits with a fatal error on startup if `SMTP_USER` or `SMTP_PASS` are not set.
 
@@ -57,6 +58,8 @@ The application exits with a fatal error on startup if `SMTP_USER` or `SMTP_PASS
 |--------|----------------------------|--------------------------------|
 | POST   | /verify/send/:email        | Send verification code         |
 | POST   | /verify/check/:email/:code | Verify the received code      |
+
+Both endpoints are rate limited to 5 requests per minute per client. Requesting a new code while the previous one is still valid returns an error, and an expired code is replaced by a new request.
 
 ## Example Usage
 
@@ -91,11 +94,11 @@ Error:
 1. Copy `.env.example` to `.env` and set your SMTP credentials.
 2. Export the environment variables and run the application:
 ```bash
-export $(cat .env | xargs)
+set -a; source .env; set +a
 go run main.go
 ```
 
 ## Dependencies
 
 - [Fiber v3](https://github.com/gofiber/fiber)
-- Go 1.23+
+- Go 1.27+

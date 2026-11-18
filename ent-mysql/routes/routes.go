@@ -2,21 +2,33 @@ package routes
 
 import (
 	"log"
+	"strconv"
 
 	"ent-mysql/database"
+	"ent-mysql/ent"
 
 	"github.com/gofiber/fiber/v3"
 )
 
+// bookID parses the :id route parameter. A value that is not an integer used to turn
+// silently into 0, which then failed as a confusing "not found".
+func bookID(c fiber.Ctx) (int, error) {
+	return strconv.Atoi(c.Params("id"))
+}
+
 func GetBook(c fiber.Ctx) error {
-	id, _ := fiber.Params[int](c, "id"), error(nil)
+	id, err := bookID(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON("Invalid book ID")
+	}
 	b, err := database.DBConn.Book.
 		Get(c.Context(), id)
 	if err != nil {
+		// ent reports a missing row as a *NotFoundError, not as a nil result.
+		if ent.IsNotFound(err) {
+			return c.Status(fiber.StatusNotFound).JSON("Not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
-	}
-	if b == nil {
-		return c.Status(fiber.StatusNotFound).JSON("Not found")
 	}
 	log.Println("book data: ", b)
 	return c.Status(fiber.StatusOK).JSON(b)
@@ -56,11 +68,17 @@ func CreateBook(c fiber.Ctx) error {
 }
 
 func DeleteBook(c fiber.Ctx) error {
-	id, _ := fiber.Params[int](c, "id"), error(nil)
-	err := database.DBConn.Book.
+	id, err := bookID(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON("Invalid book ID")
+	}
+	err = database.DBConn.Book.
 		DeleteOneID(id).
 		Exec(c.Context())
 	if err != nil {
+		if ent.IsNotFound(err) {
+			return c.Status(fiber.StatusNotFound).JSON("Not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 	log.Println("book was deleted")
@@ -70,7 +88,10 @@ func DeleteBook(c fiber.Ctx) error {
 func UpdateBook(c fiber.Ctx) error {
 	title := c.Query("title")
 	author := c.Query("author")
-	id, _ := fiber.Params[int](c, "id"), error(nil)
+	id, err := bookID(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON("Invalid book ID")
+	}
 	if title == "" || author == "" {
 		return c.Status(fiber.StatusBadRequest).JSON("Not enough data for updating")
 	}
@@ -80,6 +101,9 @@ func UpdateBook(c fiber.Ctx) error {
 		SetAuthor(author).
 		Save(c.Context())
 	if err != nil {
+		if ent.IsNotFound(err) {
+			return c.Status(fiber.StatusNotFound).JSON("Not found")
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 	log.Println("book was updated: ", b)

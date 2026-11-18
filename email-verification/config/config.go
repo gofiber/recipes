@@ -37,11 +37,19 @@ func GetConfig() *Config {
 		log.Fatal("SMTP_USER and SMTP_PASS environment variables must be set")
 	}
 
+	codeExpiration := time.Minute
+	if v := os.Getenv("CODE_EXPIRATION"); v != "" {
+		codeExpiration, err = time.ParseDuration(v)
+		if err != nil || codeExpiration <= 0 {
+			log.Fatalf("Invalid CODE_EXPIRATION value (use a positive duration such as 5m): %s", v)
+		}
+	}
+
 	return &Config{
 		SMTPHost:       smtpHost,
 		SMTPPort:       smtpPort,
 		SMTPUser:       smtpUser,
 		SMTPPassword:   smtpPass,
-		CodeExpiration: time.Minute * 1,
+		CodeExpiration: codeExpiration,
 	}
 }

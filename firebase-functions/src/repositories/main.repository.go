@@ -12,8 +12,11 @@ type MainRepository struct {
 	DB *firestore.Client
 }
 
-func (r *MainRepository) InsertMessage(body *models.MessageInputBody) error {
+// InsertMessage stores the message and returns the id of the new document.
+func (r *MainRepository) InsertMessage(body *models.MessageInputBody) (string, error) {
 	id := uuid.New().String()
-	_, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body)
-	return err
+	if _, err := r.DB.Collection("messages").Doc(id).Set(context.Background(), body); err != nil {
+		return "", err
+	}
+	return id, nil
 }

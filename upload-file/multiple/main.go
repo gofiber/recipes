@@ -32,7 +32,9 @@ func main() {
 		for _, file := range files {
 			// Sanitize filename to prevent path traversal attacks:
 			filename := filepath.Base(file.Filename)
-			fmt.Println(filename, file.Size, file.Header["Content-Type"][0])
+			// Header.Get returns "" when the part has no Content-Type, whereas indexing
+			// Header["Content-Type"][0] would panic and stop the whole server.
+			fmt.Println(filename, file.Size, file.Header.Get("Content-Type"))
 			// => "tutorial.pdf" 360641 "application/pdf"
 
 			// Save the files to disk:

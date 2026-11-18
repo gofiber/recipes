@@ -30,17 +30,21 @@ static_resources:
                   - name: envoy.filters.http.ext_authz
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                      # Request headers sent to the authorization service. (Setting this under
+                      # http_service.authorization_request is deprecated and will be removed.)
+                      allowed_headers:
+                        patterns:
+                          - exact: x-api-key
                       http_service:
                         server_uri:
                           uri: fiber_authz:1337
                           cluster: fiber_authz
                           timeout: 0.25s
-                        authorization_request:
-                          allowed_headers:
-                            patterns:
-                              - exact: x-api-key
                   - name: envoy.filters.http.router
-                    typed_config: { }
+                    # Envoy 1.39 removed looking up an extension by its name alone, so the
+                    # router has to say which extension this is by its type URL.
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
 
   clusters:
     - name: fiber_app

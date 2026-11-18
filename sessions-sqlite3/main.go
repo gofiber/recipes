@@ -1,10 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"database/sql"
-	"encoding/gob"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v3/extractors"
@@ -16,6 +15,12 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 )
+
+// sessionKeyPrefix is how Fiber's session store prefixes a session ID in the storage key,
+// which is the "k" column. This recipe maintains the extra "u" column with plain SQL, so it
+// has to build the same key. Everything else goes through the store (GetByID, Delete),
+// which also takes care of decoding the session data.
+const sessionKeyPrefix = "session:"
 
 type user struct {
 	Email     string `json:"email"`
@@ -68,9 +73,10 @@ func main() {
 	})
 
 	store := session.NewStore(session.Config{
-		Storage:     storage,
-		IdleTimeout: 5 * time.Minute,
-		Extractor:   extractors.FromCookie("myapp_session"),
+		Storage:        storage,
+		IdleTimeout:    5 * time.Minute,
+		Extractor:      extractors.FromCookie("myapp_session"),
+		CookieHTTPOnly: true, // the front end never needs to read the session cookie
 	})
 
 	// Create a new engine
@@ -129,7 +135,7 @@ func main() {
 				log.Println(err)
 			} else {
 				defer func() { _ = stmt.Close() }()
-				_, err = stmt.Exec(uid, sid)
+				_, err = stmt.Exec(uid, sessionKeyPrefix+sid)
 				if err != nil {
 					log.Println(err)
 				}
@@ -157,27 +163,25 @@ func main() {
 
 		// Check session ID
 		if len(req.SID) > 0 {
-			// Get requested session
-			data, err := store.Storage.Get(req.SID)
-			if err != nil {
-				log.Println(err)
-			}
-
-			// Decode requested session data
-			gd := gob.NewDecoder(bytes.NewBuffer(data))
-			dm := make(map[string]any)
-			if err := gd.Decode(&dm); err != nil {
-				log.Println(err)
-			}
-
-			// If it belongs to current user destroy requested session
+			// Only a logged-in user may delete one of their sessions
 			uid, ok := s.Get("uid").(string)
 			if !ok {
 				return c.Status(fiber.StatusUnauthorized).JSON("invalid session")
 			}
-			if uid == dm["uid"] {
-				if err := store.Storage.Delete(req.SID); err != nil {
-					log.Println(err)
+
+			// Get the requested session through the store, which knows how sessions are
+			// keyed and encoded in the table
+			target, err := store.GetByID(c.Context(), req.SID)
+			if err != nil {
+				log.Println(err)
+			} else {
+				defer target.Release()
+
+				// If it belongs to the current user destroy requested session
+				if targetUID, _ := target.Get("uid").(string); targetUID == uid {
+					if err := store.Delete(c.Context(), req.SID); err != nil {
+						log.Println(err)
+					}
 				}
 			}
 		} else {
@@ -227,12 +231,15 @@ func main() {
 				Firstname: users[uid].Firstname,
 				Lastname:  users[uid].Lastname,
 				Session:   sid,
+				Sessions:  []session{},
 			}
 
-			// Get sessions list
-			rows, err := db.Query(`SELECT v, e FROM sessions WHERE u = ?`, uid)
+			// Get sessions list. The "k" column holds the storage key (the session ID with
+			// Fiber's prefix), and the store loads and decodes a session from its ID.
+			rows, err := db.Query(`SELECT k, e FROM sessions WHERE u = ?`, uid)
 			if err != nil {
 				log.Println(err)
+				return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 			}
 
 			defer func() { _ = rows.Close() }()
@@ -240,31 +247,40 @@ func main() {
 			// Loop through sessions
 			for rows.Next() {
 				var (
-					data       = []byte{}
-					exp  int64 = 0
+					key string
+					exp int64
 				)
-				if err := rows.Scan(&data, &exp); err != nil {
+				if err := rows.Scan(&key, &exp); err != nil {
 					log.Println(err)
+					continue
 				}
 
-				// If session isn't expired
-				if exp > time.Now().Unix() {
-					// Decode session data
-					gd := gob.NewDecoder(bytes.NewBuffer(data))
-					dm := make(map[string]any)
-					if err := gd.Decode(&dm); err != nil {
-						log.Println(err)
-					}
-
-					// Append session
-					u.Sessions = append(u.Sessions, session{
-						SID:    dm["sid"].(string),
-						IP:     dm["ip"].(string),
-						Login:  dm["login"].(string),
-						Expiry: time.Unix(exp, 0).UTC().String(),
-						UA:     dm["ua"].(string),
-					})
+				// Skip expired sessions
+				if exp <= time.Now().Unix() {
+					continue
 				}
+
+				other, err := store.GetByID(c.Context(), strings.TrimPrefix(key, sessionKeyPrefix))
+				if err != nil {
+					log.Println(err)
+					continue
+				}
+
+				// Checked assertions leave a field empty instead of panicking
+				sid, _ := other.Get("sid").(string)
+				ip, _ := other.Get("ip").(string)
+				login, _ := other.Get("login").(string)
+				ua, _ := other.Get("ua").(string)
+				other.Release()
+
+				// Append session
+				u.Sessions = append(u.Sessions, session{
+					SID:    sid,
+					IP:     ip,
+					Login:  login,
+					Expiry: time.Unix(exp, 0).UTC().String(),
+					UA:     ua,
+				})
 			}
 
 			return c.JSON(u)

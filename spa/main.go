@@ -17,10 +17,12 @@ func main() {
 	app := fiber.New()
 
 	// Serve Single Page Application on "/web".
-	// The NotFoundHandler falls back to index.html so client-side routing works.
+	// A path that is not a file in dist, such as the client-side route /web/about,
+	// gets index.html so client-side routing works. The static middleware has set
+	// the status to 404 by then, so reset it to 200.
 	app.Get("/web*", static.New("dist", static.Config{
 		NotFoundHandler: func(ctx fiber.Ctx) error {
-			return ctx.SendFile("./dist/index.html")
+			return ctx.Status(fiber.StatusOK).SendFile("./dist/index.html")
 		},
 	}))
 

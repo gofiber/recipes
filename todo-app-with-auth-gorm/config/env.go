@@ -19,7 +19,9 @@ var (
 )
 
 func getEnv(name string, fallback string) string {
-	if value, exists := os.LookupEnv(name); exists {
+	// An empty value counts as unset, so a blank line in .env (for example TOKEN_KEY=)
+	// cannot silently produce an empty JWT signing secret.
+	if value, exists := os.LookupEnv(name); exists && value != "" {
 		return value
 	}
 

@@ -25,7 +25,7 @@ docker.worker.build:
 	cd worker && docker build -t dev-rabbitmq-worker .
 
 docker.stop:
-	docker stop dev-rabbit docker.worker
+	docker stop dev-rabbitmq dev-rabbitmq-worker
 	
 docker.network:
 	docker network inspect dev-network >/dev/null 2>&1 || \

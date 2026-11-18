@@ -1,22 +1,22 @@
 module ent-mysql
 
-go 1.26.4
+go 1.27.0
 
 require (
 	entgo.io/ent v0.14.6
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/gofiber/fiber/v3 v3.7.0
 )
 
 require (
-	ariga.io/atlas v1.3.0 // indirect
+	ariga.io/atlas v1.4.0 // indirect
 	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/apparentlymart/go-textseg/v17 v17.0.1 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/go-openapi/inflect v1.0.1 // indirect
-	github.com/gofiber/schema v1.9.4 // indirect
+	github.com/gofiber/schema v1.9.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -35,10 +35,10 @@ require (
 	github.com/zclconf/go-cty-yaml v1.2.0 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
 	golang.org/x/mod v0.43.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sync v0.25.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
-	golang.org/x/tools v0.52.0 // indirect
+	golang.org/x/tools v0.53.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

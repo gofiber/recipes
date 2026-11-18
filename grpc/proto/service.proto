@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package proto;
 
-option go_package = "proto;service";
+option go_package = "github.com/gofiber/recipes/fiber-grpc/proto;proto";
 
 message Request {
     int64 a = 1;

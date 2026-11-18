@@ -31,6 +31,12 @@ Ensure you have the following installed and available in your `GOPATH`:
     go get
     ```
 
+3. Create the environment file and add a secret for signing the JWTs. `air` loads `.env`, and the application refuses to start without `TOKEN_KEY`:
+    ```sh
+    cp .env.example .env
+    echo "TOKEN_KEY=$(openssl rand -hex 32)" >> .env
+    ```
+
 ## Running the Application
 
 1. Start the application:
@@ -40,22 +46,9 @@ Ensure you have the following installed and available in your `GOPATH`:
 
 ## Environment Variables
 
-Create a `.env` file in the root directory and add the following variables:
-
-```shell
-# PORT returns the server listening port
-# default: 5000
-PORT=
-
-# DB returns the name of the sqlite database
-# default: gotodo.db
-DB=
-
-# TOKENKEY returns the jwt token secret
-TOKENKEY=
-
-# TOKENEXP returns the jwt token expiration duration.
-# Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
-# default: 10h
-TOKENEXP=
-```
+| Variable | Description | Default |
+| --- | --- | --- |
+| `PORT` | Server listening port | `5000` |
+| `DB` | Name of the SQLite database file | `gotodo.db` |
+| `TOKEN_KEY` | Secret used to sign the JWTs. Generate a random one with `openssl rand -hex 32` | required |
+| `TOKEN_EXP` | Token lifetime, a [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration) string | `10h` |

@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
+	"strings"
+
 	"catalog/api"
 	"catalog/config"
 	"catalog/repository"
 	"catalog/service"
-	"log"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
@@ -30,10 +32,20 @@ func main() {
 		Format: "[${time}] ${ip}  ${status} - ${latency} ${method} ${path}\n",
 	}))
 
-	r.Get("/products/{code}", handler.Get)
+	// Fiber route parameters are written ":name". A "{code}" segment would only ever match
+	// the literal text "{code}", so these two routes could never be reached.
+	r.Get("/products/:code", handler.Get)
 	r.Post("/products", handler.Post)
-	r.Delete("/products/{code}", handler.Delete)
+	r.Delete("/products/:code", handler.Delete)
 	r.Get("/products", handler.GetAll)
 	r.Put("/products", handler.Put)
-	log.Fatal(r.Listen(":8080"))
+
+	addr := conf.Server.Port
+	if addr == "" {
+		addr = ":8080"
+	} else if !strings.Contains(addr, ":") {
+		// a bare port such as 8080 is written as ":8080" for Listen
+		addr = ":" + addr
+	}
+	log.Fatal(r.Listen(addr))
 }

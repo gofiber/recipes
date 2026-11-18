@@ -16,7 +16,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 - [Air](https://github.com/air-verse/air)
 
@@ -40,7 +40,7 @@ Live reloading is a useful feature during development as it saves time by automa
 
 ## Configuration
 
-Air is configured using the `air/.air.conf` file. This file specifies the build command, binary name, and directories to watch for changes. The configuration files for different operating systems are provided:
+Air is configured with a config file that specifies the build command, binary name, and directories to watch for changes. There is one file per operating system:
 
 - `air/.air.windows.conf` for Windows
 - `air/.air.linux.conf` for Linux

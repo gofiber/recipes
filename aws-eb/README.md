@@ -18,7 +18,7 @@ This project provides a starting point for deploying a Go Fiber application to A
 
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [Elastic Beanstalk CLI](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
-- [Go](https://golang.org/dl/) 1.25 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 
 ## Setup

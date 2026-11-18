@@ -23,7 +23,7 @@ The worker uses weighted queues (`critical` drained ~6x as often as `low`), whic
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.25 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - A running Redis instance (or use the provided `docker-compose.yml`)
 
 ## Running the example

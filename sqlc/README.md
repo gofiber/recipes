@@ -15,38 +15,29 @@ description: Using Sqlc to generate Go code from SQL queries.
 #### 1. Run Postgres
 
 ```bash
-$ docker compose build
+$ docker compose up -d
 ```
+> The compose file mounts `./data/postgres/` at `/var/lib/postgresql`. Postgres 18 keeps its data in a versioned subdirectory of that path, and a mount at `/var/lib/postgresql/data` makes the container exit.
+#### 2. Wait until Postgres is ready
+The first start takes a few seconds. Check the log, which has to end with the line below:
 ```bash
-$ docker compose up
+$ docker compose logs postgresql
 ```
-#### 2. Wait 1-2 minutes
 ```console
-[+] Running 2/0
- ✔ Network sqlc_default       Created                                                                             0.1s
- ✔ Container postgres         Created                                                                             0.0s
-Attaching to postgres
-postgres  |
-postgres  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-postgres  |
-postgres  |
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  starting PostgreSQL 16.0 (Debian 16.0-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
-postgres  | 2023-09-28 09:17:50.737 UTC [1] LOG:  listening on IPv6 address "::", port 5432
-postgres  | 2023-09-28 09:17:50.740 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-postgres  | 2023-09-28 09:17:50.751 UTC [30] LOG:  database system was shut down at 2023-09-28 08:50:35 UTC
-postgres  | 2023-09-28 09:17:50.770 UTC [1] LOG:  database system is ready to accept connections
+postgres  | 2026-11-15 11:23:44.061 UTC [1] LOG:  database system is ready to accept connections
 ```
 #### 3. You have to migrate the database.
 > ##### 🎯 It is a "database-first" ORM as opposed to "code-first" (like gorm/gorp). That means you must first create your database schema.
 > ##### 🎯 I used [golang-migrate](https://github.com/golang-migrate/migrate) to proceed with the migrate.
+> ##### 🎯 Install the `migrate` command with `go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest`.
+> ##### 🎯 The repository already contains this migration, so you can skip step 1 and run the migration (step 2).
 ###### 1. Make Migration files
 ```bash
 $ migrate create -ext sql -dir ./database/migrations -seq create_initial_table
 ```
 ```console
 sqlc/database/migrations/000001_create_initial_table.up.sql
-sqlc/database/migrations/000001_create_initial_table.up.sql
+sqlc/database/migrations/000001_create_initial_table.down.sql
 ```
 ###### 2. Migrate
 ```bash
@@ -94,6 +85,27 @@ sql:
       go:
         package: "sqlc"
         out: "database/sqlc"
+        # Lower-case JSON keys.
+        emit_json_tags: true
+        # Nullable columns as pointers. With the default sql.NullString/sql.NullTime types,
+        # a column serializes as {"String":"...","Valid":true} and cannot be decoded from
+        # {"content":"text"}. (emit_pointers_for_null_types would do this too, but it only
+        # works with the pgx driver, and this recipe uses database/sql.)
+        overrides:
+          - column: "post.content"
+            go_type:
+              type: "string"
+              pointer: true
+          - column: "post.created_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
+          - column: "post.updated_at"
+            go_type:
+              import: "time"
+              type: "Time"
+              pointer: true
 ```
 ###### author.sql
 ```sql
@@ -141,27 +153,53 @@ sqlc/
 ├── models.go
 ├── post.sql.go
 ```
-#### 5. Reference
+#### 5. Run the application
+> ##### 🎯 The application reads the database settings from the environment (it does not read a `.env` file), so load the values of `.env.example` first.
+```bash
+$ set -a; source .env.example; set +a
+$ go run .
+```
+```console
+Connected to database
+```
+The server listens on port 3000, see the endpoints below.
+#### 6. Reference
 [sqlc document](https://docs.sqlc.dev/en/stable/)
 
 ## API Endpoints
+
+All paths are below `/api/v1`, for example `http://localhost:3000/api/v1/posts`. JSON keys are lower-case (`id`, `title`, `created_at`, ...), and the nullable `content`, `created_at` and `updated_at` columns are a plain value or `null`.
 
 ### Authors
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/authors` | List all authors |
-| GET | `/authors/:id` | Get an author by ID |
-| POST | `/authors` | Create a new author |
-| PUT | `/authors/:id` | Update an author |
-| DELETE | `/authors/:id` | Delete an author |
+| GET | `/api/v1/authors` | List all authors |
+| GET | `/api/v1/authors/:id` | Get an author by ID |
+| POST | `/api/v1/authors` | Create a new author |
+| PUT | `/api/v1/authors/:id` | Update an author |
+| DELETE | `/api/v1/authors/:id` | Delete an author |
 
 ### Posts
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/posts` | List all posts |
-| GET | `/posts/:id` | Get a post by ID |
-| POST | `/posts` | Create a new post |
-| PUT | `/posts/:id` | Update a post |
-| DELETE | `/posts/:id` | Delete a post |
+| GET | `/api/v1/posts` | List all posts |
+| GET | `/api/v1/posts/:id` | Get a post by ID |
+| POST | `/api/v1/posts` | Create a new post |
+| PUT | `/api/v1/posts/:id` | Update a post |
+| DELETE | `/api/v1/posts/:id` | Delete a post |
+
+The answers to a request that cannot be served are `400` for an id that is not a 32-bit number, `404` when the author or post of a `GET` or `PUT` request does not exist, `422` when a post names an author that does not exist, and `409` when you delete an author who still has posts. A `DELETE` of an id that does not exist is answered with `200` like any other, because the `:exec` queries do not report whether a row was deleted. Any other failure is a `500` with the text `internal server error`. The details of the database error are only written to the server log, because the driver messages name tables and constraints.
+
+### Example
+
+```bash
+curl -X POST http://localhost:3000/api/v1/authors -H "Content-Type: application/json" \
+  -d '{"email": "ann@example.com", "name": "Ann"}'
+
+curl -X POST http://localhost:3000/api/v1/posts -H "Content-Type: application/json" \
+  -d '{"title": "Hello", "content": "plain text", "author": 1}'
+
+curl http://localhost:3000/api/v1/posts/1
+```

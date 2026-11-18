@@ -34,7 +34,7 @@ Ensure you have the following installed:
 
 3. Start MongoDB using Docker:
     ```sh
-    docker-compose up -d
+    docker compose up -d
     ```
 
 4. (Optional) Set the `MONGO_URI` environment variable. Defaults to `mongodb://localhost:27017/fiber_test`:
@@ -49,44 +49,45 @@ Ensure you have the following installed:
     go run main.go
     ```
 
-## Example
+## Endpoints
 
-Here is an example of how to connect to a MongoDB database in a Fiber application:
+The application is a small employee API over the `employees` collection of the `fiber_test` database. `id` is the MongoDB ObjectID, as a hex string.
 
-```go
-package main
+| Method | URL            | Description                  | Success |
+| ------ | -------------- | ---------------------------- | ------- |
+| GET    | /employee      | Lists all employees          | 200     |
+| GET    | /employee/:id  | Gets an employee by ID       | 200     |
+| POST   | /employee      | Creates an employee          | 201     |
+| PUT    | /employee/:id  | Updates an employee          | 200     |
+| DELETE | /employee/:id  | Deletes an employee          | 204     |
 
-import (
-    "context"
-    "log"
-    "time"
+An invalid `:id` answers `400`, and an unknown one `404`.
 
-    "github.com/gofiber/fiber/v3"
-    "go.mongodb.org/mongo-driver/mongo"
-    "go.mongodb.org/mongo-driver/mongo/options"
-)
+## Example Requests
 
-func main() {
-    // MongoDB connection
-    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-    defer cancel()
-    client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer client.Disconnect(context.Background())
+### Create an Employee
+```sh
+curl -X POST http://localhost:3000/employee \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Doe", "salary": 52000, "age": 31}'
+```
 
-    // Fiber instance
-    app := fiber.New()
+### List Employees
+```sh
+curl http://localhost:3000/employee
+```
 
-    // Routes
-    app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString("Hello, MongoDB!")
-    })
+### Get, Update and Delete an Employee
+Use the `id` returned when you created the employee:
 
-    // Start server
-    log.Fatal(app.Listen(":3000"))
-}
+```sh
+curl http://localhost:3000/employee/<id>
+
+curl -X PUT http://localhost:3000/employee/<id> \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Doe", "salary": 56000, "age": 32}'
+
+curl -X DELETE http://localhost:3000/employee/<id>
 ```
 
 ## References

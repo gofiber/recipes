@@ -67,6 +67,7 @@ func getDatasetCreationQueries() []string {
 		"MATCH (a:Developer {id: 3}),(b:Technology {id: 3}) CREATE (a)-[r:LOVES]->(b);",
 	}
 
+	// The sample data starts from an empty graph, so every start deletes all nodes first.
 	allQueries := []string{"MATCH (n) DETACH DELETE n;"}
 	allQueries = append(allQueries, developer_nodes...)
 	allQueries = append(allQueries, technology_nodes...)
@@ -87,6 +88,26 @@ func connectDriver(ctx context.Context) (neo4j.DriverWithContext, error) {
 func executeQuery(ctx context.Context, driver neo4j.DriverWithContext, query string, params map[string]any) (*neo4j.EagerResult, error) {
 	return neo4j.ExecuteQuery(ctx, driver, query, params, neo4j.EagerResultTransformer,
 		neo4j.ExecuteQueryWithWritersRouting())
+}
+
+// seedDatabase runs every seed query as an auto-commit query on a session. It does not use
+// executeQuery, because neo4j.ExecuteQuery runs each query in an explicit transaction and
+// Memgraph rejects CREATE INDEX there ("Index manipulation is not allowed in multicommand
+// transactions").
+func seedDatabase(ctx context.Context, driver neo4j.DriverWithContext) error {
+	session := driver.NewSession(ctx, neo4j.SessionConfig{})
+	defer func() { _ = session.Close(ctx) }()
+
+	for _, query := range getDatasetCreationQueries() {
+		result, err := session.Run(ctx, query, nil)
+		if err != nil {
+			return err
+		}
+		if _, err := result.Consume(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func nodeToDeveloper(node neo4j.Node) Developer {
@@ -119,10 +140,8 @@ func main() {
 	}()
 
 	// Seed mock dataset
-	for _, query := range getDatasetCreationQueries() {
-		if _, err := executeQuery(ctx, driver, query, nil); err != nil {
-			log.Fatal(err)
-		}
+	if err := seedDatabase(ctx, driver); err != nil {
+		log.Fatal(err)
 	}
 
 	app := fiber.New()

@@ -1,6 +1,6 @@
 module fiber-sqlboiler
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/aarondl/null/v8 v8.1.3
@@ -14,7 +14,7 @@ require (
 require (
 	github.com/aarondl/inflect v0.0.2 // indirect
 	github.com/aarondl/randomize v0.0.2 // indirect
-	github.com/gofiber/schema v1.9.4 // indirect
+	github.com/gofiber/schema v1.9.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.79.0 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect

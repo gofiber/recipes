@@ -15,7 +15,8 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
-COPY --from=builder /usr/src/app/.env .env
+# The image must not contain .env (it holds AWS keys). Pass the variables at run time,
+# for example: docker run --env-file .env -p 3000:3000 aws-ses-sender
 COPY --from=builder /usr/src/app/app .
 
 CMD ["./app"]

@@ -39,17 +39,31 @@ Ensure you have the following installed:
 
 ## Example
 
-This recipe uses [Mustache templates](https://github.com/cbroglie/mustache) (via the `gofiber/template/mustache` engine) to render an RSS XML response. The template lives in `./xmls/example.xml`.
+This recipe uses [Mustache templates](https://github.com/cbroglie/mustache) (via the `gofiber/template/mustache` engine) to render an [RSS 2.0](https://www.rssboard.org/rss-specification) feed. The template lives in `./xmls/example.xml`. A `channel` has a title, link and description, and each `item` is rendered by the `{{#Items}}` section.
+
+Use `{{Name}}` (two braces) for text. It escapes `&`, `<`, `>` and quotes, so a title such as `Fiber recipes & news` still produces valid XML. `{{{Name}}}` (three braces) inserts the value unescaped and would break the feed.
 
 **`xmls/example.xml`:**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<note>
-    <language>{{{Lang}}}</language>
-    <title>{{{Title}}}</title>
-    <greeting>{{{Greetings}}}</greeting>
-</note>
+<rss version="2.0">
+    <channel>
+        <title>{{Title}}</title>
+        <link>{{Link}}</link>
+        <description>{{Description}}</description>
+        <language>{{Lang}}</language>
+        {{#Items}}
+        <item>
+            <title>{{Title}}</title>
+            <link>{{Link}}</link>
+            <description>{{Description}}</description>
+            <guid isPermaLink="true">{{Link}}</guid>
+            <pubDate>{{PubDate}}</pubDate>
+        </item>
+        {{/Items}}
+    </channel>
+</rss>
 ```
 
 **`main.go`:**
@@ -58,33 +72,52 @@ This recipe uses [Mustache templates](https://github.com/cbroglie/mustache) (via
 package main
 
 import (
-    "log"
+	"log"
+	"time"
 
-    "github.com/gofiber/fiber/v3"
-    "github.com/gofiber/template/mustache/v3"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/template/mustache/v3"
 )
 
 func main() {
-    engineXML := mustache.New("./xmls", ".xml")
-    if err := engineXML.Load(); err != nil {
-        log.Fatal(err)
-    }
+	engineXML := mustache.New("./xmls", ".xml")
+	if err := engineXML.Load(); err != nil {
+		log.Fatal(err)
+	}
 
-    app := fiber.New()
+	app := fiber.New()
 
-    app.Get("/rss", func(c fiber.Ctx) error {
-        // Set Content-Type to application/rss+xml
-        c.Type("rss")
+	app.Get("/rss", func(c fiber.Ctx) error {
+		// Set Content-Type to application/rss+xml
+		c.Type("rss")
 
-        // Render Mustache template with data
-        return engineXML.Render(c, "example", fiber.Map{
-            "Lang":      "en",
-            "Title":     "hello-rss",
-            "Greetings": "Hello World",
-        })
-    })
+		published := time.Date(2024, time.January, 2, 15, 4, 5, 0, time.UTC)
 
-    log.Fatal(app.Listen(":3000"))
+		// Set rendered template to body. {{Name}} in the template escapes &, <, > and
+		// quotes, so titles and descriptions cannot break the XML. ({{{Name}}} would not.)
+		return engineXML.Render(c, "example", fiber.Map{
+			"Lang":        "en",
+			"Title":       "Fiber recipes & news",
+			"Link":        "http://localhost:3000/",
+			"Description": "An example RSS 2.0 feed rendered with Mustache",
+			"Items": []fiber.Map{
+				{
+					"Title":       "Hello, RSS",
+					"Link":        "http://localhost:3000/posts/1",
+					"Description": "The first <post> in the feed",
+					"PubDate":     published.Format(time.RFC1123Z),
+				},
+				{
+					"Title":       "Second item",
+					"Link":        "http://localhost:3000/posts/2",
+					"Description": "Another entry",
+					"PubDate":     published.Add(24 * time.Hour).Format(time.RFC1123Z),
+				},
+			},
+		})
+	})
+
+	log.Fatal(app.Listen(":3000"))
 }
 ```
 

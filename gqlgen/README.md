@@ -32,7 +32,7 @@ The protocol is `graphql-transport-ws`, which the graphql-ws library and GraphiQ
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.26 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 - Optional: [websocat](https://github.com/vi/websocat) to test subscriptions from the command line
 

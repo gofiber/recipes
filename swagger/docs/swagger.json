@@ -105,6 +105,12 @@
                         "schema": {
                             "$ref": "#/definitions/handlers.ResponseHTTP"
                         }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ResponseHTTP"
+                        }
                     }
                 }
             }
@@ -143,14 +149,17 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.Book"
-                                            }
+                                            "$ref": "#/definitions/models.Book"
                                         }
                                     }
                                 }
                             ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ResponseHTTP"
                         }
                     },
                     "404": {
@@ -195,6 +204,12 @@
                             "$ref": "#/definitions/handlers.ResponseHTTP"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ResponseHTTP"
+                        }
+                    },
                     "404": {
                         "description": "Not Found",
                         "schema": {
@@ -212,12 +227,22 @@
         }
     },
     "definitions": {
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "Time": {
+                    "type": "string"
+                },
+                "Valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
         "handlers.ResponseHTTP": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -229,6 +254,18 @@
         "models.Book": {
             "type": "object",
             "properties": {
+                "CreatedAt": {
+                    "type": "string"
+                },
+                "DeletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "UpdatedAt": {
+                    "type": "string"
+                },
                 "author": {
                     "type": "string",
                     "example": "Dino"

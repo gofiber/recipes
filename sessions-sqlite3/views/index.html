@@ -101,6 +101,14 @@
     }
   </style>
   <script>
+    // Escape text before it is concatenated into HTML. The user agent of a session is chosen
+    // by whoever logs in, so it must never be inserted as markup.
+    function esc(value) {
+      return String(value).replace(/[&<>"']/g, function (ch) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+      });
+    }
+
     // Login API request
     function login(uid) {
       fetch('/api/login', {
@@ -160,17 +168,17 @@
           logout.style.display = 'block';
 
           // Fill greeting element
-          greeting.innerHTML = 'Welcome, ' + json.firstname;
+          greeting.textContent = 'Welcome, ' + json.firstname;
 
           // Fill profile info element
           var info = profile.getElementsByClassName('info')[0];
-          info.innerHTML='<b>Email:</b> ' + json.email + '<br><b>First name:</b> ' + json.firstname + '<br><b>Last name:</b> ' + json.lastname;
+          info.innerHTML='<b>Email:</b> ' + esc(json.email) + '<br><b>First name:</b> ' + esc(json.firstname) + '<br><b>Last name:</b> ' + esc(json.lastname);
 
           // Fill sessions elements
           json.sessions.forEach(session => {
             var div = '<div class="session">';
-            div += '<div><b>Session ID:</b> ' + session.sid + '<br><b>IP:</b> ' + session.ip + '<br><b>Login time:</b> ' + session.login + '<br><b>Expiry time:</b> ' + session.expiry + '<br><b>User agent:</b> ' + session.ua + '</div>';
-            div += (json.session != session.sid) ? '<span><button onclick="logout(\'' + session.sid + '\')">Delete</button></span>' : '<span>Current session</span>';
+            div += '<div><b>Session ID:</b> ' + esc(session.sid) + '<br><b>IP:</b> ' + esc(session.ip) + '<br><b>Login time:</b> ' + esc(session.login) + '<br><b>Expiry time:</b> ' + esc(session.expiry) + '<br><b>User agent:</b> ' + esc(session.ua) + '</div>';
+            div += (json.session != session.sid) ? '<span><button onclick="logout(\'' + esc(session.sid) + '\')">Delete</button></span>' : '<span>Current session</span>';
             div += '</div>';
 
             sessions.insertAdjacentHTML('beforeend', div);

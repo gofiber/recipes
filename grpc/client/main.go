@@ -47,13 +47,14 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: a, B: b}
-		if res, err := client.Add(c.Context(), req); err == nil {
-			return c.Status(fiber.StatusOK).JSON(fiber.Map{
-				"result": fmt.Sprint(res.Result),
+		res, err := client.Add(c.Context(), req)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
 			})
 		}
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": err.Error(),
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"result": fmt.Sprint(res.Result),
 		})
 	})
 
@@ -71,13 +72,14 @@ func main() {
 			})
 		}
 		req := &proto.Request{A: a, B: b}
-		if res, err := client.Multiply(c.Context(), req); err == nil {
-			return c.Status(fiber.StatusOK).JSON(fiber.Map{
-				"result": fmt.Sprint(res.Result),
+		res, err := client.Multiply(c.Context(), req)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
 			})
 		}
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": err.Error(),
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"result": fmt.Sprint(res.Result),
 		})
 	})
 	log.Fatal(app.Listen(":3000"))

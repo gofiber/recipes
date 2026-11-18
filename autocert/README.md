@@ -16,7 +16,7 @@ This project provides a starting point for building a secure web application wit
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.21 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Git](https://git-scm.com/downloads)
 - A publicly accessible domain name pointing to your server
 - Ports 80 and 443 open and accessible from the internet (required by Let's Encrypt)

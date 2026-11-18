@@ -18,9 +18,11 @@ info:
 	$(info )
 	$(info Available commands:)
 	$(info - go-build:  Build the Golang project.)
+	$(info - install-template-dependencies:  Install the SvelteKit dependencies.)
 	$(info - svelte-build:  Build the SvelteKit project.)
 	$(info - all:  Run all commands (SvelteBuild, GoBuild).)
 	$(info - build:  Same as all, the target CI runs.)
+	$(info - clean:  Remove the app file and the build output in template/dist.)
 	$(info )
 	$(info Usage: make <command>)
 
@@ -30,9 +32,12 @@ go-build:
 	@go build -o app -v
 
 # Build the SvelteKit project
+# adapter-static empties template/dist, which removes the tracked .gitkeep. Without
+# any file in it, `go build` and `go vet` cannot embed the directory, so put it back.
 svelte-build: install-template-dependencies
 	@echo "=== Building SvelteKit Project ==="
 	@$(PNPM) run -C ./template build
+	@touch ./template/dist/.gitkeep
 
 # Install template dependencies
 install-template-dependencies:
@@ -43,3 +48,4 @@ clean:
 	@echo "=== Cleaning build artifacts ==="
 	@rm -f app
 	@find ./template/dist -mindepth 1 ! -name .gitkeep -delete
+	@touch ./template/dist/.gitkeep

@@ -1,0 +1,57 @@
+name: Overview
+
+# Fails when the recipe overview in README.md or the badges in a recipe README are out of date.
+# `make generate` rebuilds them from the front matter of the recipe READMEs. On a pull request,
+# commenting `/generate` does that and pushes the result (see pr-commands.yml).
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - "README.md"
+      - "*/README.md"
+      - "overview.go"
+      - "Makefile"
+      - ".github/workflows/overview.yml"
+  pull_request:
+    paths:
+      - "README.md"
+      - "*/README.md"
+      - "overview.go"
+      - "Makefile"
+      - ".github/workflows/overview.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  overview:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    timeout-minutes: 10
+    steps:
+      - name: Fetch Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Generate the overview
+        run: make generate
+
+      # The generator only rewrites files, so any difference means the committed ones are stale.
+      - name: Check that nothing changed
+        run: |
+          if ! git diff --exit-code; then
+            echo "::error::The recipe overview is out of date. Run 'make generate' and commit the result, or comment '/generate' on the pull request."
+            exit 1
+          fi

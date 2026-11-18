@@ -1,6 +1,6 @@
 module monitoring-with-apitally
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/apitally/apitally-go/fiber-v3 v1.0.0
@@ -18,7 +18,7 @@ require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-playground/locales v0.14.2 // indirect
 	github.com/go-playground/universal-translator v0.18.2 // indirect
-	github.com/gofiber/schema v1.9.4 // indirect
+	github.com/gofiber/schema v1.9.5 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
@@ -45,7 +45,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.47.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.11.1 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect

@@ -16,7 +16,7 @@ This project provides a starting point for deploying a Go Fiber application to G
 
 ## Requirements
 
-- [Go](https://golang.org/dl/) 1.18 or higher
+- [Go](https://golang.org/dl/) 1.27 or higher
 - [Docker](https://www.docker.com/get-started)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [Git](https://git-scm.com/downloads)
@@ -61,6 +61,8 @@ gcloud services enable run.googleapis.com \
     ```
 
 The application should now be running on `http://localhost:3000`.
+
+> **Architecture:** Cloud Run runs `linux/amd64` images. `gcloud builds submit` (below) builds one on Cloud Build, and so does `docker build` on an `amd64` machine. On an `arm64` machine, such as an Apple silicon laptop, build the image you push with `docker build --platform linux/amd64 -t cloud-run-example .`. The Dockerfile compiles for the platform the image is built for: BuildKit passes it in as `TARGETOS` and `TARGETARCH`, and a builder that does not, such as the legacy Docker builder, builds for the platform it runs on. On Cloud Build, with the Docker builder or with the Kaniko step of `cloudbuild.yaml`, that is `amd64`. With `--platform linux/amd64` on an `arm64` machine the whole build runs in `amd64` images, so Docker's emulation has to be available (Docker Desktop includes it).
 
 > **PORT environment variable:** Cloud Run injects the `PORT` env variable at runtime. The application reads `PORT` and falls back to `3000` if unset, so it works both locally and on Cloud Run without any code changes.
 

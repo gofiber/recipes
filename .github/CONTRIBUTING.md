@@ -36,8 +36,10 @@ The [organization-wide contributing guidelines](https://github.com/gofiber/.gith
    make generate
    ```
 
+   CI fails when the overview is out of date. A maintainer can also comment `/generate` on your pull request to have it regenerated.
+
 4. **Add a `Makefile` if `go build` is not enough**: An example with a frontend or a code generation step must ship a `Makefile` whose `build` target builds everything the example needs. CI runs `make build` for every changed example that has one. It only provides Go and Node, so the target has to fetch any other tool itself, for example with a pinned `npx --yes pnpm@10.34.6`. See `sveltekit-embed/makefile`.
 
-5. **Check the Example Locally**: CI runs `go mod tidy -diff`, `go vet ./...` and `go build -race ./...` in every changed example, so run them in your example's directory before you open the pull request.
+5. **Check the Example Locally**: CI runs `go mod tidy -diff`, `go vet ./...`, `go build -race ./...` and `go test -race ./...` in every changed example, so run them in your example's directory before you open the pull request. CI runs the examples in parallel, so a test must not depend on a fixed port or on a service that is already running. A test that starts containers with Testcontainers needs a Docker daemon, and CI skips such an example when it has none.
 
 By following these guidelines, you help maintain the quality and consistency of the project. Thank you for your contributions!

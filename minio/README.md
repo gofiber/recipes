@@ -14,7 +14,7 @@ This example demonstrates a simple Go Fiber application that includes modules fo
 
 Ensure you have the following installed:
 
-- [Go](https://golang.org/dl/): (version 1.22 or higher) installed
+- [Go](https://golang.org/dl/): (version 1.27 or higher) installed
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/): for running a local MinIO instance
 - [Git](https://git-scm.com/downloads)
 
@@ -42,15 +42,17 @@ cd recipes/minio
 A `docker-compose.yml` is provided for running a local MinIO instance:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
+
+> **Check the image first.** The compose file uses `minio/minio:latest`. In November 2026 Docker Hub answered `pull access denied for minio/minio, repository does not exist or may require 'docker login'` for that name, so `docker compose up` fails to pull it (`quay.io/minio/minio:latest` answered `unauthorized`). Set `image:` in `docker-compose.yml` to a MinIO image you have access to, or skip Docker and point the recipe at any S3-compatible server or an existing MinIO with `FIBER_MINIO_ENDPOINT`, `FIBER_MINIO_ACCESS_KEY` and `FIBER_MINIO_SECRET_KEY`. The Go code only needs an S3 API endpoint, not MinIO specifically.
 
 This starts MinIO on port `9000` (API) and `9001` (web console). Access the console at [http://localhost:9001](http://localhost:9001) with credentials `minioadmin` / `minioadmin`.
 
 To stop MinIO:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### 3. Install Dependencies

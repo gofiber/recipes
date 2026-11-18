@@ -38,18 +38,20 @@ All three services run in the same Docker network (`envoymesh`). Envoy is the so
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) with Compose plugin (or `docker-compose` v1)
+- [Docker](https://docs.docker.com/get-docker/) with the Compose plugin
 
 ## Endpoints
 
-| Name      | Rute          | Protected | Method |
+| Name      | Route         | Protected | Method |
 | --------- | ------------- | --------- | ------ |
 | Health    | /health       | No        | GET    |
 | Resource  | /api/resource | Yes       | GET    |
 
 ## Run
 
-`docker-compose up --build -d`
+`docker compose up --build -d`
+
+The Dockerfiles start with `FROM --platform=$BUILDPLATFORM`, which needs BuildKit, the default builder of Docker Engine 23 and later and of Docker Desktop. With an older Docker Engine set `DOCKER_BUILDKIT=1`, and with `docker-compose` v1 also `COMPOSE_DOCKER_CLI_BUILD=1`.
 
 ## Test
 
@@ -62,4 +64,4 @@ All three services run in the same Docker network (`envoymesh`). Envoy is the so
 
 ## Stop
 
-`docker-compose down`
+`docker compose down`
