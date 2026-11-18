@@ -122,19 +122,11 @@ func main() {
 		return c.Status(fiber.StatusCreated).Send(nil)
 	})
 
-	// Start server
-	go func() {
-		if err := app.Listen(":3000"); err != nil {
-			log.Fatal(err)
-		}
-	}()
-
-	// Shut down gracefully, so that Apitally can flush pending data
+	// Start server, shut down gracefully on SIGINT/SIGTERM so that Apitally can flush pending data
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
-	<-ctx.Done()
 
-	if err := app.Shutdown(); err != nil {
+	if err := app.Listen(":3000", fiber.ListenConfig{GracefulContext: ctx}); err != nil {
 		log.Fatal(err)
 	}
 }
