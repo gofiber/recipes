@@ -125,6 +125,8 @@ func main() {
 	// Start server, shut down gracefully on SIGINT/SIGTERM so that Apitally can flush pending data
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+	// Restore default signal handling once draining starts, so a second Ctrl+C force-quits.
+	context.AfterFunc(ctx, stop)
 
 	if err := app.Listen(":3000", fiber.ListenConfig{GracefulContext: ctx}); err != nil {
 		log.Fatal(err)
