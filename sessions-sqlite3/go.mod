@@ -5,13 +5,13 @@ go 1.27.0
 require (
 	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/gofiber/storage/sqlite3/v2 v2.3.4
-	github.com/gofiber/template/html/v3 v3.1.0
+	github.com/gofiber/template/html/v3 v3.1.1
 	github.com/mattn/go-sqlite3 v1.14.53
 )
 
 require (
 	github.com/gofiber/schema v1.10.0 // indirect
-	github.com/gofiber/template/v2 v2.1.6 // indirect
+	github.com/gofiber/template/v2 v2.1.7 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
