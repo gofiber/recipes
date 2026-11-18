@@ -9,7 +9,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
-	github.com/gofiber/schema v1.9.5 // indirect
+	github.com/gofiber/schema v1.10.0 // indirect
 	github.com/gofiber/utils/v2 v2.6.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
