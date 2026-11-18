@@ -65,7 +65,7 @@ func TestPrometheus_CustomBusinessMetrics(t *testing.T) {
 	require.NoError(t, err)
 	metricsOutput := string(body)
 
-	assert.Contains(t, metricsOutput, "app_orders_processed_total 2")
+	assert.Contains(t, metricsOutput, "app_orders_processed_total 2\n")
 }
 
 func TestPrometheus_SkipURIs_HealthExemption(t *testing.T) {
@@ -84,6 +84,7 @@ func TestPrometheus_SkipURIs_HealthExemption(t *testing.T) {
 	reqMetrics := httptest.NewRequest(http.MethodGet, "/metrics", nil)
 	respMetrics, err := app.Test(reqMetrics)
 	require.NoError(t, err)
+	require.Equal(t, http.StatusOK, respMetrics.StatusCode)
 
 	body, err := io.ReadAll(respMetrics.Body)
 	require.NoError(t, err)

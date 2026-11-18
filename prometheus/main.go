@@ -86,6 +86,14 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 
 	app := SetupApp(prometheus.NewRegistry())
+	// A drain that hits the timeout is reported only here, Listen still returns nil.
+	app.Hooks().OnPostShutdown(func(err error) error {
+		if err != nil {
+			log.Printf("graceful shutdown: %v", err)
+		}
+		return nil
+	})
+
 	// Listen returns once in-flight requests are drained, or after Fiber's 10s ShutdownTimeout.
 	err := app.Listen(":3000", fiber.ListenConfig{GracefulContext: ctx})
 	stop()
