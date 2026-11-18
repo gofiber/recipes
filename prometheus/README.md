@@ -12,9 +12,9 @@ This recipe demonstrates production-ready Prometheus metrics exposition in Fiber
 
 1. **HTTP Metrics Instrumentation**: Automatically tracks request duration histograms, request counts by method, path, and status code, and in-flight requests.
 2. **Dedicated `/metrics` Endpoint**: Serves metrics in the standard Prometheus text exposition format.
-3. **Custom Application / Domain Metrics**: Registers custom business metrics (e.g., `orders_processed_total` Counter and `active_workers` Gauge) with a shared Prometheus registry.
+3. **Custom Application / Domain Metrics**: Registers a custom business metric (`app_orders_processed_total` Counter) with a shared Prometheus registry, next to the Go runtime and process metrics the middleware registers.
 4. **Endpoint Exemption (`SkipURIs`)**: Excludes internal health probes (`/health`) from skewing request latency histograms and count metrics.
-5. **Graceful Shutdown**: Handles OS signals (`SIGINT`, `SIGTERM`) to cleanly terminate active requests before process exit.
+5. **Graceful Shutdown**: On `SIGINT` or `SIGTERM`, `ListenConfig.GracefulContext` drains active requests before the process exits (bounded by Fiber's default 10s `ShutdownTimeout`).
 
 ## Project Structure
 
@@ -62,13 +62,13 @@ Output includes both Fiber HTTP server metrics and custom application metrics:
 # TYPE app_orders_processed_total counter
 app_orders_processed_total 1
 
-# HELP http_server_requests_total Total number of requests processed by the server.
+# HELP http_server_requests_total Count all http requests by status code, method and path.
 # TYPE http_server_requests_total counter
-http_server_requests_total{method="POST",path="/orders",service="order-service",status_class="2xx",status_code="201"} 1
+http_server_requests_total{method="POST",path="/orders",service="order-service",status_code="201"} 1
 
-# HELP http_server_request_duration_seconds Histogram of request processing durations.
+# HELP http_server_request_duration_seconds Duration of all HTTP requests by status code, method and path.
 # TYPE http_server_request_duration_seconds histogram
-http_server_request_duration_seconds_bucket{le="0.005",method="POST",path="/orders",service="order-service",status_class="2xx",status_code="201"} 1
+http_server_request_duration_seconds_bucket{method="POST",path="/orders",service="order-service",status_code="201",le="0.005"} 1
 ...
 ```
 

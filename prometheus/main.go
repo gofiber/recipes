@@ -2,24 +2,19 @@ package main
 
 import (
 	"context"
-	"errors"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	fiberprom "github.com/gofiber/contrib/v3/prometheus"
 	"github.com/gofiber/fiber/v3"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
 )
 
 // AppMetrics holds custom application-level business metrics.
 type AppMetrics struct {
 	OrdersProcessed prometheus.Counter
-	ActiveWorkers   prometheus.Gauge
 }
 
 // NewAppMetrics initializes and registers domain metrics with the provided Prometheus registry.
@@ -30,29 +25,15 @@ func NewAppMetrics(reg prometheus.Registerer) *AppMetrics {
 			Name:      "orders_processed_total",
 			Help:      "Total number of orders successfully processed by the application.",
 		}),
-		ActiveWorkers: prometheus.NewGauge(prometheus.GaugeOpts{
-			Namespace: "app",
-			Name:      "active_workers",
-			Help:      "Current count of active background processing workers.",
-		}),
 	}
 
 	reg.MustRegister(m.OrdersProcessed)
-	reg.MustRegister(m.ActiveWorkers)
 
 	return m
 }
 
 // SetupApp configures the Fiber application with Prometheus HTTP middleware and routes.
-func SetupApp(reg *prometheus.Registry) (*fiber.App, *AppMetrics) {
-	if reg == nil {
-		reg = prometheus.NewRegistry()
-	}
-
-	// Register standard Go runtime and process metrics
-	reg.MustRegister(collectors.NewGoCollector())
-	reg.MustRegister(collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}))
-
+func SetupApp(reg *prometheus.Registry) *fiber.App {
 	// Register domain-specific metrics
 	metrics := NewAppMetrics(reg)
 
@@ -60,7 +41,7 @@ func SetupApp(reg *prometheus.Registry) (*fiber.App, *AppMetrics) {
 		AppName: "Fiber-Prometheus-Example v3",
 	})
 
-	// Configure official Fiber Prometheus middleware
+	// Also registers the Go runtime and process collectors on reg.
 	app.Use(fiberprom.New(fiberprom.Config{
 		ServiceName: "order-service",
 		Namespace:   "http",
@@ -98,33 +79,17 @@ func SetupApp(reg *prometheus.Registry) (*fiber.App, *AppMetrics) {
 		})
 	})
 
-	return app, metrics
+	return app
 }
 
 func main() {
-	reg := prometheus.NewRegistry()
-	app, _ := SetupApp(reg)
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 
-	// Graceful shutdown channel
-	shutdown := make(chan os.Signal, 1)
-	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
-
-	go func() {
-		log.Println("Starting HTTP server on :3000...")
-		if err := app.Listen(":3000"); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Fatalf("Server listen failed: %v", err)
-		}
-	}()
-
-	<-shutdown
-	log.Println("Gracefully shutting down Fiber server...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	if err := app.ShutdownWithContext(ctx); err != nil {
-		log.Fatalf("Error during server shutdown: %v", err)
+	app := SetupApp(prometheus.NewRegistry())
+	// Listen returns once in-flight requests are drained, or after Fiber's 10s ShutdownTimeout.
+	err := app.Listen(":3000", fiber.ListenConfig{GracefulContext: ctx})
+	stop()
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	log.Println("Server gracefully stopped.")
 }

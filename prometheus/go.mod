@@ -1,6 +1,6 @@
 module github.com/gofiber/recipes/prometheus
 
-go 1.26.0
+go 1.27.0
 
 require (
 	github.com/gofiber/contrib/v3/prometheus v0.1.4

@@ -14,7 +14,7 @@ import (
 
 func TestPrometheus_EndpointExposition(t *testing.T) {
 	reg := prometheus.NewRegistry()
-	app, _ := SetupApp(reg)
+	app := SetupApp(reg)
 
 	// 1. Initial request to application root
 	reqRoot := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -45,7 +45,7 @@ func TestPrometheus_EndpointExposition(t *testing.T) {
 
 func TestPrometheus_CustomBusinessMetrics(t *testing.T) {
 	reg := prometheus.NewRegistry()
-	app, _ := SetupApp(reg)
+	app := SetupApp(reg)
 
 	// Process two orders
 	for i := 0; i < 2; i++ {
@@ -70,7 +70,7 @@ func TestPrometheus_CustomBusinessMetrics(t *testing.T) {
 
 func TestPrometheus_SkipURIs_HealthExemption(t *testing.T) {
 	reg := prometheus.NewRegistry()
-	app, _ := SetupApp(reg)
+	app := SetupApp(reg)
 
 	// Probe /health endpoint multiple times
 	for i := 0; i < 3; i++ {
