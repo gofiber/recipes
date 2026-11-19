@@ -1,7 +1,7 @@
 github.com/fxamacker/cbor/v2 v2.10.0 h1:HVF3T5vYwLqO81ebPirWEPNv2SMrUMD3HLnKgEr6uWE=
 github.com/fxamacker/cbor/v2 v2.10.0/go.mod h1:uSwlToFuT9BZAKRxxVm3qQC8DR4tlWl7D6pf20iRYH4=
-github.com/gofiber/contrib/v3/circuitbreaker v1.1.10 h1:vQ59YQS5Nh7Slre6t5ItvUZ51XqEf0DH95O2ufWWezA=
-github.com/gofiber/contrib/v3/circuitbreaker v1.1.10/go.mod h1:QRMyaPpTi0XJLgjV24w0f9j+bVpDazV8y7n7O2pbymk=
+github.com/gofiber/contrib/v3/circuitbreaker v1.1.11 h1:E5RQKyV+G6hTwPKgko3gqZrTbKDiMUuGNM+JL2AUO6k=
+github.com/gofiber/contrib/v3/circuitbreaker v1.1.11/go.mod h1:WMhF8VjUWrdAF8M4/rCCR+0DxGjCsHIwvD1vvStFMUM=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.10.0 h1:d/2/NpHOVD0f29aNvM3KSPmaEDLJZvxW5edtN4Ymd8U=
