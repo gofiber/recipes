@@ -2378,6 +2378,13 @@ updates:
           - "vite"
           - "parcel"
           - "esbuild"
+      # @angular/* packages require matching peer versions of each other; bumped one
+      # at a time every PR fails `npm ci` with ERESOLVE (e.g. #7002-#7010)
+      angular-modules:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@schematics/angular"
 
   - package-ecosystem: "docker"
     open-pull-requests-limit: 15
