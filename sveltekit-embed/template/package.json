@@ -27,7 +27,7 @@
 		"highlight.js": "^11.12.0",
 		"prettier": "^3.10.1",
 		"prettier-plugin-svelte": "^4.2.0",
-		"svelte": "^5.58.0",
+		"svelte": "^5.58.1",
 		"svelte-check": "^4.7.8",
 		"tailwindcss": "^4.3.5",
 		"tslib": "^2.9.1",
