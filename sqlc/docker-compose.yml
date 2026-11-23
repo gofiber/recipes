@@ -1,6 +1,6 @@
 services:
   postgresql:
-    image: postgres:18
+    image: postgres:19
     restart: always
     container_name: postgres
     ports:
