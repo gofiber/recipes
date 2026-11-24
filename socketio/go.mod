@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/gofiber/contrib/v3/socketio v1.3.12
-	github.com/gofiber/contrib/v3/websocket v1.2.16
+	github.com/gofiber/contrib/v3/websocket v1.3.0
 	github.com/gofiber/fiber/v3 v3.7.0
 )
 
