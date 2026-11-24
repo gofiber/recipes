@@ -16,8 +16,8 @@ github.com/go-viper/mapstructure/v2 v2.5.0 h1:vM5IJoUAy3d7zRSVtIwQgBj7BiWtMPfmPE
 github.com/go-viper/mapstructure/v2 v2.5.0/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
 github.com/goccy/go-yaml v1.19.2 h1:PmFC1S6h8ljIz6gMRBopkjP1TVT7xuwrButHID66PoM=
 github.com/goccy/go-yaml v1.19.2/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=
-github.com/gofiber/contrib/v3/websocket v1.2.16 h1:wACpXx3xYyHfGrwk0Vj+6eZM7QT63hQ0fsWLinBd87M=
-github.com/gofiber/contrib/v3/websocket v1.2.16/go.mod h1:KUb15epyLWClax79CVyfj//qA46L9wDJm/Y5AyPX0Dk=
+github.com/gofiber/contrib/v3/websocket v1.3.0 h1:NfBewuFYf1+NU9Ey0V8XTe16IxFoxkg4ip6JxouOe0A=
+github.com/gofiber/contrib/v3/websocket v1.3.0/go.mod h1:tMZzRhs0pASPe7bImxqD5z/VlJq4Sjp130XoI/GuHPM=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.10.0 h1:d/2/NpHOVD0f29aNvM3KSPmaEDLJZvxW5edtN4Ymd8U=
