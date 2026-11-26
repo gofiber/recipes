@@ -3,7 +3,7 @@ module swagger
 go 1.27.0
 
 require (
-	github.com/gofiber/contrib/v3/swaggerui v1.0.19
+	github.com/gofiber/contrib/v3/swaggerui v1.0.20
 	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/swaggo/swag v1.16.6
 	gorm.io/driver/postgres v1.6.3

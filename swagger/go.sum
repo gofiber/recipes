@@ -33,8 +33,8 @@ github.com/go-openapi/testify/enable/yaml/v2 v2.7.0 h1:wPW6YRgx3+SID1yUy/Xwa17L8
 github.com/go-openapi/testify/enable/yaml/v2 v2.7.0/go.mod h1:mI1M88etYbc3PhgHsWQK2kwvNwW5aGFqMPbmib+SGIs=
 github.com/go-openapi/testify/v2 v2.8.1 h1:zk3S6KaDY1iQW91vsOJc25Ql1xm5bhPrZKdnL930bRQ=
 github.com/go-openapi/testify/v2 v2.8.1/go.mod h1:4gUN8jC+RqOE2qjW/vDmfyTvl5BCht4qL7oca0odrak=
-github.com/gofiber/contrib/v3/swaggerui v1.0.19 h1:6RhJr6ASzssFHDz52BIAYA0XuDoZ7y/TjeODnjgd1X4=
-github.com/gofiber/contrib/v3/swaggerui v1.0.19/go.mod h1:tt/SAlhY3ZZybRnqmn2BNzD4I1ouMaxck7r3n6T0EMw=
+github.com/gofiber/contrib/v3/swaggerui v1.0.20 h1:q0hiBmXA0Ryj86lF0uAj5H3ptda5dJkI6idBIyTazm8=
+github.com/gofiber/contrib/v3/swaggerui v1.0.20/go.mod h1:99Mk+lgrgoCF13/IKSAMmLs7iU0Lnugzr5MYDNOflUI=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.10.2 h1:mjqtglIvi/+NK3gJTra6wKOaBLZYx+tdNu7xtaCVPOg=

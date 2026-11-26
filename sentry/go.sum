@@ -4,8 +4,8 @@ github.com/getsentry/sentry-go v0.50.0 h1:gkO59rn/i0RCAXUUTflC5QVbTQGPXbaFabs2ol
 github.com/getsentry/sentry-go v0.50.0/go.mod h1:+xsDuN+SoRN/xfs1hdq78wnrE3omIZf+FCuh9FOW1C8=
 github.com/go-errors/errors v1.4.2 h1:J6MZopCL4uSllY1OfXM374weqZFFItUbrImctkmUxIA=
 github.com/go-errors/errors v1.4.2/go.mod h1:sIVyrIiJhuEF+Pj9Ebtd6P/rEYROXFi3BopGUQ5a5Og=
-github.com/gofiber/contrib/v3/sentry v1.1.18 h1:RwY+aHMnXFyefDrZCXVUpgcl/S1L8GjmrupmQaRG8z8=
-github.com/gofiber/contrib/v3/sentry v1.1.18/go.mod h1:2lpETkcRAiYrEqzuuPxybLKAbTwmcWZO6ooiQDOkoi8=
+github.com/gofiber/contrib/v3/sentry v1.1.19 h1:EaUNemFzC/6+fFdB2pKvFuUrUg1l++pwvyHiBdpL0Lo=
+github.com/gofiber/contrib/v3/sentry v1.1.19/go.mod h1:sPDKuo77CRfa7Xcthmr/TOrDp/8KIbehVH3o3X3cJuU=
 github.com/gofiber/fiber/v3 v3.7.0 h1:aF+GfB7nP9Dd0wVsv6wmr8675v66OGfjSyoDhPmvKEo=
 github.com/gofiber/fiber/v3 v3.7.0/go.mod h1:7dlbpUZ789TJg4q/VfdS1UWDtB6Fl/Smk6ZYZusMpAQ=
 github.com/gofiber/schema v1.10.2 h1:mjqtglIvi/+NK3gJTra6wKOaBLZYx+tdNu7xtaCVPOg=
